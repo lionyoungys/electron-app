@@ -6,7 +6,7 @@ const config = {
     },
     output: {
         filename: '[name].js',
-        path: __dirname + '/dist'
+        path: __dirname + '/build'
     },
     module: {
         rules: [
