@@ -6,9 +6,6 @@
   "scripts": {
     "start": "electron ."
   },
-  "babel": {
-    // my babel config here
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/2425047228/electron.git"
