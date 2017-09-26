@@ -1,0 +1,19 @@
+{
+  "name": "electron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2425047228/electron.git"
+  },
+  "author": "yangyunlong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/2425047228/electron/issues"
+  },
+  "homepage": "https://github.com/2425047228/electron#readme"
+}
