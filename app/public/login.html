@@ -46,5 +46,11 @@
     <!-- <script src="../scripts/core.js"></script>
     <script src="../scripts/api.js"></script>
     <script src="../scripts/login.js"></script> -->
+    <script>
+        const {ipcRenderer} = require('electron');
+        document.getElementById('close').onclick = function() {
+            ipcRenderer.sendSync('close-login','start-close');
+        }
+    </script>
 </body>
 </html>

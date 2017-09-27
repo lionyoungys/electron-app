@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
-  "scripts": {
-    "start": "webpack && electron .",
-    "packager": "electron-packager ../app --out=./packager --overwrite --icon=./src/images/icon.png"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/2425047228/electron.git"
