@@ -1,5 +1,3 @@
-const path = require('path');
-
 const config = {
     devtool: 'eval-source-map',    //生成Source Maps,这里选择eval-source-map
     entry: {
@@ -16,9 +14,9 @@ const config = {
             exclude: /(node_modules|bower_components)/,
             use: {
               loader: 'babel-loader',
-            //   options: {
-            //     presets: ['env','react']
-            //   }
+              options: {
+                presets: ['env','react']
+              }
             }
           }
         ]
