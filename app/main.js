@@ -8,11 +8,11 @@ let win
 
 function createWindow () {
   // 创建浏览器窗口。
-  win = new BrowserWindow({width: 800, height: 600, frame: false})
+  win = new BrowserWindow({width: 491, height: 351, frame: false})
 
   // 加载应用的 index.html。
   win.loadURL(url.format({
-    pathname: path.join(__dirname, '/public/index.html'),
+    pathname: path.join(__dirname, '/public/login.html'),
     protocol: 'file:',
     slashes: true
   }))
