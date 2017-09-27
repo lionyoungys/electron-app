@@ -1,0 +1,436 @@
+/*超出屏幕出现滚动条*/
+html{height: 100%;}
+/* 初始化样式 */
+body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dt,dd,input,textarea,select,div,
+header,section,label,iframe,aside,nav{
+    margin:0;padding:0;
+}
+body{
+    font:14px"宋体",sans-serif;
+    background:#fff;
+} 
+a{color:#2d374b;text-decoration:none;} 
+a:hover{color:#cd0200;text-decoration:underline;} 
+em{font-style:normal} 
+li{list-style:none} 
+img{border:0;vertical-align:middle} 
+table{border-collapse:collapse;border-spacing:0} 
+p{word-wrap:break-word} 
+input,button{outline: none;border:none;}
+/* 公共css样式部分 */
+.drag{-webkit-app-region: drag;}    /*允许拉拽拖动*/
+.right{float: right;}
+.left{float: left;}
+.clearfix::before, .clearfix::after{
+    content: "";height: 0;line-height: 0;display: block;visibility: hidden;clear: both;overflow: hidden;
+}
+.hide{display: none}    /*隐藏*/
+.show{display: block}    /*显示*/
+
+
+
+
+body{
+    max-height: calc(1080px - 192px);
+    min-height: calc(900px - 192px);
+    height: 100%;
+    overflow: auto;
+}
+@media screen and (max-height:calc(1080px - 192px)){
+    body{overflow: scroll;height: calc(1080px - 192px);}
+}
+@media screen and (max-height:calc(900px - 192px)){
+    body{overflow: scroll;height: calc(900px - 192px);}
+}
+.inline-block{display: inline-block;}
+.search,table,th,td,tr,.bg-container,.flex-center-item,
+.checkbox,.checkbox>.checkbox-title,.checkbox>.checkbox-body,.option,.alert-input-area,
+.page>*,.alert-input-area>.input{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+input,button,textarea,select,option{border: none;outline: none;}
+.postfix-string-num{position: absolute;right: 0;bottom: 0;font-size: 16px;color: #b2b2b2;padding: 10px 14px;}
+.add,.subtract{display: inline-block;padding-left: 19px;height: 19px}
+/*复选框未选中样式*/
+.checker{
+    display: inline-block;
+    height: 19px;
+    line-height: 19px;
+    vertical-align: middle;
+    padding-left: 20px;
+    background: url(../images/checkbox.png) no-repeat center left;
+}
+/*复选框选中样式*/
+.checked{background: url(../images/checked.png) no-repeat center left;}
+/*单选框未选中样式*/
+.radio{
+    display: inline-block;
+    height: 23px;line-height: 23px;padding-left: 29px;
+    font-style: normal;background: url(../images/radio.png) no-repeat center left;
+}
+/*下拉框样式*/
+.select-container{
+    display: inline-flex;display: -webkit-inline-flex;position: relative;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    width: 250px;height: 45px;border: 1px solid #666666;
+}
+.select-show{
+    width: 205px;height: 43px;text-align: center;line-height: 43px;font-size: 18px;
+}
+.select-postfix{
+    height: 43px;width: 43px;
+    background: #e7e7e7;
+    background-image: url(../images/select-larger.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+/*下拉框子级浮动样式*/
+.select-children{display: inline-block;position: absolute;top: 0;left: calc(100% + 6px);}
+/*自定义普通下拉框样式*/
+.select-normal{display:inline-block;border: 1px solid #808080;font-size: 14px;padding: 6px 4px;}
+.select-normal option{padding: 6px 3px;}
+.select-normal option:first-child{padding-top: 1px;}
+.select-spread{height:auto;}    /*展开样式*/
+.radio-checked{background-image: url(../images/radio-checked.png);}
+/*添加图标样式*/
+.add{background: url(../images/add.png) no-repeat center left;}
+/*减少图标样式*/
+.subtract{background: url(../images/subtract.png) no-repeat center left;}
+/*上传图片样式*/
+.upload-img{background: url(../images/upload-img.png) no-repeat;}
+.upload-img-delete{
+    background: url(../images/upload-img-delete.png) no-repeat;
+    position: absolute;
+    top:0;right:0;
+    display: inline-block;
+    height: 20px;width: 20px;
+}
+/*删除脚标*/
+.delete{
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    display: inline-block;
+    width: 20px;height: 20px;
+    background: url(../images/cancel.png) no-repeat;
+}
+/*颜色问题展开收缩样式*/
+.shrink,.spread{display: inline-block;width: 22px;height: 22px;}
+.shrink{background: url(../images/shrink.png) no-repeat;}
+.spread{background: url(../images/spread.png) no-repeat;}
+.text-bottom{display: inline-block;position: absolute;bottom:0;left:0;}
+/*颜色问题指定样式*/
+.textarea{width: 100%;height: 110px;resize: none;border: 1px solid #cccccc;}
+.flex-left{width: 70px;}
+.flex-right{width: 72px;}
+.flex-center{
+    width: calc(100% - 142px);
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+}
+.flex-center-item{
+    padding: 6px 16px;
+    display: inline-block;
+    position: relative;
+    border: 1px solid #cccccc;
+    margin: 0 22px 10px 0;
+}
+.flex-box{display: -webkit-flex;display: flex;flex-wrap: wrap;position: relative;}
+.flex-title{color: #09b1b0;font-size: 16px;display: block;margin-top: 20px;}
+.flex-option{margin: 10px 35px 0 0;}
+/*容器样式*/
+.container{padding:18px 22px 0 16px;}
+.flex-container{
+    display: -webkit-flex;display: flex;
+    flex-wrap: wrap;
+    padding-top: 15px;
+}
+
+.flex-item{
+    text-align: right;
+    font-size: 16px;
+    position: relative;
+    display: inline-block;
+    height: 81px;
+    width: 81px;
+    margin-right: 16px;
+    margin-bottom: 16px;
+}
+.flex-item-last{width: 195px;color: #ff6f43;text-align:center}
+.tiny-container{display: inline-block;height: 19px;padding: 0 18px;line-height: 19px;}
+.bg-container{background: rgb(240,248,254);border: 1px solid rgb(240,242,245);padding: 10px 12px;font-size: 16px;}
+/*提示容器样式*/
+.notice{display: inline-block;background: rgba(0,0,0,0.7);color: #ffffff;font-size: 16px;padding: 6px 22px;}
+/*面包屑样式*/
+#crumbs{
+    color: #242424;
+    font-size: 15px;
+    height: 45px;
+    line-height: 45px;
+    background: #eef8ff;
+    display: block;
+    padding-left:16px;
+}
+#crumbs>a,#crumbs>em{font-size: 14px;display: inline-block;padding-left: 12px;}
+#crumbs>a:hover{text-decoration: none;color: #01afae;}
+#crumbs>em{color: #999999;}
+/*后缀样式*/
+.postfix{
+    display: inline-block;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    line-height: inherit;
+    font-size: inherit;
+    font-style: normal;
+    padding-right: 6px;
+}
+/*标签样式*/
+.tab{
+    display: inline-block;
+    height: 40px;
+    padding: 0 18px;
+    background: #f1f1f1;
+    color: #333333;
+    font-size: 18px;
+    line-height: 40px;
+    text-align: center;
+    margin-right: 18px;
+}
+.tab-chosen{color: #ffffff;background: #02bfbe;}    /*选中样式*/
+/*搜索框样式*/
+.search{
+    display: inline-block;
+    width: 382px;
+    height: 42px;
+    border: 1px solid #b2b2b2;
+    border-radius: 5px;
+    padding-left: 42px;
+    white-space: nowrap;
+    background: url(../images/search.png) no-repeat 10px center;
+}
+.search>input[type=text]{height: 100%;width: 270px;font-size: 16px;vertical-align: middle;}
+.search>input[type=button],.search>button{
+    height: 100%;
+    width: 68px;
+    background: #ff6c43;
+    color: #ffffff;
+    font-size: 18px;
+    vertical-align: middle;
+    text-align: center;
+}
+/*按钮样式*/
+.btn{
+    display: inline-block;
+    border-radius: 5px;
+    /*height: 27px;*/
+    font-size: 14px;
+    color: #333333;
+    /*line-height: 27px;*/
+    padding: 4px 10px;
+}
+.btn-cancel{border:1px solid #b2b2b2;background: #ffffff;}    /*取消按钮样式*/
+.btn-confirm{background: #09b1b0;color: #ffffff}    /*确认按钮样式*/
+.btn-editor{background: #ff6e42;color: #ffffff}    /*编辑按钮样式*/
+.btn-larger{
+    padding: 12px 60px;
+    font-size: 20px;
+}
+/*大型号确认按钮*/
+.btn-larger-confirm{
+    padding: 10px 82px;
+    font-size: 20px;
+    color: #ffffff;
+    background: #09b1b0;
+    height: auto;
+}
+/*标签按钮*/
+.tab-btn{
+    display: inline-block;
+    height: 42px;
+    padding: 0 18px;
+    font-size: 18px;
+    line-height: 42px;
+    text-align: center;
+    color: #ffffff;
+    background: #02bfbe;
+    border-radius:3px;
+}
+.tab-btn-larger{
+    padding: 15px 115px;
+    line-height: 18px;
+}
+.tab-small-btn{
+    height: 28px;
+    line-height: 28px;
+    padding: 0 10px;
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+.tab-grey-btn{background: #a9a9a9;}
+/*浮层弹框背景样式*/
+.alert-bg{
+    background: rgba(153,153,153,0.5);
+    position: fixed;
+    top: 0;left: 0;
+    width: 100%;
+    height: 100%;
+}
+/*多选弹框样式*/
+.checkbox{
+    width: 409px;
+    background: #ffffff;
+    border-radius: 5px;
+    padding:0 10px 32px;
+}
+.checkbox>.checkbox-title{
+    position: relative;
+    height: 62px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 20px;
+    color: #333333;
+    vertical-align: middle;
+    line-height:62px;
+    text-align: center;
+}
+.checkbox>.checkbox-title>.checkbox-cancel{
+    display: inline-block;
+    height: 100%;
+    width: 30px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: url(../images/checkbox-cancel.png) no-repeat center;
+}
+.checkbox>.checkbox-body{
+    width: 100%;
+    padding: 33px 36px 0;
+    text-align: center;
+}
+.checkbox>.checkbox-body>input[type=button],.checkbox>.checkbox-body>button{
+    margin-top: 20px;
+}
+/*未选中效果*/
+.checkbox>.checkbox-body>.checkbox-option{
+    line-height: 19px;
+    font-size: 16px;
+    padding-left: 28px;
+    text-align: left;
+    margin-bottom: 22px;
+    background: url(../images/checkbox.png) no-repeat center left;
+}
+/*输入弹框样式*/
+.alert-input-area{
+    display: inline-block;
+    width: 522px;
+    padding: 56px 58px 30px 42px;
+    background: #ffffff;
+    border-radius: 10px;
+}
+.alert-input-area .label{
+    display: inline-block;
+    font-size: 18px;
+    line-height: 38px;
+    padding-right: 15px;
+}
+.alert-input-area .input-area{
+    position: relative;
+    display: inline-block;
+    border:1px solid #cccccc;
+    width: 277px;
+    height: 38px;
+    line-height: 38px;
+    margin-bottom: 20px;
+}
+.alert-input-area .input-area>input{
+    height: 100%;
+    line-height: 38px;
+    position: absolute;
+    top: 0;
+    left:0;
+}
+
+.alert-input-area .text-area{height: 138px;}
+.alert-input-area .text-area>textarea{width: 100%;border:1px solid rgb(209,209,209);height: 100%;resize: none;}
+.alert-input-area .text-area>.postfix{
+    height: 38px;
+    line-height: 38px;
+    color: #cccccc;
+    font-size: 14px;
+}
+.alert-input-area .button-area{
+    padding: 16px 18px 0 24px;
+}
+/*普通表格样式*/
+.table-normal,.table-checkbox{
+    border:1px solid #b2b2b2;
+    width: 100%;
+}
+.table-normal th,.table-normal td{border: 1px solid #b2b2b2;}
+.table-normal th{
+    text-align: left;
+    height: 38px;
+    font-size: 16px;
+    padding-left: 12px;
+    background: #eef8ff;
+    font-weight:normal;
+}
+.red{color: red;}
+.table-normal td{
+    text-align: left;
+    padding-left: 12px;
+    font-size: 14px;
+    height: 50px;
+}
+/*无td边框线的表格*/
+.table-checkbox{
+    text-align: center;
+    font-size: 16px;
+    vertical-align: middle;
+    padding:0 100px 0 24px;
+}
+.table-checkbox th{
+    border-bottom: 1px solid #b2b2b2;
+    font-weight: normal;
+    padding: 10px 0;
+    background: #eef8ff;
+}
+.table-checkbox td{
+    padding: 21px 0;
+}
+.table-checkbox td img{
+    width: 60px;
+    height: 60px;
+}
+.table-checkbox tr>td:first-of-type>.option{
+    display: inline-block;
+    height: 19px;
+    padding-left: 38px;
+    background: url(../images/checkbox.png) no-repeat center left;
+}
+/*已选中效果*/
+.table-checkbox tr>td:first-of-type>.checked,
+.checkbox>.checkbox-body>.checked{background: url(../images/checked.png) no-repeat center left;}
+/*分页样式效果*/
+.page{
+    height: 30px;
+    width: 100%;
+    text-align: center;
+}
+.page>*{
+    display: inline-block;
+    border:1px solid #e0e0e0;
+    background: #f5f5f5;
+    height: 30px;
+    padding: 0 12px;
+    line-height: 30px;
+    margin-right: 3px;
+}
+.page>.chosen{
+    border: 0;
+    background: 0;
+    color: red;
+}

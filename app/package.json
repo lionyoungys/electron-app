@@ -1,0 +1,35 @@
+{
+  "name": "electron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "webpack && electron .",
+    "packager": "electron-packager ../app --out=./packager --overwrite --icon=./src/images/icon.png"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2425047228/electron.git"
+  },
+  "author": "yangyunlong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/2425047228/electron/issues"
+  },
+  "homepage": "https://github.com/2425047228/electron#readme",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "electron": "^1.7.8",
+    "electron-packager": "^9.1.0",
+    "webpack": "^3.6.0"
+  }
+}
