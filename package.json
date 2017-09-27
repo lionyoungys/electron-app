@@ -4,7 +4,8 @@
   "description": "",
   "main": "app/main.js",
   "scripts": {
-    "start": "webpack && electron ."
+    "start": "webpack && electron .",
+    "packager":"electron-packager ./app app --all --out ./OutApp --version 1.0.0 --overwrite--icon=./app/src/images/icon.png"
   },
   "repository": {
     "type": "git",
