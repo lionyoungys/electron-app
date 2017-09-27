@@ -1,7 +1,7 @@
 const config = {
     devtool: 'eval-source-map',    //生成Source Maps,这里选择eval-source-map
     entry: {
-        app: __dirname + '/app/build/app.js'
+        app: __dirname + '/build/app.js'
     },
     output: {
         filename: '[name].js',

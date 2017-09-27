@@ -1,7 +1,6 @@
 {
   "name": "electron",
   "version": "1.0.0",
-  "description": "",
   "main": "main.js",
   "repository": {
     "type": "git",
