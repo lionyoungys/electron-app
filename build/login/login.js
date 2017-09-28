@@ -3,10 +3,7 @@ import ReactDOM from 'react-dom';
 import {Notice} from '../src/UI';
 const {ipcRenderer} = window.require('electron');
 
-document.getElementById('close').onclick = function() {  
-    //ipcRenderer.sendSync('login-msg','close');
-    //console.log(Notice);
-}
+document.getElementById('close').onclick = function() {ipcRenderer.sendSync('login-msg','close');}
 
 document.getElementById('login').onclick = function() {
     ReactDOM.render(
