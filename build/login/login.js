@@ -5,7 +5,7 @@ const {ipcRenderer} = window.require('electron');
 window.require('../src/lib');window.require('../src/api');
 let account,passwd;
 //窗口关闭
-document.getElementById('close').onclick = function() {ipcRenderer.sendSync('login-msg','close');}
+document.getElementById('close').onclick = function() {ipcRenderer.send('login-msg','close');}
 //登录
 document.getElementById('login').onclick = function() {
     account = document.getElementById('account').value.trim();
@@ -27,7 +27,10 @@ document.getElementById('login').onclick = function() {
                 ReactDOM.render(<Notice display={false}/>,document.getElementById('notice'));
             },3000);
         } else {
-            console.log(result.data);
+            localStorage.setItem('token', result.data.token);
+            localStorage.setItem('role', result.data.role);
+            localStorage.setItem('uid', result.data.uid);          
+            ipcRenderer.send('login-msg','SUCCESS');
         }
     });
 }
