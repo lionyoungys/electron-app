@@ -1,11 +1,13 @@
+const buildPath = __dirname + '/build/';
 const config = {
     devtool: 'eval-source-map',    //生成Source Maps,这里选择eval-source-map
     entry: {
-        app: __dirname + '/build/app.js'
+        ['src/UI']: buildPath + 'src/UI.js',
+        ['login/login']: buildPath + 'login/login.js'
     },
     output: {
         filename: '[name].js',
-        path: __dirname + '/app/src'
+        path: __dirname + '/app'
     },
     module: {
         rules: [

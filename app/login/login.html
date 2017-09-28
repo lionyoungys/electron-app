@@ -38,17 +38,12 @@
             <label for="passwd">密&nbsp;码：</label><input type="password" id="passwd" required data-notice="密码不能为空">
         </div>
         <div style="padding-top: 2px;">
-            <label>&emsp;&nbsp;&emsp;&emsp;</label><input type="button" value="登陆" id="verify">
+            <label>&emsp;&nbsp;&emsp;&emsp;</label><input type="button" value="登陆" id="login">
         </div>
         <div class="forgot">忘记密码?</div>
         <div class="protocol">点击登录，即表示您同意<span style="color:#fa2212;">用户协议</span></div>
     </section>
-    <!-- <script src="../scripts/core.js"></script>
-    <script src="../scripts/api.js"></script>
-    <script src="../scripts/login.js"></script> -->
-    <script>
-        const {ipcRenderer} = require('electron');
-        document.getElementById('close').onclick = function() {ipcRenderer.sendSync('login-msg','close');}
-    </script>
+    <div id="notice"></div>
+    <script src="login.js"></script>
 </body>
 </html>
