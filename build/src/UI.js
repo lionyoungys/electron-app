@@ -8,7 +8,8 @@ class Notice extends Component {
         let style = {
             color:'rgb(255,255,255)',background:'black',borderRadius:'3px',fontSize:'16px',
             height:'30px',lineHeight:'30px',width:'180px',textAlign:'center',
-            display:this.props.display,overflow:'hidden',
+            display:this.props.display ? 'inline-block' : 'none',
+            overflow:'hidden',
             position:'fixed',left:'calc((100% - 180px) / 2)',top:this.top
         };
         return (<div style={style}>{this.props.text}</div>);
