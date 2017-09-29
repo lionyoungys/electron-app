@@ -11,7 +11,7 @@ document.getElementById('login').onclick = function() {
     account = document.getElementById('account').value.trim();
     passwd = document.getElementById('passwd').value.trim();
     if ('' == account || '' == passwd) return;
-    axios.post(api.getUrl('login'), api.data({
+    axios.post(api.U('login'), api.data({
         username:account,
         password:passwd
     }))
