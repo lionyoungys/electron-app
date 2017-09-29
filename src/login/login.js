@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Notice} from '../src/UI';
+import {Notice} from '../static/UI';
 const {ipcRenderer} = window.require('electron');
-window.require('../src/lib');window.require('../src/api');
+window.require('../static/lib');window.require('../static/api');
 let account,passwd;
 //窗口关闭
 document.getElementById('close').onclick = function() {ipcRenderer.send('login-msg','close');}
