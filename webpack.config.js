@@ -4,7 +4,8 @@ const config = {
     entry: {
         ['static/UI']: buildPath + 'static/UI.js',
         ['login/login']: buildPath + 'login/login.js',
-        ['main/main']: buildPath + 'main/main.js'
+        ['main/main']: buildPath + 'main/main.js',
+        ['main/menu']: buildPath + 'main/menu.js'
     },
     output: {
         filename: '[name].js',

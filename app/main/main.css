@@ -1,21 +1,15 @@
-html,body{
-    height: 100%;
-    width: 100%;
-    max-width: 1920px;
-    max-height: 1080px;
-}
+html,body{height: 100%;width: 100%;max-width: 1920px;max-height: 1080px;}
 body,header,input,span,div,section,aside,dl,dt,dd,nav,iframe{padding: 0;margin: 0}
 input{outline: none;border:none;}
-body,body>section,aside,iframe{
-    box-sizing: border-box;-webkit-box-sizing: border-box;
+body,section,aside,iframe,dt,dd{box-sizing: border-box;-webkit-box-sizing: border-box;}
+header,section,dt{
+    display: flex;display: -webkit-flex;justify-content: space-between;
 }
 body{background: #09b1b0;}    /*body背景色*/
-/*界面顶部*/
+/*界面头部*/
 header{
     background: url(images/main-header.png) no-repeat 0 0;
     height: 101px;background-size: 100% 100%;min-width: 1024px;
-    display: flex;display: -webkit-flex;
-    justify-content: space-between;
     color: rgb(255, 255, 255);line-height: 101px;
 }
 #hleft{font-size: 32px;font-weight: bold;height: 100px;padding-left: 28px;}    /*界面顶部左侧*/
@@ -26,30 +20,13 @@ header{
 /*退出登录*/
 #logout{background:url(images/main-logout.png);color:#fff;width:71px;height:34px;font-size:18px;}
 /*界面主体*/
-body>section{
-    display: flex;display: -webkit-flex;justify-content: space-between;
-    padding: 10px;height: calc(100% - 101px);
-}
+section{padding: 10px;height: calc(100% - 101px);}
 aside,iframe{background:rgb(255, 255, 255);border: 2px solid #038281;height: 100%;}
 /*主体左侧宽度*/
 aside{width: 230px;min-width: 230px;}
 /*主体右侧宽度*/
 iframe{width: calc(100% - 240px);min-width: 800px;}
 aside,iframe{min-height: 600px;}
-
-/*线上订单*/
-#order>.left{background-image: url(../images/order.png);}
-/*线下收银*/
-#finance>.left{background-image: url(../images/finance.png)}
-/*商家管理*/
-#manage>.left{background-image: url(../images/manage.png)}
-/*导航选中效果*/
-.chosen-nav{background: url(../images/3.png) no-repeat center left;color: red;}
-/*选单展开样式*/
-.spread{background-image: url(../images/1.png);}
-/*选单收缩*/
-.shrink{background-image: url(../images/2.png);}
-/***************************************************************1920 * 1080 宽度布局*/
 /*主体左侧顶部展示*/
 #base{padding-top: 26px;height: 202px;background: #a7efef;}
 #logo{height: 88px;width: 88px;margin-bottom:16px;background: red;}
@@ -58,26 +35,21 @@ aside,iframe{min-height: 600px;}
     font-size: 18px;color: #ff6f43;height: 27px;line-height: 27px;
     padding-right: 60px;background: url(images/main-open.png) no-repeat center right;
 }
-/*主体左侧底部导航*/
-aside>dl{
-    height: calc(100% - 228px);
-    background: #f0fefe;
-    overflow: auto;
+/*主体左侧导航展示*/
+#nav{height:calc(100% - 228px);background:#fff;}
+#container,dl{height:100%;overflow: auto;}
+dt{
+    background: url(images/main-option.png);background-size:100% 100%;
+    font-size: 18px;height: 45px;line-height: 45px;padding: 0 25px 0 25px;
 }
-aside>dl>dt{
-    height: 45px;
-    background: url(../images/option-bg.png) no-repeat 0 0;
-    background-size:100% 100%;
-    font-size: 18px;
-    line-height: 45px;
-}
-aside>dl>dt>.right{
+dt>div:first-child{padding-left: 30px;background: url(images/main-order.png) no-repeat center left}
+dt>.right{
     height:100%;
     background-repeat: no-repeat;
     background-position: center left;
 }
-aside>dl>dt>.right{width:40px;}
-aside>dl>dt>.left{
+dt>.right{width:40px;}
+dt>.left{
     margin-left: 23px;
     padding-left: 30px;
     vertical-align: middle;
@@ -88,12 +60,12 @@ aside>dl>dt>.left{
     background-position: center left;
     background-size:18px 18px;
 }
-aside>dl>dd{
+dl>dd{
     padding: 13px 22px 5px 40px;
     font-size: 16px;
 }
-aside>dl>dd>nav{line-height: 22px;margin-bottom: 8px;padding-left: 16px;}
-aside>dl>dd>nav>em{
+dl>dd>nav{line-height: 22px;margin-bottom: 8px;padding-left: 16px;}
+dl>dd>nav>em{
     font-size: 14px;
     display: inline-block;
     color: #ffffff;
@@ -104,6 +76,19 @@ aside>dl>dd>nav>em{
     border-radius: 50px;
 }
 
+
+
+
+#order>.left{background-image: url(images/main-order.png);}    /*线上订单*/
+#finance>.left{background-image: url(images/main-finance.png)}    /*线下收银*/
+#manage>.left{background-image: url(images/main-manage.png)}    /*商家管理*/
+.spread{background: url(images/main-spread.png);}    /*选单展开*/
+.shrink{background: url(images/main-shrink.png);}    /*选单收缩*/
+.shrink,.spread{background-position:center right;background-repeat:no-repeat;height:100%;width:18px;}
+.chosen{background: url(images/main-chosen.png) no-repeat center left;color: red;}    /*导航选中效果*/
+/***************************************************************1920 * 1080 宽度布局*/
+
+/*主体左侧底部导航*/
 /******************************************************************1920 * 1080 宽度布局*/
 /* 宽度响应式布局 */
 /*@media screen and (max-width:1920px) {    !*1920 * 1080*!*/
