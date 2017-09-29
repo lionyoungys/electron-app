@@ -3,15 +3,28 @@ import ReactDOM from 'react-dom';
 window.require('../static/api');
 const token = localStorage.getItem('token');
 class Base extends Component {
-    constructor(props) {super(props);}
+    constructor(props) {
+        super(props);
+        this.state = {name:null,status:null,logo:null};
+    }
+    componentDidMount() {
+        axios.post(api.U('index'),api.data({token:token}))
+        .then((response)=>{
+            let result = response.data.data;
+            this.setState({
+                name:result.mname,
+                status:1 == result.state ? '营业中' : '暂停营业',
+                logo:'url(' +api.host+result.circle_logo+ ')'
+            });         
+        });
+    }
     render() {
         const baseStyle = {display:'flex',display:'-webkit-flex',flexDirection:'column',alignItems:'center'};
-        const logo = {background:'url('+ this.props.logo +')',backgroundSize:'100% 100%'};
         return (
             <div style={baseStyle}>
-                <div id="logo" style={logo}></div>
-                <div id="name">{this.props.name}</div>
-                <div id="state">{this.props.state}</div>
+                <div id="logo" style={{backgroundImage:this.state.logo}}></div>
+                <div id="name">{this.state.name}</div>
+                <div id="state">{this.state.status}</div>
             </div>
         );
     }
@@ -19,58 +32,60 @@ class Base extends Component {
 //新手请注意，前方高能，请保护好自己
 //菜单容器组件
 class Container extends Component {
-    constructor(props) {super(props);}
+    constructor(props) {
+        super(props);
+        this.state = {option:null};
+        this.listener = this.listener.bind(this);
+    }
+    listener(option) {this.setState({option:option});}
     render() {
         let menus = this.props.menus.map((obj) => 
             //创建多个菜单组件
-            <Menu key={obj.id} selection={obj.selection} option={obj.option}/>
+            <Menu 
+                key={obj.id} 
+                selection={obj.selection} 
+                options={obj.options} 
+                option={this.state.option}
+                callbackParent={this.listener}
+            />
         );
         return (<div id='container'>{menus}</div>);
     }
 }
-//菜单组件
+//菜单视图组件
 class Menu extends Component {
-    constructor(props) {super(props);}
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
+    handleClick(e) {this.props.callbackParent(e.target.dataset.id);}
     render() {
         let sel = this.props.selection,
-            opt = this.props.option;
+            opt = this.props.options,
+            status = sel.status ? 'spread' : 'shrink',    //判断当前大选项是否为选中状态
+            items = opt.map((obj) => 
+                //创建多个选项
+                <nav 
+                    key={obj.id} 
+                    data-id={obj.id}
+                    className={this.props.option == obj.id ? 'chosen' : null} 
+                    onClick={this.handleClick}
+                >
+                    {obj.text}
+                </nav>
+            );
         return (
             <dl>
-                <Selection key={sel.id} text={sel.text} id={sel.id} status={sel.status}/>
-                <Option key={opt.id} items={opt.items}/>
+                <dt>
+                    <div id={sel.id}>{sel.text}</div>
+                    <div className={sel.status ? 'spread' : 'shrink'}></div>
+                </dt>
+                <dd>{items}</dd>
             </dl>
         );
     }
 }
-//菜单大选项组件
-class Selection extends Component {
-    constructor(props) {super(props);}
-    render() {
-        let status = this.props.status ? 'spread' : 'shrink';    //判断当前大选项是否为选中状态
-        return (<dt><div id={this.props.id}>{this.props.text}</div><div className={status}></div></dt>);
-    }
-}
-//菜单详细选项组件
-class Option extends Component {
-    constructor(props) {super(props);}
-    render () {
-        console.log(this.props);
-        if (this.props.items.length < 1) return null;
-        var items = this.props.items.map((obj) => 
-            <nav key={obj.id}>{obj.text}</nav>    //创建多个选项
-        );
-        return (<dd>{items}</dd>);
-    }
-}
+
 var menus = require('./menu').default;
 ReactDOM.render(<Container menus={menus}/>, document.getElementById('nav'));
-
-//获取首页数据并渲染
-axios.post(api.U('index'),api.data({token:token}))
-.then((response)=>{
-    var result = response.data.data;
-    ReactDOM.render(
-        <Base name={result.mname} state={result.state ? '营业中' : '暂停营业'} logo={api.host+result.circle_logo}/>,
-        document.getElementById('base')
-    );
-});
+ReactDOM.render(<Base/>,document.getElementById('base'));

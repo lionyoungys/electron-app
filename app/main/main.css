@@ -29,7 +29,7 @@ iframe{width: calc(100% - 240px);min-width: 800px;}
 aside,iframe{min-height: 600px;}
 /*主体左侧顶部展示*/
 #base{padding-top: 26px;height: 202px;background: #a7efef;}
-#logo{height: 88px;width: 88px;margin-bottom:16px;background: red;}
+#logo{height: 88px;width: 88px;margin-bottom:16px;background-size: 88px 88px;}
 #name{margin-bottom: 16px;font-size: 22px;color: #242424;}
 #state{
     font-size: 18px;color: #ff6f43;height: 27px;line-height: 27px;
@@ -42,29 +42,8 @@ dt{
     background: url(images/main-option.png);background-size:100% 100%;
     font-size: 18px;height: 45px;line-height: 45px;padding: 0 25px 0 25px;
 }
-dt>div:first-child{padding-left: 30px;background: url(images/main-order.png) no-repeat center left}
-dt>.right{
-    height:100%;
-    background-repeat: no-repeat;
-    background-position: center left;
-}
-dt>.right{width:40px;}
-dt>.left{
-    margin-left: 23px;
-    padding-left: 30px;
-    vertical-align: middle;
-    height: 100%;
-    font-size: 18px;
-    line-height: 45px;
-    background-repeat: no-repeat;
-    background-position: center left;
-    background-size:18px 18px;
-}
-dl>dd{
-    padding: 13px 22px 5px 40px;
-    font-size: 16px;
-}
-dl>dd>nav{line-height: 22px;margin-bottom: 8px;padding-left: 16px;}
+dd{padding: 13px 22px 5px 40px;font-size: 16px;}
+nav{line-height: 22px;margin-bottom: 8px;padding-left: 16px;}
 dl>dd>nav>em{
     font-size: 14px;
     display: inline-block;
@@ -77,41 +56,11 @@ dl>dd>nav>em{
 }
 
 
-
-
-#order>.left{background-image: url(images/main-order.png);}    /*线上订单*/
-#finance>.left{background-image: url(images/main-finance.png)}    /*线下收银*/
-#manage>.left{background-image: url(images/main-manage.png)}    /*商家管理*/
+#order{background: url(images/main-order.png);}    /*线上订单*/
+#finance{background: url(images/main-finance.png)}    /*线下收银*/
+#manage{background: url(images/main-manage.png)}    /*商家管理*/
 .spread{background: url(images/main-spread.png);}    /*选单展开*/
 .shrink{background: url(images/main-shrink.png);}    /*选单收缩*/
-.shrink,.spread{background-position:center right;background-repeat:no-repeat;height:100%;width:18px;}
 .chosen{background: url(images/main-chosen.png) no-repeat center left;color: red;}    /*导航选中效果*/
-/***************************************************************1920 * 1080 宽度布局*/
-
-/*主体左侧底部导航*/
-/******************************************************************1920 * 1080 宽度布局*/
-/* 宽度响应式布局 */
-/*@media screen and (max-width:1920px) {    !*1920 * 1080*!*/
-    /*body{width: 1920px;}*/
-    /*iframe{width: 1652px;}*/
-/*}*/
-/*@media screen and (max-width:1600px) {    !*1600 * 900*!*/
-    /*body{width: 1600px;}*/
-    /*iframe{width: 1335px;}*/
-/*}*/
-/*@media screen and (max-width:1540px) {    !*1920 * 1080*!*/
-    /*body{width: 1540px;}*/
-    /*iframe{width: 1275px;}*/
-/*}*/
-/*@media screen and (max-width:1440px) {    !*1440 * 900*!*/
-    /*body{width: 1440px;}*/
-    /*iframe{width: 1175px;}*/
-/*}*/
-/*@media screen and (max-width:1336px) {    !*1366 * 768*!*/
-    /*body{width: 1336px;}*/
-    /*iframe{width: 1071px;}*/
-/*}*/
-/*@media screen and (max-width:1024px) {    !*1024 * 600*!*/
-    /*body{width: 1024px;}*/
-    /*iframe{width: 759px;}*/
-/*}*/
+#order,#finance,#manage{background-position:center left;background-repeat:no-repeat;padding-left: 30px;}
+.shrink,.spread{background-position:center right;background-repeat:no-repeat;height:100%;width:18px;}
