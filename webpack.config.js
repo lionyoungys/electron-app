@@ -3,7 +3,8 @@ const config = {
     devtool: 'eval-source-map',    //生成Source Maps,这里选择eval-source-map
     entry: {
         ['static/UI']: buildPath + 'static/UI.js',
-        ['login/login']: buildPath + 'login/login.js'
+        ['login/login']: buildPath + 'login/login.js',
+        ['main/main']: buildPath + 'main/main.js'
     },
     output: {
         filename: '[name].js',

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商家管理</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <header>
+        <div id="hleft">诗奈尔商家管理系统</div>
+        <div id="hright">
+            <span id="feedback">意见反馈</span>
+            <span id="password">修改密码</span>
+            <input type="button" value="退出" id="logout">
+        </div>
+    </header>
+    <section>
+        <!--左侧导航-->
+        <aside>
+        <!--顶部展示区域-->
+            <div id="base"></div>
+            <!--底部导航栏-->
+            <dl>
+                <dt class="clearfix" id="order">
+                    <div class="left">线上订单</div>
+                    <div class="right shrink"></div>
+                </dt>
+                <dd>
+                    <nav class="redirect">订单查询</nav>
+                    <nav class="redirect" data-url="./order/manage.html">订单处理</nav>
+                </dd>
+                <dt class="clearfix" id="finance">
+                    <div class="left">线下收银</div>
+                    <div class="right shrink"></div>
+                </dt>
+                <dd>
+                    <nav class="redirect" data-url="./offline/receive.html">收衣</nav>
+                    <nav class="redirect">送洗</nav>
+                    <nav class="redirect">上挂</nav>
+                    <nav class="redirect">取衣</nav>
+                    <nav class="redirect">会员管理</nav>
+                    <nav class="redirect">业务统计</nav>
+                </dd>
+                <dt class="clearfix" id="manage">
+                    <div class="left">商家管理</div>
+                    <div class="right shrink"></div>
+                </dt>
+                <dd>
+                    <nav class="redirect">商品管理</nav>
+                    <nav class="redirect">财务对账</nav>
+                    <nav class="redirect">经营分析</nav>
+                    <nav class="redirect">员工管理</nav>
+                    <nav class="redirect">返现记录</nav>
+                    <nav class="redirect">消息通知</nav>
+                    <nav class="redirect">用户评价</nav>
+                    <nav class="redirect" data-url="./management/info.html">门店信息</nav>
+                </dd>
+            </dl>
+        </aside>
+        <iframe src="./index/index.html"></iframe>
+    </section>
+    <script src="main.js"></script>
+</body>
+</html>
