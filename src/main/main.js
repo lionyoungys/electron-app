@@ -21,12 +21,11 @@ class Base extends Component {
 class Container extends Component {
     constructor(props) {super(props);}
     render() {
-        const style = {height:'100%'};
         let menus = this.props.menus.map((obj) => 
             //创建多个菜单组件
             <Menu key={obj.id} selection={obj.selection} option={obj.option}/>
         );
-        return (<div className='container' style={style}>{menus}</div>);
+        return (<div id='container'>{menus}</div>);
     }
 }
 //菜单组件
@@ -35,11 +34,8 @@ class Menu extends Component {
     render() {
         let sel = this.props.selection,
             opt = this.props.option;
-        const style = {height:'100%',overflow:'auto'};
-            //console.log(sel);
-            console.log(opt);
         return (
-            <dl style={style}>
+            <dl>
                 <Selection key={sel.id} text={sel.text} id={sel.id} status={sel.status}/>
                 <Option key={opt.id} items={opt.items}/>
             </dl>

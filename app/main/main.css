@@ -37,7 +37,7 @@ aside,iframe{min-height: 600px;}
 }
 /*主体左侧导航展示*/
 #nav{height:calc(100% - 228px);background:#fff;}
-#container,dl{height:100%;overflow: auto;}
+#container{height:100%;overflow: auto;}
 dt{
     background: url(images/main-option.png);background-size:100% 100%;
     font-size: 18px;height: 45px;line-height: 45px;padding: 0 25px 0 25px;
