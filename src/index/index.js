@@ -33,7 +33,7 @@ class Main extends Component {
         };
         return (
             <div style={mainStyle}>
-                <Sidebar menus={menus} token={this.props.token}/><View>{this.props.children}</View>
+                <Sidebar menus={menus} token={this.props.token}/><Container>{this.props.children}</Container>
             </div>
         );
     }
@@ -73,10 +73,10 @@ class Sidebar extends Component {
     }
 }
 //右侧视图展示组件
-class View extends Component {
+class Container extends Component {
     constructor(props) {super(props);}
     render() {
-        return (<div id='view'>{this.props.children}</div>);
+        return (<div id='container'>{this.props.children}</div>);
     }
 }
 //侧边栏信息状态视图组件

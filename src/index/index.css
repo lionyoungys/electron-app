@@ -1,4 +1,4 @@
-body,#main,#sidebar,#view,.selection,dd{box-sizing: border-box;-webkit-box-sizing: border-box;}
+body,#main,#sidebar,#container,.selection,dd{box-sizing: border-box;-webkit-box-sizing: border-box;}
 /* flex样式设置 */
 #header,.selection{display: flex;display: -webkit-flex;}
 #header{
@@ -23,12 +23,12 @@ body,#main,#sidebar,#view,.selection,dd{box-sizing: border-box;-webkit-box-sizin
 #password{background: url(images/main-password.png) no-repeat;background-size: 25px 25px;}    /*修改密码*/
 /*退出登录*/
 #logout{background:url(images/main-logout.png);color:#fff;width:71px;height:34px;font-size:18px;}
-#sidebar,#view{background:rgb(255, 255, 255);border: 2px solid #038281;height: 100%;}
+#sidebar,#container{background:rgb(255, 255, 255);border: 2px solid #038281;height: 100%;}
 /*主体左侧宽度*/
 #sidebar{width: 230px;min-width: 230px;}
 /*主体右侧宽度*/
-#view{width: calc(100% - 240px);min-width: 800px;}
-#sidebar,#view{min-height: 600px;}
+#container{width: calc(100% - 240px);min-width: 800px;}
+#sidebar,#container{min-height: 600px;}
 /*主体左侧顶部展示*/
 #base{
     display:flex;display:-webkit-flex;flex-direction:column;align-items:center;
