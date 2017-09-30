@@ -5,7 +5,7 @@
   "main": "app/main.js",
   "scripts": {
     "start": "webpack && electron .",
-    "packager": "electron-packager ./app --out=./packager --overwrite --icon=./app/src/images/icon.*"
+    "packager": "electron-packager ./app --out=./packager --overwrite --icon=./app/icon/icon.*"
   },
   "repository": {
     "type": "git",

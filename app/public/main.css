@@ -1,16 +1,16 @@
-body,#main,aside,webview,dt,dd{box-sizing: border-box;-webkit-box-sizing: border-box;}
-header,dt{
-    display: flex;display: -webkit-flex;justify-content: space-between;
+/* 样式初始化 */
+html,body{height:100%;width:100%;max-width:1920px;max-height:1080px;min-width:800px;min-height:600px;}
+body,header,input,span,div,section,aside,dl,dt,dd,nav{padding: 0;margin: 0}
+input{outline: none;border:none;}
+/* box-sizing设置 */
+body,#main,#sidebar,#view,.selection,dd{box-sizing: border-box;-webkit-box-sizing: border-box;}
+/* flex样式设置 */
+#header,.selection{display: flex;display: -webkit-flex;}
+#header{
+     background: url(images/main-header.png) no-repeat 0 0;
+     height: 101px;background-size: 100% 100%;min-width: 1024px;
+     color: rgb(255, 255, 255);line-height: 101px;justify-content: space-between;
 }
-/*界面头部*/
-header{
-    background: url(images/main-header.png) no-repeat 0 0;
-    height: 101px;background-size: 100% 100%;min-width: 1024px;
-    color: rgb(255, 255, 255);line-height: 101px;
-}
-/*界面主体*/
-#main{padding: 10px;height: calc(100% - 101px);min-width: 1024px;}
-
 #hleft{font-size: 32px;font-weight: bold;height: 100px;padding-left: 28px;}    /*界面顶部左侧*/
 #hright{padding-right: 26px;font-size: 18px;}    /*界面顶部右侧*/
 #hright>span{margin-right: 50px;padding-left: 34px;padding-top: 6px;}
@@ -18,12 +18,22 @@ header{
 #password{background: url(images/main-password.png) no-repeat;background-size: 25px 25px;}    /*修改密码*/
 /*退出登录*/
 #logout{background:url(images/main-logout.png);color:#fff;width:71px;height:34px;font-size:18px;}
-aside,webview{background:rgb(255, 255, 255);border: 2px solid #038281;height: 100%;}
+
+/*界面主体*/
+#main{padding: 10px;height: calc(100% - 101px);min-width: 1024px;}
+#hleft{font-size: 32px;font-weight: bold;height: 100px;padding-left: 28px;}    /*界面顶部左侧*/
+#hright{padding-right: 26px;font-size: 18px;}    /*界面顶部右侧*/
+#hright>span{margin-right: 50px;padding-left: 34px;padding-top: 6px;}
+#feedback{background: url(images/main-feedback.png) no-repeat;}    /*反馈*/
+#password{background: url(images/main-password.png) no-repeat;background-size: 25px 25px;}    /*修改密码*/
+/*退出登录*/
+#logout{background:url(images/main-logout.png);color:#fff;width:71px;height:34px;font-size:18px;}
+#sidebar,#view{background:rgb(255, 255, 255);border: 2px solid #038281;height: 100%;}
 /*主体左侧宽度*/
-aside{width: 230px;min-width: 230px;}
+#sidebar{width: 230px;min-width: 230px;}
 /*主体右侧宽度*/
-webview{width: calc(100% - 240px);min-width: 800px;}
-aside,webview{min-height: 600px;}
+#view{width: calc(100% - 240px);min-width: 800px;}
+#sidebar,#view{min-height: 600px;}
 /*主体左侧顶部展示*/
 #base{
     display:flex;display:-webkit-flex;flex-direction:column;align-items:center;
@@ -41,9 +51,10 @@ aside,webview{min-height: 600px;}
 /*主体左侧导航展示*/
 #nav{height:calc(100% - 228px);background:#fff;overflow: auto;}
 /* #container{height:100%;} */
-dt{
+.selection{
     background: url(images/main-option.png);background-size:100% 100%;
     font-size: 18px;height: 45px;line-height: 45px;padding: 0 25px 0 25px;
+    justify-content: space-between;
 }
 dd{padding: 13px 22px 5px 40px;font-size: 16px;}
 nav{line-height: 22px;margin-bottom: 8px;padding-left: 16px;}

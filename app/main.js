@@ -20,8 +20,8 @@ app.on('ready', () => {
         {
             width:size.width,
             height:size.height,
-            minWidth:600,
-            minHeight:600
+            minWidth:800,
+            minHeight:800
         },
         'public/main.html'
     );

@@ -1,15 +1,27 @@
 /**
- * 后台主界面组件
+ * 后台主界面组件 新手请注意，前方高能，请保重
  * @author yangyunlong
  */
 import React, {Component} from 'react';
 import '../static/api';
 import menus from './menus';
-//var menus = require('./menu').default;
-//window.require('../static/api');
-//const token = localStorage.getItem('token'),
-      //index = '../index/index.html';
-//界面主体容器组件    新手请注意，前方高能，请保重
+//界面头部组件
+class Header extends Component {
+    constructor(props) {super(props);}
+    render() {
+        return (
+            <div id='header'>
+                <div id="hleft">速洗达商家管理系统</div>
+                <div id="hright">
+                    <span id="feedback">意见反馈</span>
+                    <span id="password">修改密码</span>
+                    <input type="button" value="退出" id="logout"/>
+                </div>
+            </div>
+        );
+    }
+}
+//界面主体容器组件
 class Main extends Component {
     constructor(props) {super(props);}
     render() {
@@ -20,7 +32,7 @@ class Main extends Component {
         };
         return (
             <div style={mainStyle}>
-                <Sidebar menus={menus} token={this.props.token}/><View src={index}/>
+                <Sidebar menus={menus} token={this.props.token}/><View>{this.props.children}</View>
             </div>
         );
     }
@@ -59,13 +71,11 @@ class Sidebar extends Component {
         );
     }
 }
-//ifram展示组件
+//右侧视图展示组件
 class View extends Component {
     constructor(props) {super(props);}
     render() {
-        return (<webview src={this.props.src}></webview>);
-        // <webview src="https://www.github.com/"></webview>
-        //return (<iframe src={this.props.src}></iframe>);
+        return (<div id='view'>{this.props.children}</div>);
     }
 }
 //侧边栏信息状态视图组件
@@ -88,7 +98,7 @@ class Base extends Component {
     }
     statusSwitchover() {
         let state = 1 == this.state.status ? 3 : 1;
-        axios.post(api.U('statusSwitchover'),api.data({token:token,state:state}))
+        axios.post(api.U('statusSwitchover'),api.data({token:this.props.token,state:state}))
         .then((response) => {
             if (api.verify(response.data)) this.setState({status:state});
         });
@@ -135,7 +145,7 @@ class Menu extends Component {
             );
         return (
             <dl>
-                <dt onClick={this.chooseMenu}>
+                <dt onClick={this.chooseMenu} className='selection'>
                     <div id={sel.id}>{sel.text}</div>
                     <div className={status}></div>
                 </dt>
@@ -145,4 +155,5 @@ class Menu extends Component {
     }
 }
 export default Main;
+export {Main,Header};
 //ReactDOM.render(<Main menus={menus}/>,document.getElementById('main'));
