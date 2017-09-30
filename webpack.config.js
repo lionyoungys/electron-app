@@ -2,18 +2,19 @@ const buildPath = __dirname + '/src/';
 const config = {
     devtool: 'eval-source-map',    //生成Source Maps,这里选择eval-source-map
     entry: {
-        login: buildPath + 'login.js',
-        main: buildPath + 'main.js',
-        ['static/api']: buildPath + 'static/api.js',
-        ['static/UI']: buildPath + 'static/UI.js',
-        ['index/index']: buildPath + 'index/index.js',
-        ['index/menus']:buildPath + 'index/menus.js',
+        ['login.js']: buildPath + 'login.js',
+        ['main.js']: buildPath + 'main.js',
+        ['static/api.js']: buildPath + 'static/api.js',
+        ['static/UI.js']: buildPath + 'static/UI.js',
+        ['index/index.js']: buildPath + 'index/index.js',
+        ['index/index.css']: buildPath + 'index/index.css',
+        ['index/menus.js']:buildPath + 'index/menus.js',
         //['main/main']: buildPath + 'main/main.js',
         //['main/menu']: buildPath + 'main/menu.js',
         //['index/index']: buildPath + 'index/index.js'
     },
     output: {
-        filename: '[name].js',
+        filename: '[name]',
         path: __dirname + '/app/public'
     },
     module: {
@@ -27,6 +28,13 @@ const config = {
                 presets: ['env','react']
               }
             }
+          },
+          {
+            test: /\.css$/,
+            use: [
+              { loader: "style-loader" },
+              { loader: "css-loader" }
+            ]
           }
         ]
       }
