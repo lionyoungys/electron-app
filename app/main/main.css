@@ -1,17 +1,21 @@
 html,body{height: 100%;width: 100%;max-width: 1920px;max-height: 1080px;}
 body,header,input,span,div,section,aside,dl,dt,dd,nav,iframe{padding: 0;margin: 0}
 input{outline: none;border:none;}
-body,section,aside,iframe,dt,dd{box-sizing: border-box;-webkit-box-sizing: border-box;}
-header,section,dt{
+body,#main,aside,iframe,dt,dd{box-sizing: border-box;-webkit-box-sizing: border-box;}
+header,dt{
     display: flex;display: -webkit-flex;justify-content: space-between;
 }
-body{background: #09b1b0;}    /*body背景色*/
+/*body背景色*/
+body{background: #09b1b0;}
 /*界面头部*/
 header{
     background: url(images/main-header.png) no-repeat 0 0;
     height: 101px;background-size: 100% 100%;min-width: 1024px;
     color: rgb(255, 255, 255);line-height: 101px;
 }
+/*界面主体*/
+#main{padding: 10px;height: calc(100% - 101px);min-width: 1024px;}
+
 #hleft{font-size: 32px;font-weight: bold;height: 100px;padding-left: 28px;}    /*界面顶部左侧*/
 #hright{padding-right: 26px;font-size: 18px;}    /*界面顶部右侧*/
 #hright>span{margin-right: 50px;padding-left: 34px;padding-top: 6px;}
@@ -19,8 +23,6 @@ header{
 #password{background: url(images/main-password.png) no-repeat;background-size: 25px 25px;}    /*修改密码*/
 /*退出登录*/
 #logout{background:url(images/main-logout.png);color:#fff;width:71px;height:34px;font-size:18px;}
-/*界面主体*/
-section{padding: 10px;height: calc(100% - 101px);}
 aside,iframe{background:rgb(255, 255, 255);border: 2px solid #038281;height: 100%;}
 /*主体左侧宽度*/
 aside{width: 230px;min-width: 230px;}
@@ -28,16 +30,22 @@ aside{width: 230px;min-width: 230px;}
 iframe{width: calc(100% - 240px);min-width: 800px;}
 aside,iframe{min-height: 600px;}
 /*主体左侧顶部展示*/
-#base{padding-top: 26px;height: 202px;background: #a7efef;}
+#base{
+    display:flex;display:-webkit-flex;flex-direction:column;align-items:center;
+    padding-top: 26px;height: 202px;
+    background: #a7efef;
+}
 #logo{height: 88px;width: 88px;margin-bottom:16px;background-size: 88px 88px;}
 #name{margin-bottom: 16px;font-size: 22px;color: #242424;}
 #state{
     font-size: 18px;color: #ff6f43;height: 27px;line-height: 27px;
-    padding-right: 60px;background: url(images/main-open.png) no-repeat center right;
+    padding-right: 60px;background-repeat:no-repeat;background-position:center right;
 }
+.open{background-image: url(images/main-open.png)}
+.close{background-image: url(images/main-close.png)}
 /*主体左侧导航展示*/
-#nav{height:calc(100% - 228px);background:#fff;}
-#container{height:100%;overflow: auto;}
+#nav{height:calc(100% - 228px);background:#fff;overflow: auto;}
+/* #container{height:100%;} */
 dt{
     background: url(images/main-option.png);background-size:100% 100%;
     font-size: 18px;height: 45px;line-height: 45px;padding: 0 25px 0 25px;

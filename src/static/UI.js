@@ -1,3 +1,7 @@
+/**
+ * UI组件库
+ * @author yangyunlong
+ */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 

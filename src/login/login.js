@@ -1,3 +1,7 @@
+/**
+ * 登录界面js
+ * @author yangyunlong
+ */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Notice} from '../static/UI';

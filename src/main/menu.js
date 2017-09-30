@@ -1,4 +1,7 @@
-'use strict';
+/**
+ * 菜单导航栏配置
+ * @author yangyunlong
+ */
 class MenuConfig {
     constructor () {
         return [
@@ -6,8 +9,7 @@ class MenuConfig {
                 id:1,
                 selection:{
                     id:'order',
-                    text:'线上订单',
-                    status:true
+                    text:'线上订单'
                 },
                 options:[
                     {id:11, text:'订单查询'},
@@ -18,8 +20,7 @@ class MenuConfig {
                 id:2,
                 selection:{
                     id:'finance',
-                    text:'线下收银',
-                    status:false
+                    text:'线下收银'
                 },
                 options:[
                     {id:21, text:'收衣'},
@@ -34,8 +35,7 @@ class MenuConfig {
                 id:3,
                 selection:{
                     id:'manage',
-                    text:'商家管理',
-                    status:false
+                    text:'商家管理'
                 },
                 options:[
                     {id:31, text:'商品管理'},
