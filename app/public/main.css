@@ -6,11 +6,11 @@ input{outline: none;border:none;}
 body,#main,#sidebar,#view,.selection,dd{box-sizing: border-box;-webkit-box-sizing: border-box;}
 /* flex样式设置 */
 #header,.selection{display: flex;display: -webkit-flex;}
-#header{
+/* #header{
      background: url(images/main-header.png) no-repeat 0 0;
      height: 101px;background-size: 100% 100%;min-width: 1024px;
      color: rgb(255, 255, 255);line-height: 101px;justify-content: space-between;
-}
+} */
 #hleft{font-size: 32px;font-weight: bold;height: 100px;padding-left: 28px;}    /*界面顶部左侧*/
 #hright{padding-right: 26px;font-size: 18px;}    /*界面顶部右侧*/
 #hright>span{margin-right: 50px;padding-left: 34px;padding-top: 6px;}

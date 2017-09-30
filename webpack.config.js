@@ -1,4 +1,5 @@
 const buildPath = __dirname + '/src/';
+
 const config = {
     devtool: 'eval-source-map',    //生成Source Maps,这里选择eval-source-map
     entry: {
@@ -32,8 +33,21 @@ const config = {
           {
             test: /\.css$/,
             use: [
-              { loader: "style-loader" },
-              { loader: "css-loader" }
+              {loader: "style-loader",options: { url: false }},
+              {loader: "css-loader",options: { url: false }}
+            ]
+          },
+          {
+            test: /\.(png|jpg|gif)$/,
+            use: [
+              {
+                loader: 'url-loader',
+                options: {
+                  limit: 8192,
+                  name: '[name].[ext]',
+                  outputPath: 'images/'
+                }
+              }
             ]
           }
         ]

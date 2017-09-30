@@ -14,7 +14,7 @@ class Header extends Component {
             <div id='header'>
                 <div id="hleft">速洗达商家管理系统</div>
                 <div id="hright">
-                    <span id="feedback" className='test'>意见反馈</span>
+                    <span id="feedback">意见反馈</span>
                     <span id="password">修改密码</span>
                     <input type="button" value="退出" id="logout"/>
                 </div>

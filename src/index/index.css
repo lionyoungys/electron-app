@@ -1,3 +1,5 @@
-.test{
-    font-style: italic;
+#header{
+    background: url(images/main-header.png) no-repeat 0 0;
+    height: 101px;background-size: 100% 100%;min-width: 1024px;
+    color: rgb(255, 255, 255);line-height: 101px;justify-content: space-between;
 }
