@@ -24,16 +24,41 @@ class Header extends Component {
 }
 //界面主体容器组件
 class Main extends Component {
-    constructor(props) {super(props);}
+    constructor(props) {
+        super(props);
+        this.state = {name:null,status:null,logo:null};
+    }
+    //获取店铺状态数据
+    componentDidMount() {
+        axios.post(api.U('index'),api.data({token:this.props.token}))
+        .then((response)=>{
+            let result = response.data.data;
+            this.setState({
+                name:result.mname,
+                status:result.state,
+                logo:'url(' +api.host+result.circle_logo+ ')'
+            });         
+        });
+    }
+
     render() {
-        let mainStyle = {
+        let state = this.state,
+            mainStyle = {
             height:'100%',width:'100%',
             display:'flex',display:'-webkit-flex',
             justifyContent:'space-between'
         };
+        
         return (
             <div style={mainStyle}>
-                <Sidebar menus={menus} token={this.props.token}/><Container>{this.props.children}</Container>
+                <Sidebar 
+                    token={this.props.token} 
+                    menus={menus} 
+                    name={state.name} 
+                    status={state.status} 
+                    logo={state.logo}
+                />
+                <Container>{this.props.children}</Container>
             </div>
         );
     }
@@ -52,7 +77,8 @@ class Sidebar extends Component {
         this.setState({menu:menu});
     }
     render() {
-        let menus = this.props.menus.map((obj) => 
+        let props = this.props,
+            menus = props.menus.map((obj) => 
             //创建多个菜单组件
             <Menu 
                 key={obj.id} 
@@ -67,7 +93,8 @@ class Sidebar extends Component {
         );
         return (
             <aside id='sidebar'>
-                <Base token={this.props.token}/><div id='nav'>{menus}</div>
+                <Base token={props.token} name={props.name} status={props.status} logo={props.logo}/>
+                <div id='nav'>{menus}</div>
             </aside>
         );
     }
@@ -83,35 +110,29 @@ class Container extends Component {
 class Base extends Component {
     constructor(props) {
         super(props);
-        this.state = {name:null,status:null,logo:null};
+        this.state = {status:null};
         this.statusSwitchover = this.statusSwitchover.bind(this);
     }
-    componentDidMount() {
-        axios.post(api.U('index'),api.data({token:this.props.token}))
-        .then((response)=>{
-            let result = response.data.data;
-            this.setState({
-                name:result.mname,
-                status:result.state,
-                logo:'url(' +api.host+result.circle_logo+ ')'
-            });         
-        });
-    }
     statusSwitchover() {
-        let state = 1 == this.state.status ? 3 : 1;
+        //操作当前店铺状态时，获取当前店铺状态并取反
+        let status = this.state.status,
+            pstatus = this.props.status,
+            state = null == status ? (1 == pstatus ? 3 : 1) : (1 == status ? 3 : 1);
         axios.post(api.U('statusSwitchover'),api.data({token:this.props.token,state:state}))
         .then((response) => {
             if (api.verify(response.data)) this.setState({status:state});
         });
     }
     render() {
-        let isOpen = 1 == this.state.status,
+        let props = this.props,
+            status = this.state.status,
+            isOpen = null == status ? (1 == props.status) : (1 == status),
             bg = isOpen ? 'open' : 'close',
             word = isOpen ? '营业中' : '暂停营业';
         return (
             <div id='base'>
-                <div id="logo" style={{backgroundImage:this.state.logo}}></div>
-                <div id="name">{this.state.name}</div>
+                <div id="logo" style={{backgroundImage:props.logo}}></div>
+                <div id="name">{props.name}</div>
                 <div id="state" onClick={this.statusSwitchover} className={bg}>{word}</div>
             </div>
         );
