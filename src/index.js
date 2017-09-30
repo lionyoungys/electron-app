@@ -61,7 +61,9 @@ class Sidebar extends Component {
 class View extends Component {
     constructor(props) {super(props);}
     render() {
-        return (<iframe src={this.props.src}></iframe>);
+        return (<webview src={this.props.src}></webview>);
+        // <webview src="https://www.github.com/"></webview>
+        //return (<iframe src={this.props.src}></iframe>);
     }
 }
 //侧边栏信息状态视图组件

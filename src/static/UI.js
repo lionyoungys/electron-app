@@ -3,7 +3,6 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
 
 //宽180px 高30px 提示框 param:text=提示信息    
 class Notice extends Component {

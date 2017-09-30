@@ -2,7 +2,7 @@
  * 菜单导航栏配置
  * @author yangyunlong
  */
-class MenuConfig {
+class Menus {
     constructor () {
         return [
             {
@@ -52,4 +52,4 @@ class MenuConfig {
     }
 }
 
-export default new MenuConfig();
+export default new Menus();

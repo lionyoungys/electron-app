@@ -1,12 +1,7 @@
-html,body{height: 100%;width: 100%;max-width: 1920px;max-height: 1080px;}
-body,header,input,span,div,section,aside,dl,dt,dd,nav,iframe{padding: 0;margin: 0}
-input{outline: none;border:none;}
-body,#main,aside,iframe,dt,dd{box-sizing: border-box;-webkit-box-sizing: border-box;}
+body,#main,aside,webview,dt,dd{box-sizing: border-box;-webkit-box-sizing: border-box;}
 header,dt{
     display: flex;display: -webkit-flex;justify-content: space-between;
 }
-/*body背景色*/
-body{background: #09b1b0;}
 /*界面头部*/
 header{
     background: url(images/main-header.png) no-repeat 0 0;
@@ -23,12 +18,12 @@ header{
 #password{background: url(images/main-password.png) no-repeat;background-size: 25px 25px;}    /*修改密码*/
 /*退出登录*/
 #logout{background:url(images/main-logout.png);color:#fff;width:71px;height:34px;font-size:18px;}
-aside,iframe{background:rgb(255, 255, 255);border: 2px solid #038281;height: 100%;}
+aside,webview{background:rgb(255, 255, 255);border: 2px solid #038281;height: 100%;}
 /*主体左侧宽度*/
 aside{width: 230px;min-width: 230px;}
 /*主体右侧宽度*/
-iframe{width: calc(100% - 240px);min-width: 800px;}
-aside,iframe{min-height: 600px;}
+webview{width: calc(100% - 240px);min-width: 800px;}
+aside,webview{min-height: 600px;}
 /*主体左侧顶部展示*/
 #base{
     display:flex;display:-webkit-flex;flex-direction:column;align-items:center;

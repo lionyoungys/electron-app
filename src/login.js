@@ -2,11 +2,11 @@
  * 登录界面js
  * @author yangyunlong
  */
+const {ipcRenderer} = window.require('electron');
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Notice} from '../static/UI';
-const {ipcRenderer} = window.require('electron');
-window.require('../static/lib');window.require('../static/api');
+import {Notice} from './static/UI';
+import './static/api';
 let account,passwd;
 //窗口关闭
 document.getElementById('close').onclick = function() {ipcRenderer.send('login-msg','close');}
@@ -38,3 +38,6 @@ document.getElementById('login').onclick = function() {
         }
     });
 }
+
+//去除字符串中的空字符；
+String.prototype.trim = function () {return this.replace(/(^\s*)|(\s*$)/g,'');};
