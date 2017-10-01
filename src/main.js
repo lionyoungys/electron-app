@@ -8,3 +8,4 @@ import Main,{Header,Index} from './index/index';
 const token = localStorage.getItem('token');
 ReactDOM.render(<Header/>,document.getElementsByTagName('header')[0]);
 ReactDOM.render(<Main token={token}>index</Main>,document.getElementById('main'));
+/* 样式原因，所有组件根节点都要使用div */

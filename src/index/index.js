@@ -6,6 +6,7 @@ import React, {Component} from 'react';
 import '../static/api';
 import menus from './menus';
 import './index.css';
+import Pending from '../order/order';
 //界面头部组件
 class Header extends Component {
     constructor(props) {super(props);}
@@ -29,7 +30,8 @@ class Main extends Component {
         this.state = {name:null,status:null,logo:null,orders:null,amount:null,count:null};
         //注册组件列表
         this.elements = {
-            index:Index
+            index:Index,
+            pending:Pending
         };
     }
     //获取店铺状态数据
@@ -56,6 +58,7 @@ class Main extends Component {
                 display:'flex',display:'-webkit-flex',
                 justifyContent:'space-between'
             };
+            console.log(this.elements);
         const E = this.elements[props.children];
         return (
             <div style={mainStyle}>
