@@ -4,7 +4,6 @@
  */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-//import Main,{Header,Index} from './index/index';
 import './main.css';
 import './static/api';
 import menus from './menus';
@@ -31,9 +30,11 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name:null,status:null,logo:null,orders:null,amount:null,count:null,
-            element:this.props.children
+            name:null,status:null,logo:null,orders:null,amount:null,count:null,    //数据状态
+            option:null,menu:null,    //菜单栏样式状态
+            element:this.props.children    //右侧展示样式状态
         };
+        this.monitorMenu = this.monitorMenu.bind(this);
         this.handleContainerView = this.handleContainerView.bind(this);
         //注册组件列表
         this.elements = {
@@ -56,75 +57,54 @@ class Main extends Component {
             });         
         });
     }
-    //右侧界面动态转换事件方法
-    handleContainerView(element) {
-        if ('undefined' === typeof element) return;    //防止未注册组件崩溃 生产环境可注销该段代码
-        if (this.state.element != element) this.setState({element:element}); 
+
+    monitorMenu(menu) {    //左侧菜单展开收起效果事件方法
+        if (this.state.menu == menu) menu = null;
+        this.setState({menu:menu});
+    }
+
+    handleContainerView(element,option) {    //右侧界面动态转换事件方法
+        if (
+            'undefined' !== typeof element     //防止未注册组件崩溃
+            && 
+            this.state.element != element
+        ) this.setState({element:element});
+
+        if ('undefined' !== typeof option) this.setState({option:option});    //防止未注册菜单项
     }
 
     render() {
         let state = this.state,
             props = this.props,
-            mainStyle = {
-                height:'100%',width:'100%',
-                display:'flex',display:'-webkit-flex',
-                justifyContent:'space-between'
-            };
-        const E = this.elements[state.element];
-        return (
-            <div style={mainStyle}>
-                <Sidebar 
-                    token={props.token} 
-                    menus={menus} 
-                    name={state.name} 
-                    status={state.status} 
-                    logo={state.logo} 
-                    orders={state.orders} 
-                    changeView={this.handleContainerView}
-                />
-                <Container><E amount={state.amount} count={state.count}/></Container>
-            </div>
-        );
-    }
-}
-//侧边栏容器组件
-class Sidebar extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {option:null,menu:null};
-        this.monitorOption = this.monitorOption.bind(this);
-        this.monitorMenu = this.monitorMenu.bind(this);
-    }
-    monitorOption(option,element) {
-        this.props.changeView(element);
-        this.setState({option:option});
-    }
-    monitorMenu(menu) {
-        if (this.state.menu == menu) menu = null;
-        this.setState({menu:menu});
-    }
-    render() {
-        let props = this.props,
-            state = this.state,
-            menus = props.menus.map((obj) => 
-            //创建多个菜单组件
+            menusList = menus.map((obj) =>     //创建多个菜单组件
             <Menu 
                 key={obj.id} 
                 id={obj.id} 
-                orders={props.orders}
+                orders={state.orderss}
                 selection={obj.selection} 
                 options={obj.options} 
                 menu={state.menu}
                 option={state.option}
                 parentMonitorMenu={this.monitorMenu}
-                parentMonitorOption={this.monitorOption}
+                changeView={this.handleContainerView}
             />
         );
+        const E = this.elements[state.element],    //展示指定视图组件
+              mainStyle = {
+                  height:'100%',width:'100%',
+                  display:'flex',display:'-webkit-flex',
+                  justifyContent:'space-between'
+              };
         return (
-            <aside id='main-sidebar'>
-                <Base token={props.token} name={props.name} status={props.status} logo={props.logo}/>
-                <div id='main-nav'>{menus}</div>
-            </aside>
+            <div style={mainStyle}>
+                <aside id='main-sidebar'>
+                    <Base token={props.token} name={state.name} status={state.status} logo={state.logo}/>
+                    <div id='main-nav'>{menusList}</div>
+                </aside>
+                <div id='main-container'>
+                    <E amount={state.amount} count={state.count} changeView={this.handleContainerView}/>
+                </div>
+            </div>
         );
     }
 }
@@ -169,7 +149,7 @@ class Menu extends Component {
     }
     chooseOption(e) {
         var dataset = e.target.dataset;
-        this.props.parentMonitorOption(dataset.id,dataset.element);
+        this.props.changeView(dataset.element,dataset.id);
     }
     chooseMenu(e) {this.props.parentMonitorMenu(this.props.id);}
     render() {
@@ -204,13 +184,6 @@ class Menu extends Component {
         );
     }
 }
-//右侧视图展示组件
-class Container extends Component {
-    constructor(props) {super(props);}
-    render() {
-        return (<div id='main-container'>{this.props.children}</div>);
-    }
-}
 //首页右侧展示
 class Index extends Component {
     constructor(props) {super(props);}
@@ -237,8 +210,7 @@ class Index extends Component {
         );
     }
 }
-/*export default Main;
-export {Main,Header,Index};*/
+
 ReactDOM.render(<Header/>,document.getElementsByTagName('header')[0]);
 ReactDOM.render(<Main token={token}>index</Main>,document.getElementById('main'));
 /* 样式原因，所有组件根节点都要使用div */
