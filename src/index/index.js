@@ -26,7 +26,9 @@ class Header extends Component {
 class Main extends Component {
     constructor(props) {
         super(props);
-        this.state = {name:null,status:null,logo:null,orders:null};
+        console.log(this);
+        this.state = {name:null,status:null,logo:null,orders:null,amount:null,count:null};
+        this.elements = {index:Index};
     }
     //获取店铺状态数据
     componentDidMount() {
@@ -37,7 +39,9 @@ class Main extends Component {
                 name:result.mname,    //店铺名称
                 status:result.state,    //店铺状态
                 logo:'url(' +api.host+result.circle_logo+ ')',    //店铺头像
-                orders:result.will_dispose    //店铺待处理订单数
+                orders:result.will_dispose,    //店铺待处理订单数
+                amount:result.total,    //营业总额
+                count:result.order_count    //有效订单
             });         
         });
     }
@@ -49,6 +53,7 @@ class Main extends Component {
                 display:'flex',display:'-webkit-flex',
                 justifyContent:'space-between'
             };
+        const E = this.elements[this.props.children];
         return (
             <div style={mainStyle}>
                 <Sidebar 
@@ -59,7 +64,7 @@ class Main extends Component {
                     logo={state.logo} 
                     orders={state.orders}
                 />
-                <Container>{this.props.children}</Container>
+                <Container amount={state.amount} count={state.count}><E/></Container>
             </div>
         );
     }
@@ -177,6 +182,14 @@ class Menu extends Component {
 class Container extends Component {
     constructor(props) {super(props);}
     render() {
+        //console.log(this.state.child);
+        //if ('Index' == this.props.children.type.name) {
+            /*console.log('-------------------------');
+            console.log(this.props);
+            console.log('-------------------------');*/
+            //this.props.children.props = {amount:this.props.amount,count:this.props.count};
+        //}
+        //var Child = this.props.children;
         return (<div id='main-container'>{this.props.children}</div>);
     }
 }
@@ -184,9 +197,21 @@ class Container extends Component {
 class Index extends Component {
     constructor(props) {super(props);}
     render() {
-        return (<div></div>);
+        let chatStyle = {height:'306px',background:'grey',borderRadius:'5px',width:'80%'},
+            wordStyle = {marginTop:'40px',fontSize:'18px'};
+            //console.log(this.props)
+        return (
+            <div style={{padding: '38px 0 0 40px'}}>
+                <section style={chatStyle}></section>
+                <section className='main-word'>
+                    今日营业总额：<span className='main-word-larger'>0.</span><span>00</span>
+                </section>
+                <section className='main-word'>
+                    今日有效订单：<span className='main-word-larger'>0</span>
+                </section>
+            </div>
+        );
     }
 }
 export default Main;
-export {Main,Header};
-//ReactDOM.render(<Main menus={menus}/>,document.getElementById('main'));
+export {Main,Header,Index};
