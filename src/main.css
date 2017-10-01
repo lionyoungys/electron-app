@@ -2,6 +2,7 @@
 html,body{height:100%;width:100%;max-width:1920px;max-height:1080px;min-width:800px;min-height:600px;}
 body,header,input,span,div,section,aside,dl,dt,dd,nav{padding: 0;margin: 0}
 input{outline: none;border:none;}
+body{background:#09b1b0;}
 /* css init end */
 body,#main,#main-sidebar,#main-container,#main-container>div,.main-selection,.main-option{
     box-sizing: border-box;-webkit-box-sizing: border-box;

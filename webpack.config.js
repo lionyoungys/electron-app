@@ -25,8 +25,8 @@ const config = {
           {
             test: /\.css$/,
             use: [
-              {loader: "style-loader",options: { url: false }},
-              {loader: "css-loader",options: { url: false }}
+              {loader: "style-loader",options: { url: false, minimize: true }},
+              {loader: "css-loader",options: { url: false, minimize: true }}
             ]
           },
           {
