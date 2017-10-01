@@ -26,9 +26,11 @@ class Header extends Component {
 class Main extends Component {
     constructor(props) {
         super(props);
-        console.log(this);
         this.state = {name:null,status:null,logo:null,orders:null,amount:null,count:null};
-        this.elements = {index:Index};
+        //注册组件列表
+        this.elements = {
+            index:Index
+        };
     }
     //获取店铺状态数据
     componentDidMount() {
@@ -48,23 +50,24 @@ class Main extends Component {
 
     render() {
         let state = this.state,
+            props = this.props,
             mainStyle = {
                 height:'100%',width:'100%',
                 display:'flex',display:'-webkit-flex',
                 justifyContent:'space-between'
             };
-        const E = this.elements[this.props.children];
+        const E = this.elements[props.children];
         return (
             <div style={mainStyle}>
                 <Sidebar 
-                    token={this.props.token} 
+                    token={props.token} 
                     menus={menus} 
                     name={state.name} 
                     status={state.status} 
                     logo={state.logo} 
                     orders={state.orders}
                 />
-                <Container amount={state.amount} count={state.count}><E/></Container>
+                <Container><E amount={state.amount} count={state.count}/></Container>
             </div>
         );
     }
@@ -182,14 +185,6 @@ class Menu extends Component {
 class Container extends Component {
     constructor(props) {super(props);}
     render() {
-        //console.log(this.state.child);
-        //if ('Index' == this.props.children.type.name) {
-            /*console.log('-------------------------');
-            console.log(this.props);
-            console.log('-------------------------');*/
-            //this.props.children.props = {amount:this.props.amount,count:this.props.count};
-        //}
-        //var Child = this.props.children;
         return (<div id='main-container'>{this.props.children}</div>);
     }
 }
@@ -197,17 +192,23 @@ class Container extends Component {
 class Index extends Component {
     constructor(props) {super(props);}
     render() {
-        let chatStyle = {height:'306px',background:'grey',borderRadius:'5px',width:'80%'},
+        let props = this.props,
+            count = props.count,
+            amount = props.amount,
+            amountArr = String(amount).split('.'),    //拆分价格显示
+            chatStyle = {height:'306px',background:'grey',borderRadius:'5px',width:'100%'},
             wordStyle = {marginTop:'40px',fontSize:'18px'};
-            //console.log(this.props)
+        if ('undefined' == typeof amountArr[1]) amountArr[1] = '00'
         return (
-            <div style={{padding: '38px 0 0 40px'}}>
+            <div style={{padding: '30px 30px 0 30px'}}>
                 <section style={chatStyle}></section>
                 <section className='main-word'>
-                    今日营业总额：<span className='main-word-larger'>0.</span><span>00</span>
+                    今日营业总额：
+                    <span className='main-word-larger'>{amountArr[0] + '.'}</span>
+                    <span>{amountArr[1]}</span>
                 </section>
                 <section className='main-word'>
-                    今日有效订单：<span className='main-word-larger'>0</span>
+                    今日有效订单：<span className='main-word-larger'>{amount}</span>
                 </section>
             </div>
         );
