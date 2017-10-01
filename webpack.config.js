@@ -4,15 +4,7 @@ const config = {
     devtool: 'eval-source-map',    //生成Source Maps,这里选择eval-source-map
     entry: {
         ['login.js']: buildPath + 'login.js',
-        ['main.js']: buildPath + 'main.js',
-        //['static/api.js']: buildPath + 'static/api.js',
-        //['static/UI.js']: buildPath + 'static/UI.js',
-        //['index/index.js']: buildPath + 'index/index.js',
-        //['index/index.css']: buildPath + 'index/index.css',
-        //['index/menus.js']:buildPath + 'index/menus.js',
-        //['main/main']: buildPath + 'main/main.js',
-        //['main/menu']: buildPath + 'main/menu.js',
-        //['index/index']: buildPath + 'index/index.js'
+        ['main.js']: buildPath + 'main.js'
     },
     output: {
         filename: '[name]',
