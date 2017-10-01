@@ -97,11 +97,16 @@ class Main extends Component {
               };
         return (
             <div style={mainStyle}>
+                {/* 左侧菜单栏容器 */}
                 <aside id='main-sidebar'>
+                     {/* 信息展示组件 */}
                     <Base token={props.token} name={state.name} status={state.status} logo={state.logo}/>
+                    {/* 导航容器组件及导航栏视图组件 */}
                     <div id='main-nav'>{menusList}</div>
                 </aside>
+                {/* 右侧视图容器 */}
                 <div id='main-container'>
+                    {/* 视图组件 */}
                     <E amount={state.amount} count={state.count} changeView={this.handleContainerView}/>
                 </div>
             </div>
