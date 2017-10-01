@@ -30,7 +30,11 @@ class Header extends Component {
 class Main extends Component {
     constructor(props) {
         super(props);
-        this.state = {name:null,status:null,logo:null,orders:null,amount:null,count:null};
+        this.state = {
+            name:null,status:null,logo:null,orders:null,amount:null,count:null,
+            element:this.props.children
+        };
+        this.handleContainerView = this.handleContainerView.bind(this);
         //注册组件列表
         this.elements = {
             index:Index,
@@ -52,6 +56,11 @@ class Main extends Component {
             });         
         });
     }
+    //右侧界面动态转换事件方法
+    handleContainerView(element) {
+        if ('undefined' === typeof element) return;    //防止未注册组件崩溃 生产环境可注销该段代码
+        if (this.state.element != element) this.setState({element:element}); 
+    }
 
     render() {
         let state = this.state,
@@ -61,8 +70,7 @@ class Main extends Component {
                 display:'flex',display:'-webkit-flex',
                 justifyContent:'space-between'
             };
-            console.log(this.elements);
-        const E = this.elements[props.children];
+        const E = this.elements[state.element];
         return (
             <div style={mainStyle}>
                 <Sidebar 
@@ -71,7 +79,8 @@ class Main extends Component {
                     name={state.name} 
                     status={state.status} 
                     logo={state.logo} 
-                    orders={state.orders}
+                    orders={state.orders} 
+                    changeView={this.handleContainerView}
                 />
                 <Container><E amount={state.amount} count={state.count}/></Container>
             </div>
@@ -86,7 +95,10 @@ class Sidebar extends Component {
         this.monitorOption = this.monitorOption.bind(this);
         this.monitorMenu = this.monitorMenu.bind(this);
     }
-    monitorOption(option) {this.setState({option:option});}
+    monitorOption(option,element) {
+        this.props.changeView(element);
+        this.setState({option:option});
+    }
     monitorMenu(menu) {
         if (this.state.menu == menu) menu = null;
         this.setState({menu:menu});
@@ -155,25 +167,30 @@ class Menu extends Component {
         this.chooseOption = this.chooseOption.bind(this);
         this.chooseMenu = this.chooseMenu.bind(this);
     }
-    chooseOption(e) {this.props.parentMonitorOption(e.target.dataset.id);}
+    chooseOption(e) {
+        var dataset = e.target.dataset;
+        this.props.parentMonitorOption(dataset.id,dataset.element);
+    }
     chooseMenu(e) {this.props.parentMonitorMenu(this.props.id);}
     render() {
-        let sel = this.props.selection,
-            opt = this.props.options,
-            isShowOrders = 'order' == sel.id && this.props.orders > 0,
-            isSpread = this.props.id == this.props.menu,
+        let props = this.props,
+            sel = props.selection,
+            opt = props.options,
+            isShowOrders = 'order' == sel.id && props.orders > 0,
+            isSpread = props.id == props.menu,
             status = isSpread ? 'main-spread' : 'main-shrink',    //判断当前大选项是否为选中状态
             optStatus = {display:isSpread ? 'block' : 'none'},
             items = opt.map((obj) => 
                 //创建多个选项
                 <nav 
                     key={obj.id} 
-                    data-id={obj.id}
-                    className={this.props.option == obj.id ? 'main-chosen' : null} 
+                    data-id={obj.id} 
+                    data-element={obj.element}
+                    className={props.option == obj.id ? 'main-chosen' : null} 
                     onClick={this.chooseOption}
                 >
                     {obj.text}
-                    {isShowOrders && '订单处理' == obj.text? <em className='main-tag'>{this.props.orders}</em> : ''}
+                    {isShowOrders && '订单处理' == obj.text? <em className='main-tag'>{props.orders}</em> : ''}
                 </nav>
             );
         return (
