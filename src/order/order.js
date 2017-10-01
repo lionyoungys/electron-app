@@ -4,18 +4,16 @@
  */
 import React, {Component} from 'react';
 import '../static/api';
-
+import Crumbs from '../static/UI';
 class Pending extends Component {
     constructor(props) {
         super(props);
-        this.changeView = this.changeView.bind(this);
     }
-    changeView(e) {this.props.changeView(e.target.dataset.element);}
     render() {
+        let list = [{text:'订单处理',key:1}];
         return (
             <div>
-                待处理
-                <input type='button' value='test' data-element='index' onClick={this.changeView}/>
+                <Crumbs list={list} changeView={this.props.changeView}/>
             </div>
         );
     }

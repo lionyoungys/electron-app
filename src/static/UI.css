@@ -1,0 +1,14 @@
+/* 面包屑导航样式 */
+#crumbs{
+    color: #242424;
+    font-size: 15px;
+    height: 45px;
+    line-height: 45px;
+    background: #eef8ff;
+    display: block;
+    padding-left:16px;
+}
+#crumbs>div{display:inline-block}
+#crumbs span,#crumbs em{font-size: 14px;display: inline-block;padding-left: 12px;}
+#crumbs span:hover{color: #01afae;}#crumbs em{color: #999999;}
+/* 面包屑导航样式 */

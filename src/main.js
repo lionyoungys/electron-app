@@ -32,7 +32,7 @@ class Main extends Component {
         this.state = {
             name:null,status:null,logo:null,orders:null,amount:null,count:null,    //数据状态
             option:null,menu:null,    //菜单栏样式状态
-            element:this.props.children    //右侧展示样式状态
+            e:this.props.children    //右侧展示样式状态
         };
         this.monitorMenu = this.monitorMenu.bind(this);
         this.handleContainerView = this.handleContainerView.bind(this);
@@ -63,12 +63,14 @@ class Main extends Component {
         this.setState({menu:menu});
     }
 
-    handleContainerView(element,option) {    //右侧界面动态转换事件方法
+    handleContainerView(e) {    //右侧界面动态转换事件方法
+        let element = e.target.dataset.e,
+            option = e.target.dataset.option;
         if (
             'undefined' !== typeof element     //防止未注册组件崩溃
             && 
-            this.state.element != element
-        ) this.setState({element:element});
+            this.state.e != element
+        ) this.setState({e:element});
 
         if ('undefined' !== typeof option) this.setState({option:option});    //防止未注册菜单项
     }
@@ -89,7 +91,7 @@ class Main extends Component {
                 changeView={this.handleContainerView}
             />
         );
-        const E = this.elements[state.element],    //展示指定视图组件
+        const E = this.elements[state.e],    //展示指定视图组件
               mainStyle = {
                   height:'100%',width:'100%',
                   display:'flex',display:'-webkit-flex',
@@ -149,12 +151,7 @@ class Base extends Component {
 class Menu extends Component {
     constructor(props) {
         super(props);
-        this.chooseOption = this.chooseOption.bind(this);
         this.chooseMenu = this.chooseMenu.bind(this);
-    }
-    chooseOption(e) {
-        var dataset = e.target.dataset;
-        this.props.changeView(dataset.element,dataset.id);
     }
     chooseMenu(e) {this.props.parentMonitorMenu(this.props.id);}
     render() {
@@ -169,10 +166,10 @@ class Menu extends Component {
                 //创建多个选项
                 <nav 
                     key={obj.id} 
-                    data-id={obj.id} 
-                    data-element={obj.element}
+                    data-option={obj.id} 
+                    data-e={obj.e}
                     className={props.option == obj.id ? 'main-chosen' : null} 
-                    onClick={this.chooseOption}
+                    onClick={this.props.changeView}
                 >
                     {obj.text}
                     {isShowOrders && '订单处理' == obj.text? <em className='main-tag'>{props.orders}</em> : ''}

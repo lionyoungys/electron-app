@@ -1,7 +1,7 @@
 /* css init */
 html,body{height:100%;width:100%;max-width:1920px;max-height:1080px;min-width:800px;min-height:600px;}
 body,header,input,span,div,section,aside,dl,dt,dd,nav{padding: 0;margin: 0}
-input{outline: none;border:none;}
+input{outline: none;border:none;}a{text-decoration: none;}em{font-style:normal;}
 body{background:#09b1b0;}
 /* css init end */
 body,#main,#main-sidebar,#main-container,#main-container>div,.main-selection,.main-option{
@@ -56,7 +56,7 @@ body,#main,#main-sidebar,#main-container,#main-container>div,.main-selection,.ma
 .main-option>nav{line-height:22px;margin-bottom:8px;padding-left:16px;}
 /* 提示数字小标样式 */
 .main-tag{
-    font-size:14px;font-style:normal;color:#ffffff;background:#ff6d44;
+    font-size:14px;color:#ffffff;background:#ff6d44;
     height:22px;float:right;padding:0 8px;border-radius:50px;
 }
 .main-spread{background: url(images/main-spread.png);}    /*选单展开*/
