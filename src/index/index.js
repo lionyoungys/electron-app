@@ -11,12 +11,12 @@ class Header extends Component {
     constructor(props) {super(props);}
     render() {
         return (
-            <div id='header'>
-                <div id="hleft">速洗达商家管理系统</div>
-                <div id="hright">
-                    <span id="feedback">意见反馈</span>
-                    <span id="password">修改密码</span>
-                    <input type="button" value="退出" id="logout"/>
+            <div id='main-header'>
+                <div id="main-hleft">速洗达商家管理系统</div>
+                <div id="main-hright">
+                    <span id="main-feedback">意见反馈</span>
+                    <span id="main-password">修改密码</span>
+                    <input type="button" value="退出" id="main-logout"/>
                 </div>
             </div>
         );
@@ -26,7 +26,7 @@ class Header extends Component {
 class Main extends Component {
     constructor(props) {
         super(props);
-        this.state = {name:null,status:null,logo:null};
+        this.state = {name:null,status:null,logo:null,orders:null};
     }
     //获取店铺状态数据
     componentDidMount() {
@@ -34,9 +34,10 @@ class Main extends Component {
         .then((response)=>{
             let result = response.data.data;
             this.setState({
-                name:result.mname,
-                status:result.state,
-                logo:'url(' +api.host+result.circle_logo+ ')'
+                name:result.mname,    //店铺名称
+                status:result.state,    //店铺状态
+                logo:'url(' +api.host+result.circle_logo+ ')',    //店铺头像
+                orders:result.will_dispose    //店铺待处理订单数
             });         
         });
     }
@@ -44,11 +45,10 @@ class Main extends Component {
     render() {
         let state = this.state,
             mainStyle = {
-            height:'100%',width:'100%',
-            display:'flex',display:'-webkit-flex',
-            justifyContent:'space-between'
-        };
-        
+                height:'100%',width:'100%',
+                display:'flex',display:'-webkit-flex',
+                justifyContent:'space-between'
+            };
         return (
             <div style={mainStyle}>
                 <Sidebar 
@@ -56,7 +56,8 @@ class Main extends Component {
                     menus={menus} 
                     name={state.name} 
                     status={state.status} 
-                    logo={state.logo}
+                    logo={state.logo} 
+                    orders={state.orders}
                 />
                 <Container>{this.props.children}</Container>
             </div>
@@ -78,32 +79,27 @@ class Sidebar extends Component {
     }
     render() {
         let props = this.props,
+            state = this.state,
             menus = props.menus.map((obj) => 
             //创建多个菜单组件
             <Menu 
                 key={obj.id} 
-                id={obj.id}
+                id={obj.id} 
+                orders={props.orders}
                 selection={obj.selection} 
                 options={obj.options} 
-                menu={this.state.menu}
-                option={this.state.option}
+                menu={state.menu}
+                option={state.option}
                 parentMonitorMenu={this.monitorMenu}
                 parentMonitorOption={this.monitorOption}
             />
         );
         return (
-            <aside id='sidebar'>
+            <aside id='main-sidebar'>
                 <Base token={props.token} name={props.name} status={props.status} logo={props.logo}/>
-                <div id='nav'>{menus}</div>
+                <div id='main-nav'>{menus}</div>
             </aside>
         );
-    }
-}
-//右侧视图展示组件
-class Container extends Component {
-    constructor(props) {super(props);}
-    render() {
-        return (<div id='container'>{this.props.children}</div>);
     }
 }
 //侧边栏信息状态视图组件
@@ -127,18 +123,17 @@ class Base extends Component {
         let props = this.props,
             status = this.state.status,
             isOpen = null == status ? (1 == props.status) : (1 == status),
-            bg = isOpen ? 'open' : 'close',
+            bg = isOpen ? 'main-open' : 'main-close',
             word = isOpen ? '营业中' : '暂停营业';
         return (
-            <div id='base'>
-                <div id="logo" style={{backgroundImage:props.logo}}></div>
-                <div id="name">{props.name}</div>
-                <div id="state" onClick={this.statusSwitchover} className={bg}>{word}</div>
+            <div id='main-base'>
+                <div id="main-logo" style={{backgroundImage:props.logo}}></div>
+                <div id="main-name">{props.name}</div>
+                <div id="main-state" onClick={this.statusSwitchover} className={bg}>{word}</div>
             </div>
         );
     }
 }
-
 //菜单视图组件
 class Menu extends Component {
     constructor(props) {
@@ -151,29 +146,45 @@ class Menu extends Component {
     render() {
         let sel = this.props.selection,
             opt = this.props.options,
+            isShowOrders = 'order' == sel.id && this.props.orders > 0,
             isSpread = this.props.id == this.props.menu,
-            status = isSpread ? 'spread' : 'shrink',    //判断当前大选项是否为选中状态
+            status = isSpread ? 'main-spread' : 'main-shrink',    //判断当前大选项是否为选中状态
             optStatus = {display:isSpread ? 'block' : 'none'},
             items = opt.map((obj) => 
                 //创建多个选项
                 <nav 
                     key={obj.id} 
                     data-id={obj.id}
-                    className={this.props.option == obj.id ? 'chosen' : null} 
+                    className={this.props.option == obj.id ? 'main-chosen' : null} 
                     onClick={this.chooseOption}
                 >
                     {obj.text}
+                    {isShowOrders && '订单处理' == obj.text? <em className='main-tag'>{this.props.orders}</em> : ''}
                 </nav>
             );
         return (
             <dl>
-                <dt onClick={this.chooseMenu} className='selection'>
+                <dt onClick={this.chooseMenu} className='main-selection'>
                     <div id={sel.id}>{sel.text}</div>
                     <div className={status}></div>
                 </dt>
-                <dd style={optStatus}>{items}</dd>
+                <dd className='main-option' style={optStatus}>{items}</dd>
             </dl>
         );
+    }
+}
+//右侧视图展示组件
+class Container extends Component {
+    constructor(props) {super(props);}
+    render() {
+        return (<div id='main-container'>{this.props.children}</div>);
+    }
+}
+//首页右侧展示
+class Index extends Component {
+    constructor(props) {super(props);}
+    render() {
+        return (<div></div>);
     }
 }
 export default Main;
