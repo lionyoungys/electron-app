@@ -1,5 +1,5 @@
 /* box-sizing注册 */
-.ui-search{box-sizing: border-box;-webkit-box-sizing: border-box;}
+.ui-search,.ui-btn{box-sizing: border-box;-webkit-box-sizing: border-box;}
 /* 容器样式 */
 .ui-container{display: block;padding: 18px 16px 0;}
 .ui-content{padding-top: 20px;}
@@ -47,7 +47,16 @@
 .ui-table th,.ui-table td{padding: 0 10px;text-align: center}
 .ui-table-b th,.ui-table-b td{border: 1px solid #b2b2b2;}
 /* table tr样式 */
-.ui-table .ui-tr-h{height: 38px;line-height: 38px;background: #eef8ff;font-size: 16px;}
-.ui-table .ui-tr-d{height: 50px;line-height: 50px;}
+.ui-table .ui-tr-h{height: 38px;background: #eef8ff;font-size: 16px;vertical-align: middle}
+.ui-table .ui-tr-d{height: 50px;vertical-align: middle}
 /* table th td样式 */
 .ui-table .ui-b{border: 1px solid #b2b2b2;}
+.ui-red{color: red;}
+/* 按钮样式 */
+.ui-btn{
+    font-size: 14px;height: 27px;width: 82px;
+    text-align:center;vertical-align:middle;
+    border-radius:5px;background: #fff;
+}
+.ui-btn-cancel{border:1px solid #b2b2b2;}    /* 取消按钮 */
+.ui-btn-confirm{background: #09b1b0;color: #fff;}    /* 确认按钮 */

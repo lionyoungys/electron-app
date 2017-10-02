@@ -10,6 +10,7 @@ class Order extends Component {
         super(props);
         this.state = {choose:0,data:null};
         this.handleClick = this.handleClick.bind(this);
+        //选项卡参数
         this.tabs = [
             {key:0,text:'待处理'},
             {key:1,text:'待收件'},
@@ -17,6 +18,7 @@ class Order extends Component {
             {key:3,text:'清洗中'},
             {key:4,text:'待送达'}
         ];
+        //表格头部模型
         this.theadsModel = [
             <tr className='ui-tr-h'>
                 <td>订单号</td>
@@ -39,6 +41,7 @@ class Order extends Component {
                 <td>操作</td>
             </tr>
         ];
+        //表格头部内容
         this.theads = [
             this.theadsModel[0],
             this.theadsModel[0],
@@ -46,41 +49,82 @@ class Order extends Component {
             this.theadsModel[1],
             this.theadsModel[1]
         ];
-              
-
+        //订单进程列表对应状态
+        this.process = [this.willDispose,this.willTake,this.willClean,this.cleaning,this.willDelivery];
     }
     componentDidMount() {
         axios.post(api.U('orderHandle'),api.data({token:this.props.token,state:0}))
         .then((response) => {
-            var result = response.data;
+            let result = response.data,
+                data = this.process[0](result.data);
+            this.setState({data:data});
             console.log(result);
         });
     }
     handleClick(e) {
-        this.setState({choose:e.target.dataset.key});
+        let state = e.target.dataset.key;
+        axios.post(api.U('orderHandle'),api.data({token:this.props.token,state:state}))
+        .then((response) => {
+            let result = response.data,
+                data = this.process[state](result.data);
+            this.setState({choose:state,data:data});
+            console.log(result);
+        });
     }
     handleSearch(e) {
         console.log(e.target.dataset.word);
     }
     //待处理
-    willDispose() {
-
+    willDispose(data) {
+        let items = data.map((obj) => 
+            <tr key={obj.id} className='ui-tr-d'>
+                <td>{obj.ordersn}</td>
+                <td className='ui-red'>{obj.time}</td>
+                <td>{obj.name}</td>
+                <td>{obj.phone}</td>
+                <td>{obj.adr}</td>
+                <td>{obj.create_time}</td>
+                <td>
+                    <div className='ui-box-between'>
+                        <input data-id={obj.id} type='button' value='取消订单' className='ui-btn ui-btn-cancel'/>
+                        <input data-id={obj.id} type='button' value='确认订单' className='ui-btn ui-btn-confirm'/>
+                    </div> 
+                </td>
+            </tr>
+        );
+        return items;
     }
     //待收件
-    willTake() {
-
+    willTake(data) {
+        let items = data.map((obj) => 
+            <tr key={obj.id} className='ui-tr-d'>
+                <td>{obj.ordersn}</td>
+                <td className='ui-red'>{obj.time}</td>
+                <td>{obj.name}</td>
+                <td>{obj.phone}</td>
+                <td>{obj.adr}</td>
+                <td>{obj.create_time}</td>
+                <td>
+                    <div className='ui-box-between'>
+                        <input data-id={obj.id} type='button' value='取消订单' className='ui-btn ui-btn-cancel'/>
+                        <input data-id={obj.id} type='button' value='添加项目' className='ui-btn ui-btn-confirm'/>
+                    </div> 
+                </td>
+            </tr>
+        );
+        return items;
     }
     //待清洗
     willClean() {
-
+        return null;
     }
     //清洗中
     cleaning() {
-
+        return null;
     }
     //待送达
     willDelivery() {
-        
+        return null;
     }
 
     render() {
@@ -96,7 +140,7 @@ class Order extends Component {
                     <div className='ui-content'>
                         <table className='ui-table ui-table-b'>
                             <thead>{this.theads[state.choose]}</thead>
-                            <tbody></tbody>
+                            <tbody>{state.data}</tbody>
                         </table>
                     </div>
                 </section>

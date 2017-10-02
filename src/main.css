@@ -2,8 +2,13 @@
 html,body{height:100%;width:100%;max-width:1920px;max-height:1080px;min-width:800px;min-height:600px;}
 body,header,input,span,div,section,aside,dl,dt,dd,nav,table,tr,th,td{padding: 0;margin: 0}
 input{outline: none;border:none;}a{text-decoration: none;}em{font-style:normal;}
-table{border-collapse:collapse;border-spacing:0} 
+table{border-collapse:collapse;border-spacing:0}
 body{background:#09b1b0;}
+/* 浮动与清除浮动样式 */
+.right{float: right;}.left{float: left;}
+.clearfix::before, .clearfix::after{
+    content: "";height: 0;line-height: 0;display: block;visibility: hidden;clear: both;overflow: hidden;
+}
 /* css init end */
 body,#main,#main-sidebar,#main-container,#main-container>div,.main-selection,.main-option{
     box-sizing: border-box;-webkit-box-sizing: border-box;
