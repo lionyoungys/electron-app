@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import './main.css';
 import './static/api';
 import menus from './menus';
-import Pending from './order/order';
+import Order from './order/order';
 const token = localStorage.getItem('token');
 //界面头部组件
 class Header extends Component {
@@ -39,7 +39,7 @@ class Main extends Component {
         //注册组件列表
         this.elements = {
             index:Index,
-            pending:Pending
+            order:Order
         };
     }
     //获取店铺状态数据

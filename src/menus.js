@@ -13,7 +13,7 @@ class Menus {
                 },
                 options:[
                     {id:11, text:'订单查询'},
-                    {id:12, text:'订单处理',e:'pending'}
+                    {id:12, text:'订单处理',e:'order'}
                 ]
             },
             {
