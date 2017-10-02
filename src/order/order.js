@@ -10,6 +10,12 @@ class Order extends Component {
         super(props);
         this.state = {choose:0,data:null};
         this.handleClick = this.handleClick.bind(this);
+        this.willDispose = this.willDispose.bind(this);
+        this.willTake = this.willTake.bind(this);
+        this.willClean = this.willClean.bind(this);
+        this.cleaning = this.cleaning.bind(this);
+        this.willDelivery = this.willDelivery.bind(this);
+        this.generateItemsList = this.generateItemsList.bind(this);
         //选项卡参数
         this.tabs = [
             {key:0,text:'待处理'},
@@ -86,8 +92,8 @@ class Order extends Component {
                 <td>{obj.create_time}</td>
                 <td>
                     <div className='ui-box-between'>
-                        <input data-id={obj.id} type='button' value='取消订单' className='ui-btn ui-btn-cancel'/>
-                        <input data-id={obj.id} type='button' value='确认订单' className='ui-btn ui-btn-confirm'/>
+                        <input data-id={obj.id} type='button' defaultValue='取消订单' className='ui-btn ui-btn-cancel'/>
+                        <input data-id={obj.id} type='button' defaultValue='确认订单' className='ui-btn ui-btn-confirm'/>
                     </div> 
                 </td>
             </tr>
@@ -106,8 +112,8 @@ class Order extends Component {
                 <td>{obj.create_time}</td>
                 <td>
                     <div className='ui-box-between'>
-                        <input data-id={obj.id} type='button' value='取消订单' className='ui-btn ui-btn-cancel'/>
-                        <input data-id={obj.id} type='button' value='添加项目' className='ui-btn ui-btn-confirm'/>
+                        <input data-id={obj.id} type='button' defaultValue='取消订单' className='ui-btn ui-btn-cancel'/>
+                        <input data-id={obj.id} type='button' defaultValue='添加项目' className='ui-btn ui-btn-confirm'/>
                     </div> 
                 </td>
             </tr>
@@ -115,16 +121,89 @@ class Order extends Component {
         return items;
     }
     //待清洗
-    willClean() {
-        return null;
+    willClean(data) {
+        let items = data.map((obj) => 
+            <tr key={obj.id} className='ui-tr-d'>
+                <td>{obj.ordersn}</td>
+                <td>{this.generateItemsList(obj.item)}</td>
+                <td>
+                    <div className='ui-box-between'><span>上门服务费</span><span>&yen;{obj.freight}</span></div>
+                    <div className='ui-box-between'><span>特殊工艺加价</span><span>&yen;{obj.special}</span></div>
+                    <div className='ui-box-between'><span>保值洗</span><span>&yen;{obj.hedging}</span></div>
+                    <div className='ui-box-between'><span>优惠金额</span><span>&yen;{obj.coupon_price}</span></div>
+                </td>
+                <td>{obj.sum}件</td>
+                <td>{obj.amount}</td>
+                <td>{obj.name}<br/>{obj.phone}</td>
+                <td>{obj.adr}</td>
+                <td>{obj.update_time}</td>
+                <td>
+                    <div className='ui-box-between'>
+                        <input data-id={obj.id} defaultValue='衣物检查' className='ui-btn ui-btn-confirm'/>
+                        <input 
+                            data-id={obj.id} 
+                            defaultValue='检查完成' 
+                            className={'ui-btn ' + (1==obj.pay_state ? 'ui-btn-confirm' : 'ui-btn-cancel')}
+                        />
+                    </div>
+                </td>
+            </tr>
+        );
+        return items;
     }
     //清洗中
-    cleaning() {
-        return null;
+    cleaning(data) {
+        let items = data.map((obj) => 
+            <tr key={obj.id} className='ui-tr-d'>
+                <td>{obj.ordersn}</td>
+                <td>{this.generateItemsList(obj.item)}</td>
+                <td>
+                    <div className='ui-box-between'><span>上门服务费</span><span>&yen;{obj.freight}</span></div>
+                    <div className='ui-box-between'><span>特殊工艺加价</span><span>&yen;{obj.special}</span></div>
+                    <div className='ui-box-between'><span>保值洗</span><span>&yen;{obj.hedging}</span></div>
+                    <div className='ui-box-between'><span>优惠金额</span><span>&yen;{obj.coupon_price}</span></div>
+                </td>
+                <td>{obj.sum}件</td>
+                <td>{obj.amount}</td>
+                <td>{obj.name}<br/>{obj.phone}</td>
+                <td>{obj.adr}</td>
+                <td>{obj.update_time}</td>
+                <td><input data-id={obj.id} defaultValue='清洗完成' className='ui-btn ui-btn-confirm'/></td>
+            </tr>
+        );
+        return items;
     }
     //待送达
-    willDelivery() {
-        return null;
+    willDelivery(data) {
+        let items = data.map((obj) => 
+            <tr key={obj.id} className='ui-tr-d'>
+                <td>{obj.ordersn}</td>
+                <td>{this.generateItemsList(obj.item)}</td>
+                <td>
+                    <div className='ui-box-between'><span>上门服务费</span><span>&yen;{obj.freight}</span></div>
+                    <div className='ui-box-between'><span>特殊工艺加价</span><span>&yen;{obj.special}</span></div>
+                    <div className='ui-box-between'><span>保值洗</span><span>&yen;{obj.hedging}</span></div>
+                    <div className='ui-box-between'><span>优惠金额</span><span>&yen;{obj.coupon_price}</span></div>
+                </td>
+                <td>{obj.sum}件</td>
+                <td>{obj.amount}</td>
+                <td>{obj.name}<br/>{obj.phone}</td>
+                <td>{obj.adr}</td>
+                <td>{obj.update_time}</td>
+                <td><input data-id={obj.id} defaultValue='送件完成' className='ui-btn ui-btn-confirm'/></td>
+            </tr>
+        );
+        return items;
+    }
+
+    generateItemsList(items) {
+        return items.map((obj) => 
+            <div key={obj.id} className='ui-box-between'>
+                <span>{obj.g_name}</span>
+                <span>{obj.number}</span>
+                <span>&yen;{obj.price}</span>
+            </div>
+        );
     }
 
     render() {
