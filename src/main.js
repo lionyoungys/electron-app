@@ -109,7 +109,12 @@ class Main extends Component {
                 {/* 右侧视图容器 */}
                 <div id='main-container'>
                     {/* 视图组件 */}
-                    <E amount={state.amount} count={state.count} changeView={this.handleContainerView}/>
+                    <E 
+                        token={props.token} 
+                        amount={state.amount} 
+                        count={state.count} 
+                        changeView={this.handleContainerView}
+                    />
                 </div>
             </div>
         );

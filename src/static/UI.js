@@ -4,7 +4,7 @@
  */
 import React, {Component} from 'react';
 import './UI.css';
-//面包屑导航栏 list = [{key:索引key,e:跳转的视图组件,text:文字显示}] [index=首页跳转]
+//面包屑导航栏 crumbs = [{key:索引key,e:跳转的视图组件,text:文字显示}] [index=首页跳转] [callbackParent=回调操作]
 class Crumbs extends Component {
     constructor(props) {
         super(props);
@@ -12,7 +12,7 @@ class Crumbs extends Component {
     render() {
         let props = this.props,
             index = 'undefined' === typeof props.index ? 'index' : props.index,
-            items = props.list.map((obj) => 
+            items = props.crumbs.map((obj) => 
                 <div key={obj.key}>
                     <em>&gt;</em>
                     <span data-e={obj.e} onClick={props.callbackParent}>{obj.text}</span>
@@ -26,7 +26,7 @@ class Crumbs extends Component {
         );
     }
 }
-//
+//选项卡 tabs=[{key:key,text:文字显示}] choose=选中的key  [callbackParent=回调操作]
 class Tabs extends Component {
     constructor(props) {super(props);}
     render() {
@@ -34,8 +34,7 @@ class Tabs extends Component {
             tabs = this.props.tabs;
         if ('undefined' === typeof tabs || tabs.length < 1) return null;
         let items = tabs.map((obj) => 
-                    <div key={obj.key} 
-                         data-e={obj.e}
+                    <div key={obj.key}
                          data-key={obj.key}
                          className={props.choose==obj.key?'ui-tab ui-tab-chosen':'ui-tab'}
                          onClick={props.callbackParent}
@@ -46,6 +45,7 @@ class Tabs extends Component {
         return(<div>{items}</div>);
     }
 }
+//searchbar placeholder  [callbackParent=回调操作]
 class Search extends Component {
     constructor(props) {
         super(props);
@@ -57,12 +57,11 @@ class Search extends Component {
     }
     render() {
         let props = this.props,
-            state = this.state,
-            button = 'undefined' === typeof props.button ? '搜索' : props.button
+            state = this.state;
         return (
             <div className='ui-search'>
                 <input type='text' placeholder={props.placeholder} onChange={this.handleChange}/>
-                <input type='button' value={button} data-word={state.word} onClick={props.callbackParent}/>
+                <input type='button' value='搜索' data-word={state.word} onClick={props.callbackParent}/>
             </div>
         );
     }

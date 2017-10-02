@@ -2,7 +2,9 @@
 .ui-search{box-sizing: border-box;-webkit-box-sizing: border-box;}
 /* 容器样式 */
 .ui-container{display: block;padding: 18px 16px 0;}
-.ui-box,.ui-box-between,.ui-search{display: flex;display: -webkit-flex;}
+.ui-content{padding-top: 20px;}
+.ui-box,.ui-box-between,.ui-content{display: flex;display: -webkit-flex;}
+.ui-search{display: inline-flex;display: -webkit-inline-flex;}
 .ui-box-between{justify-content: space-between}
 /* 面包屑导航样式 */
 #crumbs{
@@ -32,7 +34,6 @@
     width: 382px;height: 42px;
     border: 1px solid #b2b2b2;border-radius: 5px;
     padding-left: 42px;
-    white-space: nowrap;
     background: url(images/ui-search.png) no-repeat 10px center;
 }
 .ui-search>input[type=text]{height: 100%;width: 270px;font-size: 16px;line-height: 40px;}
@@ -41,3 +42,12 @@
     background: #ff6c43;color: #fff;font-size: 18px;
     text-align: center;line-height: 40px;
 }
+/* table样式 */
+.ui-table{width: 100%;}
+.ui-table th,.ui-table td{padding: 0 10px;text-align: center}
+.ui-table-b th,.ui-table-b td{border: 1px solid #b2b2b2;}
+/* table tr样式 */
+.ui-table .ui-tr-h{height: 38px;line-height: 38px;background: #eef8ff;font-size: 16px;}
+.ui-table .ui-tr-d{height: 50px;line-height: 50px;}
+/* table th td样式 */
+.ui-table .ui-b{border: 1px solid #b2b2b2;}
