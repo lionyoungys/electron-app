@@ -82,7 +82,7 @@ class Main extends Component {
             <Menu 
                 key={obj.id} 
                 id={obj.id} 
-                orders={state.orderss}
+                orders={state.orders}
                 selection={obj.selection} 
                 options={obj.options} 
                 menu={state.menu}
