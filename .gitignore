@@ -1,4 +1,4 @@
 .idea
 node_modules
 packager
-app/static/api.js
+src/static/api.js
