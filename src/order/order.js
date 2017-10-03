@@ -16,6 +16,7 @@ class Order extends Component {
         this.cleaning = this.cleaning.bind(this);    //清洗中
         this.willDelivery = this.willDelivery.bind(this);    //待送达
         this.generateItemsList = this.generateItemsList.bind(this);    //项目列表生成器
+        this.orderConfirm = this.orderConfirm.bind(this);    //下一步订单方法
         this.onClose = this.onClose.bind(this);    //弹窗关闭方法
         this.openAlert = this.openAlert.bind(this);    //打开弹窗方法
         this.onConfirm = this.onConfirm.bind(this);    //弹窗确认回调方法
@@ -102,7 +103,7 @@ class Order extends Component {
                 <td>
                     <div className='ui-box-between'>
                         <input data-id={obj.id} type='button' value='取消订单' className='ui-btn ui-btn-cancel' onClick={this.openAlert}/>
-                        <input data-id={obj.id} type='button' defaultValue='确认订单' className='ui-btn ui-btn-confirm'/>
+                        <input data-id={obj.id} type='button' defaultValue='确认订单' className='ui-btn ui-btn-confirm' onClick={this.orderConfirm}/>
                     </div> 
                 </td>
             </tr>
@@ -204,6 +205,25 @@ class Order extends Component {
         );
         return items;
     }
+    //确认订单方法
+    orderConfirm(e) {
+        let state = this.state,
+            id = e.target.dataset.id;
+        axios.post(
+            api.U('orderHandle'), 
+            api.data({token:this.props.token,id:id,state:state.choose})
+        )
+        .then((response) => {
+            if (api.verify(response.data)) {
+                let index = id.inObjectArray(state.data,'id');
+                if (-1 !== index) {
+                    state.data.splice(index,1);
+                    let html = this.process[state.choose](state.data);
+                    this.setState({html:html});
+                }
+            }
+        });
+    }
     //关闭弹框方法
     onClose() {
         if (this.state.show) this.setState({show:false}); 
@@ -218,7 +238,7 @@ class Order extends Component {
             api.data({token:this.props.token,id:state.currentOrder,quxiao:checkedList.toString()})
         )
         .then((response) => {
-            if (api.verify) {
+            if (api.verify(response.data)) {
                 let index = state.currentOrder.inObjectArray(state.data,'id');
                 if (-1 !== index) {
                     state.data.splice(index,1);
