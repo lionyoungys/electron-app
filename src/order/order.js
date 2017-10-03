@@ -4,18 +4,21 @@
  */
 import React, {Component} from 'react';
 import '../static/api';
-import Crumbs, {Tabs,Search} from '../static/UI';
+import Crumbs, {Tabs,Search,CheckboxAlert} from '../static/UI';
 class Order extends Component {
     constructor(props) {
         super(props);
-        this.state = {choose:0,data:null};
-        this.handleClick = this.handleClick.bind(this);
-        this.willDispose = this.willDispose.bind(this);
-        this.willTake = this.willTake.bind(this);
-        this.willClean = this.willClean.bind(this);
-        this.cleaning = this.cleaning.bind(this);
-        this.willDelivery = this.willDelivery.bind(this);
-        this.generateItemsList = this.generateItemsList.bind(this);
+        this.state = {choose:0,data:null,html:null,show:false,currentOrder:null};    //选项卡选择属性 当前数据 展示html 弹窗展示与否 当前订单
+        this.handleClick = this.handleClick.bind(this);    //切换选项卡方法
+        this.willDispose = this.willDispose.bind(this);    //待处理
+        this.willTake = this.willTake.bind(this);    //待收件
+        this.willClean = this.willClean.bind(this);    //待清洗
+        this.cleaning = this.cleaning.bind(this);    //清洗中
+        this.willDelivery = this.willDelivery.bind(this);    //待送达
+        this.generateItemsList = this.generateItemsList.bind(this);    //项目列表生成器
+        this.onClose = this.onClose.bind(this);    //弹窗关闭方法
+        this.openAlert = this.openAlert.bind(this);    //打开弹窗方法
+        this.onConfirm = this.onConfirm.bind(this);    //弹窗确认回调方法
         //选项卡参数
         this.tabs = [
             {key:0,text:'待处理'},
@@ -23,6 +26,14 @@ class Order extends Component {
             {key:2,text:'待清洗'},
             {key:3,text:'清洗中'},
             {key:4,text:'待送达'}
+        ];
+        //多选框参数
+        this.checkboxs = [
+            {text:'商家暂不接单',key:0},
+            {text:'超出服务范围',key:1},
+            {text:'无法提供客户所选服务',key:2},
+            {text:'距离太远',key:3},
+            {text:'其他原因',key:4},
         ];
         //表格头部模型
         this.theadsModel = [
@@ -62,9 +73,8 @@ class Order extends Component {
         axios.post(api.U('orderHandle'),api.data({token:this.props.token,state:0}))
         .then((response) => {
             let result = response.data,
-                data = this.process[0](result.data);
-            this.setState({data:data});
-            console.log(result);
+                html = this.process[0](result.data);
+            this.setState({data:result.data,html:html});
         });
     }
     handleClick(e) {
@@ -72,9 +82,8 @@ class Order extends Component {
         axios.post(api.U('orderHandle'),api.data({token:this.props.token,state:state}))
         .then((response) => {
             let result = response.data,
-                data = this.process[state](result.data);
-            this.setState({choose:state,data:data});
-            console.log(result);
+                html = this.process[state](result.data);
+            this.setState({choose:state,data:result.data,html:html});
         });
     }
     handleSearch(e) {
@@ -92,7 +101,7 @@ class Order extends Component {
                 <td>{obj.create_time}</td>
                 <td>
                     <div className='ui-box-between'>
-                        <input data-id={obj.id} type='button' defaultValue='取消订单' className='ui-btn ui-btn-cancel'/>
+                        <input data-id={obj.id} type='button' value='取消订单' className='ui-btn ui-btn-cancel' onClick={this.openAlert}/>
                         <input data-id={obj.id} type='button' defaultValue='确认订单' className='ui-btn ui-btn-confirm'/>
                     </div> 
                 </td>
@@ -112,7 +121,7 @@ class Order extends Component {
                 <td>{obj.create_time}</td>
                 <td>
                     <div className='ui-box-between'>
-                        <input data-id={obj.id} type='button' defaultValue='取消订单' className='ui-btn ui-btn-cancel'/>
+                        <input data-id={obj.id} type='button' defaultValue='取消订单' className='ui-btn ui-btn-cancel' onClick={this.openAlert}/>
                         <input data-id={obj.id} type='button' defaultValue='添加项目' className='ui-btn ui-btn-confirm'/>
                     </div> 
                 </td>
@@ -195,6 +204,36 @@ class Order extends Component {
         );
         return items;
     }
+    //关闭弹框方法
+    onClose() {
+        if (this.state.show) this.setState({show:false}); 
+    }
+    //弹窗确认方法
+    onConfirm(checkedList) {
+        if (checkedList.length < 1) return;
+        this.setState({show:false})
+        let state = this.state;
+        axios.post(
+            api.U('orderCancel'),
+            api.data({token:this.props.token,id:state.currentOrder,quxiao:checkedList.toString()})
+        )
+        .then((response) => {
+            if (api.verify) {
+                let index = state.currentOrder.inObjectArray(state.data,'id');
+                if (-1 !== index) {
+                    state.data.splice(index,1);
+                    let html = this.process[state.choose](state.data);
+                    this.setState({html:html});
+                }
+            }
+        });
+    }
+    //打开弹窗方法
+    openAlert(e) {
+        this.setState({currentOrder:e.target.dataset.id});
+        if (!this.state.show) this.setState({show:true});
+    }
+
 
     generateItemsList(items) {
         return items.map((obj) => 
@@ -219,13 +258,20 @@ class Order extends Component {
                     <div className='ui-content'>
                         <table className='ui-table ui-table-b'>
                             <thead>{this.theads[state.choose]}</thead>
-                            <tbody>{state.data}</tbody>
+                            <tbody>{state.html}</tbody>
                         </table>
                     </div>
                 </section>
+                <CheckboxAlert 
+                    show={state.show} 
+                    checkboxs={this.checkboxs} 
+                    onClose={this.onClose} 
+                    title='取消订单原因' 
+                    button='取消订单'
+                    callbackParent={this.onConfirm}
+                />
             </div>
         );
     }
 }
-
 export default Order;

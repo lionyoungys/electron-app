@@ -35,7 +35,7 @@ body,#main,#main-sidebar,#main-container,#main-container>div,.main-selection,.ma
 #main-sidebar{width: 230px;min-width: 230px;}
 /*主体右侧宽度*/
 #main-container{width: calc(100% - 240px);min-width: 800px;}
-#main-container>div{width:100%;height: 100%;overflow: auto;}
+#main-container>div{width:100%;height: 100%;overflow: auto;position: relative;}
 #main-sidebar,#main-container{min-height: 600px;}
 /*主体左侧顶部展示*/
 #main-base{

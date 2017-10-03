@@ -4,6 +4,7 @@
  */
 import React, {Component} from 'react';
 import './UI.css';
+import './func';
 //面包屑导航栏 crumbs = [{key:索引key,e:跳转的视图组件,text:文字显示}] [index=首页跳转] [callbackParent=回调操作]
 class Crumbs extends Component {
     constructor(props) {
@@ -81,5 +82,63 @@ class Notice extends Component {
         return (<div style={style}>{this.props.text}</div>);
     }
 }
+//多选弹出框    show=true/false title=标题 button=按钮内容 是否展示 checkboxs=[{text:text,key:key}]
+class CheckboxAlert extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {checkedList:[]};
+        this.onClose = this.onClose.bind(this);
+        this.onConfirm = this.onConfirm.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+    }
+    onClose() {
+        this.setState({checkedList:[]});
+        this.props.onClose();
+    }
+    onConfirm() {this.props.callbackParent(this.state.checkedList);}
+    handleClick(e) {
+        let node = e.target,
+            text = e.target.innerText;
+        if (node.classList.contains('ui-checked')) {    //判断是否选中状态
+            let index = text.inArray(this.state.checkedList);
+            this.state.checkedList.splice(index,1);    //清除选中
+        } else {
+            this.state.checkedList.push(text);    //添加选中
+        }
+        node.classList.toggle('ui-checked');
+    }
+    render() {
+        let props = this.props,
+            state = this.state;
+        if (!props.show) return null;
+        let items = props.checkboxs.map((obj) => 
+            <div className='ui-alert-line' key={obj.key}>
+                <span 
+                    className={-1 !== obj.text.inArray(state.checkedList) ? 'ui-checkbox ui-checked' : 'ui-checkbox'} 
+                    onClick={this.handleClick}
+                >{obj.text}</span>
+            </div>
+        );
+        return (
+            <section className='ui-alert-bg'>
+                <div className='ui-alert-checkbox'>
+                    <div className='ui-alert-title'>
+                        {props.title}<em className='right ui-close' onClick={this.onClose}></em>
+                    </div>
+                    {items}
+                    <div className='ui-botton-area'>
+                        <input 
+                            type='button' 
+                            value={props.button} 
+                            onClick={this.onConfirm} 
+                            className='ui-btn ui-btn-large ui-btn-confirm' 
+                            data-checked={state.checked}
+                        />
+                    </div>
+                </div>
+            </section>
+        );
+    }
+}
 export default Crumbs;
-export {Tabs,Search,Notice};
+export {Tabs,Search,Notice,CheckboxAlert};
