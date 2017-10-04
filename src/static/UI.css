@@ -43,10 +43,10 @@
     text-align: center;line-height: 40px;
 }
 /* table样式 */
-.ui-fieldset{border: 1px solid #b2b2b2}    /* 线包字边框样式 */
 .ui-table{width: 100%;}
 .ui-table th,.ui-table td{padding: 0 10px;text-align: center}
 .ui-table-b th,.ui-table-b td{border: 1px solid #b2b2b2;}
+.ui-fieldset{border: 1px solid #b2b2b2}    /* 线包字边框样式 */
 /* table tr样式 */
 .ui-tr-h{height: 38px;background: #eef8ff;font-size: 16px;vertical-align: middle}
 .ui-tr-d{height: 50px;vertical-align: middle}

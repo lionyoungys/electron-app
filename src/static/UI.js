@@ -84,24 +84,24 @@ class Notice extends Component {
 class CheckboxAlert extends Component {
     constructor(props) {
         super(props);
-        this.state = {checkedList:[]};
+        this.checkedList = [];
         this.onClose = this.onClose.bind(this);
         this.onConfirm = this.onConfirm.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
     onClose() {
-        this.setState({checkedList:[]});
+        this.checkedList = [];
         this.props.onClose();
     }
-    onConfirm() {this.props.callbackParent(this.state.checkedList);}
+    onConfirm() {this.props.callbackParent(this.checkedList);}
     handleClick(e) {
         let node = e.target,
             text = e.target.innerText;
         if (node.classList.contains('ui-checked')) {    //判断是否选中状态
-            let index = text.inArray(this.state.checkedList);
-            this.state.checkedList.splice(index,1);    //清除选中
+            let index = text.inArray(this.checkedList);
+            this.checkedList.splice(index,1);    //清除选中
         } else {
-            this.state.checkedList.push(text);    //添加选中
+            this.checkedList.push(text);    //添加选中
         }
         node.classList.toggle('ui-checked');
     }
@@ -112,7 +112,7 @@ class CheckboxAlert extends Component {
         let items = props.checkboxs.map((obj) => 
             <div className='ui-alert-line' key={obj.key}>
                 <span 
-                    className={-1 !== obj.text.inArray(state.checkedList) ? 'ui-checkbox ui-checked' : 'ui-checkbox'} 
+                    className={-1 !== obj.text.inArray(this.checkedList) ? 'ui-checkbox ui-checked' : 'ui-checkbox'} 
                     onClick={this.handleClick}
                 >{obj.text}</span>
             </div>
@@ -127,10 +127,9 @@ class CheckboxAlert extends Component {
                     <div className='ui-botton-area'>
                         <input 
                             type='button' 
-                            defaultValue={props.button} 
+                            value={props.button} 
                             onClick={this.onConfirm} 
                             className='ui-btn ui-btn-large ui-btn-confirm' 
-                            data-checked={state.checked}
                         />
                     </div>
                 </div>
