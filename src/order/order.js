@@ -16,7 +16,9 @@ class Order extends Component {
         this.cleaning = this.cleaning.bind(this);    //清洗中
         this.willDelivery = this.willDelivery.bind(this);    //待送达
         this.generateItemsList = this.generateItemsList.bind(this);    //项目列表生成器
-        this.orderConfirm = this.orderConfirm.bind(this);    //下一步订单方法
+        this.orderConfirm = this.orderConfirm.bind(this);    //确认订单方法
+        this.cleanDone = this.cleanDone.bind(this);    //清洗完成方法
+        this.done = this.done.bind(this);    //送件完成方法
         this.onClose = this.onClose.bind(this);    //弹窗关闭方法
         this.openAlert = this.openAlert.bind(this);    //打开弹窗方法
         this.onConfirm = this.onConfirm.bind(this);    //弹窗确认回调方法
@@ -102,8 +104,8 @@ class Order extends Component {
                 <td>{obj.create_time}</td>
                 <td>
                     <div className='ui-box-between'>
-                        <input data-id={obj.id} type='button' value='取消订单' className='ui-btn ui-btn-cancel' onClick={this.openAlert}/>
-                        <input data-id={obj.id} type='button' defaultValue='确认订单' className='ui-btn ui-btn-confirm' onClick={this.orderConfirm}/>
+                        <input type='button' data-id={obj.id} type='button' value='取消订单' className='ui-btn ui-btn-cancel' onClick={this.openAlert}/>
+                        <input type='button' data-id={obj.id} type='button' value='确认订单' className='ui-btn ui-btn-confirm' onClick={this.orderConfirm}/>
                     </div> 
                 </td>
             </tr>
@@ -122,8 +124,8 @@ class Order extends Component {
                 <td>{obj.create_time}</td>
                 <td>
                     <div className='ui-box-between'>
-                        <input data-id={obj.id} type='button' defaultValue='取消订单' className='ui-btn ui-btn-cancel' onClick={this.openAlert}/>
-                        <input data-id={obj.id} type='button' defaultValue='添加项目' className='ui-btn ui-btn-confirm'/>
+                        <input data-id={obj.id} type='button' value='取消订单' className='ui-btn ui-btn-cancel' onClick={this.openAlert}/>
+                        <input data-id={obj.id} type='button' value='添加项目' className='ui-btn ui-btn-confirm'/>
                     </div> 
                 </td>
             </tr>
@@ -143,16 +145,17 @@ class Order extends Component {
                     <div className='ui-box-between'><span>优惠金额</span><span>&yen;{obj.coupon_price}</span></div>
                 </td>
                 <td>{obj.sum}件</td>
-                <td>{obj.amount}</td>
+                <td className='red'>{obj.amount}</td>
                 <td>{obj.name}<br/>{obj.phone}</td>
                 <td>{obj.adr}</td>
                 <td>{obj.update_time}</td>
                 <td>
                     <div className='ui-box-between'>
-                        <input data-id={obj.id} defaultValue='衣物检查' className='ui-btn ui-btn-confirm'/>
+                        <input type='button' data-id={obj.id} value='衣物检查' className='ui-btn ui-btn-confirm'/>
                         <input 
+                            type='button' 
                             data-id={obj.id} 
-                            defaultValue='检查完成' 
+                            value='检查完成' 
                             className={'ui-btn ' + (1==obj.pay_state ? 'ui-btn-confirm' : 'ui-btn-cancel')}
                         />
                     </div>
@@ -174,11 +177,11 @@ class Order extends Component {
                     <div className='ui-box-between'><span>优惠金额</span><span>&yen;{obj.coupon_price}</span></div>
                 </td>
                 <td>{obj.sum}件</td>
-                <td>{obj.amount}</td>
+                <td className='red'>{obj.amount}</td>
                 <td>{obj.name}<br/>{obj.phone}</td>
                 <td>{obj.adr}</td>
                 <td>{obj.update_time}</td>
-                <td><input data-id={obj.id} defaultValue='清洗完成' className='ui-btn ui-btn-confirm'/></td>
+                <td><input type='button' data-id={obj.id} value='清洗完成' className='ui-btn ui-btn-confirm' onClick={this.cleanDone}/></td>
             </tr>
         );
         return items;
@@ -196,11 +199,11 @@ class Order extends Component {
                     <div className='ui-box-between'><span>优惠金额</span><span>&yen;{obj.coupon_price}</span></div>
                 </td>
                 <td>{obj.sum}件</td>
-                <td>{obj.amount}</td>
+                <td className='red'>{obj.amount}</td>
                 <td>{obj.name}<br/>{obj.phone}</td>
                 <td>{obj.adr}</td>
                 <td>{obj.update_time}</td>
-                <td><input data-id={obj.id} defaultValue='送件完成' className='ui-btn ui-btn-confirm'/></td>
+                <td><input type='button' data-id={obj.id} value='送件完成' className='ui-btn ui-btn-confirm' onClick={this.done}/></td>
             </tr>
         );
         return items;
@@ -213,6 +216,38 @@ class Order extends Component {
             api.U('orderHandle'), 
             api.data({token:this.props.token,id:id,state:state.choose})
         )
+        .then((response) => {
+            if (api.verify(response.data)) {
+                let index = id.inObjectArray(state.data,'id');
+                if (-1 !== index) {
+                    state.data.splice(index,1);
+                    let html = this.process[state.choose](state.data);
+                    this.setState({html:html});
+                }
+            }
+        });
+    }
+    //清洗完成
+    cleanDone(e) {
+        let state = this.state,
+            id = e.target.dataset.id;
+        axios.post(api.U('cleanDone'),api.data({token:this.props.token,id:id}))
+        .then((response) => {
+            if (api.verify(response.data)) {
+                let index = id.inObjectArray(state.data,'id');
+                if (-1 !== index) {
+                    state.data.splice(index,1);
+                    let html = this.process[state.choose](state.data);
+                    this.setState({html:html});
+                }
+            }
+        });
+    }
+    //送件完成
+    done(e) {
+        let state = this.state,
+            id = e.target.dataset.id;
+        axios.post(api.U('done'),api.data({token:this.props.token,id:id}))
         .then((response) => {
             if (api.verify(response.data)) {
                 let index = id.inObjectArray(state.data,'id');

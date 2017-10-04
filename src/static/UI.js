@@ -62,7 +62,7 @@ class Search extends Component {
         return (
             <div className='ui-search'>
                 <input type='text' placeholder={props.placeholder} onChange={this.handleChange}/>
-                <input type='button' value='搜索' data-word={state.word} onClick={props.callbackParent}/>
+                <input type='button' defaultValue='搜索' data-word={state.word} onClick={props.callbackParent}/>
             </div>
         );
     }
@@ -129,7 +129,7 @@ class CheckboxAlert extends Component {
                     <div className='ui-botton-area'>
                         <input 
                             type='button' 
-                            value={props.button} 
+                            defaultValue={props.button} 
                             onClick={this.onConfirm} 
                             className='ui-btn ui-btn-large ui-btn-confirm' 
                             data-checked={state.checked}
