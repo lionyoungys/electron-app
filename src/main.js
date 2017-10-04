@@ -8,6 +8,7 @@ import './main.css';
 import './static/api';
 import menus from './menus';
 import Order from './order/order';
+import Item from './order/item';
 const token = localStorage.getItem('token');
 //界面头部组件
 class Header extends Component {
@@ -32,14 +33,15 @@ class Main extends Component {
         this.state = {
             name:null,status:null,logo:null,orders:null,amount:null,count:null,    //数据状态
             option:null,menu:null,    //菜单栏样式状态
-            e:this.props.children    //右侧展示样式状态
+            e:this.props.children,param:null    //右侧展示样式状态 附带参数
         };
         this.monitorMenu = this.monitorMenu.bind(this);
         this.handleContainerView = this.handleContainerView.bind(this);
         //注册组件列表
         this.elements = {
-            index:Index,
-            order:Order
+            index:Index,    //首页
+            order:Order,    //订单处理
+            item:Item    //添加项目
         };
     }
     //获取店铺状态数据
@@ -64,8 +66,10 @@ class Main extends Component {
     }
 
     handleContainerView(e) {    //右侧界面动态转换事件方法
-        let element = e.target.dataset.e,
-            option = e.target.dataset.option;
+        let dataset = e.target.dataset,
+            element = dataset.e,
+            option = dataset.option,
+            param = dataset.param;
         if (
             'undefined' !== typeof element     //防止未注册组件崩溃
             && 
@@ -73,6 +77,7 @@ class Main extends Component {
         ) this.setState({e:element});
 
         if ('undefined' !== typeof option) this.setState({option:option});    //防止未注册菜单项
+        if ('undefined' !== typeof param) this.setState({param:param});
     }
 
     render() {
@@ -113,6 +118,7 @@ class Main extends Component {
                         token={props.token} 
                         amount={state.amount} 
                         count={state.count} 
+                        param={state.param}
                         changeView={this.handleContainerView}
                     />
                 </div>

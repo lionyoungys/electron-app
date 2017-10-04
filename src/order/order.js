@@ -125,7 +125,7 @@ class Order extends Component {
                 <td>
                     <div className='ui-box-between'>
                         <input data-id={obj.id} type='button' value='取消订单' className='ui-btn ui-btn-cancel' onClick={this.openAlert}/>
-                        <input data-id={obj.id} type='button' value='添加项目' className='ui-btn ui-btn-confirm'/>
+                        <input data-param={obj.id} data-e='item' type='button' value='添加项目' className='ui-btn ui-btn-confirm' onClick={this.props.changeView}/>
                     </div> 
                 </td>
             </tr>
@@ -145,7 +145,7 @@ class Order extends Component {
                     <div className='ui-box-between'><span>优惠金额</span><span>&yen;{obj.coupon_price}</span></div>
                 </td>
                 <td>{obj.sum}件</td>
-                <td className='red'>{obj.amount}</td>
+                <td className='ui-red'>{obj.amount}</td>
                 <td>{obj.name}<br/>{obj.phone}</td>
                 <td>{obj.adr}</td>
                 <td>{obj.update_time}</td>
@@ -177,7 +177,7 @@ class Order extends Component {
                     <div className='ui-box-between'><span>优惠金额</span><span>&yen;{obj.coupon_price}</span></div>
                 </td>
                 <td>{obj.sum}件</td>
-                <td className='red'>{obj.amount}</td>
+                <td className='ui-red'>{obj.amount}</td>
                 <td>{obj.name}<br/>{obj.phone}</td>
                 <td>{obj.adr}</td>
                 <td>{obj.update_time}</td>
@@ -199,7 +199,7 @@ class Order extends Component {
                     <div className='ui-box-between'><span>优惠金额</span><span>&yen;{obj.coupon_price}</span></div>
                 </td>
                 <td>{obj.sum}件</td>
-                <td className='red'>{obj.amount}</td>
+                <td className='ui-red'>{obj.amount}</td>
                 <td>{obj.name}<br/>{obj.phone}</td>
                 <td>{obj.adr}</td>
                 <td>{obj.update_time}</td>

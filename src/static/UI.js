@@ -7,9 +7,7 @@ import './UI.css';
 import './func';
 //面包屑导航栏 crumbs = [{key:索引key,e:跳转的视图组件,text:文字显示}] [index=首页跳转] [callbackParent=回调操作]
 class Crumbs extends Component {
-    constructor(props) {
-        super(props);
-    }
+    constructor(props) {super(props);}
     render() {
         let props = this.props,
             index = 'undefined' === typeof props.index ? 'index' : props.index,
