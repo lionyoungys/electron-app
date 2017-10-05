@@ -183,16 +183,16 @@ class Row extends Component {
             state = this.state;
         return (
             <tr className='ui-tr-d'>
-            <td style={{textAlign:'left',paddingLeft:'24px'}}>
-                <span 
-                    className={'ui-checkbox' + (state.isChoosing ? ' ui-checked' : '')} 
-                    onClick={this.toggleChecked}
-                >{props.name}</span>
-            </td>
-            <td>{props.category}</td>
-            <td className='ui-red'>{props.price}</td>
-            <td><Math callback={this.onMath}>{state.number}</Math></td>
-        </tr>
+                <td style={{textAlign:'left',paddingLeft:'24px'}}>
+                    <span 
+                        className={'ui-checkbox' + (state.isChoosing ? ' ui-checked' : '')} 
+                        onClick={this.toggleChecked}
+                    >{props.name}</span>
+                </td>
+                <td>{props.category}</td>
+                <td className='ui-red'>{props.price}</td>
+                <td><Math callback={this.onMath}>{state.number}</Math></td>
+            </tr>
         );
     }
 }

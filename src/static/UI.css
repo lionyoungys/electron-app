@@ -48,15 +48,18 @@
 }
 /* table样式 */
 .ui-table{width: 100%;}
-.ui-table th,.ui-table td{padding: 0 10px;text-align: center}
+.ui-table th,.ui-table td{padding: 0 10px;text-align: center;}
 .ui-table-b th,.ui-table-b td{border: 1px solid #b2b2b2;}
-.ui-fieldset{border: 1px solid #b2b2b2}    /* 线包字边框样式 */
+.ui-fieldset{border: 1px solid #b2b2b2;}    /* 线包字边框样式 */
 /* table tr样式 */
-.ui-tr-h{height: 38px;background: #eef8ff;font-size: 16px;vertical-align: middle}
-.ui-tr-d{height: 50px;vertical-align: middle}
+.ui-tr-h{height: 38px;background: #eef8ff;font-size: 16px;}
+.ui-tr-d{height: 50px;max-width: 390px;}
+.ui-tr-d img{width: 60px;height: 60px;padding: 20px 0;}
+.ui-tr-h th,.ui-tr-d td,.ui-tr-d img{vertical-align: middle;}
 /* table th td样式 */
 .ui-table .ui-b{border: 1px solid #b2b2b2;}
 .ui-red{color: red;}
+.ui-grey{color: #b2b2b2;}
 /* 按钮样式 */
 .ui-btn{
     font-size: 14px;height: 27px;padding: 0 12px;
@@ -66,6 +69,7 @@
 .ui-btn-large{height: 46px;padding: 0 82px;}    /* 大按钮样式 */
 .ui-btn-cancel{border:1px solid #b2b2b2;}    /* 取消按钮 */
 .ui-btn-confirm{background: #09b1b0;color: #fff;}    /* 确认按钮 */
+.ui-btn-editor{background: #ff6e42;color: #fff;}    /* 编辑按钮 */
 .ui-btn-tab{height: 42px;padding: 0 22px;font-size: 18px;background: #09b1b0;color: #fff;border-radius:0;}    /* tab样式的按钮 */
 /* 弹出框背景样式 */
 .ui-alert-bg{
