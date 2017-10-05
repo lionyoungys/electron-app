@@ -8,9 +8,11 @@ import Crumbs, {Tabs,Math} from '../static/UI';
 class Item extends Component {
     constructor(props) {
         super(props);
-        this.state = {choose:0,tabs:[],data:[],items:[],count:0};
+        this.state = {choose:0,tabs:[],data:[],items:[],count:0,isChanged:false};
         this.crumbs = [{text:'订单处理',key:0,e:'order'},{text:'添加项目',key:1}];    //面包屑参数
         this.handleClick = this.handleClick.bind(this);    //切换tab方法
+        this.handleCallback = this.handleCallback.bind(this);    //项目回调
+        this.next = this.next.bind(this);
     }
     componentDidMount() {    //获取项目列表
         let token = this.props.token,
@@ -41,8 +43,53 @@ class Item extends Component {
             console.log(tempData);
         });
     }
+    //项目加减回调方法
+    handleCallback(id, number, price) {
+        let orderId = this.props.param,
+            items = this.state.items,
+            index = id.inObjectArray(items,'type');
+        if (-1 == index && 1 == number) {
+            items.push({
+                orderid:orderId,
+                type:id,
+                price:price,
+                itemcount:1
+            });
+        } else {
+            if (0 == number) {
+                items.splice(index, 1);
+            } else {
+                items[index].itemcount = number;
+            }
+        }
+        let len = items.length,count = 0;
+        for (var i = 0;i < len;++i) {
+            count += items[i].itemcount * 1;
+        }
+        this.setState({isChanged:true,count:count});
+        console.log(this.state.items);
+    }
     //切换tab方法
     handleClick(e) {this.setState({choose:e.target.dataset.key});}
+    //点击确认下一步
+    next() {
+        let state = this.state,
+            props = this.props,
+            isChanged = state.isChanged,
+            items = state.items;
+        if (items.length < 1) return;
+        if (isChanged) {    //判断数据是否改变
+            let json = JSON.stringify(items);
+            axios.post(api.U('addItems'),api.data({token:props.token,id:props.param,val:json}))
+            .then((response) => {
+                let result = response.data;
+                console.log(result);
+            });
+        } else {
+
+        }
+
+    }
     render() {
         let props = this.props,
             state = this.state,
@@ -59,6 +106,7 @@ class Item extends Component {
                         if (-1 !== index) return state.items[index].itemcount;
                         return 0;
                     })()}
+                    callback={this.handleCallback}
                 />
             );
         }
@@ -72,7 +120,7 @@ class Item extends Component {
                             <div style={{height:'42px',lineHeight:'42px',minWidth:'106px',width:'auto'}}>
                                 已选择&nbsp;<span className='ui-red'>{state.count}</span>&nbsp;件
                             </div>
-                            <input type='button' value='下一步，工艺加价' className='ui-btn ui-btn-tab'/>
+                            <input type='button' value='下一步，工艺加价' className='ui-btn ui-btn-tab' onClick={this.next}/>
                         </div>
                     </div>
                     <section className='ui-content'>
@@ -99,28 +147,33 @@ class Row extends Component {
     }
     //复选框选中取消方法
     toggleChecked(e) {
-        let target = e.target;
+        let target = e.target,
+            props = this.props;
         if (target.classList.contains('ui-checked')) {
             this.setState({number:0});
+            props.callback(props.id, 0, props.price);
         } else {
             //选中样式
             this.setState({number:1});
+            props.callback(props.id, 1, props.price);
         }
         target.classList.toggle('ui-checked');
     }
     //计算件数方法
     onMath(isAdd) {
-        let number = this.state.number * 1,nowNumber;
+        let number = this.state.number * 1,
+            props = this.props;
         if (isAdd) {    //添加操作
-            nowNumber = number + 1;
-            this.setState({number:nowNumber});
-            if (1 == nowNumber) this.setState({isChoosing:true});
+            ++number;
+            this.setState({number:number});
+            if (1 == number) this.setState({isChoosing:true});
         } else {    //减少操作
             if (number < 1) return;
-            nowNumber = number - 1;
-            this.setState({number:nowNumber});
-            if (0 == nowNumber) this.setState({isChoosing:false});
+            --number
+            this.setState({number:number});
+            if (0 == number) this.setState({isChoosing:false});  
         }
+        props.callback(props.id,number,props.price);
     }
     render() {
         let props = this.props,
