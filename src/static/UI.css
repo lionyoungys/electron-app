@@ -4,8 +4,12 @@
 .ui-container{display: block;padding: 18px 16px 0;}
 .ui-content{padding-top: 20px;}
 .ui-box,.ui-box-between,.ui-content{display: flex;display: -webkit-flex;}
-.ui-search{display: inline-flex;display: -webkit-inline-flex;}
+.ui-search,.ui-math-container{display: inline-flex;display: -webkit-inline-flex;}
 .ui-box-between{justify-content: space-between}
+/* math 容器样式 */
+.ui-number{display: inline-block;padding: 0 20px;height: 19px;}
+.ui-subtract{display: inline-block;height: 19px;width: 19px;background: url(images/ui-subtract.png);}
+.ui-add{display: inline-block;height: 19px;width: 19px;background: url(images/ui-add.png);}
 /* 面包屑导航样式 */
 #crumbs{
     color: #242424;

@@ -4,14 +4,13 @@
  */
 import React, {Component} from 'react';
 import '../static/api';
-import Crumbs, {Tabs} from '../static/UI';
+import Crumbs, {Tabs,Math} from '../static/UI';
 class Item extends Component {
     constructor(props) {
         super(props);
-        this.state = {choose:0,tabs:[],data:[],items:[],html:null,count:0};
+        this.state = {choose:0,tabs:[],data:[],items:[],count:0};
         this.crumbs = [{text:'订单处理',key:0,e:'order'},{text:'添加项目',key:1}];    //面包屑参数
-        this.nameStyle = {textAlign:'left',paddingLeft:'24px'};
-        this.handleClick = this.handleClick.bind(this);
+        this.handleClick = this.handleClick.bind(this);    //切换tab方法
     }
     componentDidMount() {    //获取项目列表
         let token = this.props.token,
@@ -20,53 +19,57 @@ class Item extends Component {
         .then((response) => {
             let result = response.data.data,
                 len = result.length;
-            var html,tempLen,j,count = 0,tempTabs = [],tempData = [];
+            var tempLen,j,count = 0,tempTabs = [],tempData = [],tempItems = [];
             for (var i = 0;i < len;++i) {
-                tempTabs.push({key:i,text:result[i].type_name});
-                tempData.push(result[i].type);
+                tempTabs.push({key:i,text:result[i].type_name});    //获取所有选项卡
+                tempData.push(result[i].type);    //获取所有选项卡对应的数据
                 tempLen = result[i].type.length;
                 for (j = 0;j < tempLen;++j) {
-                    count += result[i].type[j].num * 1;
+                    if (0 != result[i].type[j].state_type) {
+                        count += result[i].type[j].num * 1;    //获取已选择件数的总数
+                        tempItems.push({    //获取所有已选择的项目
+                            orderid:orderId,
+                            type:result[i].type[j].id,
+                            price:result[i].type[j].price,
+                            itemcount:result[i].type[j].num
+                        });
+                    }
+                    
                 }
             }
-            html = tempData[0].map((obj) => 
-                <tr className='ui-tr-d' key={obj.id}>
-                    <td style={this.nameStyle}><span className='ui-checkbox'>{obj.name}</span></td>
-                    <td>{tempTabs[0].text}</td>
-                    <td className='red'>{obj.price}</td>
-                    <td>{obj.num}</td>
-                </tr>
-            );
-            this.setState({tabs:tempTabs,data:tempData,html:html,count:count});
-            console.log(result);
+            this.setState({tabs:tempTabs,data:tempData,items:tempItems,count:count});
+            console.log(tempData);
         });
     }
-    handleClick(e) {
-        let choose = e.target.dataset.key,
-            state = this.state,
-            html = state.data[choose].map((obj) => 
-                <tr className='ui-tr-d' key={obj.id}>
-                    <td style={this.nameStyle}><span className='ui-checkbox'>{obj.name}</span></td>
-                    <td>{state.tabs[choose].text}</td>
-                    <td className='red'>{obj.price}</td>
-                    <td>{obj.num}</td>
-                </tr>
-            );
-        console.log(state.data[choose]);
-        this.setState({choose:choose,html:html});
-    }
+    //切换tab方法
+    handleClick(e) {this.setState({choose:e.target.dataset.key});}
     render() {
         let props = this.props,
             state = this.state,
-            wordStyle = {height:'42px',lineHeight:'42px',minWidth:'106px',width:'auto'};
+            html = null;
+        if (state.data.length > 0) {
+            html = state.data[state.choose].map((obj) => 
+                <Row 
+                    key={obj.id} 
+                    id={obj.id} 
+                    name={obj.name} 
+                    price={obj.price} 
+                    number={(() => {
+                        let index = obj.id.inObjectArray(state.items,'type');
+                        if (-1 !== index) return state.items[index].itemcount;
+                        return 0;
+                    })()}
+                />
+            );
+        }
         return (
             <div>
-                <Crumbs crumbs={this.crumbs} callbackParent={props.changeView}/>
+                <Crumbs crumbs={this.crumbs} callback={props.changeView}/>
                 <section className='ui-container'>
                     <div className='ui-box-between'>
-                        <Tabs tabs={state.tabs} choose={state.choose} callbackParent={this.handleClick}/>
+                        <Tabs tabs={state.tabs} choose={state.choose} callback={this.handleClick}/>
                         <div className='ui-box-between'>
-                            <div style={wordStyle}>
+                            <div style={{height:'42px',lineHeight:'42px',minWidth:'106px',width:'auto'}}>
                                 已选择&nbsp;<span className='ui-red'>{state.count}</span>&nbsp;件
                             </div>
                             <input type='button' value='下一步，工艺加价' className='ui-btn ui-btn-tab'/>
@@ -78,12 +81,62 @@ class Item extends Component {
                                 <td>名称</td><td>所属分类</td><td>价格</td><td>件数</td>
                             </tr></thead>
                             <tbody className='ui-fieldset'>
-                                {state.html}
+                                {html}
                             </tbody>
                         </table>
                     </section>
                 </section>
             </div>
+        );
+    }
+}
+class Row extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {number:this.props.number,isChoosing:0 == this.props.number ? false : true};
+        this.toggleChecked = this.toggleChecked.bind(this);    //复选框选中取消方法
+        this.onMath = this.onMath.bind(this);    //计算件数方法
+    }
+    //复选框选中取消方法
+    toggleChecked(e) {
+        let target = e.target;
+        if (target.classList.contains('ui-checked')) {
+            this.setState({number:0});
+        } else {
+            //选中样式
+            this.setState({number:1});
+        }
+        target.classList.toggle('ui-checked');
+    }
+    //计算件数方法
+    onMath(isAdd) {
+        let number = this.state.number * 1,nowNumber;
+        if (isAdd) {    //添加操作
+            nowNumber = number + 1;
+            this.setState({number:nowNumber});
+            if (1 == nowNumber) this.setState({isChoosing:true});
+        } else {    //减少操作
+            if (number < 1) return;
+            nowNumber = number - 1;
+            this.setState({number:nowNumber});
+            if (0 == nowNumber) this.setState({isChoosing:false});
+        }
+    }
+    render() {
+        let props = this.props,
+            state = this.state;
+        return (
+            <tr className='ui-tr-d'>
+            <td style={{textAlign:'left',paddingLeft:'24px'}}>
+                <span 
+                    className={'ui-checkbox' + (state.isChoosing ? ' ui-checked' : '')} 
+                    onClick={this.toggleChecked}
+                >{props.name}</span>
+            </td>
+            <td>{props.category}</td>
+            <td className='ui-red'>{props.price}</td>
+            <td><Math callback={this.onMath}>{state.number}</Math></td>
+        </tr>
         );
     }
 }

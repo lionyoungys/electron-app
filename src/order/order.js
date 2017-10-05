@@ -8,7 +8,7 @@ import Crumbs, {Tabs,Search,CheckboxAlert} from '../static/UI';
 class Order extends Component {
     constructor(props) {
         super(props);
-        this.state = {choose:0,data:null,html:null,show:false,currentOrder:null};    //选项卡选择属性 当前数据 展示html 弹窗展示与否 当前订单
+        this.state = {choose:0,data:[],html:null,show:false,currentOrder:null};    //选项卡选择属性 当前数据 展示html 弹窗展示与否 当前订单
         this.handleClick = this.handleClick.bind(this);    //切换选项卡方法
         this.willDispose = this.willDispose.bind(this);    //待处理
         this.willTake = this.willTake.bind(this);    //待收件
@@ -304,11 +304,11 @@ class Order extends Component {
         let state = this.state;
         return (
             <div>
-                <Crumbs crumbs={[{text:'订单处理',key:1}]} callbackParent={this.props.changeView}/>
+                <Crumbs crumbs={[{text:'订单处理',key:1}]} callback={this.props.changeView}/>
                 <section className='ui-container'>
                     <div className='ui-box-between'>
-                        <Tabs tabs={this.tabs} choose={state.choose} callbackParent={this.handleClick}/>
-                        <Search placeholder='请输入订单号' callbackParent={this.handleSearch}/>
+                        <Tabs tabs={this.tabs} choose={state.choose} callback={this.handleClick}/>
+                        <Search placeholder='请输入订单号' callback={this.handleSearch}/>
                     </div>
                     <div className='ui-content'>
                         <table className='ui-table ui-table-b'>
@@ -323,7 +323,7 @@ class Order extends Component {
                     onClose={this.onClose} 
                     title='取消订单原因' 
                     button='取消订单'
-                    callbackParent={this.onConfirm}
+                    callback={this.onConfirm}
                 />
             </div>
         );

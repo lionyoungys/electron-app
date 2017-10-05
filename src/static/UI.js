@@ -5,7 +5,7 @@
 import React, {Component} from 'react';
 import './UI.css';
 import './func';
-//面包屑导航栏 crumbs = [{key:索引key,e:跳转的视图组件,text:文字显示}] [index=首页跳转] [callbackParent=回调操作]
+//面包屑导航栏 crumbs = [{key:索引key,e:跳转的视图组件,text:文字显示}] [index=首页跳转] [callback=回调操作]
 class Crumbs extends Component {
     constructor(props) {super(props);}
     render() {
@@ -14,18 +14,18 @@ class Crumbs extends Component {
             items = props.crumbs.map((obj) => 
                 <div key={obj.key}>
                     <em>&gt;</em>
-                    <span data-e={obj.e} onClick={props.callbackParent}>{obj.text}</span>
+                    <span data-e={obj.e} onClick={props.callback}>{obj.text}</span>
                 </div>
             );
         return (
             <nav id="crumbs">
                 位置&nbsp;:
-                <span data-e={index} onClick={props.callbackParent}>首页</span>{items}
+                <span data-e={index} onClick={props.callback}>首页</span>{items}
             </nav>
         );
     }
 }
-//选项卡 tabs=[{key:key,text:文字显示}] choose=选中的key  [callbackParent=回调操作]
+//选项卡 tabs=[{key:key,text:文字显示}] choose=选中的key  [callback=回调操作]
 class Tabs extends Component {
     constructor(props) {super(props);}
     render() {
@@ -36,7 +36,7 @@ class Tabs extends Component {
                     <div key={obj.key}
                          data-key={obj.key}
                          className={props.choose==obj.key?'ui-tab ui-tab-chosen':'ui-tab'}
-                         onClick={props.callbackParent}
+                         onClick={props.callback}
                     >
                         {obj.text}
                     </div>
@@ -44,7 +44,7 @@ class Tabs extends Component {
         return(<div>{items}</div>);
     }
 }
-//searchbar placeholder  [callbackParent=回调操作]
+//searchbar placeholder  [callback=回调操作]
 class Search extends Component {
     constructor(props) {
         super(props);
@@ -60,7 +60,7 @@ class Search extends Component {
         return (
             <div className='ui-search'>
                 <input type='text' placeholder={props.placeholder} onChange={this.handleChange}/>
-                <input type='button' defaultValue='搜索' data-word={state.word} onClick={props.callbackParent}/>
+                <input type='button' defaultValue='搜索' data-word={state.word} onClick={props.callback}/>
             </div>
         );
     }
@@ -93,7 +93,7 @@ class CheckboxAlert extends Component {
         this.checkedList = [];
         this.props.onClose();
     }
-    onConfirm() {this.props.callbackParent(this.checkedList);}
+    onConfirm() {this.props.callback(this.checkedList);}
     handleClick(e) {
         let node = e.target,
             text = e.target.innerText;
@@ -137,5 +137,24 @@ class CheckboxAlert extends Component {
         );
     }
 }
+//数学加减容器组件 innerText callback(true/false=+/-)
+class Math extends Component {
+    constructor(props) {
+        super(props);
+        this.onAdd = this.onAdd.bind(this);
+        this.onSubtract = this.onSubtract.bind(this);
+    }
+    onAdd() {this.props.callback(true);}
+    onSubtract(e) {this.props.callback(false);}
+    render() {
+        return (
+            <div className='ui-math-container'>
+                <em className='ui-subtract' onClick={this.onSubtract}></em>
+                <span className='ui-number'>{this.props.children}</span>
+                <em className='ui-add' onClick={this.onAdd}></em>
+            </div>
+        );
+    }
+}
 export default Crumbs;
-export {Tabs,Search,Notice,CheckboxAlert};
+export {Tabs,Search,Notice,CheckboxAlert,Math};
