@@ -9,6 +9,7 @@ import './static/api';
 import menus from './menus';
 import Order from './order/order';
 import Item from './order/item';
+import Craft from './order/craft';
 const token = localStorage.getItem('token');
 //界面头部组件
 class Header extends Component {
@@ -41,7 +42,8 @@ class Main extends Component {
         this.elements = {
             index:Index,    //首页
             order:Order,    //订单处理
-            item:Item    //添加项目
+            item:Item,    //添加项目
+            craft:Craft    //工艺加价
         };
     }
     //获取店铺状态数据
@@ -66,18 +68,21 @@ class Main extends Component {
     }
 
     handleContainerView(e) {    //右侧界面动态转换事件方法
-        let dataset = e.target.dataset,
-            element = dataset.e,
-            option = dataset.option,
-            param = dataset.param;
-        if (
-            'undefined' !== typeof element     //防止未注册组件崩溃
-            && 
-            this.state.e != element
-        ) this.setState({e:element});
-
-        if ('undefined' !== typeof option) this.setState({option:option});    //防止未注册菜单项
-        if ('undefined' !== typeof param) this.setState({param:param});
+        if ('undefined' === typeof e.target) {
+            this.setState({e:e.element,param:e.param});
+        } else {
+            let dataset = e.target.dataset,
+                element = dataset.e,
+                option = dataset.option,
+                param = dataset.param;
+            if (
+                'undefined' !== typeof element     //防止未注册组件崩溃
+                && 
+                this.state.e != element
+            ) this.setState({e:element});
+            if ('undefined' !== typeof option) this.setState({option:option});    //防止未注册菜单项
+            if ('undefined' !== typeof param) this.setState({param:param});
+        }
     }
 
     render() {

@@ -14,7 +14,7 @@ class Crumbs extends Component {
             items = props.crumbs.map((obj) => 
                 <div key={obj.key}>
                     <em>&gt;</em>
-                    <span data-e={obj.e} onClick={props.callback}>{obj.text}</span>
+                    <span data-e={obj.e} data-param={obj.param} onClick={props.callback}>{obj.text}</span>
                 </div>
             );
         return (

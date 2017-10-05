@@ -83,10 +83,13 @@ class Item extends Component {
             axios.post(api.U('addItems'),api.data({token:props.token,id:props.param,val:json}))
             .then((response) => {
                 let result = response.data;
+                if (api.verify(result)) {
+                    this.props.changeView({element:'craft',param:props.param});
+                }
                 console.log(result);
             });
         } else {
-
+            this.props.changeView({element:'craft',param:props.param});
         }
 
     }
