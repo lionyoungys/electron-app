@@ -156,5 +156,72 @@ class Math extends Component {
         );
     }
 }
+//工艺加价编辑价格弹窗  show=true/false callback(true/false=取消，确认,object=参数对象)
+class Special extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {special:'',hedging:'',comment:'',commentWordLength:0};
+        this.cancel = this.cancel.bind(this);    //点击取消方法
+        this.confirm = this.confirm.bind(this);    //点击确认方法
+        this.specialChange = this.specialChange.bind(this);
+        this.hedgingChange = this.hedgingChange.bind(this);
+        this.commentChange = this.commentChange.bind(this);
+    }
+    specialChange(e) {
+        if (isNaN(e.target.value)) return;
+        this.setState({special:e.target.value});
+    }
+    hedgingChange(e) {
+        if (isNaN(e.target.value)) return;
+        this.setState({hedging:e.target.value});
+    }
+    commentChange(e) {
+        let value = e.target.value;
+        this.setState({comment:value,commentWordLength:value.length});
+    }
+    cancel() {
+        this.props.callback(false);
+        this.setState({special:'',hedging:'',comment:'',commentWordLength:0});
+    }
+    confirm() {
+        let state = this.state;
+        this.props.callback(true,{special:state.special,hedging:state.hedging,comment:state.comment});
+        this.setState({special:'',hedging:'',comment:'',commentWordLength:0});
+    }
+    render() {
+        let props = this.props,
+            state = this.state;
+        if (!props.show) return null;
+        return (
+            <section className='ui-alert-bg'>
+                <div className='ui-special'>
+                    <div className='ui-special-row'>
+                        <label htmlFor='special'>特殊工艺加价：</label>
+                        <div className='ui-special-input-area'>
+                            <input type='text' id='special' onChange={this.specialChange} value={state.special}/>元
+                        </div>
+                    </div>
+                    <div className='ui-special-row'>
+                        <label htmlFor='hedging'>&emsp;&emsp;保值金额：</label>
+                        <div className='ui-special-input-area'>
+                            <input type='text' id='hedging' onChange={this.hedgingChange} value={state.hedging}/>元
+                        </div>
+                    </div>
+                    <div className='ui-special-row'>
+                        <label htmlFor='comment'>&emsp;&emsp;&emsp;&emsp;备注：</label>
+                        <div className='ui-special-text-area'>
+                            <textarea maxLength='40' id='comment' onChange={this.commentChange} value={state.comment}></textarea>
+                            <div className='ui-textarea-postfix'>{state.commentWordLength}/40</div>
+                        </div>
+                    </div>
+                    <div className='ui-special-btn-row'>
+                        <input type='button' value='取消' className='ui-btn ui-btn-cancel ui-btn-large' onClick={this.cancel}/>
+                        <input type='button' value='确认' className='ui-btn ui-btn-confirm ui-btn-large' onClick={this.confirm}/>
+                    </div>
+                </div>
+            </section>
+        );
+    }
+}
 export default Crumbs;
-export {Tabs,Search,Notice,CheckboxAlert,Math};
+export {Tabs,Search,Notice,CheckboxAlert,Math,Special};

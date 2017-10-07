@@ -68,6 +68,7 @@ class Main extends Component {
     }
 
     handleContainerView(e) {    //右侧界面动态转换事件方法
+        console.log(e);
         if ('undefined' === typeof e.target) {
             this.setState({e:e.element,param:e.param});
         } else {

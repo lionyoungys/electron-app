@@ -4,18 +4,23 @@
  */
 import React, {Component} from 'react';
 import '../static/api';
-import Crumbs, {Tabs,Math} from '../static/UI';
+import Crumbs, {Tabs,Math,Special} from '../static/UI';
 
 class Craft extends Component{
     constructor(props) {
         super(props);
-        this.state = {total:0,amount:0,freight:0,count:0,service:0,items:[]};
+        this.state = {
+            total:0,amount:0,freight:0,count:0,service:0,items:[],
+            show:false,tempId:null
+        };
         this.crumbs = [
             {text:'订单处理',key:0,e:'order'},
             {text:'添加项目',key:1,e:'item',param:this.props.param},
             {text:'工艺加价',key:2}
         ];    //面包屑参数
         this.callback = this.callback.bind(this);
+        this.alertCallback = this.alertCallback.bind(this);
+        this.done = this.done.bind(this);
     }
     componentDidMount() {
         let props = this.props;
@@ -33,8 +38,60 @@ class Craft extends Component{
             console.log(result);
         });
     }
-    callback() {
-
+    callback(id) {this.setState({show:true,tempId:id});}
+    alertCallback(isConfirm,object) {
+        let props = this.props,
+            state = this.state;
+        if (isConfirm) {
+            if ('' != object.special && 0 != object.special && '' != object.comment) {
+                axios.post(
+                    api.U('modifySpecial'),
+                    api.data({token:props.token,id:state.tempId,special:object.special,special_comment:object.comment})
+                )
+                .then((response) => {
+                    let result = response.data.data;
+                    this.setState({
+                        total:result.total,
+                        amount:result.amount,
+                        freight:result.freight,
+                        count:result.total_num,
+                        service:result.fuwu,
+                        items:result.list
+                    });
+                    console.log(result);
+                });
+            }
+            if ('' != object.hedging && 0 != object.hedging) {
+                let realAmount = (object.hedging / 200).toFixed(2);
+                axios.post(
+                    api.U('modifyHedging'),
+                    api.data({token:props.token,id:state.tempId,hedging:realAmount})
+                )
+                .then((response) => {
+                    let result = response.data.data;
+                    this.setState({
+                        total:result.total,
+                        amount:result.amount,
+                        freight:result.freight,
+                        count:result.total_num,
+                        service:result.fuwu,
+                        items:result.list
+                    });
+                    console.log(result);
+                });
+            }
+        }
+        this.setState({show:false,tempId:null});
+    }
+    done() {
+        let props = this.props;
+        axios.post(api.U('gotIt'),api.data({token:props.token,id:props.param}))
+        .then((response) => {
+            console.log(response.data);
+            if (api.verify(response.data)) {
+                props.changeView({element:'order'});
+            }
+        });
     }
     render() {
         let state = this.state,
@@ -84,20 +141,25 @@ class Craft extends Component{
                                 onClick={props.changeView}
                             />
                             &emsp;
-                            <input type='button' value='确认收件' className='ui-btn ui-btn-tab'/>
+                            <input type='button' value='确认收件' className='ui-btn ui-btn-tab' onClick={this.done}/>
                         </div>
                         <div style={{lineHeight:'42px',paddingRight:'32px',fontSize:'20px'}}>
                             总额：<span className='ui-red'>&yen;{state.total}</span>
                         </div>
                     </div>
                 </section>
+                <Special show={state.show} id={state.tempId} callback={this.alertCallback}/>
             </div>
         );
     }
 }
 
 class Row extends Component {
-    constructor(props) {super(props);}
+    constructor(props) {
+        super(props);
+        this.callback = this.callback.bind(this);
+    }
+    callback() {this.props.callback(this.props.id);}
     render() {
         let props = this.props,
             hasComment = '' != props.comment;
@@ -110,7 +172,7 @@ class Row extends Component {
                 <td>&yen;{props.hedging}</td>
                 <td>&yen;{props.special}</td>
                 <td className={hasComment ? null : 'ui-grey'}>{hasComment ? props.comment : '暂无备注'}</td>
-                <td><input type='button' value='编辑' className='ui-btn ui-btn-editor' onClick={props.callback}/></td>
+                <td><input type='button' value='编辑' className='ui-btn ui-btn-editor' onClick={this.callback}/></td>
             </tr>
         );
     }

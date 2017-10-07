@@ -1,5 +1,9 @@
 /* box-sizing注册 */
-.ui-search,.ui-alert-checkbox{box-sizing: border-box;-webkit-box-sizing: border-box;}
+.ui-search,
+.ui-alert-checkbox,
+.ui-special,
+.ui-special-input-area,
+.ui-special-text-area{box-sizing: border-box;-webkit-box-sizing: border-box;}
 /* 容器样式 */
 .ui-container{display: block;padding: 18px 16px 0;}
 .ui-content{padding-top: 20px;}
@@ -66,7 +70,7 @@
     text-align:center;vertical-align:middle;
     border-radius:5px;background: #fff;
 }
-.ui-btn-large{height: 46px;padding: 0 82px;}    /* 大按钮样式 */
+.ui-btn-large{height: 46px;padding: 0 64px;font-size: 20px;}    /* 大按钮样式 */
 .ui-btn-cancel{border:1px solid #b2b2b2;}    /* 取消按钮 */
 .ui-btn-confirm{background: #09b1b0;color: #fff;}    /* 确认按钮 */
 .ui-btn-editor{background: #ff6e42;color: #fff;}    /* 编辑按钮 */
@@ -101,3 +105,28 @@
     background-repeat: no-repeat;background-position: left center;
 }
 .ui-checked{background-image: url(images/ui-checked.png);}    /* 复选框选中样式 */
+/* 特殊工艺加价弹出框 */
+.ui-special{
+    width: 522px;height: 428px;background: #fff;
+    border-radius: 5px;padding: 56px 58px 32px 44px;
+    position: absolute;left: calc((100% - 522px) / 2);top: calc((100% - 428px) / 2);
+}
+.ui-special-row{margin-bottom: 22px;font-size: 18px;line-height: 38px;}
+.ui-special-btn-row{margin-top: 34px;padding: 0 12px 0 26px;}
+.ui-special-row,
+.ui-special-btn-row,
+.ui-special-input-area,
+.ui-special-text-area{display: flex;display: -webkit-flex;justify-content: space-between;}
+.ui-special-input-area{
+    width: 277px;height: 38px;border: 1px solid #b2b2b2;padding-right: 10px;line-height: 38px;
+}
+.ui-special-input-area input{width: 242px;height: 100%;font-size: 18px;line-height: 38px;}
+.ui-special-text-area{
+    width: 277px;height: 138px;border: 1px solid #b2b2b2;position: relative;overflow: hidden;
+}
+.ui-special-text-area textarea{height: 100%;width: 100%;resize:none;font-size: 18px;}
+/* 文本域后缀字数 */
+.ui-textarea-postfix{
+    display: inline-block;height: 18px;font-size: 16px;line-height: 18px;
+    position: absolute;bottom: 10px;right: 10px;color: grey;
+}
