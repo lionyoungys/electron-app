@@ -125,7 +125,7 @@ class Order extends Component {
                 <td>
                     <div className='ui-box-between'>
                         <input data-id={obj.id} type='button' value='取消订单' className='ui-btn ui-btn-cancel' onClick={this.openAlert}/>
-                        <input data-param={obj.id} data-e='item' type='button' value='添加项目' className='ui-btn ui-btn-confirm' onClick={this.props.changeView}/>
+                        <input data-param={'id=' + obj.id} data-e='item' type='button' value='添加项目' className='ui-btn ui-btn-confirm' onClick={this.props.changeView}/>
                     </div> 
                 </td>
             </tr>
@@ -151,7 +151,7 @@ class Order extends Component {
                 <td>{obj.update_time}</td>
                 <td>
                     <div className='ui-box-between'>
-                        <input type='button' data-id={obj.id} value='衣物检查' className='ui-btn ui-btn-confirm'/>
+                        <input type='button' data-e='check' data-param={'id=' + obj.id} value='衣物检查' className='ui-btn ui-btn-confirm' onClick={this.props.changeView}/>
                         <input 
                             type='button' 
                             data-id={obj.id} 

@@ -9,6 +9,7 @@ class Item extends Component {
     constructor(props) {
         super(props);
         this.state = {choose:0,tabs:[],data:[],items:[],count:0,isChanged:false};
+        this.id = this.props.param.paramToObject().id;
         this.crumbs = [{text:'订单处理',key:0,e:'order'},{text:'添加项目',key:1}];    //面包屑参数
         this.handleClick = this.handleClick.bind(this);    //切换tab方法
         this.handleCallback = this.handleCallback.bind(this);    //项目回调
@@ -16,8 +17,8 @@ class Item extends Component {
     }
     componentDidMount() {    //获取项目列表
         let token = this.props.token,
-            orderId = this.props.param;
-        axios.post(api.U('getItems'),api.data({token:token,orderid:orderId}))
+            orderId = this.id;
+        axios.post(api.U('getItems'),api.data({token:token,orderid:this.id}))
         .then((response) => {
             let result = response.data.data,
                 len = result.length;
@@ -45,7 +46,7 @@ class Item extends Component {
     }
     //项目加减回调方法
     handleCallback(id, number, price) {
-        let orderId = this.props.param,
+        let orderId = this.id,
             items = this.state.items,
             index = id.inObjectArray(items,'type');
         if (-1 == index && 1 == number) {
@@ -80,7 +81,7 @@ class Item extends Component {
         if (items.length < 1) return;
         if (isChanged) {    //判断数据是否改变
             let json = JSON.stringify(items);
-            axios.post(api.U('addItems'),api.data({token:props.token,id:props.param,val:json}))
+            axios.post(api.U('addItems'),api.data({token:props.token,id:this.id,val:json}))
             .then((response) => {
                 let result = response.data;
                 if (api.verify(result)) {

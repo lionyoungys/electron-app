@@ -9,6 +9,7 @@ import Crumbs, {Tabs,Math,Special} from '../static/UI';
 class Craft extends Component{
     constructor(props) {
         super(props);
+        this.id = this.props.param.paramToObject().id;
         this.state = {
             total:0,amount:0,freight:0,count:0,service:0,items:[],
             show:false,tempId:null
@@ -24,7 +25,7 @@ class Craft extends Component{
     }
     componentDidMount() {
         let props = this.props;
-        axios.post(api.U('editorPrice'),api.data({token:props.token,id:props.param}))
+        axios.post(api.U('editorPrice'),api.data({token:props.token,id:this.id}))
         .then((response) => {
             let result = response.data.data;
             this.setState({
@@ -85,7 +86,7 @@ class Craft extends Component{
     }
     done() {
         let props = this.props;
-        axios.post(api.U('gotIt'),api.data({token:props.token,id:props.param}))
+        axios.post(api.U('gotIt'),api.data({token:props.token,id:this.id}))
         .then((response) => {
             console.log(response.data);
             if (api.verify(response.data)) {

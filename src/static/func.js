@@ -40,4 +40,21 @@
         }
         return ret;
     };
+
+    /**
+     * 参数字符串转对象
+     * @return object
+     */
+    String.prototype.paramToObject = function () {
+        let paramArr = this.split('&'),
+            len = paramArr.length;
+        var obj = {},tempArr;
+        if (len > 0) {
+            for (var i = 0;i < len;++i) {
+                tempArr = paramArr[i].split('=');
+                obj[tempArr[0]] = decodeURIComponent(tempArr[1]);
+            }
+        }
+        return obj;
+    }
 })();

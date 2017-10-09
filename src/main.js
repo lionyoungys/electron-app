@@ -10,6 +10,7 @@ import menus from './menus';
 import Order from './order/order';
 import Item from './order/item';
 import Craft from './order/craft';
+import Check from './order/check';
 const token = localStorage.getItem('token');
 //界面头部组件
 class Header extends Component {
@@ -43,7 +44,8 @@ class Main extends Component {
             index:Index,    //首页
             order:Order,    //订单处理
             item:Item,    //添加项目
-            craft:Craft    //工艺加价
+            craft:Craft,    //工艺加价
+            check:Check    //衣物检查
         };
     }
     //获取店铺状态数据
@@ -68,7 +70,6 @@ class Main extends Component {
     }
 
     handleContainerView(e) {    //右侧界面动态转换事件方法
-        console.log(e);
         if ('undefined' === typeof e.target) {
             this.setState({e:e.element,param:e.param});
         } else {
