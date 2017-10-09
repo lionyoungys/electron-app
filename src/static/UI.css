@@ -7,9 +7,10 @@
 /* 容器样式 */
 .ui-container{display: block;padding: 18px 16px 0;}
 .ui-content{padding-top: 20px;}
-.ui-box,.ui-box-between,.ui-content{display: flex;display: -webkit-flex;}
+.ui-box,.ui-box-between,.ui-content,.ui-box-column{display: flex;display: -webkit-flex;}
 .ui-search,.ui-math-container{display: inline-flex;display: -webkit-inline-flex;}
 .ui-box-between{justify-content: space-between}
+.ui-box-column{flex-direction: column;}
 /* math 容器样式 */
 .ui-number{display: inline-block;padding: 0 20px;height: 19px;}
 .ui-subtract{display: inline-block;height: 19px;width: 19px;background: url(images/ui-subtract.png);}
@@ -129,4 +130,31 @@
 .ui-textarea-postfix{
     display: inline-block;height: 18px;font-size: 16px;line-height: 18px;
     position: absolute;bottom: 10px;right: 10px;color: grey;
+}
+/* 图片项目样式 */
+.ui-image{
+    width: 81px;height: 81px;
+    margin-right: 16px;font-size: 16px;
+    position: relative;text-align: right;
+    background-size: 81px 81px;
+    background-position: center;
+}
+.ui-image-add{background: url(images/ui-image-add.png) no-repeat center;}
+.ui-image-delete{
+    width: 20px;height: 20px;display: inline-block;
+    position: absolute;top: 0;right: 0;
+    background: url(images/ui-image-delete.png) no-repeat center;
+}
+/* 图片项目文字提醒 */
+.ui-image-text{height: 81px;width: 195px;position: relative;display: inline-block;text-align:center;}
+.ui-image-text-bottom{display: inline-block;color: #ff6f43;position: absolute;bottom:0;left:0;}
+/* 衣物检查界面样式 */
+.ui-check-title{height:36px;font-size:16px;line-height:36px;padding:0 15px;background: #eef8ff;}
+.ui-check-word{width:81px;height:31px;text-align:right;font-size:16px;line-height:30px;}
+.ui-check-container{padding: 0 14px;font-size: 16px;height: 30px;line-height: 30px;display: inline-block}
+.ui-check-btn{
+    width: 85px;height: 30px;
+    color: #fff;text-align: center;
+    line-height: 30px;font-size: 16px;
+    background: #ff6f43;
 }
