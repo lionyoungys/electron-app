@@ -5,9 +5,11 @@
 import React, {Component} from 'react';
 import '../static/api';
 import Crumbs from '../static/UI';
+import {colorConfig} from '../static/config';
 
 class Color extends Component {
     constructor(props) {
+        console.log(colorConfig);
         super(props);
         this.params = this.props.param.paramToObject();    //参数列表
         this.orderId = this.params.orderId;    //订单ID

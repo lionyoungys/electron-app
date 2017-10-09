@@ -47,7 +47,14 @@ class Check extends Component {
                 <Crumbs  crumbs={this.crumbs} callback={props.changeView}/>
                 {html}
                 <div className='ui-container'>
-                    <input type='button' value='确认' className='ui-btn ui-btn-confirm ui-btn-large'/>
+                    <input 
+                        type='button' 
+                        value='确认' 
+                        className='ui-btn ui-btn-confirm ui-btn-large'
+                        onClick={props.changeView}
+                        data-param='choose=2'
+                        data-e='order'
+                    />
                 </div>
             </div>
         );

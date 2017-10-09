@@ -8,7 +8,14 @@ import Crumbs, {Tabs,Search,CheckboxAlert} from '../static/UI';
 class Order extends Component {
     constructor(props) {
         super(props);
-        this.state = {choose:0,data:[],html:null,show:false,currentOrder:null};    //选项卡选择属性 当前数据 展示html 弹窗展示与否 当前订单
+        this.params = (
+            'undefined' === typeof this.props.param 
+            || 
+            null == this.props.param
+        ) ? {} : this.props.param.paramToObject();    //参数列表
+        this.state = {
+            choose:'undefined' !== typeof this.params.choose ? this.params.choose : 0,
+            data:[],html:null,show:false,currentOrder:null};    //选项卡选择属性 当前数据 展示html 弹窗展示与否 当前订单
         this.handleClick = this.handleClick.bind(this);    //切换选项卡方法
         this.willDispose = this.willDispose.bind(this);    //待处理
         this.willTake = this.willTake.bind(this);    //待收件
@@ -73,10 +80,10 @@ class Order extends Component {
         this.process = [this.willDispose,this.willTake,this.willClean,this.cleaning,this.willDelivery];
     }
     componentDidMount() {
-        axios.post(api.U('orderHandle'),api.data({token:this.props.token,state:0}))
+        axios.post(api.U('orderHandle'),api.data({token:this.props.token,state:this.state.choose}))
         .then((response) => {
             let result = response.data,
-                html = this.process[0](result.data);
+                html = this.process[this.state.choose](result.data);
             this.setState({data:result.data,html:html});
         });
     }
