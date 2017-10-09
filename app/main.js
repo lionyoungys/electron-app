@@ -3,6 +3,7 @@ const electron = require('electron'),
       app = electron.app,
       BrowserWindow = electron.BrowserWindow,
       ipcMain = electron.ipcMain,
+      dialog = electron.dialog,
       path = require('path'),
       url = require('url');
 

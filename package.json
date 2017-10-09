@@ -19,6 +19,7 @@
   "homepage": "https://github.com/2425047228/electron#readme",
   "dependencies": {
     "axios": "^0.16.2",
+    "base64-img": "^1.0.3",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
