@@ -11,6 +11,8 @@ import Order from './order/order';
 import Item from './order/item';
 import Craft from './order/craft';
 import Check from './order/check';
+import Color from './order/color';
+import Question from './order/question';
 const token = localStorage.getItem('token');
 //界面头部组件
 class Header extends Component {
@@ -45,7 +47,9 @@ class Main extends Component {
             order:Order,    //订单处理
             item:Item,    //添加项目
             craft:Craft,    //工艺加价
-            check:Check    //衣物检查
+            check:Check,    //衣物检查
+            color:Color,    //颜色设置
+            question:Question    //问题描述
         };
     }
     //获取店铺状态数据

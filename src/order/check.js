@@ -46,6 +46,9 @@ class Check extends Component {
             <div>
                 <Crumbs  crumbs={this.crumbs} callback={props.changeView}/>
                 {html}
+                <div className='ui-container'>
+                    <input type='button' value='确认' className='ui-btn ui-btn-confirm ui-btn-large'/>
+                </div>
             </div>
         );
     }
@@ -57,6 +60,8 @@ class Item extends Component {
         this.state = {images:this.props.images};
         this.deleteImage = this.deleteImage.bind(this);    //删除图片
         this.addImage = this.addImage.bind(this);    //添加图片
+        this.color = this.color.bind(this);    //颜色设置跳转
+        this.question = this.question.bind(this);    //问题描述跳转
     }
 
     deleteImage(e) {
@@ -108,6 +113,21 @@ class Item extends Component {
         });
     }
 
+    color() {
+        let props = this.props;
+        props.changeView({
+            element:'color',
+            param:'orderId='+props.orderId+'&id='+props.id+'&color='+props.color
+        });
+    }
+
+    question() {
+        let props = this.props;
+        props.changeView({
+            element:'question',
+            param:'orderId='+props.orderId+'&id='+props.id+'&question='+props.question
+        });
+    }
     render() {
         let props = this.props,
             state = this.state,
@@ -140,12 +160,12 @@ class Item extends Component {
                 <div className='ui-content' style={{flexWrap:'wrap'}}>
                     <div className='ui-check-word'>颜色:</div>
                     <div className='ui-check-container'>{props.color}</div>
-                    <input type='button' value={colorValue} className='ui-check-btn'/>
+                    <input type='button' value={colorValue} className='ui-check-btn' onClick={this.color}/>
                 </div>
                 <div className='ui-content' style={{flexWrap:'wrap'}}>
                     <div className='ui-check-word'>问题描述:</div>
                     <div className='ui-check-container'>{props.question}</div>
-                    <input type='button' value={questionValue} className='ui-check-btn'/>
+                    <input type='button' value={questionValue} className='ui-check-btn' onClick={this.question}/>
                 </div>
             </div>
         );
