@@ -7,7 +7,8 @@
 /* 容器样式 */
 .ui-container{display: block;padding: 18px 16px 0;}
 .ui-content{padding-top: 20px;}
-.ui-box,.ui-box-between,.ui-content,.ui-box-column{display: flex;display: -webkit-flex;}
+.ui-box,.ui-box-between,.ui-content,.ui-box-column,
+.ui-question-choose-bar{display: flex;display: -webkit-flex;}
 .ui-search,.ui-math-container{display: inline-flex;display: -webkit-inline-flex;}
 .ui-box-between{justify-content: space-between}
 .ui-box-column{flex-direction: column;}
@@ -148,6 +149,17 @@
 /* 图片项目文字提醒 */
 .ui-image-text{height: 81px;width: 195px;position: relative;display: inline-block;text-align:center;}
 .ui-image-text-bottom{display: inline-block;color: #ff6f43;position: absolute;bottom:0;left:0;}
+/* 选中项目样式 */
+.ui-chosen-item{
+    height: 29px;line-height: 29px;border: 1px solid #cccccc;padding: 0 20px;
+    position: relative;font-size: 16px;display: inline-block;margin: 0 20px 10px 0;
+}
+.ui-chosen-item-cancel{
+    display: inline-block;position: absolute;
+    top: -10px;right: -10px;
+    width: 20px;height: 20px;
+    background: url(images/ui-cancel.png) no-repeat;
+}
 /* 衣物检查界面样式 */
 .ui-check-title{height:36px;font-size:16px;line-height:36px;padding:0 15px;background: #eef8ff;}
 .ui-check-word{width:81px;height:31px;text-align:right;font-size:16px;line-height:30px;}
@@ -157,4 +169,13 @@
     color: #fff;text-align: center;
     line-height: 30px;font-size: 16px;
     background: #ff6f43;
+}
+/* 颜色设置 问题描述界面样式 */
+.ui-question-choose-word{height: 31px;line-height: 31px;width: 70px;font-size: 16px;}
+.ui-question-choose-bar{width: calc(100% - 170px);flex-wrap: wrap;}
+.ui-question-title{
+    font-size: 16px;border: 1px solid #cccccc;padding: 0 12px;
+    height: 38px;display: block;line-height: 38px;background: #eef8ff;
+    display: flex;display: -webkit-flex;justify-content: space-between;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
 }

@@ -27,6 +27,22 @@ class Color extends Component {
         return (
             <div>
                 <Crumbs crumbs={this.crumbs} callback={props.changeView}/>
+                <div className='ui-container'>
+                    <div className='ui-box'>
+                        <div className='ui-question-choose-word'>已选择:</div>
+                        <div className='ui-question-choose-bar'>
+                            <div className='ui-chosen-item'>
+                                有羽绒服内胆<em className='ui-chosen-item-cancel'></em>
+                            </div>
+                        </div>
+                        <input type='button' value='确认' className='ui-btn-tab'/>
+                    </div>
+                    <div className='ui-content'>
+                        <div>
+                            <div className='ui-question-title'></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
