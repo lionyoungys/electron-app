@@ -23,7 +23,7 @@ class Menus {
                     text:'线下收银'
                 },
                 options:[
-                    {id:21, text:'收衣'},
+                    {id:21, text:'收衣',e:'take'},
                     {id:22, text:'送洗'},
                     {id:23, text:'上挂'},
                     {id:24, text:'取衣'},

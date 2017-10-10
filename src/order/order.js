@@ -99,8 +99,8 @@ class Order extends Component {
             this.setState({choose:state,data:result.data,html:html});
         });
     }
-    handleSearch(e) {
-        console.log(e.target.dataset.word);
+    handleSearch(word) {
+        console.log(word);
     }
     //待处理
     willDispose(data) {

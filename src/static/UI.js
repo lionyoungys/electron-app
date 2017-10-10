@@ -48,19 +48,21 @@ class Tabs extends Component {
 class Search extends Component {
     constructor(props) {
         super(props);
-        this.state = {word:null};
+        this.state = {word:''};
         this.handleChange = this.handleChange.bind(this);
+        this.search = this.search.bind(this);
     }
     handleChange(e) {
         this.setState({word:e.target.value});
     }
+    search() {this.props.callback(this.state.word)}
     render() {
         let props = this.props,
             state = this.state;
         return (
             <div className='ui-search'>
                 <input type='text' placeholder={props.placeholder} onChange={this.handleChange}/>
-                <input type='button' defaultValue='搜索' data-word={state.word} onClick={props.callback}/>
+                <input type='button' value='搜索' onClick={this.search}/>
             </div>
         );
     }

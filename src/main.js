@@ -13,6 +13,7 @@ import Craft from './order/craft';
 import Check from './order/check';
 import Color from './order/color';
 import Question from './order/question';
+import Take from './offline/take';
 const token = localStorage.getItem('token');
 //界面头部组件
 class Header extends Component {
@@ -49,7 +50,8 @@ class Main extends Component {
             craft:Craft,    //工艺加价
             check:Check,    //衣物检查
             color:Color,    //颜色设置
-            question:Question    //问题描述
+            question:Question,    //问题描述
+            take:Take    //线下收衣
         };
     }
     //获取店铺状态数据
