@@ -35,6 +35,8 @@ class Take extends Component {
                         merchantCard:data.card_number,merchantLevel:data.card_name,
                         merchantBalance:data.balance
                     });
+                } else {
+                    props.changeView({element:'addMember'});
                 }
             });
         }

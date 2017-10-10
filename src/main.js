@@ -14,6 +14,7 @@ import Check from './order/check';
 import Color from './order/color';
 import Question from './order/question';
 import Take from './offline/take';
+import AddMember from './offline/addMember';
 const token = localStorage.getItem('token');
 //界面头部组件
 class Header extends Component {
@@ -51,7 +52,8 @@ class Main extends Component {
             check:Check,    //衣物检查
             color:Color,    //颜色设置
             question:Question,    //问题描述
-            take:Take    //线下收衣
+            take:Take,    //线下收衣
+            addMember:AddMember    //散客信息
         };
     }
     //获取店铺状态数据
