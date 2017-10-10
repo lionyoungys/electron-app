@@ -223,5 +223,58 @@ class Special extends Component {
         );
     }
 }
+//问题描述及颜色设置菜单栏    header 大分类    options 选项列表及小分类    chosenArr 已选择的列表数组    callback 选中／取消切换
+class QCmenu extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {isSpread:false};
+        this.toggleState = this.toggleState.bind(this);    //切换展示样式
+        this.toggleChecked = this.toggleChecked.bind(this);    //取消／选中操作
+        
+    }
+    toggleState() {this.setState({isSpread:!this.state.isSpread});}
+    toggleChecked(e) {
+        let target = e.target;
+        if (target.classList.contains('ui-checked')) {
+            this.props.callback(false,target.innerText);
+        } else {
+            this.props.callback(true,target.innerText);
+        }
+        target.classList.toggle('ui-checked');
+    }
+
+    render() {
+        let props = this.props,
+            state = this.state,
+            icon = state.isSpread ? 'ui-question-spread' : 'ui-question-shrink',
+            display = {display:state.isSpread ? 'block' : 'none'},
+            html = props.options.map((obj,index) => 
+                <div key={index}>
+                    {'' == obj.title ? null : <div className='ui-question-item-title'>{obj.title}</div>}
+                    <div className='ui-question-item-container'>
+                        {obj.list.map((item) =>
+                            <div 
+                                className={'ui-checkbox ui-question-item' + (-1 != item.inArray(props.chosenArr) ? ' ui-checked' : '')} 
+                                key={item} 
+                                onClick={this.toggleChecked}
+                            >
+                                {item}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        return (
+            <div className='ui-question-container '>
+                <div className='ui-question-title'>
+                    <span>{props.header}</span>
+                    <em className={icon} onClick={this.toggleState}></em>
+                </div>
+                <div style={display}>{html}</div>
+            </div>
+        );
+    }
+}
+
 export default Crumbs;
-export {Tabs,Search,Notice,CheckboxAlert,Math,Special};
+export {Tabs,Search,Notice,CheckboxAlert,Math,Special,QCmenu};

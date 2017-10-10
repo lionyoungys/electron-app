@@ -173,9 +173,20 @@
 /* 颜色设置 问题描述界面样式 */
 .ui-question-choose-word{height: 31px;line-height: 31px;width: 70px;font-size: 16px;}
 .ui-question-choose-bar{width: calc(100% - 170px);flex-wrap: wrap;}
+.ui-question-container{width: 100%;}
 .ui-question-title{
     font-size: 16px;border: 1px solid #cccccc;padding: 0 12px;
-    height: 38px;display: block;line-height: 38px;background: #eef8ff;
+    height: 38px;line-height: 38px;background: #eef8ff;
     display: flex;display: -webkit-flex;justify-content: space-between;
-    box-sizing: border-box;-webkit-box-sizing: border-box;
+    box-sizing: border-box;-webkit-box-sizing: border-box;align-items:center;
 }
+/*颜色问题展开收缩样式*/
+.ui-question-shrink,
+.ui-question-spread{display: inline-block;width: 22px;height: 22px;}
+.ui-question-shrink{background: url(images/ui-question-shrink.png) no-repeat;}
+.ui-question-spread{background: url(images/ui-question-spread.png) no-repeat;}
+.ui-question-item-container{
+    display: flex;display: -webkit-flex;flex-wrap: wrap;margin-top:20px;
+}
+.ui-question-item-title{width: 100%;font-size: 16px;color: #09b1b0;line-height: 24px;}
+.ui-question-item{margin: 0 40px 20px 0;}
