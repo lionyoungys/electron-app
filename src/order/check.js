@@ -13,7 +13,7 @@ class Check extends Component {
         this.state = {data:[]};
         this.params = this.props.param.paramToObject();    //参数列表
         this.id = this.params.id;    //订单ID
-        this.crumbs = [{text:'订单处理',key:0,e:'order'},{text:'衣物检查',key:1}];
+        this.crumbs = [{text:'订单处理',key:0,e:'order',param:'choose=2'},{text:'衣物检查',key:1}];
     }
     componentDidMount() {
         console.log(dialog);

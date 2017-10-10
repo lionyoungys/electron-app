@@ -75,6 +75,7 @@
 .ui-btn-large{height: 46px;padding: 0 64px;font-size: 20px;}    /* 大按钮样式 */
 .ui-btn-cancel{border:1px solid #b2b2b2;}    /* 取消按钮 */
 .ui-btn-confirm{background: #09b1b0;color: #fff;}    /* 确认按钮 */
+.ui-btn-grey{background: grey;color: #fff;}    /* 按钮至灰 */
 .ui-btn-editor{background: #ff6e42;color: #fff;}    /* 编辑按钮 */
 .ui-btn-tab{height: 42px;padding: 0 22px;font-size: 18px;background: #09b1b0;color: #fff;border-radius:0;}    /* tab样式的按钮 */
 /* 弹出框背景样式 */
@@ -190,3 +191,9 @@
 }
 .ui-question-item-title{width: 100%;font-size: 16px;color: #09b1b0;line-height: 24px;}
 .ui-question-item{margin: 0 40px 20px 0;}
+/* 提示框样式 */
+.ui-notification{
+    color:#fff;background:black;border-radius:3px;opacity:0.7;
+    font-size:16px;height:30px;line-height:30px;
+    text-align:center;padding: 0 20px;
+}

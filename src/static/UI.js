@@ -74,12 +74,28 @@ class Notice extends Component {
             style = {
                 color:'rgb(255,255,255)',background:'black',borderRadius:'3px',fontSize:'16px',
                 height:'30px',lineHeight:'30px',width:'180px',textAlign:'center',
-                display:this.props.display ? 'inline-block' : 'none',overflow:'hidden',
+                display:props.display ? 'inline-block' : 'none',overflow:'hidden',
                 position:'fixed',left:'calc((100% - 180px) / 2)',top:top
             };
-        return (<div style={style}>{this.props.text}</div>);
+            if ('boolean' === typeof props.show && !props.show) return null;
+        return (<div style={style}>{props.text}</div>);
     }
 }
+//相对定位提示框    show=true/false width=宽度
+class Notification extends Component {
+    constructor(props) {super(props);}
+    render() {
+        let props = this.props,
+            style = {
+                width:props.width + 'px', 
+                position:'fixed',
+                top:'calc((100% - 30px) / 2)',
+                left:'calc((100% - ' + props.width + 'px) / 2)'
+            };
+        if (!props.show) return null;
+        return (<div className='ui-notification' style={style}>{props.children}</div>);
+    }
+} 
 //多选弹出框    show=true/false title=标题 button=按钮内容 是否展示 checkboxs=[{text:text,key:key}]
 class CheckboxAlert extends Component {
     constructor(props) {
@@ -277,4 +293,4 @@ class QCmenu extends Component {
 }
 
 export default Crumbs;
-export {Tabs,Search,Notice,CheckboxAlert,Math,Special,QCmenu};
+export {Tabs,Search,Notice,CheckboxAlert,Math,Special,QCmenu,Notification};

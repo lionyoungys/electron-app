@@ -4,7 +4,7 @@
  */
 import React, {Component} from 'react';
 import '../static/api';
-import Crumbs, {Tabs,Search,CheckboxAlert} from '../static/UI';
+import Crumbs, {Tabs,Search,CheckboxAlert,Notification} from '../static/UI';
 class Order extends Component {
     constructor(props) {
         super(props);
@@ -15,7 +15,9 @@ class Order extends Component {
         ) ? {} : this.props.param.paramToObject();    //参数列表
         this.state = {
             choose:'undefined' !== typeof this.params.choose ? this.params.choose : 0,
-            data:[],html:null,show:false,currentOrder:null};    //选项卡选择属性 当前数据 展示html 弹窗展示与否 当前订单
+            data:[],html:null,show:false,currentOrder:null,
+            showNotice:false,noticeMsg:'用户尚未付款，您暂时不能做此操作'
+        };    //选项卡选择属性 当前数据 展示html 弹窗展示与否 当前订单
         this.handleClick = this.handleClick.bind(this);    //切换选项卡方法
         this.willDispose = this.willDispose.bind(this);    //待处理
         this.willTake = this.willTake.bind(this);    //待收件
@@ -24,6 +26,7 @@ class Order extends Component {
         this.willDelivery = this.willDelivery.bind(this);    //待送达
         this.generateItemsList = this.generateItemsList.bind(this);    //项目列表生成器
         this.orderConfirm = this.orderConfirm.bind(this);    //确认订单方法
+        this.checkDone = this.checkDone.bind(this);    //检查完成方法
         this.cleanDone = this.cleanDone.bind(this);    //清洗完成方法
         this.done = this.done.bind(this);    //送件完成方法
         this.onClose = this.onClose.bind(this);    //弹窗关闭方法
@@ -164,7 +167,8 @@ class Order extends Component {
                             type='button' 
                             data-id={obj.id} 
                             value='检查完成' 
-                            className={'ui-btn ' + (1==obj.pay_state ? 'ui-btn-confirm' : 'ui-btn-cancel')}
+                            className={'ui-btn ' + (1==obj.pay_state ? 'ui-btn-confirm' : 'ui-btn-grey')}
+                            onClick={this.checkDone}
                         />
                     </div>
                 </td>
@@ -241,15 +245,53 @@ class Order extends Component {
             id = e.target.dataset.id;
         axios.post(api.U('cleanDone'),api.data({token:this.props.token,id:id}))
         .then((response) => {
-            if (api.verify(response.data)) {
+            let result = response.data;
+            if (api.verify(result)) {
                 let index = id.inObjectArray(state.data,'id');
                 if (-1 !== index) {
                     state.data.splice(index,1);
                     let html = this.process[state.choose](state.data);
                     this.setState({html:html});
                 }
+            } else {
+
             }
         });
+    }
+    //检查完成
+    checkDone(e) {
+        let target = e.target,
+            id = target.dataset.id,
+            state = this.state;
+        if (target.classList.contains('ui-btn-confirm')) {
+            axios.post(api.U('checkDone'),api.data({token:this.props.token,orderid:id}))
+            .then((response) => {
+                let result = response.data;
+                console.log(response.data);
+                if (api.verify(result)) {
+                    let index = id.inObjectArray(state.data,'id');
+                    if (-1 !== index) {
+                        state.data.splice(index,1);
+                        let html = this.process[state.choose](state.data);
+                        this.setState({html:html});
+                    }
+                } else {
+                    this.setState({showNotice:true,noticeMsg:result.status});
+                    setTimeout(()=>{
+                        if ('undefined' !== state.showNotice && null !== state.showNotice) {
+                            this.setState({showNotice:false});
+                        }
+                    },3000);
+                }
+            });
+        } else {
+            this.setState({showNotice:true,noticeMsg:'用户尚未付款，您暂时不能做此操作'});
+            setTimeout(()=>{
+                if ('undefined' !== state.showNotice && null !== state.showNotice) {
+                    this.setState({showNotice:false});
+                }
+            },3000);
+        }
     }
     //送件完成
     done(e) {
@@ -333,6 +375,9 @@ class Order extends Component {
                     button='取消订单'
                     callback={this.onConfirm}
                 />
+                <Notification show={state.showNotice} width='320'>
+                    {state.noticeMsg}
+                </Notification>
             </div>
         );
     }
