@@ -36,7 +36,7 @@ class Take extends Component {
                         merchantBalance:data.balance
                     });
                 } else {
-                    props.changeView({element:'addMember'});
+                    props.changeView({element:'addMember',param:'mobile=' + word});
                 }
             });
         }
