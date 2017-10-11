@@ -12,21 +12,57 @@ class AddMember extends Component {
         this.crumbs = [{key:0,text:'收衣',e:'take'},{key:1,text:'散客信息'}];
         this.params = this.props.param.paramToObject();
         this.mobile = this.params.mobile;
-        this.state = {ucode:'',sex:'女',name:''};
+        this.state = {ucode:'',sex:'女',name:'',birthday:'1980-01-01'};
         this.toggleRadio = this.toggleRadio.bind(this);
         this.handleChange  = this.handleChange.bind(this);
-        this.toggleDate = this.toggleDate.bind(this);
+        this.done = this.done.bind(this);
     }
     componentDidMount() {
+        //laydate plugin init
+        laydate.render({
+            elem:this.dateNode,
+            value:'1980-01-01',
+            min:'1980-01-01',max:0,
+            btns: ['now', 'confirm'],
+            theme:'#ff6e42',
+            done:(value) => {this.setState({birthday:value})}
+        });
         axios.post(api.U('getNewUcode'),api.data({token:this.props.token}))
         .then((response) => {
             this.setState({ucode:response.data.data.ucode});
         });
     }
 
-    toggleRadio(e) {this.setState({sex:e.target.innerText});}
+    toggleRadio(e) {this.setState({sex:e.target.innerText});console.log(this.state)}
     handleChange(e) {this.setState({name:e.target.value});}
-    toggleDate(e) {
+    done() {
+        let state = this.state,
+            props = this.props;
+        if ('' == state.name || '' == state.ucode || this.mobile.length != 11) return;
+        axios.post(
+            api.U('addNewMember'),
+            api.data({
+                token:props.token,
+                ucode:state.ucode,
+                uname:state.name,
+                sex:state.sex,
+                mobile:this.mobile,
+                birthday:state.birthday
+            })
+        )
+        .then((response) => {
+            let result = response.data;
+            console.log(result);
+            if (api.verify(result)) {
+                let user = result.user;
+                axios.post(api.U('createOrder'),api.data({token:props.token,uid:user}))
+                .then((res) => {
+                    let orderId = res.data.data.order_id;
+                    props.changeView({element:'item',param:'id=' + orderId + '&from=offline'});
+                });
+            }
+        });
+
     }
 
     render() {
@@ -73,10 +109,17 @@ class AddMember extends Component {
                         <span>会员生日:</span>
                         <input 
                             type='text' 
-                            value='1980-01-01' 
                             className='ui-input ui-text-center' 
                             readOnly
-                            onClick={this.toggleDate}
+                            ref={(input) => {this.dateNode = input}}
+                        />
+                    </div>
+                    <div style={{paddingTop:'80px',textAlign:'center'}}>
+                        <input 
+                            type='button' 
+                            value='收衣下单' 
+                            className='ui-btn ui-btn-confirm ui-btn-large'
+                            onClick={this.done}
                         />
                     </div>
                 </div>

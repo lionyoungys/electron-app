@@ -10,12 +10,13 @@ class Take extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name:'',mobile:'',time:'',orders:[],
+            id:'',name:'',mobile:'',time:'',orders:[],
             platformCard:'',platformLevel:'',platformBalance:'',
             merchantCard:'',merchantLevel:'',merchantBalance:''
         };
         this.crumbs = [{key:0,text:'收衣'}];
         this.search = this.search.bind(this);
+        this.next = this.next.bind(this);
     }
     search(word) {
         let props = this.props,
@@ -28,6 +29,7 @@ class Take extends Component {
                 if (api.verify(result)) {
                     let data = result.data;
                     this.setState({
+                        id:data.id,
                         name:data.username,mobile:data.mobile,time:data.join_time,orders:data.orders,
                         platformCard:data.platform_card.card_number,
                         platformLevel:1 == data.platform_card.card_type ? '金牌会员卡' : '钻石会员卡',
@@ -41,6 +43,15 @@ class Take extends Component {
             });
         }
         console.log(word);
+    }
+
+    next() {
+        if ('' == this.state.id) return;
+        axios.post(api.U('createOrder'),api.data({token:this.props.token,uid:this.state.id}))
+        .then((res) => {
+            let orderId = res.data.data.order_id;
+            this.props.changeView({element:'item',param:'id=' + orderId + '&from=offline'});
+        });
     }
 
     render () {
@@ -82,7 +93,12 @@ class Take extends Component {
                     </div>
                 </div>
                 <div style={{paddingTop:'58px',textAlign:'center'}}>
-                    <input type='button' value='收衣下单' className='ui-btn ui-btn-confirm ui-btn-large'/>
+                    <input 
+                        type='button' 
+                        value='收衣下单' 
+                        className='ui-btn ui-btn-confirm ui-btn-large'
+                        onClick={this.next}
+                    />
                 </div>
             </div>
         );

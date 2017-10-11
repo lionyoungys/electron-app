@@ -81,6 +81,7 @@ class Order extends Component {
         ];
         //订单进程列表对应状态
         this.process = [this.willDispose,this.willTake,this.willClean,this.cleaning,this.willDelivery];
+        this.timerID = null;
     }
     componentDidMount() {
         axios.post(api.U('orderHandle'),api.data({token:this.props.token,state:this.state.choose}))
@@ -89,6 +90,11 @@ class Order extends Component {
                 html = this.process[this.state.choose](result.data);
             this.setState({data:result.data,html:html});
         });
+    }
+    componentWillUnmount() {
+        if (null !== this.timerID) {
+            clearTimeout(this.timerID);
+        }
     }
     handleClick(e) {
         let state = e.target.dataset.key;
@@ -277,7 +283,7 @@ class Order extends Component {
                     }
                 } else {
                     this.setState({showNotice:true,noticeMsg:result.status});
-                    setTimeout(()=>{
+                    this.timerID = setTimeout(()=>{
                         if ('undefined' !== state.showNotice && null !== state.showNotice) {
                             this.setState({showNotice:false});
                         }
@@ -286,7 +292,7 @@ class Order extends Component {
             });
         } else {
             this.setState({showNotice:true,noticeMsg:'用户尚未付款，您暂时不能做此操作'});
-            setTimeout(()=>{
+            this.timerID = setTimeout(()=>{
                 if ('undefined' !== state.showNotice && null !== state.showNotice) {
                     this.setState({showNotice:false});
                 }

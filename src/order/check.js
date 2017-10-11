@@ -14,9 +14,18 @@ class Check extends Component {
         this.params = this.props.param.paramToObject();    //参数列表
         this.id = this.params.id;    //订单ID
         this.crumbs = [{text:'订单处理',key:0,e:'order',param:'choose=2'},{text:'衣物检查',key:1}];
+        if ('undefined' !== typeof this.params.from && 'offline' == this.params.from) {
+            this.crumbs = [
+                {text:'收衣',key:0,e:'take'},
+                {text:'添加项目',key:1,e:'item',param:this.props.param},
+                {text:'工艺加价',key:2,e:'craft',param:this.props.param},
+                {text:'衣物检查',key:3}
+            ];
+        }
+        this.takePay = this.takePay.bind(this);    //取衣付款
+        this.pay = this.pay.bind(this);    //立即付款
     }
     componentDidMount() {
-        console.log(dialog);
         axios.post(api.U('check'),api.data({token:this.props.token,id:this.id}))
         .then((response) => {
             let result = response.data.data;
@@ -24,6 +33,18 @@ class Check extends Component {
             console.log(result);
         });
     }
+
+    takePay() {
+        let props = this.props;
+        axios.post(api.U('takePay'),api.data({token:props.token,order_id:this.id}))
+        .then((response) => {
+            if (api.verify(response.data)) {
+                props.changeView({element:'index'});
+            }
+        });
+    }
+
+    pay() {this.props.changeView({element:'pay',param:this.props.param});}
 
     render() {
         let props = this.props,
@@ -41,12 +62,8 @@ class Check extends Component {
                     orderId={this.id}
                     token={props.token}
                 />
-            );
-        return (
-            <div>
-                <Crumbs  crumbs={this.crumbs} callback={props.changeView}/>
-                {html}
-                <div className='ui-container'>
+            ),
+            btns = <div className='ui-container'>
                     <input 
                         type='button' 
                         value='确认' 
@@ -55,7 +72,28 @@ class Check extends Component {
                         data-param='choose=2'
                         data-e='order'
                     />
-                </div>
+                   </div>;
+        if ('undefined' !== typeof this.params.from && 'offline' == this.params.from) {
+            btns = <div className='ui-container'>
+                   <input 
+                       type='button' 
+                       value='取衣付款' 
+                       className='ui-btn ui-btn-confirm ui-btn-large'
+                       onClick={this.takePay}
+                   />&emsp;&emsp;
+                   <input 
+                       type='button' 
+                       value='立即付款' 
+                       className='ui-btn ui-btn-confirm ui-btn-large'
+                       onClick={this.pay}
+                   />
+                   </div>
+        }
+        return (
+            <div>
+                <Crumbs  crumbs={this.crumbs} callback={props.changeView}/>
+                {html}
+                {btns}
             </div>
         );
     }

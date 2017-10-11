@@ -9,8 +9,12 @@ class Item extends Component {
     constructor(props) {
         super(props);
         this.state = {choose:0,tabs:[],data:[],items:[],count:0,isChanged:false};
-        this.id = this.props.param.paramToObject().id;
+        this.params = this.props.param.paramToObject();
+        this.id = this.params.id;
         this.crumbs = [{text:'订单处理',key:0,e:'order'},{text:'添加项目',key:1}];    //面包屑参数
+        if ('undefined' !== typeof this.params.from && 'offline' == this.params.from) {
+            this.crumbs = [{key:0,text:'收衣',e:'take'},{text:'添加项目',key:1}];
+        }
         this.handleClick = this.handleClick.bind(this);    //切换tab方法
         this.handleCallback = this.handleCallback.bind(this);    //项目回调
         this.next = this.next.bind(this);

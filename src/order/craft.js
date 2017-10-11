@@ -9,7 +9,8 @@ import Crumbs, {Tabs,Math,Special} from '../static/UI';
 class Craft extends Component{
     constructor(props) {
         super(props);
-        this.id = this.props.param.paramToObject().id;
+        this.params = this.props.param.paramToObject();
+        this.id = this.params.id;
         this.state = {
             total:0,amount:0,freight:0,count:0,service:0,items:[],
             show:false,tempId:null
@@ -19,6 +20,15 @@ class Craft extends Component{
             {text:'添加项目',key:1,e:'item',param:this.props.param},
             {text:'工艺加价',key:2}
         ];    //面包屑参数
+        //判断来源
+        if ('undefined' !== typeof this.params.from && 'offline' == this.params.from) {
+            this.crumbs = [
+                {key:0,text:'收衣',e:'take'},
+                {text:'添加项目',key:1,e:'item',param:this.props.param},
+                {text:'工艺加价',key:2}
+            ];
+        }
+
         this.callback = this.callback.bind(this);
         this.alertCallback = this.alertCallback.bind(this);
         this.done = this.done.bind(this);
@@ -86,13 +96,18 @@ class Craft extends Component{
     }
     done() {
         let props = this.props;
-        axios.post(api.U('gotIt'),api.data({token:props.token,id:this.id}))
-        .then((response) => {
-            console.log(response.data);
-            if (api.verify(response.data)) {
-                props.changeView({element:'order'});
-            }
-        });
+        if ('undefined' !== typeof this.params.from && 'offline' == this.params.from) {
+            props.changeView({element:'check',param:props.param});
+        } else {
+            axios.post(api.U('gotIt'),api.data({token:props.token,id:this.id}))
+            .then((response) => {
+                console.log(response.data);
+                if (api.verify(response.data)) {
+                    props.changeView({element:'order'});
+                }
+            });
+        }
+        
     }
     render() {
         let state = this.state,
