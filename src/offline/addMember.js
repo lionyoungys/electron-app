@@ -15,6 +15,7 @@ class AddMember extends Component {
         this.state = {ucode:'',sex:'女',name:''};
         this.toggleRadio = this.toggleRadio.bind(this);
         this.handleChange  = this.handleChange.bind(this);
+        this.toggleDate = this.toggleDate.bind(this);
     }
     componentDidMount() {
         axios.post(api.U('getNewUcode'),api.data({token:this.props.token}))
@@ -25,6 +26,8 @@ class AddMember extends Component {
 
     toggleRadio(e) {this.setState({sex:e.target.innerText});}
     handleChange(e) {this.setState({name:e.target.value});}
+    toggleDate(e) {
+    }
 
     render() {
         let props = this.props,
@@ -68,7 +71,13 @@ class AddMember extends Component {
                     </div>
                     <div className='ui-box-between ui-add-member-row'>
                         <span>会员生日:</span>
-                        <input type='text' defaultValue='1980-01-01' className='ui-input ui-text-center'/>
+                        <input 
+                            type='text' 
+                            value='1980-01-01' 
+                            className='ui-input ui-text-center' 
+                            readOnly
+                            onClick={this.toggleDate}
+                        />
                     </div>
                 </div>
             </div>

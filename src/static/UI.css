@@ -55,6 +55,13 @@
     line-height: 45px;font-size: 18px;padding: 0 18px;
 }
 .ui-text-right{text-align: right;}.ui-text-center{text-align: center;}
+/* 日期框点击唤醒样式 */
+.ui-laydata-postfix{
+    height: 100%;width: 43px;background: #e7e7e7;display: inline-block;
+    background-image: url(images/ui-laydata-click.png);background-repeat: no-repeat;
+    background-position: center;
+}
+/* 日期框样式 */
 /* table样式 */
 .ui-table{width: 100%;}
 .ui-table th,.ui-table td{padding: 0 10px;text-align: center;}
