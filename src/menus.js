@@ -45,7 +45,7 @@ class Menus {
                     {id:35, text:'返现记录'},
                     {id:36, text:'消息通知'},
                     {id:37, text:'用户评价'},
-                    {id:38, text:'门店信息'}
+                    {id:38, text:'门店信息',e:'info'}
                 ]
             }
         ];

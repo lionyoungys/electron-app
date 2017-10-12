@@ -46,8 +46,6 @@ class Pay extends Component {
                 merchantBalance:merchant.balance
             });
             console.log(result);
-            console.log('=====================');
-            console.log(order);
         });
     }
 

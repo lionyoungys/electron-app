@@ -14,8 +14,10 @@ import Check from './order/check';
 import Color from './order/color';
 import Question from './order/question';
 import Take from './offline/take';
-import AddMember from './offline/addMember';
+import AddMember from './offline/add_member';
 import Pay from './offline/pay';
+import Info from './manage/info';
+import InfoEditor from './manage/info_editor'
 const token = localStorage.getItem('token');
 //界面头部组件
 class Header extends Component {
@@ -55,7 +57,9 @@ class Main extends Component {
             question:Question,    //问题描述
             take:Take,    //线下收衣
             addMember:AddMember,    //散客信息
-            pay:Pay    //订单支付
+            pay:Pay,    //订单支付
+            info:Info,    //门店信息
+            info_editor:InfoEditor,    //信息编辑
         };
     }
     //获取店铺状态数据
