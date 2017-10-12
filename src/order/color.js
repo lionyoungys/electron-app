@@ -15,12 +15,22 @@ class Color extends Component {
         this.orderId = this.params.orderId;    //订单ID
         this.id = this.params.id;    //项目ID
         this.color = this.params.color;    //项目内容
+        this.redirectParam = 'id='+this.orderId+'&from='+this.params.from;
         this.state = {chosenArr:'' == this.color ? [] : this.color.split(',')};
         this.crumbs = [
             {text:'订单处理',key:0,e:'order'},
-            {text:'衣物检查',key:1,e:'check',param:'id='+this.orderId},
-            {text:'颜色设置',key:3}
+            {text:'衣物检查',key:1,e:'check',param:this.redirectParam},
+            {text:'颜色设置',key:2}
         ];
+        if ('undefined' !== typeof this.params.from && 'offline' == this.params.from) {
+            this.crumbs = [
+                {text:'收衣',key:0,e:'take'},
+                {text:'添加项目',key:1,e:'item',param:this.redirectParam},
+                {text:'工艺加价',key:2,e:'craft',param:this.redirectParam},
+                {text:'衣物检查',key:3,e:'check',param:this.redirectParam},
+                {text:'颜色设置',key:4}
+            ];
+        }
         this.toggleOption = this.toggleOption.bind(this);    //选项选中取消操作
         this.cancelChecked = this.cancelChecked.bind(this);    //取消选中操作
         this.confirm = this.confirm.bind(this);
@@ -51,7 +61,7 @@ class Color extends Component {
         .then((response) => {
             console.log(response.data);
             if (api.verify(response.data)) {
-                props.changeView({element:'check',param:'id=' + this.orderId});
+                props.changeView({element:'check',param:this.redirectParam});
             }
         });
     }

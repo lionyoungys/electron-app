@@ -58,6 +58,7 @@ class Check extends Component {
                     number={obj.number}
                     color={obj.color}
                     question={obj.item_note}
+                    from={this.params.from}
                     images={obj.img}
                     orderId={this.id}
                     token={props.token}
@@ -162,7 +163,7 @@ class Item extends Component {
         let props = this.props;
         props.changeView({
             element:'color',
-            param:'orderId='+props.orderId+'&id='+props.id+'&color='+props.color
+            param:'orderId='+props.orderId+'&id='+props.id+'&color='+props.color+'&from='+props.from
         });
     }
 
@@ -170,7 +171,7 @@ class Item extends Component {
         let props = this.props;
         props.changeView({
             element:'question',
-            param:'orderId='+props.orderId+'&id='+props.id+'&question='+props.question
+            param:'orderId='+props.orderId+'&id='+props.id+'&question='+props.question+'&from='+props.from
         });
     }
     render() {

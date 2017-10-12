@@ -2,7 +2,7 @@
  * js原型函数库文件
  * @author yangyunlong
  */
-(() => {
+((window) => {
     /**
      * 判断字符串是否在指定数组里
      * @param array 数组
@@ -74,4 +74,38 @@
         }
         return new Blob([buffer], {type: mimeString});    //返回原数据类型对象
     };
-})();
+
+    var f = {};
+    /**
+     * 计算多数值之和,准确度为小数点后两位
+     * @param (...) 数值
+     * @return sum 和
+     */
+    f.sum = function() {
+        const count = arguments.length;
+        if (0 === count) return 0;
+        if (1 === count) return Number(arguments[0]);
+        var sum = 0;
+        for (var i = 0;i < count;++i) {
+            sum += Math.floor(Number(arguments[i]) * 100);
+        }
+        return (sum / 100);
+    }
+
+    /**
+     * 计算多数值之差,准确度为小数点后两位
+     * @param (...) 数值1 - 数值n
+     * @return difference 差
+     */
+    f.difference = function() {
+        const count = arguments.length;
+        if (0 === count) return 0;
+        if (1 === count) return Number(arguments[0]);
+        var difference = Number(arguments[0]) * 100;
+        for (var i = 1;i < count;++i) {
+            difference -= Number(arguments[i]) * 100;
+        }
+        return (difference / 100);
+    }
+    window.func = f;
+})(window);
