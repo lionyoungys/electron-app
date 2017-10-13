@@ -41,9 +41,9 @@ class Menus {
                     {id:31, text:'商品管理'},
                     {id:32, text:'财务对账'},
                     {id:33, text:'经营分析'},
-                    {id:34, text:'员工管理'},
+                    {id:34, text:'员工管理',e:'clerk_manage'},
                     {id:35, text:'返现记录'},
-                    {id:36, text:'消息通知'},
+                    {id:36, text:'消息通知',e:'message'},
                     {id:37, text:'用户评价'},
                     {id:38, text:'门店信息',e:'info'}
                 ]

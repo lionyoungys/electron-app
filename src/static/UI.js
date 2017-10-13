@@ -92,7 +92,8 @@ class Notification extends Component {
                 width:props.width + 'px', 
                 position:'fixed',
                 top:'calc((100% - 30px) / 2)',
-                left:'calc((100% - ' + props.width + 'px) / 2)'
+                left:'calc((100% - ' + props.width + 'px) / 2)',
+                zIndex:'9999'
             };
         if (!props.show) return null;
         return (<div className='ui-notification' style={style}>{props.children}</div>);

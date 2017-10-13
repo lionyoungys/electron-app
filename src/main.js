@@ -17,7 +17,9 @@ import Take from './offline/take';
 import AddMember from './offline/add_member';
 import Pay from './offline/pay';
 import Info from './manage/info';
-import InfoEditor from './manage/info_editor'
+import InfoEditor from './manage/info_editor';
+import Message from './manage/message';
+import ClerkManage from './manage/clerk_manage'
 const token = localStorage.getItem('token');
 //界面头部组件
 class Header extends Component {
@@ -60,6 +62,8 @@ class Main extends Component {
             pay:Pay,    //订单支付
             info:Info,    //门店信息
             info_editor:InfoEditor,    //信息编辑
+            message:Message,    //消息通知
+            clerk_manage:ClerkManage,    //员工管理
         };
     }
     //获取店铺状态数据

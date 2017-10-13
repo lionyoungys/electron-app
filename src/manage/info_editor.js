@@ -19,6 +19,9 @@ class InfoEditor extends Component {
         this.changeServiceAmount = this.changeServiceAmount.bind(this)    //上门服务费
         this.changePiece = this.changePiece.bind(this);    //满减数
         this.changeReduceAmount = this.changeReduceAmount.bind(this);    //满减金额
+        this.changeCardPrice = this.changeCardPrice.bind(this);    //修改会员卡金额
+        this.changeCardDiscount = this.changeCardDiscount.bind(this);    //修改会员卡折扣
+        this.confirm = this.confirm.bind(this);    //确认操作
     }
 
     componentDidMount() {
@@ -46,15 +49,96 @@ class InfoEditor extends Component {
     changeServiceAmount(e) {this.setState({serviceAmount:e.target.value})}
     changePiece(e) {this.setState({piece:e.target.value})}
     changeReduceAmount(e) {this.setState({reduceAmount:e.target.value})}
+    changeCardPrice(e) {
+        let state = this.state,
+            id = e.target.dataset.id,
+            value = e.target.value;
+        let index = id.inObjectArray(state.cards,'id');
+        state.cards[index].price = value;
+        this.setState({cards:this.state.cards});
+    }
+    changeCardDiscount(e) {
+        let state = this.state,
+            id = e.target.dataset.id,
+            value = e.target.value;
+        let index = id.inObjectArray(state.cards,'id');
+        state.cards[index].discount = value;
+        this.setState({cards:this.state.cards});
+    }
+    confirm() {
+        let props = this.props,
+            state = this.state;
+        axios.post(
+            api.U('updMerchantCard'),
+            api.data({
+                token:props.token,
+                json_data:JSON.stringify(state.cards)
+            })
+        )
+        .then((response) => {
+            let result = response.data;
+            if (api.verify(result)) {
+                axios.post(
+                    api.U('updMerchantInfo'),
+                    api.data({
+                        token:props.token,
+                        phone:state.phoneNumber,
+                        round:state.serviceRange,
+                        fuwu_amount:state.serviceAmount,
+                        fuwu_num:state.piece,
+                        fuwu_total:state.reduceAmount
+                    })
+                )
+                .then((res) => {
+                    if (api.verify(res.data)) {
+                        props.changeView({element:'info'});
+                    } else {
+                        //错误提醒
+                        console.log(res.data);
+                    }
+                });
+            } else {
+                //错误提醒
+                console.log(result);
+            }
+
+        });
+    }
 
     render() {
         let state = this.state,
             style = {paddingTop:'26px'},
             html = state.cards.map((obj) =>
-                <p className='ui-info-card-row' key={obj.id} data-id={obj.id}>
+                <p className='ui-info-card-row' key={obj.id} style={{width:'500px'}}>
                     <span>{obj.card_name}</span>
-                    <span>{10 == obj.discount ? '无折扣' : (obj.discount + '折')}</span>
-                    <span>充值{obj.price}元</span>
+                    <span>
+                        {
+                            10 == obj.discount ? 
+                            '无折扣' 
+                            : 
+                            (
+                                <span>
+                                    <input 
+                                        type='text'
+                                        className='ui-input2 ui-text-font16'
+                                        value={obj.discount}
+                                        onChange={this.changeCardDiscount}
+                                        data-id={obj.id}
+                                    />&nbsp;折
+                                </span>
+                            )
+                        }
+                    </span>
+                    <span>
+                        充值
+                        <input 
+                            type='text'
+                            className='ui-input2 ui-text-font16'
+                            value={obj.price}
+                            onChange={this.changeCardPrice}
+                            data-id={obj.id}
+                        />元
+                    </span>
                 </p>
             );
         return (
@@ -123,6 +207,7 @@ class InfoEditor extends Component {
                             type='button' 
                             value='确认' 
                             className='ui-btn-tab' 
+                            onClick={this.confirm}
                         />
                     </div>
                 </div>
