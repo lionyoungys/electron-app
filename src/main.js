@@ -22,6 +22,7 @@ import Message from './manage/message';
 import ClerkManage from './manage/clerk_manage'
 import Finance from './manage/finance';
 import Appraise from './manage/appraise';
+import Award from './manage/award';
 const token = localStorage.getItem('token');
 //界面头部组件
 class Header extends Component {
@@ -68,6 +69,7 @@ class Main extends Component {
             clerk_manage:ClerkManage,    //员工管理
             finance:Finance,    //财务对账
             appraise:Appraise,    //用户评价
+            award:Award,    //返现记录
         };
     }
     //获取店铺状态数据

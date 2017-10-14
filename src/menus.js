@@ -42,7 +42,7 @@ class Menus {
                     {id:32, text:'财务对账',e:'finance'},
                     {id:33, text:'经营分析'},
                     {id:34, text:'员工管理',e:'clerk_manage'},
-                    {id:35, text:'返现记录'},
+                    {id:35, text:'返现记录',e:'award'},
                     {id:36, text:'消息通知',e:'message'},
                     {id:37, text:'用户评价',e:'appraise'},
                     {id:38, text:'门店信息',e:'info'}
