@@ -74,6 +74,13 @@
         }
         return new Blob([buffer], {type: mimeString});    //返回原数据类型对象
     };
+    
+    /**
+     * 数值或数值字符串转成百分数字符串
+     * @return String
+     */
+    Number.prototype.toPercent = String.prototype.toPercent = function() {return (this * 100) + '%'}
+
 
     var f = {};
     /**
@@ -100,12 +107,21 @@
     f.difference = function() {
         const count = arguments.length;
         if (0 === count) return 0;
-        if (1 === count) return Number(arguments[0]);
-        var difference = Number(arguments[0]) * 100;
+        if (1 === count) return (arguments[0] * 1);
+        var difference = arguments[0] * 100;
         for (var i = 1;i < count;++i) {
-            difference -= Number(arguments[i]) * 100;
+            difference -= arguments[i] * 100;
         }
         return (difference / 100);
+    }
+
+    /**
+     * 判断值是否存在且赋值
+     * @return boolean
+     */
+    f.isSet = function (value) {
+        if ('undefined' === typeof value || null === value) return false;
+        return true;
     }
     window.func = f;
 })(window);

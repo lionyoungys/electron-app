@@ -4,7 +4,7 @@
  */
 import React, {Component} from 'react';
 import '../static/api';
-import Crumbs from '../static/UI';
+import Crumbs,{Starts} from '../static/UI';
 
 class Appraise extends Component {
     constructor(props) {
@@ -26,7 +26,7 @@ class Appraise extends Component {
                         <div className='ui-appraise-row'>
                             <div>
                                 <span>2323232</span>
-                                &emsp;
+                                &emsp;<Starts number='5' lighter='3.7'/>&emsp;
                                 <span className='ui-red'>5分</span>
                             </div>
                             <input type='button' value='回复' className='ui-btn ui-btn-cancel ui-btn-middle'/>

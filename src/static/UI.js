@@ -295,5 +295,31 @@ class QCmenu extends Component {
     }
 }
 
+//星星列表    number=星星数量 lighter=亮星星数量
+class Starts extends Component {
+    constructor(props) {super(props);}
+
+    render() {
+        let props = this.props,
+            number = func.isSet(props.number) && props.number > 0 ? (props.number * 1) : 5;
+        var starts = [],
+            lighter = func.isSet(props.lighter) ? (props.lighter * 1) : 5,
+            tempWidth = '100%';
+        for (var i = 0;i < number;++i) {
+            if (lighter < 1) tempWidth = lighter.toPercent(); 
+            starts.push(
+                <div className='ui-start-background' key={i}>
+                    <div className='ui-start'></div>
+                    <div className='ui-start-forecolor' style={{width:tempWidth}}></div>
+                </div>
+            );
+            if (lighter > 0) {
+                lighter = lighter < 1 ? 0 : func.difference(lighter, 1);
+            }
+        }
+        return (<section className='ui-starts-box'>{starts}</section>);
+    }
+}
+
 export default Crumbs;
-export {Tabs,Search,Notice,CheckboxAlert,Math,Special,QCmenu,Notification};
+export {Tabs,Search,Notice,CheckboxAlert,Math,Special,QCmenu,Notification,Starts};
