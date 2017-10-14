@@ -82,6 +82,7 @@
 .ui-table .ui-b{border: 1px solid #b2b2b2;}
 .ui-red{color: red;}
 .ui-grey{color: #b2b2b2;}
+.ui-default{color: #09b1b0;}
 /* 按钮样式 */
 .ui-btn{
     font-size: 14px;height: 27px;padding: 0 12px;
@@ -89,6 +90,7 @@
     border-radius:5px;background: #fff;
 }
 .ui-btn-large{height: 46px;padding: 0 64px;font-size: 20px;}    /* 大按钮样式 */
+.ui-btn-middle{height: 34px;font-size: 18px;padding: 0 20px;}    /* 中等按钮样式 */
 .ui-btn-cancel{border:1px solid #b2b2b2;}    /* 取消按钮 */
 .ui-btn-confirm{background: #09b1b0;color: #fff;}    /* 确认按钮 */
 .ui-btn-grey{background: grey;color: #fff;}    /* 按钮至灰 */
@@ -333,3 +335,22 @@
     background: url(images/ui-finance-prefix.png) no-repeat center left;
 }
 .ui-finance-small-word{color: #808080;font-size: 14px;}
+/* 用户评价界面样式 */
+.ui-appraise-box{padding: 24px 16px 28px;border-bottom: 1px dashed #cccccc;}
+.ui-appraise-row{
+    font-size: 18px;padding-bottom: 14px;
+    display: flex;display: -webkit-flex;justify-content: space-between;
+}
+.ui-appraise-row2{display: block;padding-bottom: 28px;font-size: 14px;}
+.ui-appraise-row3,.ui-appraise-row4,.ui-appraise-row5{display: block;font-size: 16px;}
+.ui-appraise-row4,.ui-appraise-row5{padding-top: 16px;}
+.ui-appraise-row5{
+    display: flex;display: -webkit-flex;justify-content: space-between;align-items: flex-end;
+}
+.ui-appraise-textarea{
+    width: 80%;box-sizing: border-box;-webkit-box-sizing: border-box;
+    height: 125px;padding: 12px;border: 1px solid #cccccc;position: relative;
+    display: flex;display: -webkit-flex;align-items: flex-start;border-radius: 5px;
+}
+.ui-appraise-textarea>textarea{height: 100%;width: 90%;resize: none;font-size: 16px;}
+.ui-appraise-textarea>span{width: 10%;color: #09b1b0;}
