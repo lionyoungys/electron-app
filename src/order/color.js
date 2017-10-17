@@ -7,6 +7,7 @@ import '../static/api';
 import Crumbs,{QCmenu} from '../static/UI';
 import {colorConfig} from '../static/config';
 
+
 class Color extends Component {
     constructor(props) {
         console.log(colorConfig);

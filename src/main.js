@@ -24,6 +24,7 @@ import Finance from './manage/finance';
 import Appraise from './manage/appraise';
 import Award from './manage/award';
 const token = localStorage.getItem('token');
+//const token = '069aZcHGQmsALKM/JXA1hjGVsnlMB06lb1o3cS2pd5m0SZ7LPJ6VIvU';
 //界面头部组件
 class Header extends Component {
     constructor(props) {super(props);}
@@ -74,9 +75,11 @@ class Main extends Component {
     }
     //获取店铺状态数据
     componentDidMount() {
+        console.log(this.props.token);
         axios.post(api.U('index'),api.data({token:this.props.token}))
         .then((response)=>{
             let result = response.data.data;
+            console.log(response);
             this.setState({
                 name:result.mname,    //店铺名称
                 status:result.state,    //店铺状态

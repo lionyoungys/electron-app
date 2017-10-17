@@ -5,7 +5,7 @@
 import React, {Component} from 'react';
 import '../static/api';
 import Crumbs,{Notification} from '../static/UI';
-const md5 = window.require('md5');
+const md5 = require('md5');
 
 class ClerkManage extends Component {
     constructor(props) {

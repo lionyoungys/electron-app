@@ -2,11 +2,16 @@
  * 衣物检查
  * @author yangyunlong
  */
+//const remote =  window.require('electron').remote;
 const {dialog} = window.require('electron').remote;
-const base64Img = window.require('base64-img');
+//const dialog = remote.dialog;
+//const base64Img = {};
+//const base64Img = require('base64-img');
+
 import React, {Component} from 'react';
 import '../static/api';
 import Crumbs from '../static/UI';
+const base64Img = require('base64-img');
 class Check extends Component {
     constructor(props) {
         super(props);
