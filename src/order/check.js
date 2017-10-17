@@ -2,8 +2,8 @@
  * 衣物检查
  * @author yangyunlong
  */
-const {dialog} = window.require('electron').remote,
-     base64Img = window.require('base64-img');
+const {dialog} = window.require('electron').remote;
+const base64Img = window.require('base64-img');
 import React, {Component} from 'react';
 import '../static/api';
 import Crumbs from '../static/UI';

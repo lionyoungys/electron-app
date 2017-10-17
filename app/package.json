@@ -11,5 +11,11 @@
   "bugs": {
     "url": "https://github.com/2425047228/electron/issues"
   },
-  "homepage": "https://github.com/2425047228/electron#readme"
+  "homepage": "https://github.com/2425047228/electron#readme",
+  "dependencies": {
+    "base64-img": "^1.0.3",
+    "md5": "^2.2.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
+  }
 }

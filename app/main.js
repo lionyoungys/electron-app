@@ -3,10 +3,8 @@ const electron = require('electron'),
       app = electron.app,
       BrowserWindow = electron.BrowserWindow,
       ipcMain = electron.ipcMain,
-      dialog = electron.dialog,
       path = require('path'),
       url = require('url');
-
 let win = {};    //声明窗口对象
 
 // 部分 API 在 ready 事件触发后才能使用。
