@@ -63,13 +63,19 @@
      * @return Blob
      */
     String.prototype.base64toBlob = function () {
-        var splitArray = this.split(','),    //分割base64数据的头与内容
-            byteString = atob(splitArray[1]),    //base64解码
-            mimeString = splitArray[0].split(':')[1].split(';')[0],    //data:image/png;base64，获取mime类型
-            bufferSize = byteString.length,    //获取数据的大小
+        let splitArray = this.split(','),    //分割base64数据的头与内容
+            byteString, mimeString;
+        if (splitArray.length > 1) {
+            byteString = atob(splitArray[1]);    //base64解码
+            mimeString = splitArray[0].split(':')[1].split(';')[0];    //data:image/png;base64，获取mime类型
+        } else {
+            byteString = atob(splitArray[0]);
+            mimeString = 'image/jpg';
+        }
+        let bufferSize = byteString.length,    //获取数据的大小
             buffer = new ArrayBuffer(bufferSize),    //创建同等于数据大小的内存区域
             dataView = new Uint8Array(buffer);    //创建一个8位无符号整数，长度1个字节的数据视图，并分配buffer
-        for (var i = 0; i < byteString.length; i++) {
+        for (let i = 0; i < byteString.length; i++) {
             dataView[i] = byteString.charCodeAt(i);    //获取每个字节Unicode编码并追加数据视图数组
         }
         return new Blob([buffer], {type: mimeString});    //返回原数据类型对象

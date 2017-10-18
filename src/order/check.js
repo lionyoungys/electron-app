@@ -2,16 +2,12 @@
  * 衣物检查
  * @author yangyunlong
  */
-//const remote =  window.require('electron').remote;
 const {dialog} = window.require('electron').remote;
-//const dialog = remote.dialog;
-//const base64Img = {};
 //const base64Img = require('base64-img');
-
+const fs = window.require('fs');
 import React, {Component} from 'react';
 import '../static/api';
 import Crumbs from '../static/UI';
-const base64Img = require('base64-img');
 class Check extends Component {
     constructor(props) {
         super(props);
@@ -138,8 +134,7 @@ class Item extends Component {
             properties: ['openFile', 'openDirectory']
         },(filePaths) => {
             if ('undefined' !== typeof filePaths) {
-                console.log(filePaths);
-                let imgData = base64Img.base64Sync(filePaths[0])
+                let imgData = fs.readFileSync(filePaths[0]).toString('base64');
                 axios.post(
                     api.U('checkImageUpload'),
                     api.data({
