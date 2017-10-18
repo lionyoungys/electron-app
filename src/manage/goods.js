@@ -55,7 +55,7 @@ class Goods extends Component {
             });
         } else if ('confirm' === state) {
             axios.post(
-                api.U('updateCoods'),
+                api.U('updateGoods'),
                 api.data({
                     token:this.props.token,
                     id:editor.id,
