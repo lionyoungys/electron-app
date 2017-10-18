@@ -79,7 +79,6 @@ class Main extends Component {
         axios.post(api.U('index'),api.data({token:this.props.token}))
         .then((response)=>{
             let result = response.data.data;
-            console.log(response);
             this.setState({
                 name:result.mname,    //店铺名称
                 status:result.state,    //店铺状态
