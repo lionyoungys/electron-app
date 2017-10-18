@@ -23,6 +23,7 @@ import ClerkManage from './manage/clerk_manage'
 import Finance from './manage/finance';
 import Appraise from './manage/appraise';
 import Award from './manage/award';
+import Goods from './manage/goods';
 const token = localStorage.getItem('token');
 //const token = '069aZcHGQmsALKM/JXA1hjGVsnlMB06lb1o3cS2pd5m0SZ7LPJ6VIvU';
 //界面头部组件
@@ -71,11 +72,11 @@ class Main extends Component {
             finance:Finance,    //财务对账
             appraise:Appraise,    //用户评价
             award:Award,    //返现记录
+            goods:Goods,    //商品管理
         };
     }
     //获取店铺状态数据
     componentDidMount() {
-        console.log(this.props.token);
         axios.post(api.U('index'),api.data({token:this.props.token}))
         .then((response)=>{
             let result = response.data.data;

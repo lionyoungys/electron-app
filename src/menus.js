@@ -38,7 +38,7 @@ class Menus {
                     text:'商家管理'
                 },
                 options:[
-                    {id:31, text:'商品管理'},
+                    {id:31, text:'商品管理',e:'goods'},
                     {id:32, text:'财务对账',e:'finance'},
                     {id:33, text:'经营分析'},
                     {id:34, text:'员工管理',e:'clerk_manage'},
