@@ -284,7 +284,7 @@ class QCmenu extends Component {
                 </div>
             );
         return (
-            <div className='ui-question-container '>
+            <div className='ui-question-container'>
                 <div className='ui-question-title'>
                     <span>{props.header}</span>
                     <em className={icon} onClick={this.toggleState}></em>

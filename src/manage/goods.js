@@ -107,6 +107,8 @@ class Goods extends Component {
                             type='button' 
                             value='+添加商品' 
                             className='ui-btn ui-btn-confirm ui-btn-large'
+                            data-e='goods_add'
+                            onClick={props.changeView}
                         />
                     </div>
                     <div className='ui-content'>

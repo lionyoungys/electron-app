@@ -24,6 +24,8 @@ import Finance from './manage/finance';
 import Appraise from './manage/appraise';
 import Award from './manage/award';
 import Goods from './manage/goods';
+import GoodsAdd from './manage/goods_add';
+import Operate from './manage/operate';
 const token = localStorage.getItem('token');
 //const token = '069aZcHGQmsALKM/JXA1hjGVsnlMB06lb1o3cS2pd5m0SZ7LPJ6VIvU';
 //界面头部组件
@@ -73,6 +75,8 @@ class Main extends Component {
             appraise:Appraise,    //用户评价
             award:Award,    //返现记录
             goods:Goods,    //商品管理
+            goods_add:GoodsAdd,    //添加商品
+            operate:Operate,    //经营分析
         };
     }
     //获取店铺状态数据

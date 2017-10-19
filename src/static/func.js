@@ -126,7 +126,7 @@
      * @return boolean
      */
     f.isSet = function (value) {
-        if ('undefined' === typeof value || null === value) return false;
+        if ('undefined' === typeof value || null === value || '' === value) return false;
         return true;
     }
     window.func = f;
