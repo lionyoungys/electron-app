@@ -4,7 +4,7 @@
  */
 import React, {Component} from 'react';
 import '../static/api';
-import Crumbs,{Starts} from '../static/UI';
+import Crumbs,{Starts,MyChart} from '../static/UI';
 
 export default class Operate extends Component {
     constructor(props) {
@@ -15,6 +15,7 @@ export default class Operate extends Component {
             currentProfit:'0',previousProfit:'0',profitInterest:'0',
             currentOrder:'0',previousOrder:'0',orderInterest:'0',
             currentCancel:'0',previousCancel:'0',cancelInterest:'0',
+            day:[],currentData:[],previousData:[]
         };
         this.getData = this.getData.bind(this);
     }
@@ -53,6 +54,9 @@ export default class Operate extends Component {
                 profitInterest:result.proportion.sum,
                 orderInterest:result.proportion.all,
                 cancelInterest:result.proportion.cancel,
+                day:result.day,
+                currentData:result.now_sum,
+                previousData:result.previous_sum,
             });
             console.log(result);
         });
@@ -76,7 +80,9 @@ export default class Operate extends Component {
                     <div className='ui-content' style={{paddingLeft:'30px'}}>
                         截至目前营业额：{state.total}&emsp;&emsp;上月同期营业额：{state.previousTotal}
                     </div>
-                    <div className='ui-content' style={{paddingLeft:'30px'}}></div>
+                    <div className='ui-content' style={{paddingLeft:'30px'}}>
+                        <MyChart xAxis={state.day} current={state.currentData} previous={state.previousData}/>
+                    </div>
                     <div style={{padding:'60px 0 0 30px',width:'630px'}}>
                         <div className='ui-row'>
                             <div>&emsp;&emsp;&emsp;&emsp;</div>

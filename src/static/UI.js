@@ -3,10 +3,11 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
+import Highcharts from 'highcharts';
 import './UI.css';
 import './func';
 //面包屑导航栏 crumbs = [{key:索引key,e:跳转的视图组件,text:文字显示}] [index=首页跳转] [callback=回调操作]
-class Crumbs extends Component {
+export default class Crumbs extends Component {
     constructor(props) {super(props);}
     render() {
         let props = this.props,
@@ -321,5 +322,74 @@ class Starts extends Component {
     }
 }
 
-export default Crumbs;
-export {Tabs,Search,Notice,CheckboxAlert,Math,Special,QCmenu,Notification,Starts};
+class MyChart extends Component{
+    constructor(props) {
+        super(props);
+        this.container = null;
+    }
+
+    componentDidMount() {
+        let props = this.props;
+        console.log(props);
+        Highcharts.chart(this.container, {
+                title: {
+                    text: ''
+                },
+                yAxis: {
+                    title: {text: ''}
+                },
+                xAxis: {
+                    categories: props.xAxis
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        
+                    }
+                },
+            
+                series: [{
+                    name: '本月',
+                    color: '#0bb1a7',
+                    data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+                }, {
+                    name: '上月',
+                    color: '#eb6304',
+                    data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+                }],
+            
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            
+            });
+    }
+
+    render() {
+        return (
+            <section ref={container => this.container = container}>
+                tubiao
+            </section>
+        );
+    }
+}
+
+export {Tabs,Search,Notice,CheckboxAlert,Math,Special,QCmenu,Notification,Starts,MyChart};

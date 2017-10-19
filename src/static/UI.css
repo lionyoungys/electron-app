@@ -389,3 +389,5 @@
     border:1px solid #cccccc;width: 215px;height: 37px;line-height: 37px;
     padding: 0 14px;
 }
+/* highcharts logo hidden */
+.highcharts-credits{display: none;}
