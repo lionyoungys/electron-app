@@ -6,6 +6,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import './main.css';
 import './static/api';
+import {MyChart} from './static/UI';
 import menus from './menus';
 import Order from './order/order';
 import Item from './order/item';
@@ -234,18 +235,39 @@ class Menu extends Component {
 }
 //首页右侧展示
 class Index extends Component {
-    constructor(props) {super(props);}
+    constructor(props) {
+        super(props);
+        this.state = {currentData:[],previousData:[]};
+    }
+
+    componentDidMount() {
+        axios.post(
+            api.U('operate'),
+            api.data({token:this.props.token})
+        )
+        .then((respones) => {
+            let result = respones.data.data;
+            this.setState({
+                currentData:result.now_sum,
+                previousData:result.previous_sum,
+            });
+            console.log(result);
+        });
+    }
+
     render() {
         let props = this.props,
+            state = this.state,
             count = props.count,
             amount = props.amount,
             amountArr = String(amount).split('.'),    //拆分价格显示
-            chatStyle = {height:'306px',background:'grey',borderRadius:'5px',width:'100%'},
             wordStyle = {marginTop:'40px',fontSize:'18px'};
         if ('undefined' == typeof amountArr[1]) amountArr[1] = '00'
         return (
             <div style={{padding: '30px 30px 0 30px'}}>
-                <section style={chatStyle}></section>
+                <section className='ui-content'>
+                    <MyChart current={state.currentData} previous={state.previousData}/>
+                </section>
                 <section className='main-word'>
                     今日营业总额：
                     <span className='main-word-larger'>{amountArr[0] + '.'}</span>
