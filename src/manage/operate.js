@@ -29,7 +29,7 @@ export default class Operate extends Component {
             min:'2016-01-01',max:0,
             btns: ['now', 'confirm'],
             theme:'#ff6e42',
-            done:(value) => {}
+            done:value => this.getData(value)
         });
         this.getData();
     }

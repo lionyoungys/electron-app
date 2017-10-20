@@ -80,6 +80,20 @@
         }
         return new Blob([buffer], {type: mimeString});    //返回原数据类型对象
     };
+
+    /**
+     * 数组／对象列表值变为数值型
+     * @return Array retArr
+     */
+    Array.prototype.toNumberArray = function() {
+        let len = this.length, retArr = [];
+        if (len > 0) {
+            for (let i = 0;i < len;++i) {
+                retArr.push(isNaN(this[i]) ? 0 : this[i] * 1);
+            }
+        }
+        return retArr;
+    }
     
     /**
      * 数值或数值字符串转成百分数字符串

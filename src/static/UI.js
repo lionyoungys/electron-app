@@ -332,15 +332,10 @@ class MyChart extends Component{
 
     data(container) {
         if (null === container) return;
-        let props = this.props;
-        let current = [], previous = [], len = props.current.length;
-
-        for (let i = 0;i < len;++i) {
-            current.push(props.current[i] * 1);
-            previous.push(props.previous[i] * 1);
-        }
-        console.log(props.current);
-        console.log(props.previous);
+        let props = this.props,
+            current = props.current.toNumberArray(),
+            previous = props.previous.toNumberArray();
+            
         Highcharts.chart(container, {
                 title: {text: ''},
                 yAxis: {title: {text: ''}},

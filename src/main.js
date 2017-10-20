@@ -122,7 +122,6 @@ class Main extends Component {
                 orders={state.orders}
                 selection={obj.selection} 
                 options={obj.options} 
-                menu={state.menu}
                 option={state.option}
                 changeView={this.handleContainerView}
             />
