@@ -325,22 +325,25 @@ class Starts extends Component {
 class MyChart extends Component{
     constructor(props) {
         super(props);
-        this.container = null;
+        this.data = this.data.bind(this);
     }
 
-    componentDidMount() {
+
+
+    data(container) {
+        if (null === container) return;
         let props = this.props;
-        console.log(props);
-        Highcharts.chart(this.container, {
-                title: {
-                    text: ''
-                },
-                yAxis: {
-                    title: {text: ''}
-                },
-                xAxis: {
-                    categories: props.xAxis
-                },
+        let current = [], previous = [], len = props.current.length;
+
+        for (let i = 0;i < len;++i) {
+            current.push(props.current[i] * 1);
+            previous.push(props.previous[i] * 1);
+        }
+        console.log(props.current);
+        console.log(props.previous);
+        Highcharts.chart(container, {
+                title: {text: ''},
+                yAxis: {title: {text: ''}},
                 legend: {
                     layout: 'vertical',
                     align: 'right',
@@ -351,25 +354,23 @@ class MyChart extends Component{
                         label: {
                             connectorAllowed: false
                         },
-                        
+                        pointStart: 1
                     }
                 },
             
                 series: [{
                     name: '本月',
                     color: '#0bb1a7',
-                    data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+                    data: current
                 }, {
                     name: '上月',
                     color: '#eb6304',
-                    data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+                    data: previous
                 }],
             
                 responsive: {
                     rules: [{
-                        condition: {
-                            maxWidth: 500
-                        },
+                        condition: {maxWidth: 600},
                         chartOptions: {
                             legend: {
                                 layout: 'horizontal',
@@ -385,8 +386,7 @@ class MyChart extends Component{
 
     render() {
         return (
-            <section ref={container => this.container = container}>
-                tubiao
+            <section ref={container => this.data(container)}>
             </section>
         );
     }

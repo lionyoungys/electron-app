@@ -54,7 +54,6 @@ export default class Operate extends Component {
                 profitInterest:result.proportion.sum,
                 orderInterest:result.proportion.all,
                 cancelInterest:result.proportion.cancel,
-                day:result.day,
                 currentData:result.now_sum,
                 previousData:result.previous_sum,
             });
@@ -81,7 +80,7 @@ export default class Operate extends Component {
                         截至目前营业额：{state.total}&emsp;&emsp;上月同期营业额：{state.previousTotal}
                     </div>
                     <div className='ui-content' style={{paddingLeft:'30px'}}>
-                        <MyChart xAxis={state.day} current={state.currentData} previous={state.previousData}/>
+                        <MyChart current={state.currentData} previous={state.previousData}/>
                     </div>
                     <div style={{padding:'60px 0 0 30px',width:'630px'}}>
                         <div className='ui-row'>
