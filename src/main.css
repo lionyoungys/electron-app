@@ -65,8 +65,8 @@ body,#main,#main-sidebar,#main-container,#main-container>div,.main-selection,.ma
     font-size:14px;color:#ffffff;background:#ff6d44;
     height:22px;float:right;padding:0 8px;border-radius:50px;
 }
-.main-spread{background: url(images/main-spread.png);}    /*选单展开*/
 .main-shrink{background: url(images/main-shrink.png);}    /*选单收缩*/
+.main-spread{background: url(images/main-spread.png);}    /*选单展开*/
 .main-chosen{background: url(images/main-chosen.png) no-repeat center left;color: red;}    /*导航选中效果*/
 .main-shrink,.main-spread{
     background-position:center right;background-repeat:no-repeat;height:100%;width:18px;

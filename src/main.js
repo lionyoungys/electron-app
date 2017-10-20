@@ -50,10 +50,9 @@ class Main extends Component {
         super(props);
         this.state = {
             name:null,status:null,logo:null,orders:null,amount:null,count:null,    //数据状态
-            option:null,menu:null,    //菜单栏样式状态
+            option:null,  //菜单栏样式状态
             e:this.props.children,param:null    //右侧展示样式状态 附带参数
         };
-        this.monitorMenu = this.monitorMenu.bind(this);
         this.handleContainerView = this.handleContainerView.bind(this);
         //注册组件列表
         this.elements = {
@@ -95,11 +94,6 @@ class Main extends Component {
         });
     }
 
-    monitorMenu(menu) {    //左侧菜单展开收起效果事件方法
-        if (this.state.menu == menu) menu = null;
-        this.setState({menu:menu});
-    }
-
     handleContainerView(e) {    //右侧界面动态转换事件方法
         if ('undefined' === typeof e.target) {
             this.setState({e:e.element,param:e.param});
@@ -130,7 +124,6 @@ class Main extends Component {
                 options={obj.options} 
                 menu={state.menu}
                 option={state.option}
-                parentMonitorMenu={this.monitorMenu}
                 changeView={this.handleContainerView}
             />
         );
@@ -200,15 +193,20 @@ class Base extends Component {
 class Menu extends Component {
     constructor(props) {
         super(props);
+        this.state = {isSpread:false}
         this.chooseMenu = this.chooseMenu.bind(this);
     }
-    chooseMenu(e) {this.props.parentMonitorMenu(this.props.id);}
+    chooseMenu(e) {
+        //this.props.parentMonitorMenu(this.props.id);
+        //e.target.classList.toggle('')
+        this.setState({isSpread:!this.state.isSpread});
+    }
     render() {
         let props = this.props,
+            isSpread = this.state.isSpread,
             sel = props.selection,
             opt = props.options,
             isShowOrders = 'order' == sel.id && props.orders > 0,
-            isSpread = props.id == props.menu,
             status = isSpread ? 'main-spread' : 'main-shrink',    //判断当前大选项是否为选中状态
             optStatus = {display:isSpread ? 'block' : 'none'},
             items = opt.map((obj) => 
@@ -228,7 +226,7 @@ class Menu extends Component {
             <dl>
                 <dt onClick={this.chooseMenu} className='main-selection'>
                     <div id={sel.id}>{sel.text}</div>
-                    <div className={status}></div>
+                    <div className={status} onClick={this.chooseMenu}></div>
                 </dt>
                 <dd className='main-option' style={optStatus}>{items}</dd>
             </dl>
