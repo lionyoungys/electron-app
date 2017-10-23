@@ -36,12 +36,12 @@ app.on('window-all-closed', () => {app.quit()});    //当全部窗口关闭时�
     }
 })*/
 
-ipcMain.on('login-msg',(e,args) => {    //登录界面ipc监听
+ipcMain.once('login-msg',(e,args) => {    //登录界面ipc监听
     if ('close' === args) win.login.close();    //用户关闭界面
     if ('SUCCESS' === args) {    //登录成功打开主页面并销毁登录界面
-        var electronScreen = electron.screen;    //定义屏幕对象变量
+        let electronScreen = electron.screen;    //定义屏幕对象变量
         //获取屏幕大小
-        var size = electronScreen.getPrimaryDisplay().workAreaSize;
+        let size = electronScreen.getPrimaryDisplay().workAreaSize;
         createWindow(
             'main',
             {
@@ -54,6 +54,12 @@ ipcMain.on('login-msg',(e,args) => {    //登录界面ipc监听
         );
         win.login.close();
     }
+});
+ipcMain.on('open-new-window',(e, args) => {
+    let electronScreen = electron.screen;    //定义屏幕对象变量
+    //获取屏幕大小
+    let size = electronScreen.getPrimaryDisplay().workAreaSize;
+    console.log(size);
 });
 
 //窗口创建函数

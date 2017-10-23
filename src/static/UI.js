@@ -2,6 +2,7 @@
  * UI组件库
  * @author yangyunlong
  */
+const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
 import Highcharts from 'highcharts';
 import './UI.css';
@@ -399,6 +400,29 @@ export class Page extends Component {
                 <span className='ui-page-item'>19</span>
                 <span className='ui-page-item'>下一页</span>
             </section>
+        );
+    }
+}
+
+export class LightImage extends Component {
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(e) {
+        ipcRenderer.send('open-new-window',e.target.src);
+    }
+
+    render() {
+        let props = this.props;
+        return (
+            <img 
+                className={props.className} 
+                style={props.style} 
+                src={props.src}
+                onClick={this.handleClick}
+            />
         );
     }
 }

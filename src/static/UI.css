@@ -402,3 +402,16 @@
 }
 .ui-page-item{background: #f5f5f5;border:1px solid #e0e0e0;}
 .ui-page-chosen{color: red;}
+/* 订单详情样式 */
+.ui-detail{padding:25px 0;display: flex;display: -webkit-flex;}
+.ui-detail:first-child{padding-top: 0;}
+.ui-detail:last-child{border-bottom: 1px dashed #cccccc;}
+.ui-detail-logo{width: 76px;padding-right: 21px;}
+.ui-detail-logo>img{width: 76px;height: 76px;}
+.ui-detail-item,.ui-detail-item2{width: 200px;}
+.ui-detail-item>div{font-size: 16px;padding-bottom: 20px;}
+.ui-detail-item2>div{font-size: 14px;padding-bottom: 20px;}
+.ui-detail-item>div:last-child,.ui-detail-item2>div:last-child{padding-bottom: 0;}
+.ui-detail-images{display: inline-flex;display: -webkit-inline-flex;flex-wrap: wrap;}
+.ui-detail-images>img{width: 88px;height: 88px;margin-right: 17px;}
+.ui-detail-images>img:last-child{margin-right: 0;}
