@@ -27,6 +27,8 @@ import Award from './manage/award';
 import Goods from './manage/goods';
 import GoodsAdd from './manage/goods_add';
 import Operate from './manage/operate';
+import OrderSearch from './order/order_search';
+import OrderDetail from './order/order_detail';
 const token = localStorage.getItem('token');
 //const token = '069aZcHGQmsALKM/JXA1hjGVsnlMB06lb1o3cS2pd5m0SZ7LPJ6VIvU';
 //界面头部组件
@@ -77,6 +79,8 @@ class Main extends Component {
             goods:Goods,    //商品管理
             goods_add:GoodsAdd,    //添加商品
             operate:Operate,    //经营分析
+            order_search:OrderSearch,    //订单查询
+            order_detail:OrderDetail,    //订单详情
         };
     }
     //获取店铺状态数据
@@ -196,11 +200,7 @@ class Menu extends Component {
         this.state = {isSpread:false}
         this.chooseMenu = this.chooseMenu.bind(this);
     }
-    chooseMenu(e) {
-        //this.props.parentMonitorMenu(this.props.id);
-        //e.target.classList.toggle('')
-        this.setState({isSpread:!this.state.isSpread});
-    }
+    chooseMenu(e) {this.setState({isSpread:!this.state.isSpread});}
     render() {
         let props = this.props,
             isSpread = this.state.isSpread,

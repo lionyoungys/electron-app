@@ -4,7 +4,7 @@
 /* 容器样式 */
 .ui-container{display: block;padding: 18px 16px 0;}
 .ui-content{padding-top: 20px;flex-wrap: wrap}
-.ui-box,.ui-box-between,.ui-content,.ui-box-column,.ui-box-right,
+.ui-box,.ui-box-between,.ui-content,.ui-box-column,.ui-box-right,.ui-page-box,
 .ui-question-choose-bar{display: flex;display: -webkit-flex;}
 .ui-search,.ui-math-container{display: inline-flex;display: -webkit-inline-flex;}
 .ui-box-between{justify-content: space-between}
@@ -69,8 +69,8 @@
 .ui-text-right{text-align: right;}.ui-text-center{text-align: center;}
 
 /* table样式 */
-.ui-table{width: 100%;}
-.ui-table th,.ui-table td{padding: 0 10px;text-align: center;}
+.ui-table,.ui-table-b{width: 100%;}
+.ui-table th,.ui-table td,.ui-table-b th,.ui-table-b td{padding: 0 10px;text-align: center;}
 .ui-table-b th,.ui-table-b td{border: 1px solid #b2b2b2;}
 .ui-fieldset{border: 1px solid #b2b2b2;}    /* 线包字边框样式 */
 /* table tr样式 */
@@ -84,6 +84,8 @@
 .ui-grey{color: #b2b2b2;}
 .ui-orange{color: #f7bb03}
 .ui-default{color: #09b1b0;}
+.ui-default2{color: #eb6304}
+.ui-mv-default:hover{color: #09b1b0}
 /* 按钮样式 */
 .ui-btn{
     font-size: 14px;height: 27px;padding: 0 12px;
@@ -391,3 +393,12 @@
 }
 /* highcharts logo hidden */
 .highcharts-credits{display: none;}
+/* 分页样式 */
+.ui-page-box{width: 100%;align-items: center;justify-content: center;}
+.ui-page-item, .ui-page-chosen{
+    height: 32px;line-height: 32px;
+    font-size: 16px;border-radius: 3px;
+    padding: 0 13px;margin: 0 2px;
+}
+.ui-page-item{background: #f5f5f5;border:1px solid #e0e0e0;}
+.ui-page-chosen{color: red;}

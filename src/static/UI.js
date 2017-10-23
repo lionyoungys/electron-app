@@ -27,7 +27,7 @@ export default class Crumbs extends Component {
     }
 }
 //选项卡 tabs=[{key:key,text:文字显示}] choose=选中的key  [callback=回调操作]
-class Tabs extends Component {
+export class Tabs extends Component {
     constructor(props) {super(props);}
     render() {
         let props = this.props,
@@ -46,7 +46,7 @@ class Tabs extends Component {
     }
 }
 //searchbar placeholder  [callback=回调操作]
-class Search extends Component {
+export class Search extends Component {
     constructor(props) {
         super(props);
         this.state = {word:''};
@@ -69,7 +69,7 @@ class Search extends Component {
     }
 }
 //提示框 宽180px 高30px param:text=提示信息    
-class Notice extends Component {
+export class Notice extends Component {
     constructor(props) {super(props);}
     render() {
         let props = this.props,
@@ -85,7 +85,7 @@ class Notice extends Component {
     }
 }
 //相对定位提示框    show=true/false width=宽度
-class Notification extends Component {
+export class Notification extends Component {
     constructor(props) {super(props);}
     render() {
         let props = this.props,
@@ -101,7 +101,7 @@ class Notification extends Component {
     }
 } 
 //多选弹出框    show=true/false title=标题 button=按钮内容 是否展示 checkboxs=[{text:text,key:key}]
-class CheckboxAlert extends Component {
+export class CheckboxAlert extends Component {
     constructor(props) {
         super(props);
         this.checkedList = [];
@@ -158,7 +158,7 @@ class CheckboxAlert extends Component {
     }
 }
 //数学加减容器组件 innerText callback(true/false=+/-)
-class Math extends Component {
+export class Math extends Component {
     constructor(props) {
         super(props);
         this.onAdd = this.onAdd.bind(this);
@@ -177,7 +177,7 @@ class Math extends Component {
     }
 }
 //工艺加价编辑价格弹窗  show=true/false callback(true/false=取消，确认,object=参数对象)
-class Special extends Component {
+export class Special extends Component {
     constructor(props) {
         super(props);
         this.state = {special:'',hedging:'',comment:'',commentWordLength:0};
@@ -244,7 +244,7 @@ class Special extends Component {
     }
 }
 //问题描述及颜色设置菜单栏    header 大分类    options 选项列表及小分类    chosenArr 已选择的列表数组    callback 选中／取消切换
-class QCmenu extends Component {
+export class QCmenu extends Component {
     constructor(props) {
         super(props);
         this.state = {isSpread:false};
@@ -297,7 +297,7 @@ class QCmenu extends Component {
 }
 
 //星星列表    number=星星数量 lighter=亮星星数量
-class Starts extends Component {
+export class Starts extends Component {
     constructor(props) {super(props);}
 
     render() {
@@ -322,13 +322,12 @@ class Starts extends Component {
     }
 }
 
-class MyChart extends Component{
+//折线图组件    current = 当前月的数组记录    previous = 上月的数组记录
+export class MyChart extends Component{
     constructor(props) {
         super(props);
         this.data = this.data.bind(this);
     }
-
-
 
     data(container) {
         if (null === container) return;
@@ -379,12 +378,27 @@ class MyChart extends Component{
             });
     }
 
+    render() {return (<section ref={container => this.data(container)}></section>);}
+}
+
+//分页组件    style = 追加样式    待完成
+export class Page extends Component {
+    constructor(props) {super(props);}
+
     render() {
+        let props = this.props;
         return (
-            <section ref={container => this.data(container)}>
+            <section className='ui-page-box' style={props.style}>
+                <span className='ui-page-item'>首页</span>
+                <span className='ui-page-chosen'>1</span>
+                <span className='ui-page-item'>2</span>
+                <span className='ui-page-item'>3</span>
+                <span className='ui-page-item'>4</span>
+                <span className='ui-page-item'>10</span>
+                <span className='ui-page-item'>15</span>
+                <span className='ui-page-item'>19</span>
+                <span className='ui-page-item'>下一页</span>
             </section>
         );
     }
 }
-
-export {Tabs,Search,Notice,CheckboxAlert,Math,Special,QCmenu,Notification,Starts,MyChart};
