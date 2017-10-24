@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 import './main.css';
 import './static/api';
 import {MyChart} from './static/UI';
+import {FeedBack} from './main_layer';
 import menus from './menus';
 import Order from './order/order';
 import Item from './order/item';
@@ -30,19 +31,27 @@ import Operate from './manage/operate';
 import OrderSearch from './order/order_search';
 import OrderDetail from './order/order_detail';
 const token = localStorage.getItem('token');
-//const token = '069aZcHGQmsALKM/JXA1hjGVsnlMB06lb1o3cS2pd5m0SZ7LPJ6VIvU';
 //界面头部组件
 class Header extends Component {
-    constructor(props) {super(props);}
+    constructor(props) {
+        super(props);
+        this.state = {feedbackShow:false};
+        this.toggleFeedback = this.toggleFeedback.bind(this);
+    }
+    toggleFeedback() {
+        this.setState({feedbackShow:!this.state.feedbackShow});
+    }
     render() {
+        let state = this.state;
         return (
             <div id='main-header'>
                 <div id="main-hleft">速洗达商家管理系统</div>
                 <div id="main-hright">
-                    <span id="main-feedback">意见反馈</span>
+                    <span id="main-feedback" onClick={this.toggleFeedback}>意见反馈</span>
                     <span id="main-password">修改密码</span>
                     <input type="button" value="退出" id="main-logout"/>
                 </div>
+                <FeedBack show={state.feedbackShow} onCancelRequest={this.toggleFeedback}/>
             </div>
         );
     }

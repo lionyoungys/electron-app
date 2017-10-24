@@ -135,6 +135,12 @@
     position: absolute;top: 0;left: 0;
     width: 100%;height: 100%;
 }
+.ui-fixed-bg{
+    background: rgba(153,153,153,0.5);
+    position: fixed;top: 0;left: 0;
+    z-index: 9999;
+    width: 100%;height: 100%;
+}
 /* 关闭窗口样式 */
 .ui-close{height: 100%;width: 30px;background: url(images/ui-close.png) no-repeat center;}
 /* 复选弹出框 */
@@ -420,4 +426,19 @@
     position: fixed;
     display: flex;display: -webkit-flex;background: black;opacity: 0.6;
     min-width: 600px;min-height: 600px;overflow: hidden;
+}
+/* 反馈弹窗样式 */
+.ui-feedback{
+    height: 520px;width:808px;box-sizing: border-box;-webkit-box-sizing: border-box;
+    border:1px solid #cccccc;position: fixed;top: 50%;left: 50%;margin: -260px 0 0 -404px;
+    background: #fff;line-height: normal;
+}
+.ui-feedback-bg{width: 100%;height: 144px;background: url(images/main-feedback-bg.png);}
+.ui-feedback-inputer{
+    height: 298px;box-sizing: border-box;-webkit-box-sizing: border-box;width: 100%;
+    position: relative;padding: 24px;
+}
+.ui-feedback-inputer>textarea{width: 100%;height: 100%;font-size: 16px;}
+.ui-feedback-btn-area{
+    width: 100%;display: flex;display: -webkit-flex;justify-content:center;
 }
