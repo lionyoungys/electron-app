@@ -121,13 +121,16 @@ class Forgot extends Component {
         super(props);
         this.state = {
             newPassword:'',confirmPassword:'',mobile:'',captcha:'',
-            countdown:'获取验证码'
+            msg:'获取验证码'
         };
+        this.intervalID = null;
+        this.countdown = 60;
         this.changeNewPassword = this.changeNewPassword.bind(this);    //新密码
         this.changeConfirmPassword = this.changeConfirmPassword.bind(this);    //确认密码
         this.changeMobile = this.changeMobile.bind(this);    //修改电话号码
         this.changeCaptcha = this.changeCaptcha.bind(this);    //修改验证码
         this.onConfirmRequest = this.onConfirmRequest.bind(this);    //确认提交
+        this.getCaptcha = this.getCaptcha.bind(this);    //获取验证码
     }
 
     changeNewPassword(e) {this.setState({newPassword:e.target.value.trim()});}
@@ -135,8 +138,63 @@ class Forgot extends Component {
     changeMobile(e) {this.setState({mobile:e.target.value.trim()});}
     changeCaptcha(e) {this.setState({captcha:e.target.value.trim()});}
     onConfirmRequest() {
-        console.log(this.state);
+        let state = this.state;
+        if (
+            '' === state.newPassword
+            ||
+            '' === state.mobile
+            ||
+            isNaN(state.mobile)
+            ||
+            '' === state.captcha
+        ) return;
+        if (state.newPassword !== state.confirmPassword) {
+            return this.props.noticeCallback('确认密码不一致');
+        }
+        axios.post(
+            api.U('forgot'),
+            api.data({
+                username:state.mobile,
+                password:state.newPassword,
+                code:state.captcha
+            })
+        )
+        .then((response) => {
+            if (api.verify(response.data)) {
+                this.props.changeView(0);
+            } else {
+                this.props.noticeCallback('修改失败');
+            }
+        });
     }
+
+    getCaptcha() {
+        let state = this.state;
+        if ('获取验证码' !== state.msg || '' === state.mobile || isNaN(state.mobile)) return;
+        axios.post(api.U('forgotSendCode'),api.data({username:state.mobile}))
+        .then((response) => {
+            if (api.verify(response.data)) {
+                this.setState({msg:'60s'});
+                this.intervalID = setInterval(
+                    () => {
+                        if (0 == this.countdown) {
+                            this.setState({msg:'获取验证码'});
+                            this.countdown = 60;
+                            clearInterval(this.intervalID);
+                        } else {
+                            --this.countdown
+                            this.setState({msg:this.countdown + 's'});
+                        }
+                    },
+                    1000
+                );
+            } else {
+                this.props.noticeCallback(response.data.status);
+            }
+        }); 
+    }
+
+    componentWillUnmount() {if (null !== this.intervalID) clearInterval(this.intervalID)}
 
 
     render() {
@@ -147,7 +205,7 @@ class Forgot extends Component {
                 <div>
                     <label className='label2'>新密码：</label>
                     <input 
-                        type="text" 
+                        type="password" 
                         value={state.newPassword} 
                         autoFocus 
                         onChange={this.changeNewPassword}
@@ -161,7 +219,7 @@ class Forgot extends Component {
                 <div style={style}>
                     <label className='label2'>确认密码：</label>
                     <input 
-                        type="text" 
+                        type="password" 
                         value={state.confirmPassword} 
                         onChange={this.changeConfirmPassword}
                         className='text'
@@ -185,7 +243,7 @@ class Forgot extends Component {
                         onChange={this.changeCaptcha}
                         className='text'
                     />
-                    <span className='word2'>{state.countdown}</span>
+                    <span className='word2' onClick={this.getCaptcha}>{state.msg}</span>
                 </div>
                 <div>
                     <label className='label2'></label>
