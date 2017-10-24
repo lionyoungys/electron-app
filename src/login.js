@@ -12,26 +12,23 @@ String.prototype.trim = function () {return this.replace(/(^\s*)|(\s*$)/g,'');};
 class Container extends Component {
     constructor(props) {
         super(props);
-        this.state = {notice:'',isShow:false};
-        this.timeID = null;
+        this.state = {notice:'',isShow:false,current:0};
+        this.timeOutID = null;
+        this.elements = [Login,Forgot];
         this.onCloseRequest = this.onCloseRequest.bind(this);    //关闭窗口事件
         this.noticeCallback = this.noticeCallback.bind(this);    //提示信息回调方法
+        this.changeView = this.changeView.bind(this);    //修改界面方法
     }
     onCloseRequest() {ipcRenderer.send('login-msg','close');}
     noticeCallback(notice) {
         this.setState({isShow:true,notice:notice});
-        this.timeID = setTimeout(
-            () => {
-                this.setState({isShow:false});
-            }, 
-            3000
-        );
+        this.timeID = setTimeout(() => {this.setState({isShow:false});}, 3000);
     }
-    componentWillUnmount() {
-        if (null !== this.timeID) clearTimeout(timeID);
-    }
+    changeView(index) {this.setState({current:index});}
+    componentWillUnmount() {if (null !== this.timeOutID) clearTimeout(timeOutID);}
     render () {
-        let state = this.state;
+        let state = this.state,
+            E = this.elements[state.current];
         return (
             <section className='container'>
                 <div 
@@ -39,7 +36,7 @@ class Container extends Component {
                     style={{display:(state.isShow ? 'inline-block' : 'none')}}
                 >{state.notice}</div>
                 <em id='close' onClick={this.onCloseRequest}></em>
-                <Login noticeCallback={this.noticeCallback}/>
+                <E noticeCallback={this.noticeCallback} changeView={this.changeView}/>
             </section>
         );
     }
@@ -86,7 +83,7 @@ class Login extends Component {
         return (
             <div className='login-container'>
                 <div style={{marginBottom:'12px'}}>
-                    <label className='label' htmlFor="account">电&nbsp;话：</label>
+                    <label className='label'>电&nbsp;话：</label>
                     <input 
                         type="text" 
                         value={state.mobile} 
@@ -97,7 +94,7 @@ class Login extends Component {
                     />
                 </div>
                 <div style={{marginBottom:'14px'}}>
-                    <label className='label' htmlFor="passwd">密&nbsp;码：</label>
+                    <label className='label'>密&nbsp;码：</label>
                     <input 
                         type="password" 
                         value={state.password}
@@ -109,10 +106,92 @@ class Login extends Component {
                     <label className='label'></label>
                     <input type="button" value="登陆" className='btn' onClick={this.onLoginRequest}/>
                 </div>
-                <div className='forgot'>忘记密码？</div>
+                <div className='forgot' onClick={() => {this.props.changeView(1)}}>忘记密码？</div>
                 <div className='protocol'>
                     点击登录，即表示您同意<span style={{color:'#fa2212'}}>用户协议</span>
                 </div>
+            </div>
+        );
+    }
+}
+
+
+class Forgot extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            newPassword:'',confirmPassword:'',mobile:'',captcha:'',
+            countdown:'获取验证码'
+        };
+        this.changeNewPassword = this.changeNewPassword.bind(this);    //新密码
+        this.changeConfirmPassword = this.changeConfirmPassword.bind(this);    //确认密码
+        this.changeMobile = this.changeMobile.bind(this);    //修改电话号码
+        this.changeCaptcha = this.changeCaptcha.bind(this);    //修改验证码
+        this.onConfirmRequest = this.onConfirmRequest.bind(this);    //确认提交
+    }
+
+    changeNewPassword(e) {this.setState({newPassword:e.target.value.trim()});}
+    changeConfirmPassword(e) {this.setState({confirmPassword:e.target.value.trim()});}
+    changeMobile(e) {this.setState({mobile:e.target.value.trim()});}
+    changeCaptcha(e) {this.setState({captcha:e.target.value.trim()});}
+    onConfirmRequest() {
+        console.log(this.state);
+    }
+
+
+    render() {
+        let state = this.state;
+        const style = {paddingBottom:'22px'};
+        return (
+            <div className='forgot-container'>
+                <div>
+                    <label className='label2'>新密码：</label>
+                    <input 
+                        type="text" 
+                        value={state.newPassword} 
+                        autoFocus 
+                        onChange={this.changeNewPassword}
+                        className='text'
+                    />
+                </div>
+                <div>
+                    <label className='label2'></label>
+                    <div className='word'>*密码为6～18位字母、数字组合</div>
+                </div>
+                <div style={style}>
+                    <label className='label2'>确认密码：</label>
+                    <input 
+                        type="text" 
+                        value={state.confirmPassword} 
+                        onChange={this.changeConfirmPassword}
+                        className='text'
+                    />
+                </div>
+                <div style={style}>
+                    <label className='label2'>手机号：</label>
+                    <input 
+                        type="text" 
+                        value={state.mobile} 
+                        onChange={this.changeMobile}
+                        className='text'
+                    />
+                </div>
+                <div style={style}>
+                    <label className='label2'>验证码：</label>
+                    <input 
+                        style={{width:'105px'}}
+                        type="text" 
+                        value={state.captcha} 
+                        onChange={this.changeCaptcha}
+                        className='text'
+                    />
+                    <span className='word2'>{state.countdown}</span>
+                </div>
+                <div>
+                    <label className='label2'></label>
+                    <input type="button" value="确认" className='btn' onClick={this.onConfirmRequest}/>
+                </div>
+                <div className='back' onClick={() => {this.props.changeView(0)}}>返回登录</div>
             </div>
         );
     }
