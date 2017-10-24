@@ -4,6 +4,7 @@
  */
 import React, {Component} from 'react';
 import Highcharts from 'highcharts';
+import Lightbox from 'react-image-lightbox';
 import './UI.css';
 import './func';
 //面包屑导航栏 crumbs = [{key:索引key,e:跳转的视图组件,text:文字显示}] [index=首页跳转] [callback=回调操作]
@@ -403,35 +404,29 @@ export class Page extends Component {
     }
 }
 
-export class LightImage extends Component {
+export class LightboxImage extends Component {
     constructor(props) {
         super(props);
-        this.handleClick = this.handleClick.bind(this);
-        this.state = {toggle:false};
-    }
-
-    handleClick(e) {
-        console.log(screen.availHeight);
-        console.log(screen.availWidth);
+        this.state = {isOpen:false};
     }
 
     render() {
         let props = this.props,
-            state = this.state;
-        // if (toggle) {
-        //     const style = {display:};
-        //     return (
-        //         <section style={style}>
-
-        //         </section>
-        //     );
-        // } 
+            isOpen = this.state.isOpen;
+        if (isOpen) {
+            return (
+                <Lightbox 
+                    onCloseRequest={() => this.setState({isOpen:false})}
+                    mainSrc={props.src}
+                />
+            );
+        }
         return (
             <img 
                 className={props.className} 
                 style={props.style} 
                 src={props.src}
-                onClick={this.handleClick}
+                onClick={() => this.setState({isOpen:true})}
             />
         );
     }

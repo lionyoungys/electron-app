@@ -21,6 +21,7 @@ export default class OrderSearch extends Component {
         ];
         this.changeTab = this.changeTab.bind(this);    //选项卡切换
         this.handleSearch = this.handleSearch.bind(this);    //搜索操作
+        this.changeViewMiddleWare = this.changeViewMiddleWare.bind(this);
     }
 
     componentDidMount() {
@@ -99,6 +100,14 @@ export default class OrderSearch extends Component {
         return retArr;
     }
 
+    changeViewMiddleWare(e) {
+        let target = e.target,
+            status = target.dataset.state;
+        if ((status > 0 && status <= 6) || 13 == status || 14 == status) {
+            this.props.changeView({element:'order_detail',param:target.dataset.param});
+        }
+    }
+
     render() {
         let props = this.props,
             state = this.state,
@@ -106,8 +115,8 @@ export default class OrderSearch extends Component {
                 <tr className='ui-tr-d' key={obj.id}>
                     <td 
                         className='ui-mv-default' 
-                        onClick={props.changeView} 
-                        data-e='order_detail' 
+                        onClick={this.changeViewMiddleWare} 
+                        data-state={obj.state}
                         data-param={'id=' + obj.id}
                     >
                         {obj.ordersn}

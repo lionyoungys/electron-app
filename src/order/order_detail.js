@@ -5,7 +5,7 @@
 
 import React, {Component} from 'react';
 import '../static/api';
-import Crumbs,{LightImage} from '../static/UI';
+import Crumbs,{LightboxImage} from '../static/UI';
 
 export default class OrderDetail extends Component {
     constructor(props) {
@@ -91,7 +91,7 @@ class Item extends Component {
     render() {
         let obj = this.props.obj,
             images = obj.img.map((obj2,index) =>
-                <LightImage src={api.host + obj2.img} key={index}/>
+                <LightboxImage src={api.host + obj2.img} key={index}/>
             );
         console.log(obj);
         return (
