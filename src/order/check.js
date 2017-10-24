@@ -3,7 +3,6 @@
  * @author yangyunlong
  */
 const {dialog} = window.require('electron').remote;
-//const base64Img = require('base64-img');
 const fs = window.require('fs');
 import React, {Component} from 'react';
 import '../static/api';

@@ -415,3 +415,9 @@
 .ui-detail-images{display: inline-flex;display: -webkit-inline-flex;flex-wrap: wrap;}
 .ui-detail-images>img{width: 88px;height: 88px;margin-right: 17px;}
 .ui-detail-images>img:last-child{margin-right: 0;}
+/* 图片弹出层样式 */
+.ui-light-image{
+    position: fixed;
+    display: flex;display: -webkit-flex;background: black;opacity: 0.6;
+    min-width: 600px;min-height: 600px;overflow: hidden;
+}

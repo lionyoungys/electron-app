@@ -5,7 +5,7 @@
 
 import React, {Component} from 'react';
 import '../static/api';
-import Crumbs from '../static/UI';
+import Crumbs,{LightImage} from '../static/UI';
 
 export default class OrderDetail extends Component {
     constructor(props) {
@@ -86,17 +86,12 @@ export default class OrderDetail extends Component {
 class Item extends Component {
     constructor(props) {
         super(props);
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick(e) {
-        window.open(e.target.src);
     }
 
     render() {
         let obj = this.props.obj,
             images = obj.img.map((obj2,index) =>
-                <img src={api.host + obj2.img} key={index} onClick={this.handleClick}/>
+                <LightImage src={api.host + obj2.img} key={index}/>
             );
         console.log(obj);
         return (

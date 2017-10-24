@@ -2,7 +2,6 @@
  * UI组件库
  * @author yangyunlong
  */
-const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
 import Highcharts from 'highcharts';
 import './UI.css';
@@ -408,14 +407,25 @@ export class LightImage extends Component {
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
+        this.state = {toggle:false};
     }
 
     handleClick(e) {
-        ipcRenderer.send('open-new-window',e.target.src);
+        console.log(screen.availHeight);
+        console.log(screen.availWidth);
     }
 
     render() {
-        let props = this.props;
+        let props = this.props,
+            state = this.state;
+        // if (toggle) {
+        //     const style = {display:};
+        //     return (
+        //         <section style={style}>
+
+        //         </section>
+        //     );
+        // } 
         return (
             <img 
                 className={props.className} 

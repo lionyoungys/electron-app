@@ -20,7 +20,8 @@ app.on('ready', () => {
             width:size.width,
             height:size.height,
             minWidth:800,
-            minHeight:800
+            minHeight:800,
+            backgroundColor:'#80FFFFFF'
         },
         'public/main.html'
     );
@@ -55,12 +56,7 @@ ipcMain.once('login-msg',(e,args) => {    //登录界面ipc监听
         win.login.close();
     }
 });
-ipcMain.on('open-new-window',(e, args) => {
-    let electronScreen = electron.screen;    //定义屏幕对象变量
-    //获取屏幕大小
-    let size = electronScreen.getPrimaryDisplay().workAreaSize;
-    console.log(size);
-});
+ipcMain.on('open-new-window',(e, args) => {});
 
 //窗口创建函数
 function createWindow (name,windowStyle,uri) {
