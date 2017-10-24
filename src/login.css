@@ -1,0 +1,36 @@
+html,body,div,section,label,input{padding: 0;margin: 0;}
+input,button{outline: none;border:none;}
+body{background: url(images/login-bg.jpg) no-repeat 0 0;font-size: 14px;}
+#root{-webkit-app-region: drag;}
+html,body,#root,.container{width: 100%;height: 100%;position: relative;}
+/* 关闭窗口样式 */
+#close{
+    width: 39px;height: 38px;background: url(images/login-close.png);
+    position: fixed;top: 8px;right: 8px;
+}
+/* 登录界面容器 */
+.login-container{padding: 125px 0 0 104px;};
+/* 忘记密码界面容器 */
+.forgot-container{padding: 62px 0 0 92px;}
+.login-container,.forgot-container{
+    width: 100%;height: 100%;box-sizing: border-box;-webkit-box-sizing: border-box;
+    position: absolute;top:0;
+}
+/* 文本输入框样式 */
+.text{
+    height: 26px;width: 186px;border: 1px solid rgb(167, 199, 230);
+    box-shadow: -1px -1px 1px rgb(171, 201, 231);
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+}
+/* 标签绑定样式 */
+.label{font-size: 18px;vertical-align: middle;color:#002f69;width: 92px;display: inline-block;}
+/* 按钮样式 */
+.btn{font-size: 16px; color: #4f688e;width: 104px;height: 29px;background: url(images/login-btn.png);}
+/* 提示框样式 */
+.notice{
+    color:rgb(255,255,255);background:black;border-radius:3px;font-size:16px;
+    height:30px;line-height:30px;width:180px;text-align:center;
+    overflow:hidden;position:fixed;left:156px;top:240px;
+}
+.forgot{padding-top: 16px;color: #002f69;text-align: right;padding-right: 90px;} 
+.protocol{color: #4f668e;padding-top: 10px;text-align: center;padding-right: 104px;}

@@ -3,6 +3,8 @@
  * @author yangyunlong
  */
 ((window) => {
+    //去除字符串中的空字符；
+    String.prototype.trim = function () {return this.replace(/(^\s*)|(\s*$)/g,'');};
     /**
      * 判断字符串是否在指定数组里
      * @param array 数组
