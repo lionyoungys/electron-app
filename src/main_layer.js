@@ -18,7 +18,13 @@ export class FeedBack extends Component {
         this.setState({content:value,len:value.length});
     }
     onConfirm() {
-
+        axios.post(api.U('feedback'),api.data({token:this.props.token,content:this.state.content}))
+        .then((response) => {
+            if (api.verify(response.data)) {
+                this.setState({content:'',len:0});
+                this.props.onCancelRequest();
+            }
+        });
     }
 
     render() {
@@ -53,6 +59,45 @@ export class FeedBack extends Component {
                             className='ui-btn ui-btn-confirm ui-btn-large'
                             onClick={this.onConfirm}
                         />
+                    </div>
+                </div>
+            </section>
+        );
+    }
+}
+
+export class UpdatePassword extends Component {
+    constructor(props) {super(props);}
+
+    render() {
+        if (!this.props.show) return null;
+        return (
+            <section className='ui-fixed-bg'>
+                <div className='ui-password'>
+                    <em className='ui-password-close' onClick={this.props.onCancelRequest}></em>
+                    <div style={{paddingTop:'101px'}}>
+                        <div style={{paddingBottom:'18px'}}>
+                            <label className='ui-password-label'>原密码：</label>
+                            <input type='text' className='ui-password-input'/>
+                        </div>
+                        <div style={{paddingBottom:'18px'}}>
+                            <label className='ui-password-label'>新密码：</label>
+                            <input type='text' className='ui-password-input'/>
+                        </div>
+                        <div>
+                            <label className='ui-password-label'>确认密码：</label>
+                            <input type='text' className='ui-password-input'/>
+                        </div>
+                        <div style={{paddingBottom:'26px'}}>
+                            <label className='ui-password-label' style={{height:'25px'}}></label>
+                            <span 
+                                style={{fontSize:'16px',color:'#fd4242'}}
+                            >(密码为6～18位字母、数字组合)</span>
+                        </div>
+                        <div>
+                            <label className='ui-password-label'></label>
+                            <input type='button' className='ui-password-btn'/>
+                        </div>
                     </div>
                 </div>
             </section>

@@ -1,5 +1,5 @@
 /**
- * 后台主界面组件 新手请注意，前方高能，请保重
+ * 后台主界面组件
  * @author yangyunlong
  */
 import React, {Component} from 'react';
@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import './main.css';
 import './static/api';
 import {MyChart} from './static/UI';
-import {FeedBack} from './main_layer';
+import {FeedBack,UpdatePassword} from './main_layer';
 import menus from './menus';
 import Order from './order/order';
 import Item from './order/item';
@@ -35,12 +35,12 @@ const token = localStorage.getItem('token');
 class Header extends Component {
     constructor(props) {
         super(props);
-        this.state = {feedbackShow:false};
+        this.state = {feedbackShow:false,updatePasswordShow:false};
         this.toggleFeedback = this.toggleFeedback.bind(this);
+        this.toggleUpdatePassword = this.toggleUpdatePassword.bind(this);
     }
-    toggleFeedback() {
-        this.setState({feedbackShow:!this.state.feedbackShow});
-    }
+    toggleFeedback() {this.setState({feedbackShow:!this.state.feedbackShow});}
+    toggleUpdatePassword() {this.setState({updatePasswordShow:!this.state.updatePasswordShow});}
     render() {
         let state = this.state;
         return (
@@ -48,10 +48,11 @@ class Header extends Component {
                 <div id="main-hleft">速洗达商家管理系统</div>
                 <div id="main-hright">
                     <span id="main-feedback" onClick={this.toggleFeedback}>意见反馈</span>
-                    <span id="main-password">修改密码</span>
+                    <span id="main-password" onClick={this.toggleUpdatePassword}>修改密码</span>
                     <input type="button" value="退出" id="main-logout"/>
                 </div>
                 <FeedBack show={state.feedbackShow} onCancelRequest={this.toggleFeedback}/>
+                <UpdatePassword show={state.updatePasswordShow} onCancelRequest={this.toggleUpdatePassword}/>
             </div>
         );
     }

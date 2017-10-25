@@ -442,3 +442,25 @@
 .ui-feedback-btn-area{
     width: 100%;display: flex;display: -webkit-flex;justify-content:center;
 }
+/* 修改密码弹窗样式 */
+.ui-password{
+    width: 447px;height: 373px;background: url(images/ui-update-password.png);
+    position: fixed;top: 50%;left: 50%;margin: -186.5px 0 0 -223.5px;
+    line-height: normal;color: #333333;
+}
+.ui-password-close{
+    width: 35px;height: 35px;float: right;margin: 18px 16px 0 0;
+    background: url(images/ui-update-password-close.png);
+}
+.ui-password-close:hover{background: url(images/ui-update-password-close2.png);}
+.ui-password-label{
+    width: 136px;height:40px;display: inline-block;font-size: 18px;line-height: 40px;text-align: right;
+}
+.ui-password-input{
+    width: 260px;height: 40px;line-height: 40px;font-size: 18px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    border: 1px solid #cccccc;
+}
+.ui-password-btn{
+    width: 81px;height: 37px;background: url(images/ui-update-password-btn.png);
+}
