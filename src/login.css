@@ -2,6 +2,7 @@ html,body,div,section,label,input{padding: 0;margin: 0;}
 input,button{outline: none;border:none;}
 body{font-size: 14px;}
 #root{-webkit-app-region: drag;}
+#close,input,.back,.forgot,.word,.word2{-webkit-app-region: no-drag;}
 html,body,#root,.container{width: 100%;height: 100%;position: relative;}
 /* 关闭窗口样式 */
 #close{
