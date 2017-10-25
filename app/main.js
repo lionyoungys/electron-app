@@ -9,9 +9,9 @@ let win = {};    //声明窗口对象
 
 // 部分 API 在 ready 事件触发后才能使用。
 app.on('ready', () => {
-    //createWindow('login', {width:491,height:351,frame:false,resizable:false}, 'public/login.html');
+    createWindow('login', {width:491,height:351,frame:false,resizable:false}, 'public/login.html');
     //开发测试优先创建main窗口
-    var electronScreen = electron.screen;    //定义屏幕对象变量
+    /*var electronScreen = electron.screen;    //定义屏幕对象变量
     //获取屏幕大小
     var size = electronScreen.getPrimaryDisplay().workAreaSize;
     createWindow(
@@ -24,7 +24,7 @@ app.on('ready', () => {
             backgroundColor:'#80FFFFFF'
         },
         'public/main.html'
-    );
+    );*/
 });
 
 app.on('window-all-closed', () => {app.quit()});    //当全部窗口关闭时退出。
@@ -37,7 +37,7 @@ app.on('window-all-closed', () => {app.quit()});    //当全部窗口关闭时�
     }
 })*/
 
-ipcMain.once('login-msg',(e,args) => {    //登录界面ipc监听
+ipcMain.on('login-msg',(e,args) => {    //登录界面ipc监听
     if ('close' === args) win.login.close();    //用户关闭界面
     if ('SUCCESS' === args) {    //登录成功打开主页面并销毁登录界面
         let electronScreen = electron.screen;    //定义屏幕对象变量
@@ -56,7 +56,11 @@ ipcMain.once('login-msg',(e,args) => {    //登录界面ipc监听
         win.login.close();
     }
 });
-ipcMain.on('open-new-window',(e, args) => {});
+ipcMain.on('close-main',() => {win.main.close();});
+ipcMain.on('toggle-login',() => {
+    createWindow('login', {width:491,height:351,frame:false,resizable:false}, 'public/login.html');
+    win.main.close();
+});
 
 //窗口创建函数
 function createWindow (name,windowStyle,uri) {

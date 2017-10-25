@@ -2,6 +2,7 @@
  * 主界面弹出层组件组件
  * @author yangyunlong
  */
+const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
 import './static/api';
 import './static/UI.css';
@@ -67,10 +68,48 @@ export class FeedBack extends Component {
 }
 
 export class UpdatePassword extends Component {
-    constructor(props) {super(props);}
+    constructor(props) {
+        super(props);
+        this.state = {newPassword:'',confirmPassword:'',oldPassword:''};
+        this.changeConfirmPassword = this.changeConfirmPassword.bind(this);
+        this.changeNewPassword = this.changeNewPassword.bind(this);
+        this.changeOldPassword = this.changeOldPassword.bind(this);
+        this.submit = this.submit.bind(this);
+    }
+    changeNewPassword(e) {this.setState({newPassword:e.target.value});}
+    changeConfirmPassword(e) {this.setState({confirmPassword:e.target.value});}
+    changeOldPassword(e) {this.setState({oldPassword:e.target.value});}
+    submit() {
+        let state = this.state,
+            props = this.props;
+        if (
+            '' === state.newPassword 
+            || 
+            '' === state.oldPassword 
+            || 
+            '' === state.confirmPassword
+        ) return;
+        if (state.newPassword !== state.confirmPassword) return;
+        axios.post(
+            api.U('updatePassword'),
+            api.data({
+                token:props.token,
+                uid:props.uid,
+                new_password:state.newPassword,
+                old_password:state.oldPassword
+            })
+        )
+        .then((response) => {
+            console.log(response.data);
+            if (api.verify(response.data)) {
+                ipcRenderer.send('toggle-login','update');
+            }
+        });
+    }
 
     render() {
         if (!this.props.show) return null;
+        let state = this.state;
         return (
             <section className='ui-fixed-bg'>
                 <div className='ui-password'>
@@ -78,15 +117,30 @@ export class UpdatePassword extends Component {
                     <div style={{paddingTop:'101px'}}>
                         <div style={{paddingBottom:'18px'}}>
                             <label className='ui-password-label'>原密码：</label>
-                            <input type='text' className='ui-password-input'/>
+                            <input 
+                                type='password' 
+                                className='ui-password-input' 
+                                value={state.oldPassword}
+                                onChange={this.changeOldPassword}
+                            />
                         </div>
                         <div style={{paddingBottom:'18px'}}>
                             <label className='ui-password-label'>新密码：</label>
-                            <input type='text' className='ui-password-input'/>
+                            <input 
+                                type='password' 
+                                className='ui-password-input' 
+                                value={state.newPassword}
+                                onChange={this.changeNewPassword}
+                            />
                         </div>
                         <div>
                             <label className='ui-password-label'>确认密码：</label>
-                            <input type='text' className='ui-password-input'/>
+                            <input 
+                                type='password' 
+                                className='ui-password-input' 
+                                value={state.confirmPassword}
+                                onChange={this.changeConfirmPassword}
+                            />
                         </div>
                         <div style={{paddingBottom:'26px'}}>
                             <label className='ui-password-label' style={{height:'25px'}}></label>
@@ -96,7 +150,7 @@ export class UpdatePassword extends Component {
                         </div>
                         <div>
                             <label className='ui-password-label'></label>
-                            <input type='button' className='ui-password-btn'/>
+                            <input type='button' className='ui-password-btn' onClick={this.submit}/>
                         </div>
                     </div>
                 </div>

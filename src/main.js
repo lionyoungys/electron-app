@@ -2,6 +2,7 @@
  * 后台主界面组件
  * @author yangyunlong
  */
+const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import './main.css';
@@ -31,6 +32,7 @@ import Operate from './manage/operate';
 import OrderSearch from './order/order_search';
 import OrderDetail from './order/order_detail';
 const token = localStorage.getItem('token');
+const uid = localStorage.getItem('uid');
 //界面头部组件
 class Header extends Component {
     constructor(props) {
@@ -49,10 +51,24 @@ class Header extends Component {
                 <div id="main-hright">
                     <span id="main-feedback" onClick={this.toggleFeedback}>意见反馈</span>
                     <span id="main-password" onClick={this.toggleUpdatePassword}>修改密码</span>
-                    <input type="button" value="退出" id="main-logout"/>
+                    <input 
+                        type="button" 
+                        value="退出" 
+                        id="main-logout"
+                        onClick={() => {ipcRenderer.send('close-main','close');}}
+                    />
                 </div>
-                <FeedBack show={state.feedbackShow} onCancelRequest={this.toggleFeedback}/>
-                <UpdatePassword show={state.updatePasswordShow} onCancelRequest={this.toggleUpdatePassword}/>
+                <FeedBack 
+                    show={state.feedbackShow} 
+                    onCancelRequest={this.toggleFeedback} 
+                    token={token}
+                />
+                <UpdatePassword 
+                    show={state.updatePasswordShow} 
+                    onCancelRequest={this.toggleUpdatePassword} 
+                    token={token}
+                    uid={uid}
+                />
             </div>
         );
     }
