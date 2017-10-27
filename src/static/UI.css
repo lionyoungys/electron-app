@@ -1,6 +1,10 @@
 /* box-sizing注册 */
 .ui-search,.ui-alert-checkbox,.ui-special,.ui-special-input-area,.ui-row,
 .ui-special-text-area,.ui-input,.ui-input2,.ui-input3{box-sizing: border-box;-webkit-box-sizing: border-box;}
+/* 滚动条样式 */
+::-webkit-scrollbar{width: 5px;}
+/* 滚动条滑块样式 */
+::-webkit-scrollbar-thumb{border-radius: 10px;background: #e6e8e9;}
 /* 容器样式 */
 .ui-container{display: block;padding: 18px 16px 0;}
 .ui-content{padding-top: 20px;flex-wrap: wrap}
@@ -461,6 +465,62 @@
     box-sizing: border-box;-webkit-box-sizing: border-box;
     border: 1px solid #cccccc;
 }
-.ui-password-btn{
-    width: 81px;height: 37px;background: url(images/ui-update-password-btn.png);
+.ui-password-btn{width: 81px;height: 37px;background: url(images/ui-update-password-btn.png);}
+/* 窗口关闭样式 */
+.ui-close2{width: 35px;height: 35px;display: inline-block;background: url(images/ui-update-password-close.png);}
+.ui-close2:hover{background: url(images/ui-update-password-close2.png);}
+/* 合作门店界面样式 */
+.ui-teamwork-add{
+    width:414px;height: 310px;background: url(images/ui-teamwork-add.png);
+    position: fixed;top:50%;left: 50%;margin: -148px 0 0 -183.5px;
+}
+.ui-teamwork-delete{
+    width:357px;height: 263px;background: url(images/ui-teamwork-delete.png);
+    position: fixed;top:50%;left: 50%;margin: -131.5px 0 0 -178.5px;
+}
+.ui-teamwork-title{
+    width: 100%;height: 69px;box-sizing: border-box;-webkit-box-sizing: border-box;
+    display: flex;display: -webkit-flex;
+    justify-content: space-between;align-items: center;padding: 0 18px;font-size: 20px;
+}
+.ui-teamwork-prefix{
+    height: 22px;padding-left: 22px;
+    line-height: 22px;color: #537185;
+    background: url(images/ui-teamwork1.png) no-repeat left center;
+}
+.ui-teamwork-prefix2{
+    height: 23px;padding-left: 19px;
+    line-height: 23px;color: #537185;
+    background: url(images/ui-teamwork2.png) no-repeat left center;
+}
+.ui-teamwork-add-box{
+    width: 100%;height: 227px;padding:20px 0 0 32px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+}
+.ui-teamwork-input-area{display: flex;display: -webkit-flex;position: relative;}
+.ui-teamwork-input{
+    width: 251px;height: 40px;padding: 0 10px;font-size: 16px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    margin-right: 24px;line-height: 40px;border: 1px solid #b2b2b2;
+}
+.ui-teamwork-searcher{
+    width: 251px;min-height: 28px;max-height: 167px;
+    overflow-x: hidden;overflow-y: auto;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    border: 1px solid #b2b2b2; border-top: none;
+    position: absolute;top: 100%;
+}
+.ui-teamwork-searcher-item{
+    width: 100%;height: 28px;overflow: hidden;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    font-size: 16px;line-height: 28px;padding: 0 12px;
+}
+.ui-teamwork-searcher-item:hover{background: #d1f2fb;}
+/* 按钮样式 */
+.ui-teamwork-cancel{width: 81px;height: 37px;background: url(images/ui-teamwork-cancel.png)}
+.ui-teamwork-confirm{width: 81px;height: 37px;background: url(images/ui-teamwork-confirm.png)}
+/* 删除按钮域 */
+.ui-teamwork-btn-area{
+    width: 100%;box-sizing: border-box;-webkit-box-sizing: border-box;
+    display: flex;display: -webkit-flex;justify-content: center;
 }

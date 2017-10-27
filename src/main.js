@@ -31,6 +31,7 @@ import GoodsAdd from './manage/goods_add';
 import Operate from './manage/operate';
 import OrderSearch from './order/order_search';
 import OrderDetail from './order/order_detail';
+import Teamwork from './manage/teamwork';
 const token = localStorage.getItem('token');
 const uid = localStorage.getItem('uid');
 //界面头部组件
@@ -107,6 +108,7 @@ class Main extends Component {
             operate:Operate,    //经营分析
             order_search:OrderSearch,    //订单查询
             order_detail:OrderDetail,    //订单详情
+            teamwork:Teamwork,    //合作门店
         };
     }
     //获取店铺状态数据

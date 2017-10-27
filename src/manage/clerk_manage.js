@@ -7,12 +7,11 @@ import '../static/api';
 import Crumbs,{Notification} from '../static/UI';
 import md5 from 'md5';
 
-class ClerkManage extends Component {
+export default class ClerkManage extends Component {
     constructor(props) {
         super(props);
         this.crumbs = [{key:0,text:'员工管理'}];
         this.state = {clerks:[],show:false};
-        this.addClerk = this.addClerk.bind(this);    //弹窗唤醒事件
         this.callback = this.callback.bind(this);    //弹窗回调函数
         this.deleteClerk = this.deleteClerk.bind(this);    //删除员工
     }
@@ -38,7 +37,6 @@ class ClerkManage extends Component {
         this.setState({show:false})
     }
 
-    addClerk() {this.setState({show:true});}
     deleteClerk(e) {
         let id = e.target.dataset.id,
             state = this.state;
@@ -61,6 +59,7 @@ class ClerkManage extends Component {
                 <tr className='ui-tr-d' key={obj.id}>
                     <td>{obj.nickname}</td>
                     <td>{obj.username}</td>
+                    <td>{obj.auth}</td>
                     <td>
                         <input 
                             type='button' 
@@ -81,13 +80,13 @@ class ClerkManage extends Component {
                             type='button' 
                             value='+添加员工' 
                             className='ui-btn ui-btn-confirm ui-btn-large'
-                            onClick={this.addClerk}
+                            onClick={() => this.setState({show:true})}
                         />
                     </div>
                     <div className='ui-content'>
                         <table className='ui-table'>
                             <thead className='ui-fieldset'>
-                                <tr className='ui-tr-h'><th>姓名</th><th>手机号</th><th>编辑</th></tr>
+                                <tr className='ui-tr-h'><th>姓名</th><th>手机号</th><th>权限</th><th>编辑</th></tr>
                             </thead>
                             <tbody className='ui-fieldset'>{html}</tbody>
                         </table>
@@ -109,12 +108,7 @@ class AddClerk extends Component {
         this.countdown = 60;
         this.timeOutId = this.intervalId = null;
         this.onConfirm = this.onConfirm.bind(this);    //确认
-        this.onCancel = this.onCancel.bind(this);    //取消
         this.captcha = this.captcha.bind(this);    //获取验证码
-        this.changeName = this.changeName.bind(this);    //名字
-        this.changeMobile = this.changeMobile.bind(this);    //电话
-        this.changeCaptcha = this.changeCaptcha.bind(this);    //验证码
-        this.changePassword = this.changePassword.bind(this);    //密码
     }
 
     componentWillUnmount() {
@@ -145,11 +139,7 @@ class AddClerk extends Component {
             });
         }
     }
-    onCancel() {this.props.callback(false);}
-    changeName(e) {this.setState({name:e.target.value});}
-    changeMobile(e) {this.setState({mobile:e.target.value});}
-    changeCaptcha(e) {this.setState({captcha:md5(e.target.value)});}
-    changePassword(e) {this.setState({password:e.target.value});}
+    
     captcha() {
         let state = this.state,
             props = this.props;
@@ -194,7 +184,7 @@ class AddClerk extends Component {
                                     type='text' 
                                     className='ui-clerk-box-input' 
                                     maxLength='4'
-                                    onChange={this.changeName}
+                                    onChange={e => this.setState({name:e.target.value})}
                                 />
                             </p>
                             <p>
@@ -202,7 +192,7 @@ class AddClerk extends Component {
                                 <input 
                                     type='text' 
                                     className='ui-clerk-box-input' 
-                                    onChange={this.changeMobile}
+                                    onChange={e => this.setState({mobile:e.target.value})}
                                 />
                             </p>
                             <p>
@@ -210,7 +200,7 @@ class AddClerk extends Component {
                                 <input 
                                     type='text' 
                                     className='ui-clerk-box-input2'
-                                    onChange={this.changeCaptcha}
+                                    onChange={e => this.setState({captcha:md5(e.target.value)})}
                                 />
                                 <span onClick={this.captcha}>{state.msg}</span>
                             </p>
@@ -219,13 +209,13 @@ class AddClerk extends Component {
                                 <input 
                                     type='password' 
                                     className='ui-clerk-box-input'
-                                    onChange={this.changePassword}
+                                    onChange={e => this.setState({password:e.target.value})}
                                 />
                             </p>
                         </div>
                     </div>
                     <div className='ui-clerk-box-down'>
-                        <div className='ui-clerk-box-btn' onClick={this.onCancel}>取消</div>
+                        <div className='ui-clerk-box-btn' onClick={() => props.callback(false)}>取消</div>
                         <div className='ui-clerk-box-btn' onClick={this.onConfirm}>确认</div>
                     </div>
                 </div>
@@ -233,5 +223,3 @@ class AddClerk extends Component {
         );
     }
 }
-
-export default ClerkManage;
