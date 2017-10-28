@@ -110,21 +110,27 @@
     border:1px solid #f5f5f5;
 }
 /* 复选框样式 */
-.ui-checkbox{
+.ui-checkbox,.ui-checkbox2,.ui-checkbox3{
     display: inline-flex;display: -webkit-inline-flex;align-items: center;
+    background-repeat: no-repeat;background-position: left center;
+}
+.ui-checkbox{
     height: 19px;line-height: 19px;padding-left: 30px;
     background-image: url(images/ui-checkbox.png);
-    background-repeat: no-repeat;background-position: left center;
 }
 .ui-checked{background-image: url(images/ui-checked.png);}    /* 复选框选中样式 */
 /* 复选框样式2 */
 .ui-checkbox2{
-    display: inline-flex;display: -webkit-inline-flex;align-items: center;
     padding-left: 50px;height: 29px;line-height: 29px;
     background-image: url(images/ui-checkbox2.png);
-    background-repeat: no-repeat;background-position: left center;
 }
 .ui-checked2{background-image: url(images/ui-checked2.png);}
+/* 复选框样式3 */
+.ui-checkbox3{
+    height: 24px;line-height: 24px;padding-left: 34px;font-size: 16px;
+    background-image: url(images/ui-checkbox3.png);
+}
+.ui-checked3{background-image: url(images/ui-checked3.png);}
 /* 单选框样式 */
 .ui-radio{
     display: inline-flex;display: -webkit-inline-flex;align-items: center;
@@ -147,6 +153,14 @@
 }
 /* 关闭窗口样式 */
 .ui-close{height: 100%;width: 30px;background: url(images/ui-close.png) no-repeat center;}
+/* 关闭窗口样式2 */
+.ui-close2{width: 35px;height: 35px;display: inline-block;background: url(images/ui-update-password-close.png);}
+.ui-close2:hover{background: url(images/ui-update-password-close2.png);}
+/* 关闭窗口样式3 */
+.ui-close3{
+    width: 29px;height: 29px;display: inline-block;background: url(images/ui-close3.png);
+}
+.ui-close3:hover{background: url(images/ui-close3-hover.png);}
 /* 复选弹出框 */
 .ui-alert-checkbox{
     width: 409px;height: 382px;background: #fff;border-radius: 5px;padding: 0 13px;
@@ -306,39 +320,44 @@
 }
 /* 添加员工弹窗样式 */
 .ui-clerk-box{
-    width: 458px;height: 385px;background: #fff;border-radius: 5px;
+    width: 561px;min-height: 554px;background: #fff;border-radius: 10px;
+    position: fixed;left: 50%;top: 50%;margin: -277px 0 0 -280.5px;
+}
+.ui-clerk-box-header{
+    height: 60px;width: 100%;padding: 0 16px;
+    display: flex;display: -webkit-flex;
+    align-items: center;justify-content: space-between;
     box-sizing: border-box;-webkit-box-sizing: border-box;
-    position: absolute;left: calc((100% - 458px) / 2);top:  calc((100% - 385px) / 2);
+    background: url(images/ui-clerk-header.png) no-repeat left center;
 }
-.ui-clerk-box-up{
-    display: block;width: 100%;height: 318px;padding: 0 28px;
-    border-bottom: 1px solid #cccccc;
+.ui-clerk-box-header>span{
+    height: 21px;line-height: 21px;padding-left: 30px;
+    font-size: 20px;color: #537185;
+    background: url(images/ui-clerk-icon.png) no-repeat left center;
+}
+.ui-clerk-box-body{
+    width: 100%;min-height: 494px;padding: 25px 0;
     box-sizing: border-box;-webkit-box-sizing: border-box;
+    border: 1px solid #aec9d6;border-top: none;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
-.ui-clerk-box-down{display: flex;display: -webkit-flex;height: 66px;justify-content: space-between}
-.ui-clerk-box-title{
-    height: 63px;border-bottom: 1px solid #cccccc;display: block;
-    line-height: 63px;font-size: 22px;text-align: center;
+.ui-clerk-box-row{
+    display: flex;display: -webkit-flex;margin-bottom: 16px;
 }
-.ui-clerk-box-content{padding: 20px 20px 16px 0;}
-.ui-clerk-box-content>p{
-    height: 38px;padding-bottom: 16px;line-height: 38px;font-size: 16px;
-    display: flex;display: -webkit-flex;justify-content: space-between;
+.ui-clerk-box-row>span:first-child{
+    width: 125px;height: 40px;font-size: 18px;line-height: 40px;
+    margin-right: 14px;text-align: right;
 }
-.ui-clerk-box-content>p>span:first-child{width: 94px;text-align: right;}
-.ui-clerk-box-content>p>span:last-child{
-    width: 99px;color: #02bfbe;padding-left: 10px;
+.ui-clerk-box-row>input[type=text]{
+    height: 40px;line-height: 40px;width: 272px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    border: 1px solid #e0e7eb;
 }
-.ui-clerk-box-input,.ui-clerk-box-input2{
-    height: 38px;width: 285px;border: 1px solid #cccccc;font-size: 16px;
-    box-sizing: border-box;-webkit-box-sizing: border-box;padding: 0 14px;
-}
-.ui-clerk-box-input2{width: 173px;}
-.ui-clerk-box-btn{
-    width: 50%;height: 100%;box-sizing: border-box;-webkit-box-sizing: border-box;
-    font-size: 22px;color: #02bfbe;text-align: center;line-height: 66px;
-}
-.ui-clerk-box-btn:first-child{border-right: 1px solid #cccccc;color:black;}
+.ui-clerk-box-row>.input{width: 168px;margin-right: 14px;}
+.ui-clerk-box-row>.captcha{height: 40px;line-height: 40px;font-size: 16px;color:#ff6536;}
+.ui-clerk-box-row>.auth{display: inline-flex;display: -webkit-inline-flex;flex-wrap: wrap;width: 420px;}
+.ui-clerk-box-row>.auth>span{width: 101px;margin-bottom: 20px;}
 /* 财务对账界面样式 */
 .ui-finance-container{
     display: flex;display: -webkit-flex;width: 100%;justify-content: space-between;
@@ -466,9 +485,6 @@
     border: 1px solid #cccccc;
 }
 .ui-password-btn{width: 81px;height: 37px;background: url(images/ui-update-password-btn.png);}
-/* 窗口关闭样式 */
-.ui-close2{width: 35px;height: 35px;display: inline-block;background: url(images/ui-update-password-close.png);}
-.ui-close2:hover{background: url(images/ui-update-password-close2.png);}
 /* 合作门店界面样式 */
 .ui-teamwork-add{
     width:414px;height: 310px;background: url(images/ui-teamwork-add.png);
