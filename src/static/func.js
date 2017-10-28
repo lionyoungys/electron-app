@@ -142,8 +142,32 @@
      * @return boolean
      */
     f.isSet = function (value) {
-        if ('undefined' === typeof value || null === value || '' === value) return false;
+        if ('undefined' === typeof value || null === value || '' === value || 0 == value) return false;
         return true;
+    }
+    /**
+     * 获取当前日期时间
+     * @param format 格式化方式
+     * @return currentDate
+     */
+    f.currentDate = function (format) {
+        let currentDate = new Date();
+        if ('undefined' !== typeof format) {
+            let date = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
+            let time = currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds();
+            switch (format) {
+                case 'date':
+                    currentDate = date;
+                break;
+                case 'time':
+                    currentDate = time;
+                break;
+                case 'datetime':
+                    currentDate = date + ' ' + time;
+                break;
+            }
+        }
+        return currentDate;
     }
     window.func = f;
 })(window);

@@ -32,6 +32,8 @@ import Operate from './manage/operate';
 import OrderSearch from './order/order_search';
 import OrderDetail from './order/order_detail';
 import Teamwork from './manage/teamwork';
+import Voucher from './manage/voucher';
+import VoucherList from './manage/voucher_list';
 const token = localStorage.getItem('token');
 const uid = localStorage.getItem('uid');
 //界面头部组件
@@ -109,6 +111,8 @@ class Main extends Component {
             order_search:OrderSearch,    //订单查询
             order_detail:OrderDetail,    //订单详情
             teamwork:Teamwork,    //合作门店
+            voucher:Voucher,    //制作代金券
+            voucher_list:VoucherList,    //生成代金券
         };
     }
     //获取店铺状态数据

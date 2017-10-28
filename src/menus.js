@@ -50,7 +50,7 @@ const Menus = [
             {id:307, text:'用户评价',e:'appraise'},
             {id:308, text:'门店信息',e:'info'},
             {id:309, text:'合作门店',e:'teamwork'},
-            {id:310, text:'制作代金券'}
+            {id:310, text:'制作代金券',e:'voucher'}
         ]
     }
 ];

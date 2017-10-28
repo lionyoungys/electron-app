@@ -524,3 +524,13 @@
     width: 100%;box-sizing: border-box;-webkit-box-sizing: border-box;
     display: flex;display: -webkit-flex;justify-content: center;
 }
+/* 代金券界面样式 */
+.ui-voucher-row{display: flex;display: -webkit-flex;margin-bottom: 18px;}
+.ui-voucher-row>.label{width: 126px;font-size: 18px;line-height: 43px;text-align: right;}
+.ui-voucher-row>.input{
+    width: 259px;height: 43px;box-sizing: border-box;-webkit-box-sizing: border-box;
+    line-height: 43px;font-size: 18px;padding: 0 14px;border: 1px solid #ccc;
+}
+.ui-voucher-row>.postfix{height: 43px;padding-left: 10px;font-size: 18px;line-height: 43px;}
+.ui-voucher-list{display: flex;display: -webkit-flex;font-size: 18px;}
+.ui-voucher-list .row{padding: 0 0 20px 22px;}
