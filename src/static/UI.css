@@ -10,7 +10,7 @@
 .ui-content{padding-top: 20px;flex-wrap: wrap}
 .ui-box,.ui-box-between,.ui-content,.ui-box-column,.ui-box-right,.ui-page-box,
 .ui-question-choose-bar{display: flex;display: -webkit-flex;}
-.ui-search,.ui-math-container{display: inline-flex;display: -webkit-inline-flex;}
+.ui-search,.ui-search2,.ui-math-container{display: inline-flex;display: -webkit-inline-flex;}
 .ui-box-between{justify-content: space-between}
 .ui-box-column{flex-direction: column;}
 .ui-box-right{flex-direction:row-reverse;}
@@ -53,6 +53,18 @@
     width: 68px;height: 100%;
     background: #ff6c43;color: #fff;font-size: 18px;
     text-align: center;line-height: 40px;
+}
+/* 搜索框样式2 */
+.ui-search2{height: 40px;line-height: 40px;}
+.ui-search2>input[type=text]{
+    height: 100%;width: 422px;margin-right: 18px;font-size: 16px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    border: 1px solid #999;
+}
+.ui-search2>input[type=button]{
+    width: 124px;height: 100%;font-size: 16px;
+    text-align: center;border-radius: 5px;
+    color: white;background: #fa6b63;
 }
 /* 输入框样式 */
 .ui-input{
@@ -289,9 +301,13 @@
 /* 订单支付界面样式 */
 .ui-pay-amount{
     display: flex;display: -webkit-flex;
-    height: 95px;justify-content: space-between;
+    justify-content: space-between;
     border-bottom: 1px solid #cccccc;align-items: center;
 }
+.ui-pay-amount-area{display: flex;display: -webkit-flex;}
+.ui-pay-amount-area:first-child{padding-top: 23px;}
+.ui-pay-amount-area>span:first-child{width: 80px;font-size: 16px;padding-bottom: 23px;text-align: right;}
+.ui-pay-amount-area>span:last-child{width: 149px;font-size: 16px;padding-bottom: 23px;text-align: right;}
 .ui-pay-prefix{font-size: 18px;color: #333333}
 .ui-pay-row{padding: 30px 0 30px 110px;border-bottom: 1px dashed #cccccc}
 .ui-pay-payment{

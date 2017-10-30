@@ -51,20 +51,47 @@ export class Search extends Component {
     constructor(props) {
         super(props);
         this.state = {word:''};
-        this.handleChange = this.handleChange.bind(this);
-        this.search = this.search.bind(this);
     }
-    handleChange(e) {
-        this.setState({word:e.target.value});
-    }
-    search() {this.props.callback(this.state.word)}
+
     render() {
         let props = this.props,
             state = this.state;
         return (
             <div className='ui-search'>
-                <input type='text' placeholder={props.placeholder} onChange={this.handleChange}/>
-                <input type='button' value='搜索' onClick={this.search}/>
+                <input 
+                    type='text' 
+                    placeholder={props.placeholder} 
+                    value={state.word}
+                    onChange={e => this.setState({word:e.target.value})}
+                />
+                <input type='button' value='搜索' onClick={() => props.callback(state.word)}/>
+            </div>
+        );
+    }
+}
+//searchbar  button   placeholder  [callback=回调操作]
+export class Search2 extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {word:''};
+    }
+
+    render() {
+        let props = this.props,
+            state = this.state;
+        return (
+            <div className='ui-search2'>
+                <input 
+                    type='text' 
+                    placeholder={props.placeholder} 
+                    value={state.word}
+                    onChange={e => this.setState({word:e.target.value})}
+                />
+                <input 
+                    type='button' 
+                    value={props.button}
+                    onClick={() => props.callback(state.word)}
+                />
             </div>
         );
     }

@@ -4,7 +4,7 @@
  */
 import React, {Component} from 'react';
 import '../static/api';
-import Crumbs from '../static/UI';
+import Crumbs,{Search2} from '../static/UI';
 
 class Pay extends Component {
     constructor(props) {
@@ -28,6 +28,7 @@ class Pay extends Component {
         this.toggleChecked = this.toggleChecked.bind(this);    //切换支付方式
         this.toggleReduce = this.toggleReduce.bind(this);    //切换折扣方式
         this.specialChange = this.specialChange.bind(this);    //修改特殊折扣
+        this.bindDiscount = this.bindDiscount.bind(this);
     }
 
     componentDidMount() {
@@ -75,6 +76,9 @@ class Pay extends Component {
     specialChange(e) {
         this.setState({reduceAmount:e.target.value});
     }
+    bindDiscount(word) {
+        console.log(word);
+    }
 
     render() {
         let state = this.state;
@@ -84,6 +88,21 @@ class Pay extends Component {
                 <div style={{padding:'0 20px'}}>
                     <div className='ui-pay-amount'>
                         <div>
+                            <div style={{padding:'23px 0',fontSize:'18px',color:'#999'}}>请输入代金券码：</div>
+                            <Search2 button='绑定并使用' callback={this.bindDiscount}/>
+                        </div>
+                        <div>
+                            <div className='ui-pay-amount-area'>
+                                <span>应收：</span><span>&yen;{state.amount}</span>
+                            </div>
+                            <div className='ui-pay-amount-area'>
+                                <span>品项折扣：</span><span>&yen;{state.discount}</span>
+                            </div>
+                            <div className='ui-pay-amount-area'>
+                                <span>代金券：</span><span>&yen;{state.amount}</span>
+                            </div>
+                        </div>
+                        {/* <div>
                             <span className='ui-pay-prefix'>&emsp;应收：</span>
                             <span style={{fontSize:'24px'}}>&yen;{state.amount}</span>
                         </div>
@@ -96,10 +115,14 @@ class Pay extends Component {
                         <div>
                             <span className='ui-pay-prefix'>实收：</span>
                             <span style={{fontSize:'30px',color:'#ff0000'}}>&yen;{state.realAmount}&emsp;</span>
-                        </div>
+                        </div> */}
+                    </div>
+                    <div className='ui-pay-amount-area' style={{justifyContent:'flex-end',paddingTop:'24px'}}>
+                        <span>实收：</span>
+                        <span style={{color:'#fd3333',fontSize:'24px'}}>&yen;{state.realAmount}</span>
                     </div>
                 </div>
-                <div style={{padding:'36px 20px 0'}}>
+                <div style={{padding:'16px 20px 0'}}>
                     <div style={{fontSize:'20px',color:'#999999',padding:'0 0 24px 13px'}}>选择支付方式</div>
                     <div className='ui-pay-row' style={{display:(1 == state.vipExist ? 'block' : 'none')}}>
                         <section 

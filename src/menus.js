@@ -23,7 +23,7 @@ const Menus = [
         options:[
             {id:201, text:'收衣',e:'take'},
             {id:202, text:'入厂'},
-            {id:203, text:'送洗'},
+            {id:203, text:'送洗',e:'offline_clean'},
             {id:204, text:'烘干'},
             {id:205, text:'熨烫'},
             {id:206, text:'质检'},

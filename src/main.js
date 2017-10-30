@@ -34,6 +34,7 @@ import OrderDetail from './order/order_detail';
 import Teamwork from './manage/teamwork';
 import Voucher from './manage/voucher';
 import VoucherList from './manage/voucher_list';
+import OfflineClean from './offline/offline_clean'
 const token = localStorage.getItem('token');
 const uid = localStorage.getItem('uid');
 //界面头部组件
@@ -113,6 +114,7 @@ class Main extends Component {
             teamwork:Teamwork,    //合作门店
             voucher:Voucher,    //制作代金券
             voucher_list:VoucherList,    //生成代金券
+            offline_clean:OfflineClean,    //送洗
         };
     }
     //获取店铺状态数据
@@ -314,5 +316,5 @@ class Index extends Component {
 }
 
 ReactDOM.render(<Header/>,document.getElementsByTagName('header')[0]);
-ReactDOM.render(<Main token={token}>pay</Main>,document.getElementById('main'));
+ReactDOM.render(<Main token={token}>index</Main>,document.getElementById('main'));
 /* 样式原因，所有组件根节点都要使用div */
