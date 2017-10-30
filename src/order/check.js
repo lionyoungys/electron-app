@@ -130,7 +130,7 @@ class Item extends Component {
         let props = this.props;
         dialog.showOpenDialog({
             filters: [{name: 'Images', extensions: ['jpg','png','jpeg','JPG','PNG','JPEG']}],
-            properties: ['openFile', 'openDirectory']
+            properties: ['openFile']
         },(filePaths) => {
             if ('undefined' !== typeof filePaths) {
                 let imgData = fs.readFileSync(filePaths[0]).toString('base64');

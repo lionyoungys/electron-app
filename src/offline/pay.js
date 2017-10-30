@@ -9,7 +9,8 @@ import Crumbs from '../static/UI';
 class Pay extends Component {
     constructor(props) {
         super(props);
-        this.params = this.props.param.paramToObject();
+        //this.params = this.props.param.paramToObject();
+        this.params = {id:'1596',from:'offline'};
         console.log(this.params);
         this.id = this.params.id;
         this.crumbs = [
@@ -169,6 +170,13 @@ class Pay extends Component {
                             >
                                 取证抹零
                             </span>
+                            <span 
+                                className={'ui-radio' + ('free' == state.reduce ? ' ui-radio-checked' : '')}
+                                data-reduce='free'
+                                onClick={this.toggleReduce}
+                            >
+                                免洗
+                            </span>
                         </div>
                     </div>
                     <div className='ui-pay-row'>
@@ -218,6 +226,13 @@ class Pay extends Component {
                             >
                                 取证抹零
                             </span>
+                            <span 
+                                className={'ui-radio' + ('free' == state.reduce ? ' ui-radio-checked' : '')}
+                                data-reduce='free'
+                                onClick={this.toggleReduce}
+                            >
+                                免洗
+                            </span>
                         </div>
                     </div>
                     <div className='ui-pay-row'>
@@ -266,6 +281,13 @@ class Pay extends Component {
                                 onClick={this.toggleReduce}
                             >
                                 取证抹零
+                            </span>
+                            <span 
+                                className={'ui-radio' + ('free' == state.reduce ? ' ui-radio-checked' : '')}
+                                data-reduce='free'
+                                onClick={this.toggleReduce}
+                            >
+                                免洗
                             </span>
                         </div>
                     </div>

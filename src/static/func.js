@@ -33,7 +33,7 @@
         let ret = -1,
             len = array.length;
         if (len > 0) {
-            for (var i = 0;i < len;++i) {
+            for (let i = 0;i < len;++i) {
                 if (this == array[i][key]) {
                     ret = i;
                     break;
@@ -52,7 +52,7 @@
             len = paramArr.length;
         var obj = {},tempArr;
         if (len > 0) {
-            for (var i = 0;i < len;++i) {
+            for (let i = 0;i < len;++i) {
                 tempArr = paramArr[i].split('=');
                 obj[tempArr[0]] = decodeURIComponent(tempArr[1]);
             }
@@ -96,6 +96,35 @@
         }
         return retArr;
     }
+
+    Array.prototype.filtration = function(value) {
+        let retArr = this;
+        console.log(retArr);
+        if ('string' === typeof value) {
+            let index = value.inArray(retArr);
+            if (-1 !== index) retArr.splice(index,1);
+        } else if ('object' === typeof value) {
+            let len = value.length;
+            for (let i = 0;i < len;++i) {
+                let index = value[i].inArray(retArr);
+                if (-1 !== index) retArr.splice(index,1);
+            }
+        }
+        console.log(retArr);
+        return retArr;
+    }
+
+    /*Array.prototype.inArray = function(array) {
+        let len = array.length,
+            thisLen = this.length,
+            tempIndex = -1,
+            indexs = [];
+        if (len > 0 && thisLen > 0) {
+            for (let i = 0;i < thisLen;++i) {
+            }
+        }
+        return index;
+    }*/
     
     /**
      * 数值或数值字符串转成百分数字符串

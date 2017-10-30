@@ -21,13 +21,12 @@ export default class ClerkManage extends Component {
         .then(response => {
             for (var k in response.data) {this.state.authList.push(response.data[k])}
             this.setState({authList:this.state.authList});
-            console.log(this.state.authList);
         });
         axios.post(api.U('clerkList'),api.data({token:this.props.token}))
         .then((response) => {
             let result = response.data.data;
             this.setState({clerks:result});
-            //console.log(result);
+            console.log(result);
         });
     }
 

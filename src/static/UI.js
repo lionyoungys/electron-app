@@ -244,6 +244,50 @@ export class Special extends Component {
         );
     }
 }
+
+//问题描述及颜色设置输入内容栏
+export class QCtextarea extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {value:'',len:0};
+    }
+
+    componentDidMount() {
+        let props = this.props;
+        console.log(props);
+        if (func.isSet(props.value)) {
+            this.setState({value:props.value,len:props.value.length});
+        }
+    }
+
+    render() {
+        return (
+            <section style={{width:'100%',height:'144px'}}>
+                <div style={{position:'relative',textAlign:'center',height:'63px',lineHeight:'63px',color:'#f92828',fontSize:'18px'}}>
+                    {this.props.title}
+                    <input 
+                        type='button' 
+                        value='确定' 
+                        className='ui-btn-tab' 
+                        style={{position:'absolute',right:'0',top:'5px'}}
+                        onClick={() => this.props.callback(this.state.value)}
+                    />
+                </div>
+                <div style={{position:'relative',width:'100%'}}>
+                    <textarea 
+                        maxLength='50'
+                        className='ui-question-textarea'
+                        placeholder={this.props.placeholder}
+                        value={this.state.value}
+                        onChange={e => {this.setState({value:e.target.value,len:e.target.value.length})}}
+                    ></textarea>
+                    <em className='ui-textarea-postfix'>{this.state.len}/50</em>
+                </div>
+            </section>
+        );
+    }
+}
+
 //问题描述及颜色设置菜单栏    header 大分类    options 选项列表及小分类    chosenArr 已选择的列表数组    callback 选中／取消切换
 export class QCmenu extends Component {
     constructor(props) {

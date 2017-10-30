@@ -239,8 +239,14 @@
     background: #ff6f43;
 }
 /* 颜色设置 问题描述界面样式 */
+.ui-question-textarea{
+    width: 100%;height: 81px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    border: 1px solid #ccc;padding: 16px;
+    resize: none;font-size: 18px;
+}
 .ui-question-choose-word{height: 31px;line-height: 31px;width: 70px;font-size: 16px;}
-.ui-question-choose-bar{width: calc(100% - 170px);flex-wrap: wrap;}
+.ui-question-choose-bar{width: calc(100% - 90px);flex-wrap: wrap;}
 .ui-question-container{width: 100%;}
 .ui-question-title{
     font-size: 16px;border: 1px solid #cccccc;padding: 0 12px;
