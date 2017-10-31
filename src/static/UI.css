@@ -10,7 +10,7 @@
 .ui-content{padding-top: 20px;flex-wrap: wrap}
 .ui-box,.ui-box-between,.ui-content,.ui-box-column,.ui-box-right,.ui-page-box,
 .ui-question-choose-bar{display: flex;display: -webkit-flex;}
-.ui-search,.ui-search2,.ui-math-container{display: inline-flex;display: -webkit-inline-flex;}
+.ui-search,.ui-search2,.ui-math-container,.ui-inline-box{display: inline-flex;display: -webkit-inline-flex;}
 .ui-box-between{justify-content: space-between}
 .ui-box-column{flex-direction: column;}
 .ui-box-right{flex-direction:row-reverse;}
@@ -572,3 +572,9 @@
 .ui-voucher-row>.postfix{height: 43px;padding-left: 10px;font-size: 18px;line-height: 43px;}
 .ui-voucher-list{display: flex;display: -webkit-flex;font-size: 18px;}
 .ui-voucher-list .row{padding: 0 0 20px 22px;}
+/* 挂号界面样式 */
+.ui-registration-input{
+    width: 167px;height: 36px;font-size: 16px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    border: 1px solid #ccc;padding: 0 10px;line-height: 36px;
+}

@@ -38,6 +38,7 @@ import OfflineClean from './offline/offline_clean'
 import OfflineDrying from './offline/offline_drying'
 import OfflineIroning from './offline/offline_ironing'
 import OfflineCheck from './offline/offline_check'
+import Registration from './offline/registration';
 
 const token = localStorage.getItem('token');
 const uid = localStorage.getItem('uid');
@@ -122,6 +123,7 @@ class Main extends Component {
             offline_drying:OfflineDrying,    //烘干
             offline_ironing:OfflineIroning,    //熨烫
             offline_check:OfflineCheck,    //质检
+            registration:Registration,    //上挂
         };
     }
     //获取店铺状态数据

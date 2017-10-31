@@ -27,7 +27,7 @@ const Menus = [
             {id:204, text:'烘干',e:'offline_drying'},
             {id:205, text:'熨烫',e:'offline_ironing'},
             {id:206, text:'质检',e:'offline_check'},
-            {id:207, text:'上挂'},
+            {id:207, text:'上挂',e:'registration'},
             {id:208, text:'出厂'},
             {id:209, text:'取衣'},
             {id:210, text:'会员管理'},

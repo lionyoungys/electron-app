@@ -1,5 +1,5 @@
 /**
- * 线下送洗组件
+ * 线下熨烫组件
  * @author yangyunlong
  */
 import React, {Component} from 'react';
