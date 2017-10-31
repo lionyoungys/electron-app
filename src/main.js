@@ -35,6 +35,10 @@ import Teamwork from './manage/teamwork';
 import Voucher from './manage/voucher';
 import VoucherList from './manage/voucher_list';
 import OfflineClean from './offline/offline_clean'
+import OfflineDrying from './offline/offline_drying'
+import OfflineIroning from './offline/offline_ironing'
+import OfflineCheck from './offline/offline_check'
+
 const token = localStorage.getItem('token');
 const uid = localStorage.getItem('uid');
 //界面头部组件
@@ -115,6 +119,9 @@ class Main extends Component {
             voucher:Voucher,    //制作代金券
             voucher_list:VoucherList,    //生成代金券
             offline_clean:OfflineClean,    //送洗
+            offline_drying:OfflineDrying,    //烘干
+            offline_ironing:OfflineIroning,    //熨烫
+            offline_check:OfflineCheck,    //质检
         };
     }
     //获取店铺状态数据
