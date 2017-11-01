@@ -33,9 +33,9 @@ export default class MemberManage extends Component{
                 <div className='ui-member-manage-container'>
                     <Search placeholder='请输入客户手机号' callback={this.onSearchRequest}/>
                     <div className='ui-member-manage-box'>
-                        <div>会员消费报表</div>
-                        <div>会员充值报表</div>
-                        <div>会员余额</div>
+                        <div onClick={() => this.props.changeView({element:'member_consume'})}>会员消费报表</div>
+                        <div onClick={() => this.props.changeView({element:'member_recharge_record'})}>会员充值报表</div>
+                        <div onClick={() => this.props.changeView({element:'member_balance'})}>会员余额</div>
                         <div>新增会员</div>
                         <div>会员信息变更</div>
                         <div>会员充值</div>

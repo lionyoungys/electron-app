@@ -44,6 +44,9 @@ import OutFactory from './offline/outfactory';
 import OfflineTake from './offline/offline_take';
 import MemberManage from './member/member_manage';
 import MemberDetail from './member/member_detail';
+import MemberConsume from './member/member_consume';
+import MemberRechargeRecord from './member/member_recharge_record';
+import MemberBalance from './member/member_balance';
 
 const token = localStorage.getItem('token');
 const uid = localStorage.getItem('uid');
@@ -134,6 +137,9 @@ class Main extends Component {
             offline_take:OfflineTake,    //取衣
             member_manage:MemberManage,    //会员管理
             member_detail:MemberDetail,    //会员详情
+            member_consume:MemberConsume,    //会员消费报表
+            member_recharge_record:MemberRechargeRecord,    //会员充值报表
+            member_balance:MemberBalance,    //会员余额
         };
     }
     //获取店铺状态数据
