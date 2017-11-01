@@ -114,23 +114,38 @@
         return retArr;
     }
 
-    /*Array.prototype.inArray = function(array) {
-        let len = array.length,
-            thisLen = this.length,
-            tempIndex = -1,
-            indexs = [];
-        if (len > 0 && thisLen > 0) {
-            for (let i = 0;i < thisLen;++i) {
-            }
-        }
-        return index;
-    }*/
     
     /**
      * 数值或数值字符串转成百分数字符串
      * @return String
      */
     Number.prototype.toPercent = String.prototype.toPercent = function() {return (this * 100) + '%'}
+
+    /**
+     * 时间戳格式化
+     * @param format 格式化方式 date time datetime
+     * @param partition 日期分割符
+     * @return 日期字符串
+     */
+    Number.prototype.dateFormat = function(format, partition) {
+        let fromDate = new Date(this);
+        if ('string' !== typeof partition || '' === partition) partition = '-';
+        const date = fromDate.getFullYear() + partition + (fromDate.getMonth() + 1) + partition + fromDate.getDate();
+        const time = fromDate.getHours() + ':' + fromDate.getMinutes() + ':' + fromDate.getSeconds();
+        let retDate = date + ' ' + time;
+        if ('undefined' !== typeof format) {
+            switch(format)
+            {
+                case 'date':
+                    retDate = date;
+                break;
+                case 'time':
+                    retDate = time;
+                break;
+            }
+        }
+        return retDate;
+    }
 
 
     var f = {};

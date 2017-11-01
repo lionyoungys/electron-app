@@ -42,6 +42,8 @@ import Registration from './offline/registration';
 import InFactory from './offline/infactory';
 import OutFactory from './offline/outfactory';
 import OfflineTake from './offline/offline_take';
+import MemberManage from './member/member_manage';
+import MemberDetail from './member/member_detail';
 
 const token = localStorage.getItem('token');
 const uid = localStorage.getItem('uid');
@@ -130,6 +132,8 @@ class Main extends Component {
             infactory:InFactory,    //入厂
             outfactory:OutFactory,    //出厂
             offline_take:OfflineTake,    //取衣
+            member_manage:MemberManage,    //会员管理
+            member_detail:MemberDetail,    //会员详情
         };
     }
     //获取店铺状态数据
