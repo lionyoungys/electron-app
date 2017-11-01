@@ -578,3 +578,9 @@
     box-sizing: border-box;-webkit-box-sizing: border-box;
     border: 1px solid #ccc;padding: 0 10px;line-height: 36px;
 }
+/* 线下取衣(加班)界面样式 */
+.ui-ot-items-box>div{
+    width: 100%;height: 30px;font-size: 14px;line-height: 30px;
+    border-bottom: 1px solid #ccc;text-align: center;overflow: hidden;
+}
+.ui-ot-items-box>div:last-child{border: none;}

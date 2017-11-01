@@ -22,14 +22,14 @@ const Menus = [
         },
         options:[
             {id:201, text:'收衣',e:'take'},
-            {id:202, text:'入厂'},
+            {id:202, text:'入厂',e:'infactory'},
             {id:203, text:'送洗',e:'offline_clean'},
             {id:204, text:'烘干',e:'offline_drying'},
             {id:205, text:'熨烫',e:'offline_ironing'},
             {id:206, text:'质检',e:'offline_check'},
             {id:207, text:'上挂',e:'registration'},
-            {id:208, text:'出厂'},
-            {id:209, text:'取衣'},
+            {id:208, text:'出厂',e:'outfactory'},
+            {id:209, text:'取衣',e:'offline_take'},
             {id:210, text:'会员管理'},
             {id:211, text:'业务统计'}
         ]
