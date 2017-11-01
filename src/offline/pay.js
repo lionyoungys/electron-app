@@ -9,8 +9,8 @@ import Crumbs,{Search2} from '../static/UI';
 class Pay extends Component {
     constructor(props) {
         super(props);
-        //this.params = this.props.param.paramToObject();
-        this.params = {id:'1596',from:'offline'};
+        this.params = this.props.param.paramToObject();
+        //this.params = {id:'1596',from:'offline'};
         console.log(this.params);
         this.id = this.params.id;
         this.crumbs = [
@@ -20,6 +20,9 @@ class Pay extends Component {
             {text:'衣物检查',key:3,e:'check',param:this.props.param},
             {text:'订单支付',key:4}
         ];
+        if ('take' == this.params.from) {
+            this.crumbs = [{text:'取衣',key:0,e:'offline_take'},{text:'订单支付',key:1}];
+        }
         this.state = {
             amount:'0',discount:'0',realAmount:'0',payment:'',
             reduce:'',reduceAmount:'',
