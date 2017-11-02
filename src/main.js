@@ -47,6 +47,7 @@ import MemberDetail from './member/member_detail';
 import MemberConsume from './member/member_consume';
 import MemberRechargeRecord from './member/member_recharge_record';
 import MemberBalance from './member/member_balance';
+import OfflineStatistic from './offline/offline_statistic';
 
 const token = localStorage.getItem('token');
 const uid = localStorage.getItem('uid');
@@ -140,6 +141,7 @@ class Main extends Component {
             member_consume:MemberConsume,    //会员消费报表
             member_recharge_record:MemberRechargeRecord,    //会员充值报表
             member_balance:MemberBalance,    //会员余额
+            offline_statistic:OfflineStatistic,    //业务统计
         };
     }
     //获取店铺状态数据

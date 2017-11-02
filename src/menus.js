@@ -31,7 +31,7 @@ const Menus = [
             {id:208, text:'出厂',e:'outfactory'},
             {id:209, text:'取衣',e:'offline_take'},
             {id:210, text:'会员管理',e:'member_manage'},
-            {id:211, text:'业务统计'}
+            {id:211, text:'业务统计',e:'offline_statistic'}
         ]
     },
     {

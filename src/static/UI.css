@@ -655,3 +655,30 @@
 .ui-md-row>div:last-child{
     font-size: 20px;line-height: 75px;color: #333;
 }
+/* 线下业务统计界面样式 */
+.ui-os-box{
+    display: flex;display: -webkit-flex;padding-left: 20px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    height: 46px;line-height: 46px;border-bottom: 1px solid #e0e0e0;
+}
+.ui-os-box>div{
+    height: 100%;margin-right: 76px;font-size: 14px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+}
+.ui-os-box>.choose{
+    color: #09b1b0;border-bottom: 2px solid #09b1b0;
+}
+.ui-os-box2{
+    display: flex;display: -webkit-flex;padding:41px 20px 34px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    justify-content: space-between;
+}
+.ui-table-b .ui-os-row{
+    padding: 0;text-align: center;
+}
+.ui-os-row>div{
+    height: 50px;line-height: 50px;width: 100%;overflow: hidden;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    border-bottom: 1px solid #ccc;
+}
+.ui-os-row>div:last-child{border: none;}
