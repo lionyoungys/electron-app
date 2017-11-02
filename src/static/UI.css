@@ -627,8 +627,44 @@
 .ui-member-manage-box>div:nth-child(3n + 0){margin-right: 0;}
 /* 会员管理界面新增会员弹框 */
 .ui-mm-add{
-
+    width: 352px;height: 286px;
+    background: url(images/ui-mm-add.png);
+    position: fixed;top: 50%;left: 50%;margin: -176px 0 0 -143px;
 }
+.ui-mm-upd{
+    width: 321px;height: 258px;
+    position: fixed;top: 50%;left: 50%;margin: -129px 0 0 -160.5px;
+    background: url(images/ui-mm-upd.png);
+}
+.ui-mm-layer-title{
+    height: 60px;padding: 15px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    display: flex;display: -webkit-flex;
+    justify-content: space-between;align-items: center;
+}
+.ui-mm-input-area{
+    display: inline-block;margin: 38px 0 27px 46px;
+    height: 35px;line-height: 35px;font-size: 16px;
+}
+.ui-mm-input-area>input{
+    width: 200px;height: 35px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    border: 1px solid #e0e7eb;
+}
+.ui-mm-radio-area{
+    width: 100%;padding: 0 0 39px 46px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+}
+/* icon图标样式 */
+.ui-mm-icon-member,
+.ui-mm-icon-info,
+.ui-mm-icon-money{
+    height: 23px;line-height: 23px;padding-left: 26px;
+    font-size: 18px;color: #537185;display: inline-block;
+    background: url(images/ui-mm-member.png) no-repeat left center;
+}
+.ui-mm-icon-info{background: url(images/ui-mm-info.png) no-repeat left center;}
+.ui-mm-icon-money{background: url(images/ui-mm-money.png) no-repeat left center;}
 /* 会员详情界面样式 */
 .ui-md-box{display: block;padding: 36px 0 14px 0;}
 .ui-md-box>div{padding-bottom: 22px;}
