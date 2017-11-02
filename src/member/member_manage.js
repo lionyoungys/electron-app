@@ -5,6 +5,7 @@
 import React, {Component} from 'react';
 import '../static/api';
 import Crumbs, {Search} from '../static/UI';
+const uid = localStorage.getItem('uid');
 
 export default class MemberManage extends Component{
     constructor(props) {
@@ -45,12 +46,16 @@ export default class MemberManage extends Component{
                 </div>
                 <AddMember 
                     show={state.addShow} 
+                    token={props.token}
                     onCancelRequest={() => this.setState({addShow:false})}
+                    changeView={props.changeView}
                 />
                 <UpdateOrCharge 
                     show={state.otherShow} 
+                    token={props.token}
                     onCancelRequest={() => this.setState({otherShow:false})}
                     type={state.otherType}
+                    changeView={props.changeView}
                 />
             </div>
         );
@@ -67,8 +72,22 @@ class AddMember extends Component{
     onConfirmRequest() {
         let state = this.state;
         if (isNaN(state.mobile) || state.mobile.length !== 11) return;
-        console.log(state.mobile);
-        console.log(state.type);
+        axios.post(
+            api.U('memberAdd'), 
+            api.data({token:this.props.token,uid:uid,mobile:state.mobile})
+        )
+        .then(response => {
+            if (api.verify(response.data)) {
+                //let param = 'ucode=' + response.data.data.ucode + '&mobile=' + state.mobile;
+                let param = {ucode:response.data.data.ucode,mobile:state.mobile}
+                if (0 === state.type) {
+                    this.props.changeView({element:'offline_add_member',param:param});
+                } else {
+                    this.props.changeView({element:'offline_add_company',param:param});
+                }
+            }
+            console.log(response.data);
+        });
     }
 
     render() {

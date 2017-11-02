@@ -30,9 +30,8 @@ export default class OfflineTake extends Component{
         if (1 != dataset.state) {
             axios.post(api.U('takePay'),api.data({token:this.props.token,order_id:dataset.id}))
             .then(response => {
-                if (api.verify(response.data)) {
-                    this.props.changeView({element:'pay',param:'from=take&id='+dataset.id});
-                }
+                console.log(response.data);
+                this.props.changeView({element:'pay',param:'from=take&id='+dataset.id});
             });
         }
     }
