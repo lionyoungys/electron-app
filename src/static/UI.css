@@ -718,3 +718,43 @@
     border-bottom: 1px solid #ccc;
 }
 .ui-os-row>div:last-child{border: none;}
+/* 新增会员界面样式 */
+.ui-mcd-row{
+    display: flex;display: -webkit-flex;
+    height: 48px;border: 1px solid #e0e0e0;background: #fafafa;
+    font-size: 14px;box-sizing: border-box;-webkit-box-sizing: border-box;
+}
+.ui-mcd-row>div{
+    display: inline-flex;display: -webkit-inline-flex;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    align-items: center;overflow: hidden;
+    border-right: 1px solid #e0e0e0;padding-left: 21px;
+}
+.ui-mcd-row>div:last-child{border: none;}
+.ui-mcd-input{
+    width:195px;height: 36px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    line-height: 36px;border: 1px solid #e0e0e0;
+}
+/* 充值金额框 */
+.ui-recharge-option{
+    width: 200px;height: 196px;color: #666;
+    display: inline-flex;display: -webkit-inline-flex;
+    flex-direction: column;align-items: center;
+    background: url(images/ui-recharge-option.png);
+}
+.ui-recharge-option>div:first-child{
+    height: 59px;line-height: 59px;font-size: 20px;
+}
+.ui-recharge-option>div:nth-child(2){font-size: 38px;margin: 17px 0 25px;}
+.ui-recharge-option>div:nth-child(2)>span{font-size: 22px;}
+.ui-recharge-option>div:last-child{font-size: 26px;}
+.ui-recharge-option-checked{background: url(images/ui-recharge-option-checked.png);color: #ff6f43;}
+/* 充值支付区域 */
+.ui-recharge-box{
+    width: 1004px;height: 85px;padding: 0 40px;
+    align-items: center;justify-content: space-between;
+    display: inline-flex;display: -webkit-inline-flex;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    border: 1px dashed #e0e0e0;
+}

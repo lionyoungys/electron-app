@@ -78,7 +78,6 @@ class AddMember extends Component{
         )
         .then(response => {
             if (api.verify(response.data)) {
-                //let param = 'ucode=' + response.data.data.ucode + '&mobile=' + state.mobile;
                 let param = {ucode:response.data.data.ucode,mobile:state.mobile}
                 if (0 === state.type) {
                     this.props.changeView({element:'offline_add_member',param:param});
