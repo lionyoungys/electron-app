@@ -1,5 +1,5 @@
 /**
- * 用户评价组件
+ * 经营分析组件
  * @author yangyunlong
  */
 import React, {Component} from 'react';
