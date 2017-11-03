@@ -758,3 +758,8 @@
     box-sizing: border-box;-webkit-box-sizing: border-box;
     border: 1px dashed #e0e0e0;
 }
+.ui-recharge-notice-box{
+    width: 100%;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    padding: 10px 0 58px 61px;
+}

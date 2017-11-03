@@ -137,6 +137,19 @@ class UpdateOrCharge extends Component{
         let state = this.state,
             props = this.props;
         if (isNaN(state.mobile) || state.mobile.length !== 11) return;
+        axios.post(
+            api.U('getUserInfo'), 
+            api.data({token:this.props.token,uid:uid,number:state.mobile})
+        )
+        .then(response => {
+            if (api.verify(response.data)) {
+                if (0 == props.type) {
+                    props.changeView({element:'member_update_info',param:{id:response.data.data.id}});
+                } else {
+                    props.changeView({element:'member_recharge',param:{id:response.data.data.id}});
+                }
+            }
+        });
         console.log(state.mobile);
         console.log(props.type); 
     }
