@@ -108,7 +108,7 @@ class Login extends Component {
                 </div>
                 <div className='forgot' onClick={() => {this.props.changeView(1)}}>忘记密码？</div>
                 <div className='protocol'>
-                    点击登录，即表示您同意<span style={{color:'#fa2212'}}>用户协议</span>
+                    点击登录，即表示您同意<span style={{color:'#fa2212'}} onClick={() => ipcRenderer.send('protocol','show')}>用户协议</span>
                 </div>
             </div>
         );

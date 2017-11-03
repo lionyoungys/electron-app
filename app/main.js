@@ -9,9 +9,9 @@ let win = {};    //声明窗口对象
 
 // 部分 API 在 ready 事件触发后才能使用。
 app.on('ready', () => {
-    //createWindow('login', { width: 491, height: 351, frame: false, resizable: false,autoHideMenuBar:true }, 'public/login.html');
+    createWindow('login', { width: 491, height: 351, frame: false, resizable: false,autoHideMenuBar:true }, 'public/login.html');
     //开发测试优先创建main窗口
-    let electronScreen = electron.screen,    //定义屏幕对象变量
+    /*let electronScreen = electron.screen,    //定义屏幕对象变量
         size = electronScreen.getPrimaryDisplay().workAreaSize;    //获取屏幕大小
     createWindow(
         'main', 
@@ -23,7 +23,7 @@ app.on('ready', () => {
             autoHideMenuBar:true
         },
         'public/main.html'
-    );
+    );*/
 });
 
 app.on('window-all-closed', () => { app.quit() }); //当全部窗口关闭时退出。
@@ -60,7 +60,16 @@ ipcMain.on('toggle-login', () => {
     createWindow('login', { width: 491, height: 351, frame: false, resizable: false }, 'public/login.html');
     win.main.close();
 });
-
+ipcMain.on('protocol', (e, args) => {
+    if ('close' === args) {
+        win.protocol.close();
+    } else {
+        if ('undefined' === typeof win.protocol || null === win.protocol) {
+            createWindow('protocol', { width: 840, height: 556, frame: false, resizable: false }, 'public/protocol.html');
+        }
+    }
+    
+});
 //窗口创建函数
 function createWindow(name, windowStyle, uri) {
     //创建浏览器窗口。
