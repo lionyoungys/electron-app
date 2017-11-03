@@ -144,9 +144,9 @@ class UpdateOrCharge extends Component{
         .then(response => {
             if (api.verify(response.data)) {
                 if (0 == props.type) {
-                    props.changeView({element:'member_update_info',param:{id:response.data.data.id}});
+                    props.changeView({element:'member_update_info',param:{id:response.data.data.id,number:state.mobile}});
                 } else {
-                    props.changeView({element:'member_recharge',param:{id:response.data.data.id}});
+                    props.changeView({element:'member_recharge',param:{id:response.data.data.id,number:state.mobile}});
                 }
             }
         });

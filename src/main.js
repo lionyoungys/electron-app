@@ -137,6 +137,7 @@ class Main extends Component {
                     {/* 视图组件 */}
                     <E 
                         token={props.token} 
+                        uid={uid}
                         amount={state.amount} 
                         count={state.count} 
                         param={state.param}

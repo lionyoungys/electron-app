@@ -658,6 +658,8 @@
 /* icon图标样式 */
 .ui-mm-icon-member,
 .ui-mm-icon-info,
+.ui-mm-icon-mobile,
+.ui-mm-icon-discount,
 .ui-mm-icon-money{
     height: 23px;line-height: 23px;padding-left: 26px;
     font-size: 18px;color: #537185;display: inline-block;
@@ -665,6 +667,8 @@
 }
 .ui-mm-icon-info{background: url(images/ui-mm-info.png) no-repeat left center;}
 .ui-mm-icon-money{background: url(images/ui-mm-money.png) no-repeat left center;}
+.ui-mm-icon-mobile{background: url(images/ui-mm-mobile.png) no-repeat left center;}
+.ui-mm-icon-discount{background: url(images/ui-mm-discount.png) no-repeat left center;}
 /* 会员详情界面样式 */
 .ui-md-box{display: block;padding: 36px 0 14px 0;}
 .ui-md-box>div{padding-bottom: 22px;}
@@ -762,4 +766,25 @@
     width: 100%;
     box-sizing: border-box;-webkit-box-sizing: border-box;
     padding: 10px 0 58px 61px;
+}
+/* 会员修改折扣及手机号弹窗样式 */
+.ui-update-discount{
+    width: 347px;height: 274px;
+    position: fixed;top: 50%;left: 50%;
+    margin: -137px 0 0 -173.5px;
+    background: url(images/ui-update-discount.png);
+}
+.ui-update-mobile{
+    width: 458px;height: 334px;
+    position: fixed;top: 50%;left: 50%;
+    margin: -167px 0 0 -229px;
+    background: url(images/ui-update-mobile.png);
+}
+.ui-update-mobile .row{padding-bottom: 14px;align-items: center;display: flex;display: -webkit-flex;}
+.ui-update-mobile .row:last-child{padding-bottom: 28px;}
+.ui-update-mobile .row>span:first-child{width: 113px;text-align: right;margin-right: 16px;font-size: 18px;}
+.ui-update-mobile .row>span:last-child{margin-left: 16px;font-size: 16px;color: #ff6536;}
+.ui-update-mobile .row>input[type=text]{
+    height: 40px;border: 1px solid #e0e7eb;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
 }
