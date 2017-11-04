@@ -189,6 +189,19 @@
         if ('undefined' === typeof value || null === value || '' === value || 0 == value) return false;
         return true;
     }
+
+    f.arrayMerge = function() {
+        const count = arguments.length;
+        if (count < 2) return arguments[0];
+        let retArr = [], tempLen;
+        for (let i = 0;i < count;++i) {
+            tempLen = arguments[i].length;
+            for (let j = 0;j < tempLen;++j) {
+                retArr.push(arguments[i][j]);
+            }
+        }
+        return retArr;
+    }
     /**
      * 获取当前日期时间
      * @param format 格式化方式

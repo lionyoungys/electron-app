@@ -467,24 +467,91 @@ export class MyChart extends Component{
     render() {return (<section ref={container => this.data(container)}></section>);}
 }
 
-//分页组件    style = 追加样式    待完成
+//分页组件    count=总页数 current=当前页 callback(page)=回调函数 参数为选中页码
 export class Page extends Component {
-    constructor(props) {super(props);}
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(e) {
+        let page = e.target.dataset.page;
+        if (this.props.current != page) {
+            this.props.callback(page);
+        }
+    }
 
     render() {
-        let props = this.props;
+        let count = Number(this.props.count),
+            current = Number(this.props.current),
+            showCount = 10;    //展示总数
+
+        if (count < 2) return null;
+        let pages = [],
+            start = 1,
+            next = null,
+            end = null;
+        if (count > 10) {
+            let difference = (count - current);
+            if (current > 6) {
+                pages.push(
+                    <span 
+                        className='ui-page-item' 
+                        data-page='1' 
+                        onClick={this.handleClick}
+                        key='index'
+                    >首页</span>
+                );
+                start = (current - 5);    //计算第一页
+                if (difference < 4) start -= (4 - difference);
+            }
+            if (1 != current) {
+                pages.push(
+                    <span 
+                        className='ui-page-item' 
+                        data-page={(current - 1)} 
+                        onClick={this.handleClick}
+                        key='previous'
+                    >上一页</span>
+                );
+            }
+            if (count != current) {
+                next = (
+                    <span 
+                        className='ui-page-item'
+                        data-page={(current + 1)} 
+                        onClick={this.handleClick}
+                        key='next'
+                    >下一页</span>
+                );
+            }
+            if (difference > 4) {
+                end = (
+                    <span 
+                        className='ui-page-item' 
+                        data-page={count} 
+                        onClick={this.handleClick}
+                        key='end'
+                    >尾页</span>
+                );
+            }
+        }
+        while(start <= count) {
+            pages.push(
+                <span 
+                    className={start == current ? 'ui-page-chosen' : 'ui-page-item'}
+                    data-page={start}
+                    onClick={this.handleClick}
+                    key={start}
+                >{start}</span>
+            );
+            ++start;--showCount;
+            if (0 === showCount) break; 
+        }
+        if (null !== next) pages.push(next);
+        if (null !== end) pages.push(end);
         return (
-            <section className='ui-page-box' style={props.style}>
-                <span className='ui-page-item'>首页</span>
-                <span className='ui-page-chosen'>1</span>
-                <span className='ui-page-item'>2</span>
-                <span className='ui-page-item'>3</span>
-                <span className='ui-page-item'>4</span>
-                <span className='ui-page-item'>10</span>
-                <span className='ui-page-item'>15</span>
-                <span className='ui-page-item'>19</span>
-                <span className='ui-page-item'>下一页</span>
-            </section>
+            <section className='ui-page-box'>{pages}</section>
         );
     }
 }

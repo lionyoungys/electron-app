@@ -445,11 +445,11 @@
 /* highcharts logo hidden */
 .highcharts-credits{display: none;}
 /* 分页样式 */
-.ui-page-box{width: 100%;align-items: center;justify-content: center;}
-.ui-page-item, .ui-page-chosen{
-    height: 32px;line-height: 32px;
-    font-size: 16px;border-radius: 3px;
-    padding: 0 13px;margin: 0 2px;
+.ui-page-box{width: 100%;align-items: center;justify-content: center;padding: 20px 0;}
+.ui-page-item,.ui-page-chosen{
+    height: 30px;line-height: 30px;
+    font-size: 14px;border-radius: 3px;
+    padding: 0 12px;margin: 0 1px;
 }
 .ui-page-item{background: #f5f5f5;border:1px solid #e0e0e0;}
 .ui-page-chosen{color: red;}
