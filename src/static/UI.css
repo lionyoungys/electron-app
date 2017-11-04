@@ -660,6 +660,7 @@
 .ui-mm-icon-info,
 .ui-mm-icon-mobile,
 .ui-mm-icon-discount,
+.ui-mm-icon-payment,
 .ui-mm-icon-money{
     height: 23px;line-height: 23px;padding-left: 26px;
     font-size: 18px;color: #537185;display: inline-block;
@@ -669,6 +670,7 @@
 .ui-mm-icon-money{background: url(images/ui-mm-money.png) no-repeat left center;}
 .ui-mm-icon-mobile{background: url(images/ui-mm-mobile.png) no-repeat left center;}
 .ui-mm-icon-discount{background: url(images/ui-mm-discount.png) no-repeat left center;}
+.ui-mm-icon-payment{background: url(images/ui-mm-payment.png) no-repeat left center;}
 /* 会员详情界面样式 */
 .ui-md-box{display: block;padding: 36px 0 14px 0;}
 .ui-md-box>div{padding-bottom: 22px;}
@@ -787,4 +789,35 @@
 .ui-update-mobile .row>input[type=text]{
     height: 40px;border: 1px solid #e0e7eb;
     box-sizing: border-box;-webkit-box-sizing: border-box;
+}
+/* 支付框样式 */
+.ui-payment{
+    width: 398px;height: 284px;
+    position: fixed;left: 50%;top: 50%;
+    margin: -142px 0 0 -199px;
+    background: url(images/ui-payment.png);
+}
+.ui-payment-box{
+    width: 100%;height: 224px;position: relative;padding: 0 20px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    display: flex;display: -webkit-flex;flex-wrap: wrap;
+}
+.ui-payment-input-box{display: flex;display: -webkit-flex;justify-content: space-between;margin-bottom: 25px;}
+.ui-payment-input-box>input{
+    width: 85px;height: 34px;text-align: center;line-height: 34px;
+    font-size: 16px;color: #333;border: 1px solid #b2b2b2;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+}
+.ui-payment-loading{
+    width: 78px;height: 78px;
+    background-image: url(images/ui-payment-loading.gif);
+    background-size: 78px;
+}
+.ui-payment-fail{
+    width: 79px;height: 79px;
+    background-image: url(images/ui-payment-fail.png);
+}
+.ui-payment-success{
+    width: 76px;height: 76px;
+    background-image: url(images/ui-payment-success.png);
 }

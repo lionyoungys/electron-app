@@ -9,11 +9,8 @@ import Crumbs, {Tabs,Search,CheckboxAlert,Notification} from '../static/UI';
 class Order extends Component {
     constructor(props) {
         super(props);
-        this.params = (
-            'undefined' === typeof this.props.param 
-            || 
-            null == this.props.param
-        ) ? {} : this.props.param.paramToObject();    //参数列表
+        console.log(this.props.param);
+        this.params = (!func.isSet(this.props.param)) ? {} : this.props.param.paramToObject();    //参数列表
         this.state = {
             choose:'undefined' !== typeof this.params.choose ? this.params.choose : 0,
             data:[],html:null,show:false,currentOrder:null,
