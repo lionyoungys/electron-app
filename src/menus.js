@@ -2,7 +2,7 @@
  * 菜单导航栏配置
  * @author yangyunlong
  */
-const Menus = [
+export default [
     {
         id:1,
         selection:{
@@ -54,5 +54,3 @@ const Menus = [
         ]
     }
 ];
-
-export default Menus;

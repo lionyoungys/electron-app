@@ -41,7 +41,7 @@ import OfflineAddCompany from './member/offline_add_company';
 import MemberRecharge from './member/member_recharge';
 import MemberUpdateInfo from './member/member_update_info';
 
-const route = {
+export default {
     order:Order,    //订单处理
     item:Item,    //添加项目
     craft:Craft,    //工艺加价
@@ -85,4 +85,3 @@ const route = {
     member_recharge:MemberRecharge,    //会员充值
     member_update_info:MemberUpdateInfo,    //会员信息变更
 }
-export default route;
