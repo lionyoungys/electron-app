@@ -40,6 +40,7 @@ import OfflineAddMember from './member/offline_add_member';
 import OfflineAddCompany from './member/offline_add_company';
 import MemberRecharge from './member/member_recharge';
 import MemberUpdateInfo from './member/member_update_info';
+import OfflineOrderDetail from './offline/offline_order_detail';
 
 export default {
     order:Order,    //订单处理
@@ -84,4 +85,5 @@ export default {
     offline_add_company:OfflineAddCompany,    //新增企业会员
     member_recharge:MemberRecharge,    //会员充值
     member_update_info:MemberUpdateInfo,    //会员信息变更
+    offline_order_detail:OfflineOrderDetail,    //线下订单详情
 }

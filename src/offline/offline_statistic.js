@@ -4,7 +4,7 @@
  */
 import React, {Component} from 'react';
 import '../static/api';
-import Crumbs,{Page}  from '../static/UI';
+import Crumbs,{Page} from '../static/UI';
 
 export default class OfflineStatistic extends Component{
     constructor(props) {
@@ -17,6 +17,7 @@ export default class OfflineStatistic extends Component{
         this.toggleOption = this.toggleOption.bind(this);
         this.dataRequest = this.dataRequest.bind(this);    //数据请求方法
         this.updatePage = this.updatePage.bind(this);
+        this.redirect = this.redirect.bind(this);
     }
 
     componentDidMount() {
@@ -74,6 +75,9 @@ export default class OfflineStatistic extends Component{
         this.setState({pages:state.pages});
         this.dataRequest();
     }
+    redirect(e) {
+        this.props.changeView({element:'offline_order_detail',param:{id:e.target.dataset.id}});
+    }
 
     render() {
         const inputStyle = {marginRight:'40px',border:'1px solid #ccc',height:'34px',lineHeight:'34px',fontSize:'16px',textAlign:'center'};
@@ -125,7 +129,17 @@ export default class OfflineStatistic extends Component{
                         {[] = obj.orders.map(obj2 => <div key={obj2.id}>{obj2.amount}</div>)}
                     </td>
                         <td className='ui-os-row'>
-                        {[] = obj.orders.map(obj2 => <div className='ui-default' key={obj2.id}>查看详情</div>)}
+                        {
+                            [] = obj.orders.map(
+                                obj2 => 
+                                    <div 
+                                        className='ui-default' 
+                                        data-id={obj2.id} 
+                                        key={obj2.id} 
+                                        onClick={this.redirect}
+                                    >查看详情</div>
+                            )
+                        }
                     </td>
                 </tr>
             );
