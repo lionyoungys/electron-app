@@ -466,6 +466,24 @@
 .ui-detail-images{display: inline-flex;display: -webkit-inline-flex;flex-wrap: wrap;}
 .ui-detail-images>img{width: 88px;height: 88px;margin-right: 17px;}
 .ui-detail-images>img:last-child{margin-right: 0;}
+/* 线下订单详情图片容器样式 */
+.ui-images-box{
+    height: 88px;width: 364px;padding: 0 34px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    position: relative;overflow: hidden;
+}
+.ui-images-box>img{width: 88px;height: 88px;margin-left: 16px;}
+.ui-images-box>img:first-of-type{margin-left: 0;}
+.ui-images-box-previous{
+    height: 100%;width: 14px;position: absolute;top: 0;left: 0;
+    background: url(images/ui-previous.png) no-repeat center;
+}
+.ui-images-box-next{
+    height: 100%;width: 14px;position: absolute;top: 0;right: 0;
+    background: url(images/ui-next.png) no-repeat center;
+}
+.ui-images-box-no-previous{background: url(images/ui-no-previous.png) no-repeat center;}
+.ui-images-box-no-next{background: url(images/ui-no-next.png) no-repeat center;}
 /* 图片弹出层样式 */
 .ui-light-image{
     position: fixed;

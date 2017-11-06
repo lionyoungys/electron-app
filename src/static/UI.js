@@ -741,3 +741,35 @@ export class PayMent extends Component{
         );
     }
 }
+
+export class BoxOfImages extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {start:0};
+    }
+
+    render() {
+        let props = this.props,
+            start = this.state.start,
+            end = start + 3,
+            len = props.children.length,
+            showImgs = [];
+        if (0 == len) return null;
+        for (let i = start;(i < len && i < end);++i) {
+            showImgs.push(props.children[i]);
+        }
+        return (
+            <div className='ui-images-box'>
+                <em 
+                    className={'ui-images-box-previous' + (0 == start ? ' ui-images-box-no-previous' : '')}
+                    onClick={() => {if (0 != start) this.setState({start:(start - 1)})}}
+                ></em>
+                {showImgs}
+                <em 
+                    className={'ui-images-box-next' + (end >= len ? ' ui-images-box-no-next' : '')}
+                    onClick={() => {if (end < len) this.setState({start:(start + 1)})}}
+                ></em>
+            </div>
+        );
+    }
+}
