@@ -90,12 +90,20 @@ class Item extends Component {
             .then((response) => {
                 let result = response.data;
                 if (api.verify(result)) {
-                    this.props.changeView({element:'craft',param:props.param});
+                    if ('undefined' !== typeof this.params.from && 'offline' == this.params.from) {
+                        this.props.changeView({element:'offline_craft',param:props.param});
+                    } else {
+                        this.props.changeView({element:'craft',param:props.param});
+                    }
                 }
                 console.log(result);
             });
         } else {
-            this.props.changeView({element:'craft',param:props.param});
+            if ('undefined' !== typeof this.params.from && 'offline' == this.params.from) {
+                this.props.changeView({element:'offline_craft',param:props.param});
+            } else {
+                this.props.changeView({element:'craft',param:props.param});
+            }
         }
 
     }

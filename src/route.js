@@ -41,6 +41,8 @@ import OfflineAddCompany from './member/offline_add_company';
 import MemberRecharge from './member/member_recharge';
 import MemberUpdateInfo from './member/member_update_info';
 import OfflineOrderDetail from './offline/offline_order_detail';
+import OfflineCraft from './offline/offline_craft';
+import OfflineEditor from './offline/offline_editor';
 
 export default {
     order:Order,    //订单处理
@@ -86,4 +88,6 @@ export default {
     member_recharge:MemberRecharge,    //会员充值
     member_update_info:MemberUpdateInfo,    //会员信息变更
     offline_order_detail:OfflineOrderDetail,    //线下订单详情
+    offline_craft:OfflineCraft,    //线下工艺加价界面
+    offline_editor:OfflineEditor,    //线下工艺加价编辑界面
 }

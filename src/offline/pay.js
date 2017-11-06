@@ -16,7 +16,7 @@ class Pay extends Component {
         this.crumbs = [
             {text:'收衣',key:0,e:'take'},
             {text:'添加项目',key:1,e:'item',param:this.props.param},
-            {text:'工艺加价',key:2,e:'craft',param:this.props.param},
+            {text:'工艺加价',key:2,e:'offline_craft',param:this.props.param},
             {text:'衣物检查',key:3,e:'check',param:this.props.param},
             {text:'订单支付',key:4}
         ];
