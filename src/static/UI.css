@@ -869,3 +869,33 @@
     box-sizing: border-box;-webkit-box-sizing: border-box;
 }
 .ui-oe-box2>textarea{height: 100%;width: 100%;border: none;resize: none;}
+/* 线下订单时间框 */
+.ui-oe-date{
+    width: 584px;height: 385px;
+    background: white;
+    position: fixed;top: 50%;left: 50%;
+    margin: -192.5px 0 0 -297px;
+}
+.ui-oe-title{
+    height: 46px;padding: 0 17px;background: #f5f5f5;
+    display: flex;display: -webkit-flex;
+    justify-content: space-between;align-items: center;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+}
+.ui-oe-body{
+    height: 100%;padding: 15px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    display: flex;display: -webkit-flex;flex-wrap: wrap;
+    justify-content: center;
+}
+.ui-oe-table td{
+    border: 1px solid #e0e0e0;font-size: 14px;
+    text-align: center;word-wrap: break-word;
+    vertical-align: center;width: 56px;overflow: hidden;
+}
+.ui-oe-table .td{width: 133px;}
+.ui-oe-table .tr{height: 58px;}
+.ui-oe-table .tr2{height: 38px;}
+.ui-oe-table .forbidden{color: grey;}
+.ui-oe-table .enabled{color: #ff9363;}
+.ui-oe-table .choose{background: #ff9363;color: white;}

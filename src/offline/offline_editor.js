@@ -10,6 +10,9 @@ export default class OfflineEditor extends Component{
     constructor(props) {
         super(props);
         this.params = this.props.param;
+        //this.params = {order_id:'1875',id:'5170'}
+        //console.log(this.params);
+        
         this.redirectParam = 'id=' + this.params.order_id + '&from=offline'
         this.crumbs = [
             {key:0,text:'收衣',e:'take'},
@@ -17,16 +20,44 @@ export default class OfflineEditor extends Component{
             {text:'工艺加价',key:2,e:'offline_craft',param:this.redirectParam},
             {text:'编辑',key:3}
         ];
-        this.state = {code:'',hedging:'',comment:'',special:'',takeDate:''};
+        this.state = {code:'',hedging:'',comment:'',special:'',takeDate:'',isShow:false,Date:[]};
         this.chooseDate = this.chooseDate.bind(this);
+        this.onConfirmRequest = this.onConfirmRequest.bind(this);
+        this.done = this.done.bind(this);
     }
 
     chooseDate() {
         axios.post(api.U('getDateTime'),api.D({token:this.props.token}))
         .then(response => {
-            console.log(response.data);
+            this.setState({isShow:true,Date:response.data.data});
         });
     }
+
+    done() {
+        let state = this.state;
+        if ('' !== state.code && '' !== state.takeDate) {
+            axios.post(
+                api.U('updateItemInfo'),
+                api.D({
+                    token:this.props.token,
+                    item_id:this.params.id,
+                    special:state.special,
+                    special_comment:state.comment,
+                    hedging:state.hedging,
+                    take_time:state.take_time,
+                    clean_number:state.code
+                })
+            )
+            .then(response => {
+                console.log(response.data);
+                if (api.verify(response.data)) {
+                    this.props.changeView({element:'offline_craft',param:this.redirectParam});
+                }
+            });
+        }
+    }
+
+    onConfirmRequest(value) {this.setState({takeDate:value,isShow:false});}
 
     render() {
         let props = this.props,
@@ -94,9 +125,116 @@ export default class OfflineEditor extends Component{
                         >修改</span>
                     </div>
                     <div style={{marginTop:'41px'}}>
-                        <input type='button' value='确定' className='ui-btn ui-btn-confirm ui-btn-large'/>
+                        <input type='button' value='确定' className='ui-btn ui-btn-confirm ui-btn-large' onClick={this.done}/>
                     </div>
                 </section>
+                <LayerDate 
+                    show={state.isShow} 
+                    onCloseRequest={() => this.setState({isShow:false})}
+                    Date={state.Date}
+                    onConfirmRequest={this.onConfirmRequest}
+                />
+            </div>
+        );
+    }
+}
+
+class LayerDate extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {chooseTime:'',chooseDay:''};
+        this.retClassName = this.retClassName.bind(this);
+        this.setStatus = this.setStatus.bind(this);
+    }
+
+    setStatus(time, day, e) {
+        if ('enabled' === e.target.className) {
+            this.setState({chooseTime:time,chooseDay:day});
+        }
+    }
+
+    retClassName(timeStr, timeArr, dayStr, type) {
+        if ('undefined' === typeof type) type = false; 
+        let state = this.state,
+            className = type ? '可选' : 'enabled';
+        if (-1 === timeStr.inArray(timeArr)) className = type ? '不可选' : 'forbidden';
+        if (state.chooseTime == timeStr && state.chooseDay == dayStr) {
+            className = type ? '已选' : 'choose'
+        }
+        return className;
+    }
+    render() {
+        let props = this.props,
+            state = this.state,
+            d = props.Date,
+            time = ['9:00~12:00', '12:00~14:00', '14:00~17:00', '17:00~20:00'],
+            html = [];
+        if (!props.show) return null; 
+        if ('undefined' !== typeof d[0].time) {
+            html = time.map(s => 
+            <tr className='tr2' key={s}>
+                <td className='td'>{s}</td>
+                <td className={this.retClassName(s, d[0].time, d[0].day)} onClick={(e) => this.setStatus(s,d[0].day,e)}>
+                    {this.retClassName(s, d[0].time, d[0].day, true)}
+                </td>
+                <td className={this.retClassName(s, d[1].time, d[1].day)} onClick={(e) => this.setStatus(s,d[1].day,e)}>
+                    {this.retClassName(s, d[1].time, d[1].day, true)}
+                </td>
+                <td className={this.retClassName(s, d[2].time, d[2].day)} onClick={(e) => this.setStatus(s,d[2].day,e)}>
+                    {this.retClassName(s, d[2].time, d[2].day, true)}
+                </td>
+                <td className={this.retClassName(s, d[3].time, d[3].day)} onClick={(e) => this.setStatus(s,d[3].day,e)}>
+                    {this.retClassName(s, d[3].time, d[3].day, true)}
+                </td>
+                <td className={this.retClassName(s, d[4].time, d[4].day)} onClick={(e) => this.setStatus(s,d[4].day,e)}>
+                    {this.retClassName(s, d[4].time, d[4].day, true)}
+                </td>
+                <td className={this.retClassName(s, d[5].time, d[5].day)} onClick={(e) => this.setStatus(s,d[5].day,e)}>
+                    {this.retClassName(s, d[5].time, d[5].day, true)}
+                </td>
+                <td className={this.retClassName(s, d[6].time, d[6].day)} onClick={(e) => this.setStatus(s,d[6].day,e)}>
+                    {this.retClassName(s, d[6].time, d[6].day, true)}
+                </td>
+            </tr>
+            );
+        }
+
+        return (
+            <div className='ui-fixed-bg'>
+                <div className='ui-oe-date'>
+                    <div className='ui-oe-title'>
+                        <span>请选择取衣时间</span>
+                        <img src='images/ui-date-close.png' onClick={props.onCloseRequest}/>
+                    </div>
+                    <div className='ui-oe-body'>
+                        <table className='ui-oe-table'>
+                            <thead>
+                                <tr className='tr'>
+                                    <td className='td'>时间段</td>
+                                    <td>{d[0].day}</td>
+                                    <td>{d[1].day}</td>
+                                    <td>{d[2].day}</td>
+                                    <td>{d[3].day}</td>
+                                    <td>{d[4].day}</td>
+                                    <td>{d[5].day}</td>
+                                    <td>{d[6].day}</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {html}
+                            </tbody>
+                        </table>
+                        <div style={{marginTop:'20px',width:'100%',textAlign:'center'}}>
+                            <input type='button' className='ui-btn ui-btn-cancel ui-btn-middle' value='取消' onClick={props.onCloseRequest}/>
+                            &emsp;&emsp;&emsp;
+                            <input 
+                                type='button' 
+                                className='ui-btn ui-btn-confirm ui-btn-middle'
+                                value='确认' onClick={() => props.onConfirmRequest(state.chooseDay + '  ' + state.chooseTime)}/>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
         );
     }
