@@ -1,0 +1,23 @@
+/**
+ * 打印机样式
+ * @author yangyunlong
+ */
+/* 文字:16pt  18pt 标题:24pt 30pt*/
+
+body{width: 280px;font-size: 16pt;margin: auto;color: black;font-weight: bold;word-wrap: break-word;}
+body,div,span,img,p{margin: 0;padding: 0;}
+.title{font-size: 20pt;text-align: right;padding-bottom: 16pt;}
+.header{font-size: 20pt;text-align: center;padding-bottom: 16pt;border-bottom: 1px dashed black;}
+.header>img{height: 20pt;width: 20pt;}
+.brand{text-align: center;font-size: 16pt;line-height: 18px;padding: 24pt 0 24pt;}
+.line{margin-bottom: 16pt;}
+.cate{
+    display: flex;display: -webkit-flex;
+    justify-content: space-between;margin-bottom: 8pt;
+    align-items: center;height: 30pt;border: 1pt dashed black;
+    border-right-width: 0;border-left-width: 0;
+}
+.image-box{
+    display: flex;display: -webkit-flex;
+    align-items: center;justify-content: center;
+}

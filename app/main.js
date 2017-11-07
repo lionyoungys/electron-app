@@ -5,7 +5,8 @@ const electron = require('electron'),
     ipcMain = electron.ipcMain,
     path = require('path'),
     url = require('url');
-let win = {};    //声明窗口对象
+let win = {},    //声明窗口对象
+    winprints = null;
 
 // 部分 API 在 ready 事件触发后才能使用。
 app.on('ready', () => {
@@ -22,7 +23,8 @@ app.on('ready', () => {
             minHeight:800,
             autoHideMenuBar:true
         },
-        'public/main.html'
+        'public/prints/index.html'
+        //'public/main.html'
     );
 });
 
@@ -60,6 +62,7 @@ ipcMain.on('toggle-login', () => {
     createWindow('login', { width: 491, height: 351, frame: false, resizable: false }, 'public/login.html');
     win.main.close();
 });
+//用户协议
 ipcMain.on('protocol', (e, args) => {
     if ('close' === args) {
         win.protocol.close();
@@ -68,7 +71,9 @@ ipcMain.on('protocol', (e, args) => {
             createWindow('protocol', { width: 840, height: 556, frame: false, resizable: false }, 'public/protocol.html');
         }
     }
-    
+});
+ipcMain.on('print-silent', (e, args) => {
+    winprints = new BrowserWindow({show: false});
 });
 //窗口创建函数
 function createWindow(name, windowStyle, uri) {
