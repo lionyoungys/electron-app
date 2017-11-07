@@ -68,7 +68,7 @@ ipcMain.on('protocol', (e, args) => {
         win.protocol.close();
     } else {
         if ('undefined' === typeof win.protocol || null === win.protocol) {
-            createWindow('protocol', { width: 840, height: 556, frame: false, resizable: false }, 'public/protocol.html');
+            createWindow('protocol', {width:840,height:556,frame:false,resizable:false}, 'public/protocol.html');
         }
     }
 });
@@ -85,7 +85,6 @@ ipcMain.on('print-silent', (e, args) => {
 });
 ipcMain.on("print", (event, arg) => {
     winprints.webContents.print({silent: true, printBackground: true});
-    //winprints.close();
 });
 //窗口创建函数
 function createWindow(name, windowStyle, uri) {
