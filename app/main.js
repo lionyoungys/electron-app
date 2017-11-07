@@ -23,8 +23,8 @@ app.on('ready', () => {
             minHeight:800,
             autoHideMenuBar:true
         },
-        'public/prints/index.html'
-        //'public/main.html'
+        //'public/prints/index.html'
+        'public/main.html'
     );
 });
 
@@ -73,7 +73,19 @@ ipcMain.on('protocol', (e, args) => {
     }
 });
 ipcMain.on('print-silent', (e, args) => {
-    winprints = new BrowserWindow({show: false});
+    if (null === winprints) {
+        winprints = new BrowserWindow({show: false});
+        winprints.on('closed', () => { winprints = null; });
+    }
+    winprints.loadURL(url.format({
+        pathname: path.join(__dirname, args),
+        protocol: 'file:',
+        slashes: true
+    }));
+});
+ipcMain.on("print", (event, arg) => {
+    winprints.webContents.print({silent: true, printBackground: true});
+    //winprints.close();
 });
 //窗口创建函数
 function createWindow(name, windowStyle, uri) {
@@ -91,5 +103,8 @@ function createWindow(name, windowStyle, uri) {
     //打开开发者工具
     win[name].webContents.openDevTools();
     //当window关闭时取消引用
-    win[name].on('closed', () => { win[name] = null; });
+    win[name].on('closed', () => {
+        win[name] = null;
+        if (null !== winprints) {winprints.close();}
+    });
 }

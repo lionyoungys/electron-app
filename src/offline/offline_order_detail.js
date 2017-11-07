@@ -5,6 +5,7 @@
 import React, {Component} from 'react';
 import '../static/api';
 import Crumbs,{LightboxImage,BoxOfImages} from '../static/UI';
+const {ipcRenderer} = window.require('electron');
 
 export default class OfflineOrderDetail extends Component{
     constructor(props) {
@@ -16,6 +17,7 @@ export default class OfflineOrderDetail extends Component{
             name:'',mobile:'',
             items:[]
         };
+        this.printOrder = this.printOrder.bind(this);
         console.log(this.params);
     }
 
@@ -38,6 +40,8 @@ export default class OfflineOrderDetail extends Component{
             console.log(result);
         });
     }
+
+    printOrder() {ipcRenderer.send('print-silent','public/prints/index.html');}
 
     render() {
         let props = this.props,
@@ -76,7 +80,12 @@ export default class OfflineOrderDetail extends Component{
                         <span style={style}>订单地址：</span>{state.address}
                     </div>
                     <div style={{paddingTop:'20px'}}>
-                        <input type='button' value='打印订单' className='ui-btn ui-btn-confirm ui-btn-large'/>
+                        <input 
+                            type='button' 
+                            value='打印订单' 
+                            className='ui-btn ui-btn-confirm ui-btn-large'
+                            onClick={this.printOrder}
+                        />
                     </div>
                 </section>
             </div>

@@ -57,5 +57,9 @@
     <p style="text-align:center;line-height:20pt;">请仔细阅读本单</p>
 </div>
 <p style="text-align:center;">门店联</p>
+<script>
+    const {ipcRenderer} = require('electron');
+    window.onload = function() {ipcRenderer.send('print');}
+</script>
 </body>
 </html>
