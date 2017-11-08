@@ -13,6 +13,7 @@ class Check extends Component {
         this.state = {data:[]};
         this.params = this.props.param.paramToObject();    //参数列表
         this.id = this.params.id;    //订单ID
+        console.log(this.props);
         this.crumbs = [{text:'订单处理',key:0,e:'order',param:'choose=2'},{text:'衣物检查',key:1}];
         if ('undefined' !== typeof this.params.from && 'offline' == this.params.from) {
             this.crumbs = [
@@ -57,7 +58,11 @@ class Check extends Component {
                     name={obj.g_name}
                     number={obj.number}
                     color={obj.color}
+                    color_text={obj.color_text}
                     question={obj.item_note}
+                    question_text={obj.note_text}
+                    assess={obj.assess}
+                    assess_text={obj.assess_text}
                     from={this.params.from}
                     images={obj.img}
                     orderId={this.id}
@@ -108,6 +113,7 @@ class Item extends Component {
         this.addImage = this.addImage.bind(this);    //添加图片
         this.color = this.color.bind(this);    //颜色设置跳转
         this.question = this.question.bind(this);    //问题描述跳转
+        this.assess = this.assess.bind(this);
     }
 
     deleteImage(e) {
@@ -162,7 +168,7 @@ class Item extends Component {
         let props = this.props;
         props.changeView({
             element:'color',
-            param:'orderId='+props.orderId+'&id='+props.id+'&color='+props.color+'&from='+props.from
+            param:'orderId='+props.orderId+'&id='+props.id+'&color='+props.color+'&from='+props.from+'&color_text='+props.color_text
         });
     }
 
@@ -170,7 +176,15 @@ class Item extends Component {
         let props = this.props;
         props.changeView({
             element:'question',
-            param:'orderId='+props.orderId+'&id='+props.id+'&question='+props.question+'&from='+props.from
+            param:'orderId='+props.orderId+'&id='+props.id+'&question='+props.question+'&from='+props.from+'&question_text='+props.question_text
+        });
+    }
+
+    assess() {
+        let props = this.props;
+        props.changeView({
+            element:'after',
+            param:'orderId='+props.orderId+'&id='+props.id+'&assess='+props.assess+'&from='+props.from+'&assess_text='+props.assess_text
         });
     }
     render() {
@@ -178,6 +192,7 @@ class Item extends Component {
             state = this.state,
             colorValue = '' == props.color ? '颜色设置' : '编辑',
             questionValue = '' == props.question ? '问题描述' : '编辑',
+            assessValue = '' == props.assess ? '洗后预估' : '编辑',
             addNode = state.images.length >= 11 ? null : <div className='ui-image ui-image-add' onClick={this.addImage}></div>,
             images = state.images.map((obj) => 
                 <div key={obj} className='ui-image' style={{backgroundImage:'url('+  api.host + obj +')'}}>
@@ -204,13 +219,18 @@ class Item extends Component {
                 </div>
                 <div className='ui-content' style={{flexWrap:'wrap'}}>
                     <div className='ui-check-word'>颜色:</div>
-                    <div className='ui-check-container'>{props.color}</div>
+                    <div className='ui-check-container'>{props.color + ' ' + props.color_text}</div>
                     <input type='button' value={colorValue} className='ui-check-btn' onClick={this.color}/>
                 </div>
                 <div className='ui-content' style={{flexWrap:'wrap'}}>
                     <div className='ui-check-word'>问题描述:</div>
-                    <div className='ui-check-container'>{props.question}</div>
+                    <div className='ui-check-container'>{props.question + ' ' + props.question_text}</div>
                     <input type='button' value={questionValue} className='ui-check-btn' onClick={this.question}/>
+                </div>
+                <div className='ui-content' style={{flexWrap:'wrap'}}>
+                    <div className='ui-check-word'>洗后预估:</div>
+                    <div className='ui-check-container'>{props.assess + ' ' + props.assess_text}</div>
+                    <input type='button' value={assessValue} className='ui-check-btn' onClick={this.assess}/>
                 </div>
             </div>
         );

@@ -16,7 +16,7 @@ class Question extends Component {
         this.id = this.params.id;    //项目ID
         this.question = this.params.question;    //项目内容
         this.redirectParam = 'id='+this.orderId+'&from='+this.params.from;
-        this.state = {chosenArr:'' == this.question ? [] : this.question.split(',')};
+        this.state = {chosenArr:'' == this.question ? [] : this.question.split(','), text:this.params.question_text};
         this.crumbs = [
             {text:'订单处理',key:0,e:'order'},
             {text:'衣物检查',key:1,e:'check',param:this.redirectParam},
@@ -35,7 +35,6 @@ class Question extends Component {
         this.toggleOption = this.toggleOption.bind(this);    //选项选中取消操作
         this.cancelChecked = this.cancelChecked.bind(this);    //取消选中操作
         this.confirm = this.confirm.bind(this);
-        this.filtration = this.filtration.bind(this);
     }
 
     toggleOption(isChoose,value) {
@@ -55,45 +54,13 @@ class Question extends Component {
         this.setState({chosenArr:this.state.chosenArr});
     }
 
-    filtration() {
-        let retArr = [],retLen = 0,
-            tempArr,tempLen,tempLen2,tempIndex,
-            options = questionConfig.options,
-            len = options.length;
-        let stateLen = this.state.chosenArr.length;
-        if (stateLen < 1) return '';
-        retLen = this.state.chosenArr.length;
-        for (let i = 0;i < retLen;++i) {
-            retArr.push(this.state.chosenArr[i]);
-        }
-        for (let i = 0;i < len;++i) {
-            tempLen = options[i].length;
-            for (let j = 0;j < tempLen;++j) {
-                tempArr = options[i][j].list;
-                tempLen2 = tempArr.length;
-                for (let n = 0;n < tempLen2;++n) {
-                    tempIndex = tempArr[n].inArray(retArr);
-                    if (-1 !== tempIndex) {
-                        retArr.splice(tempIndex, 1);
-                    }
-                }
-            }
-        }
-        return retArr;
-    }
-
 
     confirm(value) {
         let state = this.state,
             props = this.props;
         if (state.length < 0) return;
         let question = state.chosenArr.toString();
-        if ('' == question) {
-            question += value;
-        } else {
-            question += ',' + value;
-        }
-        axios.post(api.U('questionSubmit'),api.data({token:props.token,id:this.id,item_note:question}))
+        axios.post(api.U('questionSubmit'),api.data({token:props.token,id:this.id,item_note:question,note_text:value}))
         .then((response) => {
             console.log(response.data);
             if (api.verify(response.data)) {
@@ -106,7 +73,6 @@ class Question extends Component {
     render() {
         let props = this.props,
             state = this.state,
-            value = this.filtration(),
             html = questionConfig.options.map((obj,index) =>
                 <QCmenu 
                     key={index} 
@@ -116,8 +82,7 @@ class Question extends Component {
                     callback={this.toggleOption}
                 />
             );
-        let tempArr = state.chosenArr.filtration(value),
-            chosenHtml = tempArr.map(obj =>
+        let chosenHtml = state.chosenArr.map(obj =>
                 <div className='ui-chosen-item' key={obj}>
                     {obj}<em className='ui-chosen-item-cancel' onClick={this.cancelChecked}></em>
                 </div>
@@ -129,7 +94,7 @@ class Question extends Component {
                 <div className='ui-container'>
                     <QCtextarea 
                         callback={this.confirm} 
-                        value={value.toString()}
+                        value={state.text}
                         title='您可输入具体问题或选择问题'
                         placeholder='请输入具体问题'
                     />

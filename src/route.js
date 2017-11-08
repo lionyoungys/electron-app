@@ -43,7 +43,7 @@ import MemberUpdateInfo from './member/member_update_info';
 import OfflineOrderDetail from './offline/offline_order_detail';
 import OfflineCraft from './offline/offline_craft';
 import OfflineEditor from './offline/offline_editor';
-
+import After from './order/after';
 export default {
     order:Order,    //订单处理
     item:Item,    //添加项目
@@ -90,4 +90,5 @@ export default {
     offline_order_detail:OfflineOrderDetail,    //线下订单详情
     offline_craft:OfflineCraft,    //线下工艺加价界面
     offline_editor:OfflineEditor,    //线下工艺加价编辑界面
+    after:After,    //洗后预估界面
 }
