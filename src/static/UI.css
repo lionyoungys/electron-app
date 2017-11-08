@@ -560,7 +560,7 @@
     margin-right: 24px;line-height: 40px;border: 1px solid #b2b2b2;
 }
 .ui-teamwork-searcher{
-    width: 251px;min-height: 28px;max-height: 167px;
+    width: 251px;max-height: 167px;
     overflow-x: hidden;overflow-y: auto;
     box-sizing: border-box;-webkit-box-sizing: border-box;
     border: 1px solid #b2b2b2; border-top: none;

@@ -11,34 +11,50 @@ export default class Teamwork extends Component {
     constructor(props) {
         super(props);
         this.crumbs = [{key:0,text:'合作门店'}];
-        this.state = {clerks:[],show:false,deleteShow:false,tempId:null};
+        this.state = {list:[],show:false,deleteShow:false,tempId:null};
         this.callback = this.callback.bind(this);    //弹窗回调函数
         this.deleteCallback = this.deleteCallback.bind(this);    //删除成员回调
     }
 
     componentDidMount() {
-        axios.post(api.U('clerkList'),api.data({token:this.props.token}))
+        axios.post(api.U('teamwork'),api.data({token:this.props.token}))
         .then((response) => {
             let result = response.data.data;
-            this.setState({clerks:result});
+            this.setState({list:result});
             console.log(result);
         });
     }
 
-    callback(isConfirm) {
+    callback(isConfirm, id) {
         if (isConfirm) {
-            axios.post(api.U('clerkList'),api.data({token:this.props.token}))
+            axios.post(api.U('teamworkAdd'),api.data({token:this.props.token,accept_id:id}))
             .then((response) => {
-                let result = response.data.data;
-                this.setState({clerks:result});
-                console.log(result);
+                console.log(response);
+                if (api.verify(response.data)) {
+                    axios.post(api.U('teamwork'),api.data({token:this.props.token}))
+                    .then((res) => {
+                        let result = res.data.data;
+                        this.setState({list:result});
+                        console.log(result);
+                    });
+                }
             });
         }
         this.setState({show:false})
     }
     deleteCallback(isConfirm) {
         if (isConfirm) {
-
+            axios.post(api.U('teamworkDelete'),api.D({token:this.props.token,ids:this.state.tempId}))
+            .then(response => {
+                if (api.verify(response.data)) {
+                    axios.post(api.U('teamwork'),api.data({token:this.props.token}))
+                    .then((res) => {
+                        let result = res.data.data;
+                        this.setState({list:result});
+                        console.log(result);
+                    });
+                }
+            });
         }
         this.setState({deleteShow:false});
     }
@@ -46,17 +62,16 @@ export default class Teamwork extends Component {
     render () {
         let props = this.props,
             state = this.state,
-            html = state.clerks.map((obj) => 
+            html = state.list.map((obj) => 
                 <tr className='ui-tr-d' key={obj.id}>
-                    <td>{obj.nickname}</td>
-                    <td>{obj.username}</td>
+                    <td>{obj.id}</td>
+                    <td>{obj.mname}</td>
                     <td>
                         <input 
                             type='button' 
                             value='删除' 
                             className='ui-btn ui-btn-editor'
-                            onClick={() => this.setState({deleteShow:true})}
-                            data-id={obj.id}
+                            onClick={() => this.setState({deleteShow:true,tempId:obj.id})}
                         />
                     </td>
                 </tr>
@@ -92,13 +107,49 @@ export default class Teamwork extends Component {
 class AddMember extends Component {
     constructor(props) {
         super(props);
-        this.state = {text:''}
+        this.state = {text:'',list:[],id:null}
+        this.onSearchRequest = this.onSearchRequest.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.onConfirmRequest = this.onConfirmRequest.bind(this);
+    }
+
+    onSearchRequest(e) {
+        let value = e.target.value;
+        this.setState({text:value,id:null});
+        axios.post(
+            api.U('teamworkSearch'),
+            api.D({token:this.props.token,info:value})
+        )
+        .then(response => {
+            console.log(response.data);
+            this.setState({list:response.data.data});
+        });
+    }
+
+    handleClick(e) {
+        let dataset = e.target.dataset;
+        this.setState({text:dataset.text,id:dataset.id});
+    }
+
+    onConfirmRequest() {
+        if (null !== this.state.id) {
+            this.props.callback(true, this.state.id);
+        }
     }
 
     render () {
         let props = this.props,
             state = this.state;
         if (!props.show) return null;
+        let html = state.list.map(obj => 
+            <div 
+                className='ui-teamwork-searcher-item' 
+                key={obj.id} 
+                data-id={obj.id}
+                data-text={obj.mname}
+                onClick={this.handleClick}
+            >{obj.mname}</div>
+        );
         return (
             <section className='ui-teamwork-add'>
                 <div className='ui-teamwork-title'>
@@ -111,25 +162,11 @@ class AddMember extends Component {
                             className='ui-teamwork-input' 
                             placeholder='请输入合作门店名称' 
                             value={state.text}
-                            onChange={(e) => {this.setState({text:e.target.value})}}
+                            onChange={this.onSearchRequest}
                         />
-                        <input type='button' className='ui-teamwork-confirm'/>
+                        <input type='button' className='ui-teamwork-confirm' onClick={this.onConfirmRequest}/>
                         <div className='ui-teamwork-searcher'>
-                            <div className='ui-teamwork-searcher-item'>dfdfdfdfdfdfdf</div>
-                            <div className='ui-teamwork-searcher-item'>dfdfdfdfdfdfdf</div>
-                            <div className='ui-teamwork-searcher-item'>dfdfdfdfdfdfdf</div>
-                            <div className='ui-teamwork-searcher-item'>dfdfdfdfdfdfdf</div>
-                            <div className='ui-teamwork-searcher-item'>dfdfdfdfdfdfdf</div>
-                            <div className='ui-teamwork-searcher-item'>dfdfdfdfdfdfdf</div>
-                            <div className='ui-teamwork-searcher-item'>dfdfdfdfdfdfdf</div>
-                            <div className='ui-teamwork-searcher-item'>dfdfdfdfdfdfdf</div>
-                            <div className='ui-teamwork-searcher-item'>dfdfdfdfdfdfdf</div>
-                            <div className='ui-teamwork-searcher-item'>dfdfdfdfdfdfdf</div>
-                            <div className='ui-teamwork-searcher-item'>dfdfdfdfdfdfdf</div>
-                            <div className='ui-teamwork-searcher-item'>dfdfdfdfdfdfdf</div>
-                            <div className='ui-teamwork-searcher-item'>dfdfdfdfdfdfdf</div>
-                            <div className='ui-teamwork-searcher-item'>dfdfdfdfdfdfdf</div>
-                            <div className='ui-teamwork-searcher-item'>dfdfdfdfdfdfdf</div>
+                            {html}
                         </div> 
                     </div>
                 </div>
@@ -147,6 +184,7 @@ class DeleteMember extends Component {
         let props = this.props,
             state = this.state;
         if (!props.show) return null;
+        console.log(props);
         return (
             <section className='ui-teamwork-delete'>
                 <div className='ui-teamwork-title'>
@@ -157,7 +195,7 @@ class DeleteMember extends Component {
                 <div className='ui-teamwork-btn-area'>
                     <input type='button' className='ui-teamwork-cancel' onClick={() => props.callback(false)}/>
                     <div style={{width:'35.5px',height:'1px'}}></div>
-                    <input type='button' className='ui-teamwork-confirm'/>
+                    <input type='button' className='ui-teamwork-confirm' onClick={() => props.callback(true)}/>
                 </div>
             </section>
         );
