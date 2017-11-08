@@ -11,16 +11,19 @@ export default class ClerkManage extends Component {
     constructor(props) {
         super(props);
         this.crumbs = [{key:0,text:'员工管理'}];
-        this.state = {clerks:[],show:false,authList:[]};
+        this.state = {clerks:[],show:false,editorShow:false,authList:[],index:0};
         this.callback = this.callback.bind(this);    //弹窗回调函数
         this.deleteClerk = this.deleteClerk.bind(this);    //删除员工
+        this.retStr = this.retStr.bind(this);
+        this.editorCallback = this.editorCallback.bind(this);
+        this.isShowEditor = this.isShowEditor.bind(this);
     }
 
     componentDidMount() {
         axios.post(api.U('getAuth'),api.data({token:this.props.token}))
         .then(response => {
-            for (var k in response.data) {this.state.authList.push(response.data[k])}
-            this.setState({authList:this.state.authList});
+            this.setState({authList:response.data.data});
+            //console.log(this.state.authList);
         });
         axios.post(api.U('clerkList'),api.data({token:this.props.token}))
         .then((response) => {
@@ -30,16 +33,65 @@ export default class ClerkManage extends Component {
         });
     }
 
-    callback(isConfirm) {
+    callback(isConfirm,obj) {
+        if (isConfirm) {
+            obj.token = this.props.token;
+            axios.post(api.U('getAuth'),api.D(obj))
+            .then((response) => {
+                if (api.verify(response.data)) {
+                    axios.post(api.U('clerkList'),api.data({token:this.props.token}))
+                    .then((response) => {
+                        let result = response.data.data;
+                        this.setState({clerks:result});
+                        //console.log(result);
+                    });
+                }
+            });
+        }
+        this.setState({show:false})
+    }
+
+    editorCallback(isConfirm) {
         if (isConfirm) {
             axios.post(api.U('clerkList'),api.data({token:this.props.token}))
             .then((response) => {
                 let result = response.data.data;
                 this.setState({clerks:result});
-                console.log(result);
+                //console.log(result);
             });
         }
-        this.setState({show:false})
+        this.setState({editorShow:false});
+    }
+
+    isShowEditor() {
+        let state = this.state;
+        if (state.editorShow) {
+            return (
+                <AddClerk 
+                    show={state.editorShow} 
+                    authList={state.authList} 
+                    callback={this.editorCallback}
+                    id={state.clerks[state.index].id}
+                    token={this.props.token}
+                    type='editor'
+                />
+            );
+        }
+        return null;
+    }
+    retStr(value) {
+        let arr = value.split(','),
+            arrLen = arr.length,
+            auth = this.state.authList,
+            len = auth.length,
+            retStr = [];
+        for (let i = 0;i < len;++i) {
+            for (let j = 0;j < arrLen;++j) {
+                if (auth[i].num == arr[j]) retStr.push(auth[i].name);
+            }
+        }
+        if ('100'.inArray(arr)) retStr.push('订单管理');
+        return retStr.toString();
     }
 
     deleteClerk(e) {
@@ -60,12 +112,19 @@ export default class ClerkManage extends Component {
     render () {
         let props = this.props,
             state = this.state,
-            html = state.clerks.map((obj) => 
+            html = state.clerks.map((obj,index) => 
                 <tr className='ui-tr-d' key={obj.id}>
                     <td>{obj.nickname}</td>
                     <td>{obj.username}</td>
-                    <td>{obj.auth}</td>
+                    <td>{this.retStr(obj.quanli)}</td>
                     <td>
+                        <input 
+                            type='button' 
+                            value='编辑' 
+                            className='ui-btn ui-btn-editor'
+                            onClick={() => this.setState({editorShow:true,index:index})}
+                            data-id={obj.id}
+                        />
                         <input 
                             type='button' 
                             value='删除' 
@@ -73,6 +132,7 @@ export default class ClerkManage extends Component {
                             onClick={this.deleteClerk}
                             data-id={obj.id}
                         />
+
                     </td>
                 </tr>
             );
@@ -97,110 +157,120 @@ export default class ClerkManage extends Component {
                         </table>
                     </div>
                 </section>
-                <AddClerk show={state.show} authList={state.authList} callback={this.callback} token={props.token}/>
+                <AddClerk show={state.show} authList={state.authList} callback={this.callback}/>
+                {this.isShowEditor()}
             </div>
         );
     }
 }
 
+
 class AddClerk extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            name:'',mobile:'',captcha:'',captchaInfo:'',password:'',show:false,
-            msg:'获取验证码'
-        };
-        this.countdown = 60;
-        this.timeOutId = this.intervalId = null;
+        this.state = {name:'',mobile:'',password:'',auth:[]};
         this.onConfirm = this.onConfirm.bind(this);    //确认
-        this.captcha = this.captcha.bind(this);    //获取验证码
         this.toggleChecked = this.toggleChecked.bind(this);
+        this.onClose = this.onClose.bind(this);
+    }
+    componentDidMount() {
+        let props = this.props;
+        if (func.isSet(props.type)) {
+            axios.post(api.U('updateClerkInfo'),api.D({token:props.token,id:props.id}))
+            .then(response => {
+                let result = response.data.data.info;
+                this.setState({name:result.nickname,mobile:result.username,auth:result.quanli.split(',')});
+            });
+        }
     }
 
-
-    componentWillUnmount() {
-        if (null !== this.timeOutId) {clearTimeout(this.timeOutId);}
-        if (null !== this.intervalId) {clearInterval(this.intervalId);}
-    }
+    componentWillUnmount() {this.setState({name:'',mobile:'',password:'',auth:[]});}
 
     onConfirm() {
-        let state = this.state,
-            props = this.props;
-        if (md5(state.captcha) !== state.captchaInfo) {
-            this.setState({show:true});
-            this.timeOutId = setTimeout(() => {this.setState({show:false})}, 3000);
-        } else {
-            axios.post(
-                api.U('addClerk'),
-                api.data({
-                    token:props.token,
+        let state = this.state;
+        if (func.isSet(this.props.type)) {
+            if (
+                '' != state.name && 
+                !isNaN(state.mobile) &&
+                state.mobile.length == 11 &&
+                state.auth.length > 0) {
+            } {
+                let data = {
+                    id:this.props.id,
                     nickname:state.name,
                     username:state.mobile,
-                    password:state.password
-                })
-            )
-            .then((response) => {
-                if (api.verify(response.data)) {
-                    props.callback(true);
-                }
-            });
+                    assess:state.auth.toString(),
+                    token:this.props.token
+                };
+                if ('' != state.password) data.password = state.password;
+                axios.post(api.U('updateClerkInfo'),api.D(data))
+                .then(response => {
+                    if (api.verify(response.data)) {
+                        this.props.callback(true);
+                    }
+                });
+            }
+        } else {
+            if (
+                '' != state.name &&
+                '' != state.password && 
+                !isNaN(state.mobile) &&
+                state.mobile.length == 11 &&
+                state.auth.length > 0
+            ) {
+                this.props.callback(true, {
+                    nickname:state.name,
+                    username:state.mobile,
+                    password:state.password,
+                    assess:state.auth.toString()
+                });
+                this.setState({name:'',mobile:'',password:'',auth:[]});
+            }
         }
     }
-    
-    captcha() {
-        let state = this.state,
-            props = this.props;
-        if ('获取验证码' != state.msg) return;
-        if (state.mobile.length === 11) {
-            axios.post(api.U('clerkSendCode'),api.data({token:props.token,mobile:state.mobile}))
-            .then((response) => {
-                if (api.verify(response.data)) {
-                    this.setState({captchaInfo:response.data.data,msg:'60s'});
-                    this.intervalId = setInterval(
-                        () => {
-                            if (0 == this.countdown) {
-                                this.setState({msg:'获取验证码'});
-                                this.countdown = 60;
-                                clearInterval(this.intervalId);
-                            } else {
-                                --this.countdown
-                                this.setState({msg:this.countdown + 's'});
-                            }
-                        },
-                        1000
-                    );
-                }
-            });
-        }
+    onClose() {
+        this.setState({name:'',mobile:'',password:'',auth:[]});
+        this.props.callback(false);
     }
 
     toggleChecked(e) {
-        let target = e.target;
-        if (target.classList.contains('ui-checked3')) {
-
+        let index = e.target.dataset.index,
+            auth = this.state.auth,
+            i = index.inArray(auth);
+        if (-1 === i) {
+            auth.push(index);
+        } else {
+            auth.splice(i, 1);
         }
-        target.classList.toggle('ui-checked3');
+        this.setState({auth:auth});
     }
     
-    render () {
+    render() {
         let props = this.props,
-            state = this.state,
-            auths = props.authList.map((obj, index) => 
-                <span 
-                    key={index} 
-                    data-index={index + 1} 
-                    className='ui-checkbox3' 
-                    onClick={this.toggleChecked}
-                >{obj}</span>  
-            );
+            state = this.state;
         if (!props.show) return null;
+        let auths = props.authList.map(obj => 
+                 <span 
+                     key={obj.num} 
+                     data-index={obj.num} 
+                     className={'ui-checkbox3' + (-1 !== obj.num.inArray(state.auth) ? ' ui-checked3' : '')} 
+                     onClick={this.toggleChecked}
+                 >{obj.name}</span>  
+            );
+        auths.push(
+            <span 
+                key='100' 
+                data-index='100' 
+                className={'ui-checkbox3' + (-1 !== '100'.inArray(state.auth) ? ' ui-checked3' : '')} 
+                onClick={this.toggleChecked}
+            >订单管理</span>
+        );
         return (
             <section className='ui-fixed-bg'>
-                <Notification show={state.show} width='120'>验证码不正确!</Notification>
                 <div className='ui-clerk-box'>
                     <div className='ui-clerk-box-header'>
                         <span>添加员工</span>
-                        <em className='ui-close3' onClick={() => props.callback(false)}></em>
+                        <em className='ui-close3' onClick={this.onClose}></em>
                     </div>
                     <div className='ui-clerk-box-body'>
                         <div className='ui-clerk-box-row'>
@@ -220,19 +290,9 @@ class AddClerk extends Component {
                             />
                         </div>
                         <div className='ui-clerk-box-row'>
-                            <span>验证码：</span>
-                            <input 
-                                type='text' 
-                                className='input' 
-                                value={state.captcha}
-                                onChange={e => this.setState({captcha:e.target.value})}
-                            />
-                            <span className='captcha' onClick={this.captcha}>{state.msg}</span>
-                        </div>
-                        <div className='ui-clerk-box-row'>
                             <span>密码：</span>
                             <input 
-                                type='text' 
+                                type='password' 
                                 value={state.password} 
                                 onChange={e => this.setState({password:e.target.value})}
                             />

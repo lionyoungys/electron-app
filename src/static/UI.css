@@ -342,7 +342,7 @@
 }
 /* 添加员工弹窗样式 */
 .ui-clerk-box{
-    width: 561px;min-height: 554px;background: #fff;border-radius: 10px;
+    width: 561px;min-height: 504px;background: #fff;border-radius: 10px;
     position: fixed;left: 50%;top: 50%;margin: -277px 0 0 -280.5px;
 }
 .ui-clerk-box-header{
@@ -358,7 +358,7 @@
     background: url(images/ui-clerk-icon.png) no-repeat left center;
 }
 .ui-clerk-box-body{
-    width: 100%;min-height: 494px;padding: 25px 0;
+    width: 100%;min-height: 454px;padding: 25px 0;
     box-sizing: border-box;-webkit-box-sizing: border-box;
     border: 1px solid #aec9d6;border-top: none;
     border-bottom-right-radius: 10px;
@@ -371,7 +371,7 @@
     width: 125px;height: 40px;font-size: 18px;line-height: 40px;
     margin-right: 14px;text-align: right;
 }
-.ui-clerk-box-row>input[type=text]{
+.ui-clerk-box-row>input[type=text],.ui-clerk-box-row>input[type=password]{
     height: 40px;line-height: 40px;width: 272px;
     box-sizing: border-box;-webkit-box-sizing: border-box;
     border: 1px solid #e0e7eb;

@@ -10,6 +10,7 @@
      * @param array 数组
      * @return ret 索引值/-1
      */
+    Number.prototype.inArray = 
     String.prototype.inArray = function(array) {
         let ret = -1,
             len = array.length;
