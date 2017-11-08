@@ -42,7 +42,22 @@ export default class Voucher extends Component {
             && 
             func.isSet(state.end)
         ) {
-            this.props.changeView({element:'voucher_list'});
+            axios.post(
+                api.U('createCoupon'),
+                api.D({
+                    token:this.props.token,
+                    num:state.count,
+                    value:state.amount,
+                    start_time:state.start,
+                    end_time:state.end
+                })
+            )
+            .then(response => {
+                this.props.changeView({
+                    element:'voucher_list',
+                    param:{voucherList:response.data.data.coupon}
+                });
+            });
         }
     }
 
