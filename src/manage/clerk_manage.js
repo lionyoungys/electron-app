@@ -90,7 +90,7 @@ export default class ClerkManage extends Component {
                 if (auth[i].num == arr[j]) retStr.push(auth[i].name);
             }
         }
-        if ('100'.inArray(arr)) retStr.push('订单管理');
+        if (-1 != '100'.inArray(arr)) retStr.push('订单管理');
         return retStr.toString();
     }
 

@@ -15,6 +15,22 @@ import route from './route';
 
 const token = localStorage.getItem('token');
 const uid = localStorage.getItem('uid');
+const auth = localStorage.getItem('auth');
+const role = localStorage.getItem('role');
+const authList = {
+    '100':'线上订单',
+    '1':'收衣',
+    '2':'入厂',
+    '3':'送洗',
+    '4':'烘干',
+    '5':'熨烫',
+    '6':'质检',
+    '7':'上挂',
+    '8':'出厂',
+    '9':'取衣',
+    '10':'业务统计',
+    '11':'会员管理'
+};    //权限分配列表
 //界面头部组件
 class Header extends Component {
     constructor(props) {
@@ -117,6 +133,10 @@ class Main extends Component {
                 changeView={this.handleContainerView}
             />
         );
+        console.log('----------------------------------');
+        console.log(auth);
+        console.log(role);
+        console.log('----------------------------------');
         const E = this.elements[state.e],    //展示指定视图组件
               mainStyle = {
                   height:'100%',width:'100%',
@@ -185,8 +205,40 @@ class Menu extends Component {
     constructor(props) {
         super(props);
         this.state = {isSpread:false}
+        this.isBoss = ('1' == role);
+        let auths = ('' != auth) ? auth.split(',') : [],
+            len = auths.length;
+        this.auths = [];
+        this.authList = [];
+        for (let i = 0;i < len;++i) {
+            this.auths.push(authList[auths[i]]);
+        }
+        for (let k in authList) {
+            this.authList.push(authList[k]);
+        }
+        console.log(this.auths);
+        //this.auths = ('' != auth) ? auth.split(',') : [];
         this.chooseMenu = this.chooseMenu.bind(this);
+        this.isShowOnline = this.isShowOnline.bind(this);
+        this.isShowItem = this.isShowItem.bind(this);
     }
+
+    isShowOnline(value) {
+        if ('线上订单' == value) {
+            if (this.isBoss || -1 != '线上订单'.inArray(this.auths)) return null;
+            return {display:'none'};
+        }
+        return null;
+    }
+
+    isShowItem(value) {
+        if (-1 !== value.inArray(this.authList) && -1 == value.inArray(this.auths)) {
+            return {display:'none'};
+        } 
+        return null;
+    }
+
+
     chooseMenu(e) {this.setState({isSpread:!this.state.isSpread});}
     render() {
         let props = this.props,
@@ -203,7 +255,8 @@ class Menu extends Component {
                     data-option={obj.id} 
                     data-e={obj.e}
                     className={props.option == obj.id ? 'main-chosen' : null} 
-                    onClick={this.props.changeView}
+                    onClick={props.changeView}
+                    style={this.isShowItem(obj.text)}
                 >
                     {obj.text}
                     {isShowOrders && '订单处理' == obj.text? <em className='main-tag'>{props.orders}</em> : ''}
@@ -211,7 +264,11 @@ class Menu extends Component {
             );
         return (
             <dl>
-                <dt onClick={this.chooseMenu} className='main-selection'>
+                <dt 
+                    onClick={this.chooseMenu} 
+                    className='main-selection'
+                    style={this.isShowOnline(sel.text)}
+                >
                     <div id={sel.id}>{sel.text}</div>
                     <div className={status} onClick={this.chooseMenu}></div>
                 </dt>

@@ -65,13 +65,15 @@ class Login extends Component {
             axios.post(api.U('login'), api.data({username:state.mobile,password:state.password}))
             .then((response) => {
                 let result = response.data;
+                console.log(result);
                 if (!api.verify(result)) {
                     //验证错误时，提示登录信息错误
                     this.props.noticeCallback(result.status);
                 } else {
                     localStorage.setItem('token', result.data.token);
                     localStorage.setItem('role', result.data.role);
-                    localStorage.setItem('uid', result.data.uid);          
+                    localStorage.setItem('uid', result.data.uid);
+                    localStorage.setItem('auth', result.data.quanli);
                     ipcRenderer.send('login-msg','SUCCESS');
                 }
             });
