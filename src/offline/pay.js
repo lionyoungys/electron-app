@@ -4,7 +4,7 @@
  */
 import React, {Component} from 'react';
 import '../static/api';
-import Crumbs,{Search2} from '../static/UI';
+import Crumbs,{Search2, PayMent} from '../static/UI';
 
 class Pay extends Component {
     constructor(props) {
@@ -24,14 +24,20 @@ class Pay extends Component {
             this.crumbs = [{text:'取衣',key:0,e:'offline_take'},{text:'订单支付',key:1}];
         }
         this.state = {
-            amount:'0',discount:'0',realAmount:'0',payment:'',
-            reduce:'',reduceAmount:'',
-            vipExist:1,merchantExist:1,vipBalance:0,merchantBalance:0
+            amount:'0',discount:'0',realAmount:0,payment:'',
+            reduce:9,reduceAmount:0,voucher:0,voucher_id:null,
+            vipExist:1,merchantExist:1,vipBalance:0,merchantBalance:0,
+            vipDiscount:10,merchantDiscount:10,vip_id:null,
+            isShow:false,paymentStatus:'payment',user_id:null,
         };
         this.toggleChecked = this.toggleChecked.bind(this);    //切换支付方式
         this.toggleReduce = this.toggleReduce.bind(this);    //切换折扣方式
         this.specialChange = this.specialChange.bind(this);    //修改特殊折扣
         this.bindDiscount = this.bindDiscount.bind(this);
+        this.onOnlinePayRequest = this.onOnlinePayRequest.bind(this);
+        this.onPayRequest = this.onPayRequest.bind(this);
+        this.onFreeRequest = this.onFreeRequest.bind(this);
+        this.afterPay = this.afterPay.bind(this);
     }
 
     componentDidMount() {
@@ -48,38 +54,266 @@ class Pay extends Component {
                 vipExist:vip.card_exist,
                 merchantExist:merchant.card_exist,
                 vipBalance:vip.card_sum,
-                merchantBalance:merchant.balance
+                merchantBalance:merchant.balance,
+                vipDiscount:vip.card_discount,
+                vip_id:vip.id,
+                user_id:order.userid,
+                merchantDiscount:merchant.discount,
             });
             console.log(result);
         });
     }
 
     toggleChecked(e) {
-        let target = e.target;
+        let target = e.target,
+            state = this.state,
+            amount = state.amount;
+        console.log(target.dataset.payment);
         if (
             !target.classList.contains('ui-checked2') 
             && 
             target.classList.contains('ui-checkbox2')
         ) {
-            this.setState({payment:target.dataset.payment});
+            let payment = target.dataset.payment;
+            if ('vip' == payment) {    //专店会员卡
+                let realAmount = Number(((amount * 100 - state.voucher *100) * state.vipDiscount) / 10) /100;
+                this.setState({realAmount:realAmount});
+            } else if ('merchant' == payment) {    //商家会员卡
+                let realAmount = Number(((amount * 100 - state.voucher *100) * state.merchantDiscount) / 10) /100;
+                this.setState({realAmount:realAmount});
+            } else if (
+                'cash' == payment || 'wechat' == payment || 'alipay' == payment
+            ) {    //现金
+                if ('free' == state.reduce) {
+                    this.setState({realAmount:0});
+                } else if ('special' == state.reduce) {
+                    this.setState({realAmount:state.reduceAmount})
+                } else if ('ceil' == state.reduce) {
+                    this.setState({realAmount:(Number(amount * 100  - state.voucher * 100) / 100)});
+                } else {
+                    let realAmount = Number(((amount * 100 - state.voucher *100) * state.reduce) / 10) / 100;
+                    this.setState({realAmount:realAmount});
+                }
+            }
+            this.setState({payment:payment});
+        }
+    }
+
+    onPayRequest() {
+        let state = this.state,
+            props = this.props;
+        if (0 == state.realAmount) {
+            this.setState({isShow:true,paymentStatus:'free'});
+        } else {
+            if ('vip' == state.payment) {
+                axios.post(
+                    api.U('sendPayRequest'),
+                    api.D({
+                        token:props.token,
+                        type:'MEMBER_CARD',
+                        order_id:this.id,
+                        card_id:state.vip_id,
+                        amount:state.realAmount,
+                    })
+                )
+                .then(response => {
+                    if (api.verify(response.data)) {
+                        this.afterPay();
+                        props.changeView({element:'index'});
+                    }
+                    console.log(response.data);
+                });
+            } else if ('merchant' == state.payment) {
+                axios.post(
+                    api.U('sendPayRequest'),
+                    api.D({
+                        token:props.token,
+                        type:'MERCHANT_CARD',
+                        order_id:this.id,
+                        amount:state.realAmount,
+                    })
+                )
+                .then(response => {
+                    if (api.verify(response.data)) {
+                        this.afterPay();
+                        props.changeView({element:'index'});
+                    }
+                    console.log(response.data);
+                });
+            } else if ('cash' == state.payment) {
+                axios.post(
+                    api.U('sendPayRequest'),
+                    api.D({
+                        token:props.token,
+                        type:'CASH',
+                        order_id:this.id,
+                        amount:state.realAmount,
+                    })
+                )
+                .then(response => {
+                    if (api.verify(response.data)) {
+                        this.afterPay();
+                        props.changeView({element:'index'});
+                    }
+                    console.log(response.data);
+                });
+            } else if ('wechat' == state.payment || 'alipay' == state.payment) {
+                this.setState({isShow:true,paymentStatus:'payment'});
+            }
+        }
+        console.log(state.realAmount);
+    }
+
+    onFreeRequest() {
+        let state = this.state,
+            props = this.props;
+        if (0 == state.realAmount) {
+            if ('cash' == state.payment && 'free' == state.reduce) {
+                this.setState({paymentStatus:'loading'});
+                axios.post(
+                    api.U('sendPayRequest'),
+                    api.D({
+                        token:props.token,
+                        type:'CASH',
+                        state:'0',
+                        order_id:this.id,
+                        amount:state.realAmount,
+                    })
+                )
+                .then(response => {
+                    if (api.verify(response.data)) {
+                        this.afterPay();
+                        this.setState({paymentStatus:'success'});
+                        props.changeView({element:'index'});
+                    }
+                    console.log(response.data);
+                });
+            }
+        }
+    }
+
+    onOnlinePayRequest(authcode) {
+        let state = this.state,
+            props = this.props;
+        if (0 == state.realAmount) return;
+        if ('wechat' == state.payment) {
+            this.setState({paymentStatus:'loading'});
+            axios.post(
+                api.U('sendPayRequest'),
+                api.D({
+                    token:props.token,
+                    type:'WECHAT',
+                    order_id:this.id,
+                    auth_code:authcode,
+                    amount:state.realAmount,
+                })
+            )
+            .then(response => {
+                if (api.verify(response.data)) {
+                    this.afterPay();
+                    this.setState({paymentStatus:'success'});
+                    props.changeView({element:'index'});
+                } else {
+                    this.setState({paymentStatus:'fail'});
+                }
+                console.log(response.data);
+            });
+        } else if ('alipay' == state.payment) {
+            this.setState({paymentStatus:'loading'});
+            axios.post(
+                api.U('sendPayRequest'),
+                api.D({
+                    token:props.token,
+                    type:'ALI',
+                    order_id:this.id,
+                    auth_code:authcode,
+                    amount:state.realAmount,
+                })
+            )
+            .then(response => {
+                if (api.verify(response.data)) {
+                    this.afterPay();
+                    this.setState({paymentStatus:'success'});
+                    props.changeView({element:'index'});
+                } else {
+                    this.setState({paymentStatus:'fail'});
+                }
+                console.log(response.data);
+            });
+        }
+    }
+
+    //结算完成后打印订单及发送代金券使用请求
+    afterPay() {
+        let props = this.props,
+            state = this.state;
+
+        //
+        //打印操作
+        //
+        if (null != state.voucher_id) {
+            axios.post(
+                api.U('afterPayUseVoucher'),
+                api.D({
+                    token:props.token,
+                    uid:props.uid,
+                    user_id:state.user_id,
+                    orderid:this.id,
+                    couponid:state.voucher_id
+                }))
+            .then(response => {
+
+            });
         }
     }
 
     toggleReduce(e) {
-        let target = e.target;
+        let target = e.target,
+            reduce = target.dataset.reduce,
+            state = this.state,
+            amount = state.amount;
+        console.log(reduce);
         if (
             !target.classList.contains('ui-radio-checked') 
             && 
             target.classList.contains('ui-radio')
         ) {
-            this.setState({reduce:target.dataset.reduce});
+            if ('free' == reduce) {
+                this.setState({realAmount:0,reduce:reduce});
+            } else if ('special' == reduce) {
+                this.setState({realAmount:state.reduceAmount,reduce:reduce})
+            } else if ('ceil' == reduce) {
+                this.setState({realAmount:(Number(amount * 100 - state.voucher * 100) / 100),reduce:reduce});
+            } else {
+                let realAmount = Number(((amount * 100 - state.voucher * 100) * reduce) / 10) / 100;
+                this.setState({realAmount:realAmount,reduce:reduce});
+            }
         }
     }
 
     specialChange(e) {
-        this.setState({reduceAmount:e.target.value});
+        let value = e.target.value;
+        if (!isNaN(value)) {
+            console.log(e.target.value);
+            this.setState({reduceAmount:value,realAmount:value});
+        }
     }
     bindDiscount(word) {
+        let props = this.props;
+        if ('' != word) {
+            axios.post(
+                api.U('useVoucher'),
+                api.D({token:props.token,uid:props.uid,number:word})
+            )
+            .then(response => {
+                console.log(response.data);
+                if (api.verify(response.data)) {
+                    let result = response.data.data,
+                        realAmount = (this.state.realAmount * 100 - result.value * 100) / 100;
+                    this.setState({voucher:result.value,voucher_id:result.id,realAmount:realAmount});
+                }
+            });
+        }
         console.log(word);
     }
 
@@ -102,7 +336,7 @@ class Pay extends Component {
                                 <span>品项折扣：</span><span>&yen;{state.discount}</span>
                             </div>
                             <div className='ui-pay-amount-area'>
-                                <span>代金券：</span><span>&yen;{state.amount}</span>
+                                <span>代金券：</span><span>&yen;{state.voucher}</span>
                             </div>
                         </div>
                         {/* <div>
@@ -187,7 +421,7 @@ class Pay extends Component {
                             >
                                 特殊折扣：
                                 <input type='text' className='ui-input2' value={state.reduceAmount} onChange={this.specialChange}/>
-                                元
+                                &nbsp;元
                             </span>
                             <span 
                                 className={'ui-radio' + ('ceil' == state.reduce ? ' ui-radio-checked' : '')}
@@ -243,7 +477,7 @@ class Pay extends Component {
                             >
                                 特殊折扣：
                                 <input type='text' className='ui-input2' value={state.reduceAmount} onChange={this.specialChange}/>
-                                元
+                                &nbsp;元
                             </span>
                             <span 
                                 className={'ui-radio' + ('ceil' == state.reduce ? ' ui-radio-checked' : '')}
@@ -251,13 +485,6 @@ class Pay extends Component {
                                 onClick={this.toggleReduce}
                             >
                                 取证抹零
-                            </span>
-                            <span 
-                                className={'ui-radio' + ('free' == state.reduce ? ' ui-radio-checked' : '')}
-                                data-reduce='free'
-                                onClick={this.toggleReduce}
-                            >
-                                免洗
                             </span>
                         </div>
                     </div>
@@ -299,7 +526,7 @@ class Pay extends Component {
                             >
                                 特殊折扣：
                                 <input type='text' className='ui-input2' value={state.reduceAmount} onChange={this.specialChange}/>
-                                元
+                                &nbsp;元
                             </span>
                             <span 
                                 className={'ui-radio' + ('ceil' == state.reduce ? ' ui-radio-checked' : '')}
@@ -308,13 +535,6 @@ class Pay extends Component {
                             >
                                 取证抹零
                             </span>
-                            <span 
-                                className={'ui-radio' + ('free' == state.reduce ? ' ui-radio-checked' : '')}
-                                data-reduce='free'
-                                onClick={this.toggleReduce}
-                            >
-                                免洗
-                            </span>
                         </div>
                     </div>
                     <div style={{padding:'45px 0 0 110px'}}>
@@ -322,9 +542,19 @@ class Pay extends Component {
                             type='button' 
                             value='立即支付' 
                             className='ui-btn ui-btn-confirm ui-btn-large'
+                            onClick={this.onPayRequest}
                         />
                     </div>
                 </div>
+                <PayMent 
+                    isShow={state.isShow}
+                    status={state.paymentStatus}
+                    amount={state.realAmount}
+                    free='免洗订单将不会支付任何金额，此订单确定免洗吗？'
+                    onCancelRequest={() => this.setState({isShow:false,paymentStatus:'payment'})}
+                    onFreeRequest={this.onFreeRequest}
+                    onConfirmRequest={this.onOnlinePayRequest}
+                />
             </div>
         );
     }

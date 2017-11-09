@@ -732,7 +732,7 @@ export class PayMent extends Component{
             <section className='ui-fixed-bg'>
                 <div className='ui-payment'>
                     <div className='ui-mm-layer-title'>
-                        <em className='ui-mm-icon-payment'>订单支付</em>
+                        <em className='ui-mm-icon-payment'>用户支付</em>
                         <em className='ui-close3' onClick={() => {this.setState({authcode:['','','','']});props.onCancelRequest();}}></em>
                     </div>
                     {this.paymentStatus()}

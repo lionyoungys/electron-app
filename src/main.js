@@ -87,7 +87,7 @@ class Main extends Component {
     }
     //获取店铺状态数据
     componentDidMount() {
-        axios.post(api.U('index'),api.data({token:this.props.token}))
+        axios.post(api.U('index'),api.data({token:this.props.token,uid:uid}))
         .then((response)=>{
             let result = response.data.data;
             this.setState({
@@ -232,8 +232,10 @@ class Menu extends Component {
     }
 
     isShowItem(value) {
-        if (-1 !== value.inArray(this.authList) && -1 == value.inArray(this.auths)) {
-            return {display:'none'};
+        if (!this.isBoss) {
+            if (-1 !== value.inArray(this.authList) && -1 == value.inArray(this.auths)) {
+                return {display:'none'};
+            }
         } 
         return null;
     }
