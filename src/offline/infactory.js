@@ -21,6 +21,10 @@ export default class InFactory extends Component{
         .then(response => {
             this.setState({data:response.data.data});
         });
+        axios.post(api.U('getItemList'),api.D({token:this.props.token,status:2}))
+        .then(response => {
+            console.log(response.data);
+        });
     }
 
     onSearchRequest(word) {

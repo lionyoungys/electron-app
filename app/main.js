@@ -6,7 +6,8 @@ const electron = require('electron'),
     path = require('path'),
     url = require('url');
 let win = {},    //声明窗口对象
-    winprints = null;
+    winprints = null,
+    params = {};
 
 // 部分 API 在 ready 事件触发后才能使用。
 app.on('ready', () => {
@@ -72,19 +73,26 @@ ipcMain.on('protocol', (e, args) => {
         }
     }
 });
-ipcMain.on('print-silent', (e, args) => {
+ipcMain.on('print-silent', (e, arg, arg2) => {
+    if ('object' === typeof arg2) params = arg2;
+
     if (null === winprints) {
-        winprints = new BrowserWindow({show: false});
+        //winprints = new BrowserWindow({show: false});
+        winprints = new BrowserWindow({width:840,height:556,frame:false,resizable:false});
+        winprints.webContents.openDevTools();
         winprints.on('closed', () => { winprints = null; });
     }
     winprints.loadURL(url.format({
-        pathname: path.join(__dirname, args),
+        pathname: path.join(__dirname, arg),
         protocol: 'file:',
         slashes: true
     }));
 });
-ipcMain.on("print", (event, arg) => {
+ipcMain.on('print', (event, arg) => {
     winprints.webContents.print({silent: true, printBackground: true});
+});
+ipcMain.on('get-params',(e, args) => {
+    e.returnValue = params;
 });
 //窗口创建函数
 function createWindow(name, windowStyle, uri) {

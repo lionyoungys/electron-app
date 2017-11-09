@@ -41,7 +41,13 @@ export default class OfflineOrderDetail extends Component{
         });
     }
 
-    printOrder() {ipcRenderer.send('print-silent','public/prints/index.html');}
+    printOrder() {
+        ipcRenderer.send(
+            'print-silent',
+            'public/prints/index.html',
+            {uid:this.props.uid,order_id:this.params.id,token:this.props.token}
+        );
+    }
 
     render() {
         let props = this.props,

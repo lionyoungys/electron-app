@@ -11,12 +11,12 @@
     <p style="margin-bottom:5pt;">美国GEP干洗</p>
     <p>洗&emsp;衣&emsp;凭&emsp;据</p>
 </div>
-<p class="line">交易单号：<span>2323323222232</span></p>
-<p class="line">顾客电话：<span>1883434232</span></p>
-<p class="line">件数：<span>5</span>件</p>
+<p class="line">交易单号：<span id='ordersn'>2323323222232</span></p>
+<p class="line">顾客电话：<span id='mobile'>1883434232</span></p>
+<p class="line">件数：<span id='num'>5</span>件</p>
 <div class="line">顾客签字：<div style="display:inline-block;width:30%;border-bottom:1px solid black"></div></div>
 <p class="cate"><span>名称</span><span>颜色</span><span>价格</span><span>挂号</span></p>
-<div>
+<div id='items'>
     <p class="line">
         <span>毛呢外套(干洗)</span>
         &emsp;
@@ -36,20 +36,24 @@
         <span>1354</span>
     </p>
 </div>
-<p style="border-bottom: 1pt dashed black;">总额：<span>154</span>(附加费：<span>0.00</span>元)</p>
-<p style="margin: 24pt 0;font-size:28pt;">实收：<span>218.00</span>元</p>
-<p class="line">付款方式：<span>平台会员卡</span></p>
-<p class="line">优惠：<span>50</span></p>
-<p class="line">卡号：<span>234534444434343</span></p>
-<p class="line">卡支付：<span>350.00</span></p>
-<p class="line">卡内余额：<span>50.00</span></p>
-<p class="line">本店地址：<span>dfdfdfdfdfdfdfdfdfdffdfdfdfddffffdfd</span></p>
-<p class="line">服务热线：<span>18734343434</span></p>
-<p class="line">店&emsp;&emsp;员：<span>哈哈哈</span></p>
-<p class="line">店&emsp;&emsp;号：<span>dfdfd</span></p>
+<div id='status' style="display:none">
+    <p style="border-bottom: 1pt dashed black;">总额：<span id='amount'>154</span>(附加费：<span id='other_amount'>0.00</span>元)</p>
+    <p style="margin: 24pt 0;font-size:28pt;">实收：<span id="pay_amount">218.00</span>元</p>
+    <p class="line">付款方式：<span id="pay_state">平台会员卡</span></p>
+    <p class="line">优惠：<span id="reduce_price">50</span></p>
+    <p class="line">卡号：<span id='card_number'>234534444434343</span></p>
+    <p class="line">卡支付：<span id="">350.00</span></p>
+    <p class="line">卡内余额：<span>50.00</span></p>
+</div>
+<div id='status2' style="display:none;font-size:30pt;text-align:right;">未付款</div>
+
+<p class="line">本店地址：<span id="address">dfdfdfdfdfdfdfdfdfdffdfdfdfddffffdfd</span></p>
+<p class="line">服务热线：<span id="phone">18734343434</span></p>
+<p class="line">店&emsp;&emsp;员：<span id="clerk">哈哈哈</span></p>
+<p class="line">店&emsp;&emsp;号：<span id="id">dfdfd</span></p>
 <p class="line">打印日期：2017-11-07 18:24</p>
 <div class="image-box">
-    <img src="qrcode.jpg"/>
+    <img src="qrcode.jpg" id="qrcode"/>
 </div>
 <p style="text-align:center;">（订单二维码）</p>
 <div style="border: 1pt dashed black;border-right-width: 0;border-left-width: 0;">
@@ -58,8 +62,56 @@
 </div>
 <p style="text-align:center;">门店联</p>
 <script>
-    const {ipcRenderer} = require('electron');
-    window.onload = function() {ipcRenderer.send('print');}
+    const {ipcRenderer} = require('electron'),
+          axios = require('axios');
+    window.onload = function() {
+        const params = ipcRenderer.sendSync('get-params');
+        const fd = new FormData();
+        fd.append('token', params.token);
+        fd.append('order_id', params.order_id);
+        fd.append('clerk_id', params.uid);
+        console.log(params);
+        axios.post('http://xiyi.wzj.dev.shuxier.com/app.php/Offline/PrintInfo/o_p', fd)
+        .then(response => {
+            let result = response.data.data,
+                order = result.orderInfo,
+                items = result.items;
+            document.getElementById('qrcode').src = order.qrcode;
+            insert('ordersn', order.ordersn);
+            insert('mobile', order.mobile);
+            insert('num', order.piece_num);
+            insert('amount', order.amount);
+            insert('other_amount', order.slave_amount);
+            insert('pay_amount', order.pay_amount);
+            if (1 == order.pay_state) {
+                document.getElementById('status').style.display = 'block';
+            } else {
+                document.getElementById('status2').style.display = 'block';
+            }
+            insert('address', order.address);
+            insert('phone', order.phone);
+            insert('clerk', order.clerkname);
+            insert('id',order.mid);
+            let len = items.length,
+                content = '',
+                tempStr = '';
+            for (let i = 0;i < len;++i) {
+                if (null != items[i].put_number) tempStr = items[i].put_number
+                content += '<p class="line"><span>'+items[i].name+'</span>' +
+                    '&emsp;<span>'+items[i].color+'</span>&emsp;<span>'+items[i].price+'</span>&emsp;<span>'+tempStr+'</span></p>';
+            }
+            insert('items',content);
+            ipcRenderer.send('print');
+            console.log(result);
+        });
+
+        function insert(id, value) {
+            if ('undefined' === typeof value || null == value) value = '';
+            console.log(value);
+            console.log(document.getElementById(id));
+            document.getElementById(id).innerHTML = value;
+        }
+    }
 </script>
 </body>
 </html>

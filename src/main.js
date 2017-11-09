@@ -250,6 +250,7 @@ class Index extends Component {
             amountArr = String(amount).split('.'),    //拆分价格显示
             wordStyle = {marginTop:'40px',fontSize:'18px'};
         if ('undefined' == typeof amountArr[1]) amountArr[1] = '00'
+        if ('undefined' == typeof amountArr[0] || null == amountArr[0]) amountArr[0] = '0'
         return (
             <div style={{padding: '30px 30px 0 30px'}}>
                 <section className='ui-content'>
