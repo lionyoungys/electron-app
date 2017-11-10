@@ -24,8 +24,8 @@ app.on('ready', () => {
             minHeight:800,
             autoHideMenuBar:true
         },
-        //'public/prints/index.html'
-        'public/main.html'
+        'public/prints/index.html'
+        //'public/main.html'
     );
 });
 
