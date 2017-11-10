@@ -133,10 +133,6 @@ class Main extends Component {
                 changeView={this.handleContainerView}
             />
         );
-        console.log('----------------------------------');
-        console.log(auth);
-        console.log(role);
-        console.log('----------------------------------');
         const E = this.elements[state.e],    //展示指定视图组件
               mainStyle = {
                   height:'100%',width:'100%',
@@ -216,7 +212,6 @@ class Menu extends Component {
         for (let k in authList) {
             this.authList.push(authList[k]);
         }
-        console.log(this.auths);
         //this.auths = ('' != auth) ? auth.split(',') : [];
         this.chooseMenu = this.chooseMenu.bind(this);
         this.isShowOnline = this.isShowOnline.bind(this);

@@ -4,17 +4,62 @@
  */
 import React, {Component} from 'react';
 import '../static/api';
-import Crumbs from '../static/UI';
+import Crumbs,{Page} from '../static/UI';
 
 export default class MemberBalance extends Component{
     constructor(props) {
         super(props);
-        this.state = {count:0,total:0};
+        this.state = {count:0,total:0,page:1,page_count:1,data:[]};
+        this.limit = 20;
+        this.togglePage = this.togglePage.bind(this);
+    }
+
+    componentDidMount() {
+        axios.post(
+            api.U('memberBalanceList'),
+            api.D({token:this.props.token,limit:this.limit,page:this.state.page})
+        )
+        .then(response => {
+            let result = response.data.data;
+            this.setState({
+                count:result.member_count,
+                total:result.member_total_balance,
+                page_count:result.page_count,
+                data:result.member_list
+            });
+        });
+    }
+
+    togglePage(page) {
+        axios.post(
+            api.U('memberBalanceList'),
+            api.D({token:this.props.token,limit:this.limit,page:page})
+        )
+        .then(response => {
+            let result = response.data.data;
+            this.setState({
+                count:result.member_count,
+                total:result.member_total_balance,
+                page_count:result.page_count,
+                data:result.member_list,
+                page:page,
+            });
+        });
     }
 
     render () {
         let props = this.props,
-            state = this.state;
+            state = this.state,
+            html = state.data.map(obj => 
+                <tr className='ui-tr-d ui-fieldset' key={obj.ucode}>
+                    <td>{obj.ucode}</td>
+                    <td>{obj.username}</td>
+                    <td>{obj.mobile}</td>
+                    <td>{obj.card_name}</td>
+                    <td>{obj.balance}</td>
+                    <td className='ui-default' onClick={()=>{this.props.changeView({element:'member_detail',param:{number:obj.ucode}})}}>查看详情</td>
+                </tr>
+            );
         return (
             <div>
                 <Crumbs crumbs={[{key:0,text:'会员管理',e:'member_manage'},{key:1,text:'会员余额'}]} callback={props.changeView}/>
@@ -28,12 +73,11 @@ export default class MemberBalance extends Component{
                         <th>会员卡号</th><th>姓名</th><th>手机号</th><th>会员类型</th><th>余额</th><th>操作</th>
                     </tr></thead>
                     <tbody>
-                        <tr className='ui-tr-d ui-fieldset'>
-                            <td>会员卡号</td><td>姓名</td><td>手机号</td><td>会员类型</td><td>余额</td><td className='ui-default'>操作</td>
-                        </tr>
+                        {html}
                     </tbody>
                 </table>
-            </section>
+                <Page count={state.page_count} current={state.page} callback={this.togglePage}/>
+                </section>
             </div>
         );
     }

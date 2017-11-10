@@ -9,7 +9,12 @@ import Crumbs from '../static/UI';
 export default class MemberDetail extends Component{
     constructor(props) {
         super(props);
-        this.params = this.props.param.paramToObject();
+        if ('object' === typeof this.props.param) {
+            this.params = this.props.param;
+        } else {
+            this.params = this.props.param.paramToObject();
+        }
+        
         this.state = {user:{},record:[]};
     }
 
