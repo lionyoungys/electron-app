@@ -57,7 +57,7 @@
 <p class="border"></p>
 <p id="pay_state0" class="right f24" style="display:none;">未付款</p>
 <div id="pay_state1" style="display:none;">
-    <p class="f24" id="real_amount">实收：<span id="pay_amount">218.00</span>元</p>
+    <p class="f24">实收：<span id="pay_amount">218.00</span>元</p>
     <p class="line">付款方式：<span id="pay_channel">平台会员卡</span></p>
     <p class="line">优惠：<span id="reduce_price">50</span></p>
 </div>
@@ -67,7 +67,7 @@
 <p class="line">店&emsp;&emsp;员：<span id="clerk">哈哈哈</span></p>
 <p class="line">店&emsp;&emsp;号：<span id="id">dfdfd</span></p>
 <p class="line">打印日期：<span id="date">2017-11-07 18:24</span></p>
-<p class="img-box"><img src="qrcode.jpg" id="qrcode"/></p>
+<p class="img-box"><img src="" id="qrcode"/></p>
 <p class="line center">（订单二维码）</p>
 <p class="border"></p>
 <p class="line center">欢迎下次再来</p>
@@ -78,8 +78,8 @@
     const {ipcRenderer} = require('electron'),
           axios = require('axios');
     window.onload = function() {
-        //const params = ipcRenderer.sendSync('get-params');
-        const params = {token:'9f04XUc2V8VLs1PU12esgTsnamiP0lFyk9MWUgdmi3yEoTdcAiQh0P4',order_id:'1967',uid:'84'}
+        const params = ipcRenderer.sendSync('get-params');
+        //const params = {token:'9f04XUc2V8VLs1PU12esgTsnamiP0lFyk9MWUgdmi3yEoTdcAiQh0P4',order_id:'1967',uid:'84'}
         const fd = new FormData();
         const date = new Date(),
               datetime = date.getFullYear()+'-'+(date.getMonth()*1+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
@@ -134,9 +134,11 @@
                     '</span>&emsp;<span>'+items[i].color+items[i].color_text+'</span>&emsp;<span>'+items[i].item_note+items[i].note_text+'</span></p>';
             }
             insert('items',content);
-            //ipcRenderer.send('print');
+            document.getElementById('qrcode').onload = function() {
+                ipcRenderer.send('print');
+            }
+            
         });
-
         function insert(id, value) {
             if ('undefined' === typeof value || null == value) value = '';
             document.getElementById(id).innerHTML = value;

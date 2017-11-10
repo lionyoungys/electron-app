@@ -24,8 +24,9 @@ app.on('ready', () => {
             minHeight:800,
             autoHideMenuBar:true
         },
-        'public/prints/index.html'
-        //'public/main.html'
+        //'public/prints/index.html'
+        //'public/prints/recharge.html'
+        'public/main.html'
     );
 });
 
@@ -77,9 +78,9 @@ ipcMain.on('print-silent', (e, arg, arg2) => {
     if ('object' === typeof arg2) params = arg2;
 
     if (null === winprints) {
-        //winprints = new BrowserWindow({show: false});
-        winprints = new BrowserWindow({width:840,height:556,frame:false,resizable:false});
-        winprints.webContents.openDevTools();
+        winprints = new BrowserWindow({show: false});
+        //winprints = new BrowserWindow({width:840,height:556,frame:false,resizable:false});
+        //winprints.webContents.openDevTools();
         winprints.on('closed', () => { winprints = null; });
     }
     winprints.loadURL(url.format({

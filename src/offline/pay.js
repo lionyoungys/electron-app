@@ -2,6 +2,7 @@
  * 订单支付组件
  * @author yangyunlong
  */
+const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
 import '../static/api';
 import Crumbs,{Search2, PayMent} from '../static/UI';
@@ -25,7 +26,7 @@ class Pay extends Component {
         }
         this.state = {
             amount:'0',discount:'0',realAmount:0,payment:'',
-            reduce:9,reduceAmount:0,voucher:0,voucher_id:null,
+            reduce:10,reduceAmount:0,voucher:0,voucher_id:null,
             vipExist:1,merchantExist:1,vipBalance:0,merchantBalance:0,
             vipDiscount:10,merchantDiscount:10,vip_id:null,
             isShow:false,paymentStatus:'payment',user_id:null,
@@ -251,6 +252,11 @@ class Pay extends Component {
         //
         //打印操作
         //
+        ipcRenderer.send(
+            'print-silent',
+            'public/prints/index.html',
+            {uid:props.uid,order_id:this.id,token:this.props.token}
+        );
         if (null != state.voucher_id) {
             axios.post(
                 api.U('afterPayUseVoucher'),
