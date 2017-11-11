@@ -17,13 +17,10 @@ export default class InFactory extends Component{
     }
 
     componentDidMount() {
-        axios.post(api.U('offlineClean'),api.data({token:this.props.token}))
-        .then(response => {
-            this.setState({data:response.data.data});
-        });
-        axios.post(api.U('getItemList'),api.D({token:this.props.token,status:2}))
+        axios.post(api.U('infactory'),api.data({token:this.props.token}))
         .then(response => {
             console.log(response.data);
+            this.setState({data:response.data.data});
         });
     }
 

@@ -9,6 +9,19 @@ let win = {},    //声明窗口对象
     winprints = null,
     params = {};
 
+const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
+        // Someone tried to run a second instance, we should focus our window.
+    if (win.main) {
+        if (win.main.isMinimized()) win.main.restore()
+        win.main.focus()
+    } else if (win.login) {
+        if (win.login.isMinimized()) win.login.restore()
+        win.login.focus()
+    }
+})
+      
+if (shouldQuit) {app.quit()}
+
 // 部分 API 在 ready 事件触发后才能使用。
 app.on('ready', () => {
     //createWindow('login', { width: 491, height: 351, frame: false, resizable: false,autoHideMenuBar:true }, 'public/login.html');
@@ -109,7 +122,7 @@ function createWindow(name, windowStyle, uri) {
         slashes: true
     }));
     //打开开发者工具
-    win[name].webContents.openDevTools();
+    //win[name].webContents.openDevTools();
     //当window关闭时取消引用
     win[name].on('closed', () => {
         win[name] = null;

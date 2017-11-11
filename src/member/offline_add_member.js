@@ -59,10 +59,10 @@ export default class OfflineAddMember extends Component{
                 if (api.verify(response.data)) {
                     let id = response.data.data.user;
                     this.setState({id:id});
-                    let card_name = '普通会员', discount = 10;
-                    if (500 == state.rechargeType) card_name = '黄金会员';discount = 9;
-                    if (1000 == state.rechargeType) card_name = '钻石会员';discount = 8;
                     if (0 == state.payment) {
+                        let card_name = '普通会员', discount = 10;
+                        if (500 == state.rechargeType) card_name = '黄金会员';discount = 9;
+                        if (1000 == state.rechargeType) card_name = '钻石会员';discount = 8;
                         axios.post(
                             api.U('rechargeMerchantCard'),
                             api.D({
@@ -91,7 +91,33 @@ export default class OfflineAddMember extends Component{
     }
 
     payRequest(authcode) {
-
+        let state = this.state,
+            param = this.props.param;
+        this.setState({paymentStatus:'loading'});
+        let card_name = '普通会员', discount = 10, pay_type = 'WECHAT';
+        if (500 == state.rechargeType) card_name = '黄金会员';discount = 9;
+        if (1000 == state.rechargeType) card_name = '钻石会员';discount = 8;
+        if (2 == state.payment) pay_type = 'ALI';
+        axios.post(
+            api.U('rechargeMerchantCard'),
+            api.D({
+                uid:state.id,
+                token:this.props.token,
+                card_name:card_name,
+                balance:state.rechargeType,
+                discount:discount,
+                pay_type:pay_type,
+                type:1,
+                auth_code:authcode,
+            })
+        )
+        .then(response => {
+            if (api.verify(response.data)) {
+                this.setState({paymentStatus:'success'});
+                this.printOrder(response.data.data.rechargeId);
+                this.props.changeView({element:'index'});
+            }
+        });
         //rechargeMerchantCard
     }
 

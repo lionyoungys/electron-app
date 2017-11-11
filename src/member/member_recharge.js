@@ -2,6 +2,7 @@
  * 新增企业会员组件
  * @author yangyunlong
  */
+const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
 import '../static/api';
 import Crumbs, {Search, PayMent} from '../static/UI';
@@ -20,6 +21,7 @@ export default class MemberRecharge extends Component{
         };
         this.onPayRequest = this.onPayRequest.bind(this);
         this.onOnlinePayRequest = this.onOnlinePayRequest.bind(this);
+        this.printOrder = this.printOrder.bind(this);
     }
 
     componentDidMount() {
@@ -53,6 +55,7 @@ export default class MemberRecharge extends Component{
                 .then(response => {
                     if (api.verify(response.data)) {
                         console.log(response.data);
+                        this.printOrder(response.data.data.rechargeId);
                         this.setState({paymentStatus:'success'});
                         this.props.changeView({element:'index'});
                     } else {
@@ -82,12 +85,22 @@ export default class MemberRecharge extends Component{
         .then(response => {
             console.log(response.data);
             if (api.verify(response.data)) {
+                this.printOrder(response.data.data.rechargeId);
                 this.setState({paymentStatus:'success'});
                 this.props.changeView({element:'index'});
             } else {
                 this.setState({paymentStatus:'fail'});
             }
         });
+    }
+
+    printOrder(rechargeId) {
+        let props = this.props;
+        ipcRenderer.send(
+            'print-silent',
+            'public/prints/recharge.html',
+            {uid:props.uid,token:props.token,recharge_id:rechargeId}
+        );
     }
 
     render() {
