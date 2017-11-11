@@ -56,9 +56,9 @@ body,#main,#main-sidebar,#main-container,#main-container>div,.main-selection,.ma
 .main-selection{
     background: url(images/main-option.png);background-size:100% 100%;
     font-size: 18px;height: 45px;line-height: 45px;padding: 0 25px 0 25px;
-    justify-content: space-between;
+    justify-content: space-between;cursor: default;
 }
-.main-option{padding: 13px 22px 5px 40px;font-size: 16px;}
+.main-option{padding: 13px 22px 5px 40px;font-size: 16px;cursor: default;}
 .main-option>nav{line-height:22px;margin-bottom:8px;padding-left:16px;}
 /* 提示数字小标样式 */
 .main-tag{

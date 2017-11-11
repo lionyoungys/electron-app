@@ -17,14 +17,14 @@ export default class OfflineCheck extends Component{
     }
 
     componentDidMount() {
-        axios.post(api.U('offlineClean'),api.data({token:this.props.token}))
+        axios.post(api.U('offlineCheck'),api.data({token:this.props.token}))
         .then(response => {
             this.setState({data:response.data.data});
         });
     }
 
     onSearchRequest(word) {
-        axios.post(api.U('offlineClean'),api.data({token:this.props.token,ordersn:word}))
+        axios.post(api.U('offlineCheck'),api.data({token:this.props.token,clean_number:word}))
         .then(response => {
             this.setState({data:response.data.data,choose:[],isAllChoose:false});
         });
@@ -57,12 +57,12 @@ export default class OfflineCheck extends Component{
     onConfirmResquest() {
         if (this.state.choose.length < 1) return;
         axios.post(
-            api.U('offlineCleanRequest'),
-            api.data({token:this.props.token,items:JSON.stringify(this.state.choose)})
+            api.U('offlineCheckRequest'),
+            api.data({token:this.props.token,ids:this.state.choose.toString()})
         )
         .then(response => {
             if (api.verify(response.data)) {
-                axios.post(api.U('offlineClean'),api.data({token:this.props.token}))
+                axios.post(api.U('offlineCheck'),api.data({token:this.props.token}))
                 .then(response => {
                     this.setState({data:response.data.data,choose:[],isAllChoose:false});
                 });
@@ -79,10 +79,9 @@ export default class OfflineCheck extends Component{
                             className={'ui-checkbox' + (-1 !== obj.id.inArray(state.choose) ? ' ui-checked' : '')}
                             data-id={obj.id}
                             onClick={this.onChooseRequest}
-                        >{obj.ordersn}</span>
+                        >{obj.clean_number}</span>
                     </td>
                     <td>{obj.name}</td>
-                    <td>{obj.number}</td>
                 </tr>
             );
         return (
@@ -103,7 +102,7 @@ export default class OfflineCheck extends Component{
                     </div>
                     <table className='ui-table'>
                         <thead>
-                            <tr className='ui-fieldset ui-tr-h'><th>订单号</th><th>项目</th><th>件数</th></tr>
+                            <tr className='ui-fieldset ui-tr-h'><th>衣物编码</th><th>项目</th></tr>
                         </thead>
                         <tbody>{html}</tbody>
                     </table>

@@ -16,14 +16,15 @@ export default class Registration extends Component{
     }
 
     componentDidMount() {
-        axios.post(api.U('registration'),api.data({token:this.props.token}))
+        axios.post(api.U('offlinePutNumber'),api.data({token:this.props.token}))
         .then(response => {
+            console.log(response.data);
             this.setState({data:response.data.data});
         });
     }
 
     onSearchRequest(word) {
-        axios.post(api.U('registration'),api.data({token:this.props.token,ordersn:word}))
+        axios.post(api.U('offlinePutNumber'),api.data({token:this.props.token,clean_number:word}))
         .then(response => {
             this.setState({data:response.data.data,choose:[]});
         });
@@ -53,17 +54,17 @@ export default class Registration extends Component{
         ) return;
 
         axios.post(
-            api.U('handleRegistration'),
+            api.U('offlinePutNumberRequest'),
             api.data({
                 token:this.props.token,
-                json_data:JSON.stringify(state.choose),
+                json_data:state.choose.toString(),
                 start:state.start,
                 end:state.end
             })
         )
         .then(response => {
             if (api.verify(response.data)) {
-                axios.post(api.U('registration'),api.data({token:this.props.token}))
+                axios.post(api.U('offlinePutNumber'),api.data({token:this.props.token}))
                 .then(response => {
                     this.setState({data:response.data.data,choose:[]});
                 });
@@ -80,10 +81,9 @@ export default class Registration extends Component{
                             className={'ui-checkbox' + (-1 !== obj.id.inArray(state.choose) ? ' ui-checked' : '')}
                             data-id={obj.id}
                             onClick={this.onChooseRequest}
-                        >{obj.ordersn}</span>
+                        >{obj.clean_number}</span>
                     </td>
                     <td>{obj.name}</td>
-                    <td>{obj.number}</td>
                 </tr>
             );
         return (
@@ -118,7 +118,7 @@ export default class Registration extends Component{
                     </div>
                     <table className='ui-table'>
                         <thead>
-                            <tr className='ui-fieldset ui-tr-h'><th>订单号</th><th>项目</th><th>件数</th></tr>
+                            <tr className='ui-fieldset ui-tr-h'><th>衣物编号</th><th>项目</th></tr>
                         </thead>
                         <tbody>{html}</tbody>
                     </table>

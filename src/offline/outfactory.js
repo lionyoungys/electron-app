@@ -17,14 +17,15 @@ export default class OutFactory extends Component{
     }
 
     componentDidMount() {
-        axios.post(api.U('offlineClean'),api.data({token:this.props.token}))
+        axios.post(api.U('outfactory'),api.data({token:this.props.token}))
         .then(response => {
-            this.setState({data:response.data.data});
+            //console.log(response);
+            this.setState({data:response.data.data.list});
         });
     }
 
     onSearchRequest(word) {
-        axios.post(api.U('offlineClean'),api.data({token:this.props.token,ordersn:word}))
+        axios.post(api.U('outfactory'),api.data({token:this.props.token,clean_number:word}))
         .then(response => {
             this.setState({data:response.data.data,choose:[],isAllChoose:false});
         });
@@ -57,14 +58,14 @@ export default class OutFactory extends Component{
     onConfirmResquest() {
         if (this.state.choose.length < 1) return;
         axios.post(
-            api.U('offlineCleanRequest'),
-            api.data({token:this.props.token,items:JSON.stringify(this.state.choose)})
+            api.U('outfactoryRequest'),
+            api.data({token:this.props.token,ids:this.state.choose.toString()})
         )
         .then(response => {
             if (api.verify(response.data)) {
-                axios.post(api.U('offlineClean'),api.data({token:this.props.token}))
+                axios.post(api.U('outfactory'),api.data({token:this.props.token}))
                 .then(response => {
-                    this.setState({data:response.data.data,choose:[],isAllChoose:false});
+                    this.setState({data:response.data.data.list,choose:[],isAllChoose:false});
                 });
             }
         });
@@ -79,7 +80,7 @@ export default class OutFactory extends Component{
                             className={'ui-checkbox' + (-1 !== obj.id.inArray(state.choose) ? ' ui-checked' : '')}
                             data-id={obj.id}
                             onClick={this.onChooseRequest}
-                        >{obj.ordersn}</span>
+                        >{obj.clean_number}</span>
                     </td>
                     <td>{obj.name}</td>
                 </tr>
