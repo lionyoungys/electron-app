@@ -2,15 +2,25 @@
  * 新增个人会员组件
  * @author yangyunlong
  */
+const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
 import '../static/api';
-import Crumbs, {Search} from '../static/UI';
+import Crumbs, {Search, PayMent} from '../static/UI';
 
 export default class OfflineAddMember extends Component{
     constructor(props) {
         super(props);
-        this.state = {name:'',sex:2,birthday:'1980-01-01',address:'',remark:'',rechargeType:0,payment:0};
+        this.state = {
+            name:'',sex:2,
+            birthday:'1980-01-01',address:'',
+            remark:'',rechargeType:200,payment:0,
+            isShow:false,paymentStatus:'payment',
+            id:null,
+        };
         console.log(this.props.param);
+        this.addMember = this.addMember.bind(this);
+        this.payRequest = this.payRequest.bind(this);
+        this.printOrder = this.printOrder.bind(this);
     }
 
     componentDidMount() {
@@ -22,6 +32,76 @@ export default class OfflineAddMember extends Component{
             theme:'#ff6e42',
             done:(value => this.setState({birthday:value}))
         });
+    }
+
+    addMember() {
+        let state = this.state,
+            param = this.props.param;
+        if (
+            '' != state.name &&
+            '' != state.address
+        ) {
+            axios.post(
+                api.U('addNewMember'),
+                api.D({
+                    token:this.props.token,
+                    uid:this.props.uid,
+                    ucode:param.ucode,
+                    mobile:param.mobile,
+                    uname:state.name,
+                    sex:state.sex,
+                    birthday:state.birthday,
+                    address:state.address,
+                    remark:state.remark
+                })
+            )
+            .then(response => {
+                if (api.verify(response.data)) {
+                    let id = response.data.data.user;
+                    this.setState({id:id});
+                    let card_name = '普通会员', discount = 10;
+                    if (500 == state.rechargeType) card_name = '黄金会员';discount = 9;
+                    if (1000 == state.rechargeType) card_name = '钻石会员';discount = 8;
+                    if (0 == state.payment) {
+                        axios.post(
+                            api.U('rechargeMerchantCard'),
+                            api.D({
+                                uid:id,
+                                token:this.props.token,
+                                card_name:card_name,
+                                balance:state.rechargeType,
+                                discount:discount,
+                                pay_type:'CASH',
+                                type:1
+                            })
+                        )
+                        .then(response => {
+                            console.log(response.data);
+                            if (api.verify(response.data)) {
+                                this.printOrder(response.data.data.rechargeId);
+                                this.props.changeView({element:'index'});
+                            }
+                        });
+                    } else {
+                        this.setState({isShow:true});
+                    }
+                }
+            });
+        }
+    }
+
+    payRequest(authcode) {
+
+        //rechargeMerchantCard
+    }
+
+    printOrder(rechargeId) {
+        let props = this.props;
+        ipcRenderer.send(
+            'print-silent',
+            'public/prints/recharge.html',
+            {uid:props.uid,token:props.token,recharge_id:rechargeId}
+        );
     }
 
     render() {
@@ -97,8 +177,8 @@ export default class OfflineAddMember extends Component{
                     <div className='ui-box'>
                         <div 
                             style={{marginLeft:'37px'}} 
-                            className={'ui-recharge-option' + (0 == state.rechargeType ? ' ui-recharge-option-checked' : '')}
-                            onClick={e => this.setState({rechargeType:0})}
+                            className={'ui-recharge-option' + (200 == state.rechargeType ? ' ui-recharge-option-checked' : '')}
+                            onClick={e => this.setState({rechargeType:200})}
                         >
                             <div>普通会员</div>
                             <div>200<span>元</span></div>
@@ -106,8 +186,8 @@ export default class OfflineAddMember extends Component{
                         </div>
                         <div 
                             style={{marginLeft:'37px'}} 
-                            className={'ui-recharge-option' + (1 == state.rechargeType ? ' ui-recharge-option-checked' : '')}
-                            onClick={e => this.setState({rechargeType:1})}
+                            className={'ui-recharge-option' + (500 == state.rechargeType ? ' ui-recharge-option-checked' : '')}
+                            onClick={e => this.setState({rechargeType:500})}
                         >
                             <div>黄金会员</div>
                             <div>500<span>元</span></div>
@@ -115,8 +195,8 @@ export default class OfflineAddMember extends Component{
                         </div>
                         <div 
                             style={{marginLeft:'37px'}} 
-                            className={'ui-recharge-option' + (2 == state.rechargeType ? ' ui-recharge-option-checked' : '')}
-                            onClick={e => this.setState({rechargeType:2})}
+                            className={'ui-recharge-option' + (1000 == state.rechargeType ? ' ui-recharge-option-checked' : '')}
+                            onClick={e => this.setState({rechargeType:1000})}
                         >
                             <div>钻石会员</div>
                             <div>1000<span>元</span></div>
@@ -139,9 +219,17 @@ export default class OfflineAddMember extends Component{
                         ><em className='ui-pay-icon-alipay'></em><span className='ui-pay-payment'>支付宝支付</span></section>
                     </div>
                     <div style={{marginTop:'32px'}}>
-                        <input type='button' className='ui-btn ui-btn-confirm ui-btn-large' value='立即支付'/>
+                        <input type='button' className='ui-btn ui-btn-confirm ui-btn-large' value='立即支付' onClick={this.addMember}/>
                     </div>
                 </div>
+                <PayMent 
+                    isShow={state.isShow}
+                    status={state.paymentStatus}
+                    amount={state.rechargeType}
+                    free='免洗订单将不会支付任何金额，此订单确定免洗吗？'
+                    onCancelRequest={() => this.setState({isShow:false,paymentStatus:'payment'})}
+                    onConfirmRequest={this.payRequest}
+                />
             </div>
         );
     }

@@ -52,65 +52,32 @@
 <p class="border"></p>
 <p class="line center">门店联</p>
 <script>
-    /*const {ipcRenderer} = require('electron'),
+    const {ipcRenderer} = require('electron'),
           axios = require('axios');
     window.onload = function() {
         const params = ipcRenderer.sendSync('get-params');
-        //const params = {token:'9f04XUc2V8VLs1PU12esgTsnamiP0lFyk9MWUgdmi3yEoTdcAiQh0P4',order_id:'1967',uid:'84'}
+        console.log(params);
         const fd = new FormData();
         const date = new Date(),
               datetime = date.getFullYear()+'-'+(date.getMonth()*1+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
         fd.append('token', params.token);
-        fd.append('order_id', params.order_id);
+        fd.append('recharge_id', params.recharge_id);
         fd.append('clerk_id', params.uid);
-        axios.post('http://xiyi.wzj.dev.shuxier.com/app.php/Offline/PrintInfo/o_p', fd)
+        axios.post('http://xiyi.wzj.dev.shuxier.com/app.php/Offline/PrintInfo/r_p', fd)
         .then(response => {
-            let result = response.data.data,
-                order = result.orderInfo,
-                items = result.items;
-            console.log(result);
-            document.getElementById('qrcode').src = order.qrcode;
-            insert('ordersn', order.ordersn);
-            insert('mobile', order.mobile);
-            insert('num', order.piece_num);
-            insert('amount', order.amount);
-            insert('other_amount', order.slave_amount);
-            insert('pay_amount', order.pay_amount);
-            insert('reduce_price', order.reduce_price);
-            insert('address', order.address);
-            insert('phone', order.phone);
-            insert('clerk', order.clerkname);
-            insert('id',order.mid);
+            let result = response.data.data;
+            console.log(response);
+            document.getElementById('qrcode').src = result.qrcodeUrl;
+            insert('ordersn', result.ordersn);
+            insert('mobile', result.mobile);
+            insert('amount', result.recharge_amount);
+            insert('give', result.give);
+            insert('pay_amount', result.recharge_amount);
+            insert('address', result.address);
+            insert('phone', result.phone);
+            insert('clerk', result.clerkname);
+            insert('id',result.mid);
             insert('date',datetime);
-            if (1 == order.pay_state) {
-                document.getElementById('pay_state1').style.display = 'block';
-                switch(order.pay_channel){
-                    case '1':
-                    insert('pay_channel','现金支付');
-                    break;
-                    case '2':
-                    insert('pay_channel','平台会员卡');
-                    break;
-                    case '3':
-                    insert('pay_channel','专店会员卡');
-                    break;
-                    case '4':
-                    insert('pay_channel','微信支付');
-                    break;
-                    case '5':
-                    insert('pay_channel','支付宝支付');
-                    break;
-                }
-            } else {
-                document.getElementById('pay_state0').style.display = 'block';
-            }
-            let len = items.length,
-                content = '';
-            for (let i = 0;i < len;++i) {
-                content += '<p class="line"><span>'+items[i].name+'</span>&nbsp;<span>' + items[i].price +
-                    '</span>&nbsp;<span>'+items[i].color+items[i].color_text+'</span>&nbsp;<span>'+items[i].item_note+items[i].note_text+'</span></p>';
-            }
-            insert('items',content);
             document.getElementById('qrcode').onload = function() {
                 ipcRenderer.send('print');
             }
@@ -120,7 +87,7 @@
             if ('undefined' === typeof value || null == value) value = '';
             document.getElementById(id).innerHTML = value;
         }
-    }*/
+    }
 </script>
 </body>
 </html>
