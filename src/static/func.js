@@ -129,7 +129,7 @@
      * @return 日期字符串
      */
     Number.prototype.dateFormat = function(format, partition) {
-        let fromDate = new Date(this);
+        let fromDate = new Date(this * 1000);
         if ('string' !== typeof partition || '' === partition) partition = '-';
         const date = fromDate.getFullYear() + partition + (fromDate.getMonth() + 1) + partition + fromDate.getDate();
         const time = fromDate.getHours() + ':' + fromDate.getMinutes() + ':' + fromDate.getSeconds();
@@ -142,6 +142,9 @@
                 break;
                 case 'time':
                     retDate = time;
+                break;
+                case 'day':
+                    retDate = (fromDate.getMonth() + 1) + '/' + fromDate.getDate();
                 break;
             }
         }

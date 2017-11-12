@@ -12,7 +12,6 @@ import {FeedBack,UpdatePassword} from './main_layer';
 import menus from './menus';
 import route from './route';
 
-
 const token = localStorage.getItem('token');
 const uid = localStorage.getItem('uid');
 const auth = localStorage.getItem('auth');
