@@ -47,10 +47,6 @@ export default class Registration extends Component{
             state.choose.length < 1
             ||
             isNaN(state.start)
-            ||
-            isNaN(state.end)
-            ||
-            state.start > state.end
         ) return;
 
         axios.post(

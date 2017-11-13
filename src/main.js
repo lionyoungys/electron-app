@@ -83,6 +83,7 @@ class Main extends Component {
         //注册组件列表
         this.elements = route;
         this.elements.index = Index;
+        //this.handleScroll = this.handleScroll.bind(this);
     }
     //获取店铺状态数据
     componentDidMount() {
@@ -99,6 +100,10 @@ class Main extends Component {
             });         
         });
     }
+    /*handleScroll(e) {
+        console.log(e.target);
+        console.log(e.target.scrollTop);
+    }*/
 
     handleContainerView(e) {    //右侧界面动态转换事件方法
         if ('undefined' === typeof e.target) {
@@ -211,7 +216,6 @@ class Menu extends Component {
         for (let k in authList) {
             this.authList.push(authList[k]);
         }
-        //this.auths = ('' != auth) ? auth.split(',') : [];
         this.chooseMenu = this.chooseMenu.bind(this);
         this.isShowOnline = this.isShowOnline.bind(this);
         this.isShowItem = this.isShowItem.bind(this);
