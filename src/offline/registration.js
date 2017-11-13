@@ -57,8 +57,10 @@ export default class Registration extends Component{
             api.U('offlinePutNumberRequest'),
             api.data({
                 token:this.props.token,
-                json_data:state.choose.toString(),
-                start:state.start,
+                //json_data:state.choose.toString(),
+                ids:state.choose.toString(),
+                //start:state.start,
+                put_number:state.start,
                 end:state.end
             })
         )

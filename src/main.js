@@ -246,17 +246,18 @@ class Menu extends Component {
             optStatus = {display:isSpread ? 'block' : 'none'},
             items = opt.map((obj) => 
                 //创建多个选项
-                <nav 
-                    key={obj.id} 
-                    data-option={obj.id} 
-                    data-e={obj.e}
-                    className={props.option == obj.id ? 'main-chosen' : null} 
-                    onClick={props.changeView}
-                    style={this.isShowItem(obj.text)}
-                >
-                    {obj.text}
-                    {isShowOrders && '订单处理' == obj.text? <em className='main-tag'>{props.orders}</em> : ''}
-                </nav>
+                <div key={obj.id}>
+                    <nav  
+                        data-option={obj.id} 
+                        data-e={obj.e}
+                        className={props.option == obj.id ? 'main-chosen' : null} 
+                        onClick={props.changeView}
+                        style={this.isShowItem(obj.text)}
+                    >
+                        {obj.text}
+                        {isShowOrders && '订单处理' == obj.text? <em className='main-tag'>{props.orders}</em> : ''}
+                    </nav>
+                </div>
             );
         return (
             <dl>

@@ -911,3 +911,7 @@
 .ui-msg-box-title{font-size: 20px;padding-bottom: 10px;}
 .ui-msg-box-time{font-size: 14px;padding-bottom: 28px;}
 .ui-msg-box-info{font-size: 16px;color: #666;}
+.ui-of-list{
+    width: 200px;border: 1px solid #ccc;font-size: 16px;
+    height: 40px;line-height: 40px;text-align: center;
+}

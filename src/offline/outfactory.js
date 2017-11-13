@@ -9,7 +9,7 @@ import Crumbs from '../static/UI';
 export default class OutFactory extends Component{
     constructor(props) {
         super(props);
-        this.state = {data:[],choose:[],isAllChoose:false}
+        this.state = {data:[],choose:[],isAllChoose:false,teamworks:[],chooseTeam:null}
         this.onSearchRequest = this.onSearchRequest.bind(this);
         this.onChooseRequest = this.onChooseRequest.bind(this);
         this.onAllChooseRequest = this.onAllChooseRequest.bind(this);
@@ -21,6 +21,11 @@ export default class OutFactory extends Component{
         .then(response => {
             //console.log(response);
             this.setState({data:response.data.data.list});
+        });
+        axios.post(api.U('teamwork'),api.D({token:this.props.token}))
+        .then(response => {
+            console.log(response.data);
+            this.setState({teamworks:response.data.data});
         });
     }
 
@@ -55,6 +60,7 @@ export default class OutFactory extends Component{
             this.setState({choose:tempArr,isAllChoose:true});
         } 
     }
+
     onConfirmResquest() {
         if (this.state.choose.length < 1) return;
         axios.post(
@@ -84,13 +90,20 @@ export default class OutFactory extends Component{
                     </td>
                     <td>{obj.name}</td>
                 </tr>
+            ),
+            html2 = state.teamworks.map(obj => 
+                <option value={obj.id} key={obj.id}>{obj.mname}</option>
             );
         return (
             <div>
                 <Crumbs crumbs={[{key:0,text:'出厂'}]} callback={props.changeView}/>
                 <section className='ui-container'>
                     <div className='ui-box-between' style={{paddingBottom:'16px'}}>
-                        <div>选择门店：</div>
+                        <div>选择门店：
+                            <select onChange={(e) => this.setState({chooseTeam:e.target.value})} className='ui-of-list'>
+                                {html2}
+                            </select>
+                        </div>
                         <div style={{height:'40px',lineHeight:'40px'}}>
                             <span style={{marginRight:'20px'}}>已选择<span className='ui-red'>{state.choose.length}</span>件</span>
                             <span 
