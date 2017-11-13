@@ -68,7 +68,7 @@ export default class OfflineCraft extends Component{
             style2 = {paddingRight:'56px',fontSize:'16px'},
             html = state.items.map(obj => 
                 <tr className='ui-tr-d' key={obj.id}>
-                    <td>{obj.name}</td>
+                    <td>{obj.g_name}</td>
                     <td>{obj.clean_number}</td>
                     <td>{obj.price}</td>
                     <td>{obj.hedging}</td>
