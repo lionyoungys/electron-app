@@ -1,0 +1,6 @@
+{
+  "name": "electron",
+  "version": "1.0.0",
+  "main": "main.js",
+  "description": "速洗达商户端"
+}

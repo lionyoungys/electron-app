@@ -5,7 +5,7 @@
   "main": "app/main.js",
   "scripts": {
     "start": "webpack && electron .",
-    "packager": "electron-packager ./app  --out=./packager --overwrite --icon=./app/icon/icon.*"
+    "packager": "electron-packager ./app --platform=win32 --arch=ia32  --out=./packager --overwrite --icon=./app/icon/icon.*"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,6 @@
     "electron-packager": "^9.1.0",
     "file-loader": "^1.1.5",
     "grunt": "^1.0.1",
-    "grunt-contrib-jshint": "^1.1.0",
     "grunt-electron-installer": "^2.1.0",
     "style-loader": "^0.19.0",
     "url-loader": "^0.6.2",

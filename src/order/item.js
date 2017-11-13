@@ -86,7 +86,9 @@ class Item extends Component {
         if (items.length < 1) return;
         if (isChanged) {    //判断数据是否改变
             let json = JSON.stringify(items);
-            axios.post(api.U('addItems'),api.data({token:props.token,id:this.id,val:json}))
+            let is_online = 1;
+            if ('undefined' !== typeof this.params.from && 'offline' == this.params.from) is_online = 2;
+            axios.post(api.U('addItems'),api.data({token:props.token,id:this.id,val:json,is_online:is_online}))
             .then((response) => {
                 let result = response.data;
                 if (api.verify(result)) {
