@@ -9,9 +9,9 @@ module.exports = function(grunt) {
             //   exe: '速洗达商家端.exe'
             // },
             ia32: {
-              appDirectory: 'packager/electron-win32-ia32',
+              appDirectory: './packager/myapp',
               authors: 'yangyunlong',
-              exe: 'electron.exe'
+              exe: 'myapp.exe'
               //description: '速洗达商家端'
             }
           }

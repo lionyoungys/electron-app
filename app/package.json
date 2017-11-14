@@ -1,7 +1,7 @@
 {
-  "name": "electron",
+  "name": "app",
   "version": "1.0.0",
-  "description": "速洗达商家端",
+  "description": "merchant admin",
   "main": "main.js",
   "scripts": {
     "start": "webpack && electron .",
