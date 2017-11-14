@@ -164,7 +164,6 @@ const questionConfig = {
     "破损情况",
     "褪色情况",
     "材质",
-    "洗后预估",
     "洗护注意事项",
     "配件",
     "其他"
@@ -327,22 +326,6 @@ const questionConfig = {
       {
         title: "",
         list: [
-          "洗后发白",
-          "织后有印",
-          "洗后结块",
-          "缩水里衬长",
-          "易断线",
-          "洗后皮易开线",
-          "洗后可能掉色",
-          "装饰物易掉",
-          "注意洗涤"
-        ]
-      }
-    ],
-    [
-      {
-        title: "",
-        list: [
           "易搭色",
           "面料色花",
           "色花",
@@ -413,6 +396,5 @@ const afterConfig = {
       }
     ]
   ],
-  
 };
 export {colorConfig, questionConfig,afterConfig};

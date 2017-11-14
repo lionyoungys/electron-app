@@ -49,24 +49,24 @@ class Order extends Component {
         //表格头部模型
         this.theadsModel = [
             <tr className='ui-tr-h'>
-                <td>订单号</td>
-                <td>预约上门时间</td>
-                <td>姓名</td>
-                <td>电话</td>
-                <td>地址</td>
-                <td>时间</td>
-                <td>处理</td>
+                <th>订单号</th>
+                <th>预约上门时间</th>
+                <th>姓名</th>
+                <th>电话</th>
+                <th>地址</th>
+                <th>时间</th>
+                <th>处理</th>
             </tr>,
             <tr className='ui-tr-h'>
-                <td>订单号</td>
-                <td>项目</td>
-                <td>工艺加价</td>
-                <td>件数</td>
-                <td>总价</td>
-                <td>姓名／电话</td>
-                <td>地址</td>
-                <td>时间</td>
-                <td>操作</td>
+                <th>订单号</th>
+                <th>项目</th>
+                <th>工艺加价</th>
+                <th>件数</th>
+                <th>总价</th>
+                <th>姓名／电话</th>
+                <th>地址</th>
+                <th>时间</th>
+                <th>操作</th>
             </tr>
         ];
         //表格头部内容

@@ -93,7 +93,6 @@ export default class OrderSearch extends Component {
         let retArr = data.map((obj, index) => 
                 <div className='ui-box-between' key={index}>
                     <span>{obj.g_name}</span>
-                    <span>&times;{obj.number}</span>
                     <span>{obj.price}</span>
                 </div>
             );
