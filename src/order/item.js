@@ -120,6 +120,7 @@ class Item extends Component {
                     id={obj.id} 
                     name={obj.name} 
                     price={obj.price} 
+                    category={state.tabs[state.choose].text}
                     number={(() => {
                         let index = obj.id.inObjectArray(state.items,'type');
                         if (-1 !== index) return state.items[index].itemcount;

@@ -55,9 +55,19 @@ export default class OfflineCraft extends Component{
     }
 
     editor(e) {
+        let data = e.target.dataset;
+        console.log(e.target.dataset);
         this.props.changeView({
             element:'offline_editor',
-            param:{order_id:this.id,id:e.target.dataset.id}
+            param:{
+                order_id:this.id,
+                id:data.id,
+                take_time:data.takeTime,
+                code:data.code,
+                special:data.special,
+                comment:data.comment,
+                hedging:data.hedging
+            }
         });
     }
 
@@ -72,7 +82,7 @@ export default class OfflineCraft extends Component{
                     <td>{obj.clean_number}</td>
                     <td>{obj.price}</td>
                     <td>{obj.hedging}</td>
-                    <td>{obj.hedging * 200}</td>
+                    <td>{Number(obj.hedging * 100 / 200) / 100}</td>
                     <td>{obj.special}</td>
                     <td>{obj.take_time}</td>
                     <td>{obj.special_comment}</td>
@@ -81,6 +91,11 @@ export default class OfflineCraft extends Component{
                             type='button' 
                             className='ui-btn ui-btn-editor' 
                             value='编辑' 
+                            data-code={obj.clean_number}
+                            data-special={obj.special}
+                            data-comment={obj.special_comment}
+                            data-hedging={obj.hedging}
+                            data-take-time={obj.take_time}
                             data-id={obj.id}
                             onClick={this.editor}
                         />

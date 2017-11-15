@@ -348,7 +348,6 @@ class Order extends Component {
         return items.map((obj) => 
             <div key={obj.id} className='ui-box-between'>
                 <span>{obj.g_name}</span>
-                <span>{obj.number}</span>
                 <span>&yen;{obj.price}</span>
             </div>
         );

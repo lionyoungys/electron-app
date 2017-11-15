@@ -20,7 +20,15 @@ export default class OfflineEditor extends Component{
             {text:'工艺加价',key:2,e:'offline_craft',param:this.redirectParam},
             {text:'编辑',key:3}
         ];
-        this.state = {code:'',hedging:'',comment:'',special:'',takeDate:'',isShow:false,Date:[]};
+        this.state = {
+            code:this.params.code,
+            hedging:this.params.hedging,
+            comment:this.params.comment,
+            special:this.params.special,
+            takeDate:this.params.take_time,
+            isShow:false,
+            Date:[]
+        };
         this.chooseDate = this.chooseDate.bind(this);
         this.onConfirmRequest = this.onConfirmRequest.bind(this);
         this.done = this.done.bind(this);
@@ -30,6 +38,7 @@ export default class OfflineEditor extends Component{
         axios.post(api.U('getDateTime'),api.D({token:this.props.token}))
         .then(response => {
             this.setState({isShow:true,Date:response.data.data});
+            console.log(response.data.data);
         });
     }
 
@@ -167,7 +176,7 @@ class LayerDate extends Component{
         let props = this.props,
             state = this.state,
             d = props.Date,
-            time = ['9:00~12:00', '12:00~14:00', '14:00~17:00', '17:00~20:00'],
+            time = ['8:00~11:00', '11:00~14:00', '14:00~17:00', '17:00~20:00'],
             html = [];
         if (!props.show) return null; 
         if ('undefined' !== typeof d[0].time) {

@@ -4,7 +4,7 @@
  */
 import React, {Component} from 'react';
 import '../static/api';
-import Crumbs, {Tabs,Math,Special} from '../static/UI';
+import Crumbs, {Tabs,Math} from '../static/UI';
 
 class Craft extends Component{
     constructor(props) {
@@ -30,7 +30,6 @@ class Craft extends Component{
         }
 
         this.callback = this.callback.bind(this);
-        this.alertCallback = this.alertCallback.bind(this);
         this.done = this.done.bind(this);
     }
     componentDidMount() {
@@ -49,51 +48,13 @@ class Craft extends Component{
             console.log(result);
         });
     }
-    callback(id) {this.setState({show:true,tempId:id});}
-    alertCallback(isConfirm,object) {
-        let props = this.props,
-            state = this.state;
-        if (isConfirm) {
-            if ('' != object.special && 0 != object.special && '' != object.comment) {
-                axios.post(
-                    api.U('modifySpecial'),
-                    api.data({token:props.token,id:state.tempId,special:object.special,special_comment:object.comment})
-                )
-                .then((response) => {
-                    let result = response.data.data;
-                    this.setState({
-                        total:result.total,
-                        amount:result.amount,
-                        freight:result.freight,
-                        count:result.total_num,
-                        service:result.fuwu,
-                        items:result.list
-                    });
-                    console.log(result);
-                });
-            }
-            if ('' != object.hedging && 0 != object.hedging) {
-                let realAmount = (object.hedging / 200).toFixed(2);
-                axios.post(
-                    api.U('modifyHedging'),
-                    api.data({token:props.token,id:state.tempId,hedging:realAmount})
-                )
-                .then((response) => {
-                    let result = response.data.data;
-                    this.setState({
-                        total:result.total,
-                        amount:result.amount,
-                        freight:result.freight,
-                        count:result.total_num,
-                        service:result.fuwu,
-                        items:result.list
-                    });
-                    console.log(result);
-                });
-            }
-        }
-        this.setState({show:false,tempId:null});
+    callback(id) {
+        this.props.changeView({
+            element:'online_editor',
+            param:{order_id:this.id,id:id,params:this.props.param}
+        });
     }
+
     done() {
         let props = this.props;
         if ('undefined' !== typeof this.params.from && 'offline' == this.params.from) {
@@ -119,8 +80,8 @@ class Craft extends Component{
                     key={obj.id}
                     id={obj.id}
                     url={api.host + obj.url}
-                    name={obj.name}
-                    number={obj.number}
+                    name={obj.g_name}
+                    number={obj.clean_number}
                     price={obj.price}
                     hedging={obj.hedging}
                     special={obj.special}
@@ -135,7 +96,7 @@ class Craft extends Component{
                     <div className='ui-content'>
                         <table className='ui-table'>
                             <thead><tr className='ui-tr-h ui-fieldset'>
-                                <td>名称</td><td>数量</td><td>价格</td><td>保值金额</td>
+                                <td>名称</td><td>衣物编码</td><td>价格</td><td>保值金额</td>
                                 <td>保值清洗费</td><td>特殊工艺加价</td><td>备注</td><td>操作</td>
                             </tr></thead>
                             <tbody>{html}</tbody>
@@ -164,7 +125,6 @@ class Craft extends Component{
                         </div>
                     </div>
                 </section>
-                <Special show={state.show} id={state.tempId} callback={this.alertCallback}/>
             </div>
         );
     }
@@ -181,10 +141,10 @@ class Row extends Component {
             hasComment = '' != props.comment;
         return (
             <tr className='ui-tr-d ui-tr-p'>
-                <td><img src={props.url}/>{props.name}</td>
+                <td>{props.name}</td>
                 <td>{props.number}</td>
                 <td>&yen;{props.price}</td>
-                <td>&yen;{props.hedging * 200}</td>
+                <td>&yen;{Number(props.hedging * 100 / 200) / 100}</td>
                 <td>&yen;{props.hedging}</td>
                 <td>&yen;{props.special}</td>
                 <td className={hasComment ? null : 'ui-grey'}>{hasComment ? props.comment : '暂无备注'}</td>

@@ -57,11 +57,11 @@ export default class OrderSearch extends Component {
 
     handleSearch(word) {
         axios.post(
-            api.U('orderSearch'),
+            api.U('orderHandleSearch'),
             api.data({
                 token:this.props.token,
                 state:this.state.choose,
-                ordersn:word
+                condition:word
             })
         )
         .then((response) => {

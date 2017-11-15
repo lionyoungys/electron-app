@@ -64,8 +64,9 @@ class Login extends Component {
         ) {
             axios.post(api.U('login'), api.data({username:state.mobile,password:state.password}))
             .then((response) => {
+                console.log(response);
                 let result = response.data;
-                console.log(result);
+                //console.log(result);
                 if (!api.verify(result)) {
                     //验证错误时，提示登录信息错误
                     this.props.noticeCallback(result.status);
