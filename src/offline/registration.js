@@ -89,7 +89,10 @@ export default class Registration extends Component{
                 <Crumbs crumbs={[{key:0,text:'上挂'}]} callback={props.changeView}/>
                 <section className='ui-container'>
                     <div className='ui-box-between' style={{paddingBottom:'16px'}}>
-                        <Search placeholder='输入订单后六位搜索' callback={this.onSearchRequest}/>
+                        <div>
+                            <Search placeholder='输入订单后六位搜索' callback={this.onSearchRequest}/>
+                            <span>&emsp;或扫一扫</span>
+                        </div>
                         <div style={{height:'40px',lineHeight:'40px'}}>
                             <span className='ui-inline-box' style={{marginRight:'20px'}}>
                                 <input 
