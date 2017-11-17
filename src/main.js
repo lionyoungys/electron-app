@@ -79,6 +79,7 @@ class Main extends Component {
             option:null,  //菜单栏样式状态
             e:this.props.children,param:null    //右侧展示样式状态 附带参数
         };
+        this.interval = null;
         this.handleContainerView = this.handleContainerView.bind(this);
         //注册组件列表
         this.elements = route;
@@ -99,6 +100,19 @@ class Main extends Component {
                 count:result.order_count    //有效订单
             });         
         });
+        setInterval(() => {
+            axios.post(api.U('index'),api.data({token:this.props.token,uid:uid}))
+            .then((response)=>{
+                let result = response.data.data;
+                this.setState({orders:result.will_dispose});         
+            });
+        }, 60000);
+    }
+
+    componentWillUnmount() {
+        if (null !== this.interval) {
+            clearInterval(this.interval);
+        }
     }
     /*handleScroll(e) {
         console.log(e.target);
