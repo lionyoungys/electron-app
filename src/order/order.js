@@ -165,7 +165,6 @@ class Order extends Component {
                 <td>{obj.update_time}</td>
                 <td>
                     <div className='ui-box-column'>
-                        <input type='button' data-e='check' data-param={'id=' + obj.id} value='衣物检查' className='ui-btn ui-btn-confirm' onClick={this.props.changeView}/>
                         <div style={{height:'10px'}}></div>
                         <input 
                             type='button' 

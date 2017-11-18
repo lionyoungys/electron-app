@@ -14,6 +14,7 @@ export default class Check extends Component {
         console.log(this.props);
         this.takePay = this.takePay.bind(this);    //取衣付款
         this.pay = this.pay.bind(this);    //立即付款
+        this.onlineHandle = this.onlineHandle.bind(this);
     }
     componentDidMount() {
         let props = this.props;
@@ -50,6 +51,26 @@ export default class Check extends Component {
         this.props.changeView({element:'pay', param:'id=' + this.props.orderId + '&from=offline'});
     }
 
+    onlineHandle() {
+        if (!this.props.callback()) return;
+        let verify = true;
+        this.state.data.map(obj => {
+            let colorVerify = '' == obj.color && '' == obj.color_text;
+            let questionVerify = '' == obj.item_note && '' == obj.note_text;
+            if (colorVerify || questionVerify || 0 == obj.img.length) {
+                verify = false;
+            }
+        });
+        if (!verify) return;
+        axios.post(api.U('gotIt'),api.data({token:this.props.token,id:this.props.orderId}))
+        .then((response) => {
+            console.log(response.data);
+            if (api.verify(response.data)) {
+                this.props.changeView({element:'order',param:'choose=1'})
+            }
+        });
+    }
+
     render() {
         let props = this.props,
             state = this.state,
@@ -75,9 +96,9 @@ export default class Check extends Component {
             btns = <div className='ui-container'>
                     <input 
                         type='button' 
-                        value='确认' 
+                        value='确认收件' 
                         className='ui-btn ui-btn-confirm ui-btn-large'
-                        onClick={props.changeView}
+                        onClick={this.onlineHandle}
                         data-param='choose=2'
                         data-e='order'
                     />

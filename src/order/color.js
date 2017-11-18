@@ -65,7 +65,7 @@ class Color extends Component {
                 if ('undefined' !== typeof this.params.from && 'offline' == this.params.from) {
                     props.changeView({element:'offline_craft',param:this.redirectParam});
                 } else {
-                    props.changeView({element:'check',param:this.redirectParam});
+                    props.changeView({element:'craft',param:this.redirectParam});
                 }
             }
         });
