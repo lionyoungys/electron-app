@@ -86,7 +86,7 @@ class Pay extends Component {
                 'cash' == payment || 'wechat' == payment || 'alipay' == payment
             ) {    //现金
                 if ('free' == state.reduce) {
-                    this.setState({realAmount:0});
+                    this.setState({realAmount:amount});
                 } else if ('special' == state.reduce) {
                     this.setState({realAmount:state.reduceAmount})
                 } else if ('ceil' == state.reduce) {
@@ -113,6 +113,7 @@ class Pay extends Component {
                         token:props.token,
                         type:'MEMBER_CARD',
                         order_id:this.id,
+                        state:'1',
                         card_id:state.vip_id,
                         amount:state.realAmount,
                     })
@@ -130,6 +131,7 @@ class Pay extends Component {
                     api.D({
                         token:props.token,
                         type:'MERCHANT_CARD',
+                        state:'1',
                         order_id:this.id,
                         amount:state.realAmount,
                     })
@@ -147,6 +149,7 @@ class Pay extends Component {
                     api.D({
                         token:props.token,
                         type:'CASH',
+                        state:'1',
                         order_id:this.id,
                         amount:state.realAmount,
                     })
@@ -204,6 +207,7 @@ class Pay extends Component {
                 api.D({
                     token:props.token,
                     type:'WECHAT',
+                    state:'1',
                     order_id:this.id,
                     auth_code:authcode,
                     amount:state.realAmount,
@@ -226,6 +230,7 @@ class Pay extends Component {
                 api.D({
                     token:props.token,
                     type:'ALI',
+                    state:'1',
                     order_id:this.id,
                     auth_code:authcode,
                     amount:state.realAmount,
