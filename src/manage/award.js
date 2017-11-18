@@ -45,7 +45,7 @@ class Award extends Component {
                     <header style={{textAlign:'center'}}>
                         <div style={style}>
                             邀请好友成功下单且订单达成，即享受该单支付金额的
-                            <span className='ui-red'>0.5%</span>返现奖励。
+                            <span className='ui-red'>1%</span>返现奖励。
                         </div>
                     </header>
                     <div className='ui-content'>

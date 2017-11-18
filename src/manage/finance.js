@@ -62,18 +62,17 @@ class Finance extends Component {
                     (
                         <span>
                             明细：<span className='ui-finance-small-word'>平台打款</span>
-                            -{obj.total}
+                            {obj.sum}
                         </span>
                     )
                 }
                 <span>{obj.time}</span>
                 {
                     1 == obj.state ? 
-                    (<span style={{color:'red'}}>+&yen;{obj.total}</span>) 
+                    (<span style={{color:'red'}}>+&yen;{obj.sum}</span>) 
                     : 
-                    (<span style={{color:'green'}}>-&yen;{obj.total}</span>)
+                    (<span style={{color:'green'}}>-&yen;{obj.sum}</span>)
                 }
-                
             </div>
         );
         return (

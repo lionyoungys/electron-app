@@ -5,6 +5,7 @@
 import React, {Component} from 'react';
 import '../static/api';
 import Crumbs from '../static/UI';
+import Check from '../order/check';
 
 export default class OfflineCraft extends Component{
     constructor(props) {
@@ -142,6 +143,7 @@ export default class OfflineCraft extends Component{
                         </div>
                     </div>
                 </div>
+                <Check orderId={this.id} changeView={props.changeView} from='offline'/>
             </div>
         );
     }

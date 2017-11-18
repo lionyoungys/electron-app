@@ -6,28 +6,18 @@ const {dialog} = window.require('electron').remote;
 const fs = window.require('fs');
 import React, {Component} from 'react';
 import '../static/api';
-import Crumbs from '../static/UI';
-class Check extends Component {
+export default class Check extends Component {
     constructor(props) {
         super(props);
         this.state = {data:[]};
-        this.params = this.props.param.paramToObject();    //参数列表
-        this.id = this.params.id;    //订单ID
+        //orderId = 订单id
         console.log(this.props);
-        this.crumbs = [{text:'订单处理',key:0,e:'order',param:'choose=2'},{text:'衣物检查',key:1}];
-        if ('undefined' !== typeof this.params.from && 'offline' == this.params.from) {
-            this.crumbs = [
-                {text:'收衣',key:0,e:'take'},
-                {text:'添加项目',key:1,e:'item',param:this.props.param},
-                {text:'工艺加价',key:2,e:'offline_craft',param:this.props.param},
-                {text:'衣物检查',key:3}
-            ];
-        }
         this.takePay = this.takePay.bind(this);    //取衣付款
         this.pay = this.pay.bind(this);    //立即付款
     }
     componentDidMount() {
-        axios.post(api.U('check'),api.data({token:this.props.token,id:this.id}))
+        let props = this.props;
+        axios.post(api.U('check'),api.data({token:props.token,id:props.orderId}))
         .then((response) => {
             let result = response.data.data;
             this.setState({data:result});
@@ -37,7 +27,7 @@ class Check extends Component {
 
     takePay() {
         let props = this.props;
-        axios.post(api.U('takePay'),api.data({token:props.token,order_id:this.id}))
+        axios.post(api.U('takePay'),api.data({token:props.token,order_id:props.orderId}))
         .then((response) => {
             if (api.verify(response.data)) {
                 props.changeView({element:'index'});
@@ -63,9 +53,9 @@ class Check extends Component {
                     question_text={obj.note_text}
                     assess={obj.assess}
                     assess_text={obj.assess_text}
-                    from={this.params.from}
+                    from={props.from}
                     images={obj.img}
-                    orderId={this.id}
+                    orderId={props.orderId}
                     token={props.token}
                 />
             ),
@@ -79,7 +69,7 @@ class Check extends Component {
                         data-e='order'
                     />
                    </div>;
-        if ('undefined' !== typeof this.params.from && 'offline' == this.params.from) {
+        if ('undefined' !== typeof props.from && 'offline' == props.from) {
             btns = <div className='ui-container'>
                    <input 
                        type='button' 
@@ -97,7 +87,6 @@ class Check extends Component {
         }
         return (
             <div>
-                <Crumbs  crumbs={this.crumbs} callback={props.changeView}/>
                 {html}
                 {btns}
             </div>
@@ -236,5 +225,3 @@ class Item extends Component {
         );
     }
 }
-
-export default Check;
