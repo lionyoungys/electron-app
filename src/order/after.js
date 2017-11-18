@@ -27,7 +27,6 @@ export default class After extends Component {
                 {text:'收衣',key:0,e:'take'},
                 {text:'添加项目',key:1,e:'item',param:this.redirectParam},
                 {text:'工艺加价',key:2,e:'offline_craft',param:this.redirectParam},
-                {text:'衣物检查',key:3,e:'check',param:this.redirectParam},
                 {text:'洗后预估',key:4}
             ];
         }
@@ -62,7 +61,11 @@ export default class After extends Component {
         .then((response) => {
             console.log(response.data);
             if (api.verify(response.data)) {
-                props.changeView({element:'check',param:this.redirectParam});
+                if ('undefined' !== typeof this.params.from && 'offline' == this.params.from) {
+                    props.changeView({element:'offline_craft',param:this.redirectParam});
+                } else {
+                    props.changeView({element:'check',param:this.redirectParam});
+                }
             }
         });
     }

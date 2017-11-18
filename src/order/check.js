@@ -10,7 +10,7 @@ export default class Check extends Component {
     constructor(props) {
         super(props);
         this.state = {data:[]};
-        //orderId = 订单id
+        //orderId = 订单id from = offline / online changeView = props.changeView
         console.log(this.props);
         this.takePay = this.takePay.bind(this);    //取衣付款
         this.pay = this.pay.bind(this);    //立即付款
@@ -27,6 +27,7 @@ export default class Check extends Component {
 
     takePay() {
         let props = this.props;
+        if (!props.callback()) return;
         axios.post(api.U('takePay'),api.data({token:props.token,order_id:props.orderId}))
         .then((response) => {
             if (api.verify(response.data)) {
@@ -35,7 +36,19 @@ export default class Check extends Component {
         });
     }
 
-    pay() {this.props.changeView({element:'pay',param:this.props.param});}
+    pay() {
+        if (!this.props.callback()) return;
+        let verify = true;
+        this.state.data.map(obj => {
+            let colorVerify = '' == obj.color && '' == obj.color_text;
+            let questionVerify = '' == obj.item_note && '' == obj.note_text;
+            if (colorVerify || questionVerify || 0 == obj.img.length) {
+                verify = false;
+            }
+        });
+        if (!verify) return;
+        this.props.changeView({element:'pay', param:'id=' + this.props.orderId + '&from=offline'});
+    }
 
     render() {
         let props = this.props,
@@ -209,17 +222,32 @@ class Item extends Component {
                 <div className='ui-content' style={{flexWrap:'wrap'}}>
                     <div className='ui-check-word'>颜色:</div>
                     <div className='ui-check-container'>{props.color + ' ' + props.color_text}</div>
-                    <input type='button' value={colorValue} className='ui-check-btn' onClick={this.color}/>
+                    <input
+                        type='button'
+                        value={colorValue}
+                        className='ui-btn ui-btn-editor'
+                        onClick={this.color}
+                    />
                 </div>
                 <div className='ui-content' style={{flexWrap:'wrap'}}>
                     <div className='ui-check-word'>问题描述:</div>
                     <div className='ui-check-container'>{props.question + ' ' + props.question_text}</div>
-                    <input type='button' value={questionValue} className='ui-check-btn' onClick={this.question}/>
+                    <input
+                        type='button'
+                        value={questionValue}
+                        className='ui-btn ui-btn-editor'
+                        onClick={this.question}
+                    />
                 </div>
                 <div className='ui-content' style={{flexWrap:'wrap'}}>
                     <div className='ui-check-word'>洗后预估:</div>
                     <div className='ui-check-container'>{props.assess + ' ' + props.assess_text}</div>
-                    <input type='button' value={assessValue} className='ui-check-btn' onClick={this.assess}/>
+                    <input
+                        type='button'
+                        value={assessValue}
+                        className='ui-btn ui-btn-editor'
+                        onClick={this.assess}
+                    />
                 </div>
             </div>
         );

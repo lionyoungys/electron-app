@@ -10,6 +10,7 @@ import Crumbs,{Search2, PayMent} from '../static/UI';
 class Pay extends Component {
     constructor(props) {
         super(props);
+        console.log(this.props);
         this.params = this.props.param.paramToObject();
         //this.params = {id:'1596',from:'offline'};
         console.log(this.params);
@@ -18,7 +19,6 @@ class Pay extends Component {
             {text:'收衣',key:0,e:'take'},
             {text:'添加项目',key:1,e:'item',param:this.props.param},
             {text:'工艺加价',key:2,e:'offline_craft',param:this.props.param},
-            {text:'衣物检查',key:3,e:'check',param:this.props.param},
             {text:'订单支付',key:4}
         ];
         if ('take' == this.params.from) {
@@ -290,7 +290,7 @@ class Pay extends Component {
             target.classList.contains('ui-radio')
         ) {
             if ('free' == reduce) {
-                this.setState({realAmount:0,reduce:reduce});
+                this.setState({realAmount:amount,reduce:reduce});
             } else if ('special' == reduce) {
                 this.setState({realAmount:state.reduceAmount,reduce:reduce})
             } else if ('ceil' == reduce) {

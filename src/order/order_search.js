@@ -102,7 +102,8 @@ export default class OrderSearch extends Component {
     changeViewMiddleWare(e) {
         let target = e.target,
             status = target.dataset.state;
-        if ((status > 0 && status <= 6) || 13 == status || 14 == status) {
+        console.log(status);
+        if ((status > 1 && status <= 6) || 13 == status || 14 == status) {
             this.props.changeView({element:'order_detail',param:target.dataset.param});
         }
     }
