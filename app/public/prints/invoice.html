@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+    body,span,img,p,div{margin: 0;padding: 0;}
+    body{
+        width: 19.5cm;height: 13cm;
+        font-size: 10pt;word-break: break-all;
+        box-sizing: border-box;-webkit-box-sizing: border-box;
+        padding: 1.2cm 1.5cm 0 2cm;
+    }
+
+    .box{width: 100%;height: 1.5cm;line-height: .5cm;}
+    .box2{
+        width: 100%;height: 4.3cm;margin-top: 1cm;
+        line-height: .5cm;position: relative;
+        display: flex;display: -webkit-flex;
+    }
+    .box2>div:first-child{
+        width: 100%;height: 100%;
+        box-sizing: border-box;-webkit-box-sizing: border-box;
+        padding-right: 2.5cm;
+    }
+    .box2>div:last-child{
+        width: 2.5cm;height: 100%;
+        position: absolute;top: 0;right: 0;
+    }
+    .box3{
+        width: 100%;display: block;height: 1cm;line-height: .5cm;
+        box-sizing: border-box;-webkit-box-sizing: border-box;
+        padding: 0 4em;
+    }
+    .box4{
+        width: 100%;height: .5cm;line-height: .5cm;
+        margin-top: 1.2cm;
+        display: flex;display: -webkit-flex;
+        flex-direction: row-reverse;
+    }
+    .box4>span{width: 3.5cm;}
+    .row{display: flex;display: -webkit-flex;}
+    .box2 .row>span{width: 1.5cm;height: .5cm;line-height: .5cm;}
+    .box2 .row>.name{width: 2.7cm;}
+    /* 缩进样式 */
+    .first-indent{width: 100%;padding-left: 2em;}
+    .indent{display: inline-block;width: 4cm;padding-left: 4.5em;}
+    .address-indent{display: inline-block;width: 8cm;padding-left: 4.5em;}
+    .first-indent, .indent, .address-indent{
+        box-sizing: border-box;-webkit-box-sizing: border-box;
+        white-space: nowrap;word-break:normal;
+    }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <p class="first-indent" onclick="window.print();">正章洗衣连锁店</p>
+        <p class="row">
+            <span class="indent">杨云龙</span>
+            <span class="indent">18745729547</span>
+            <span class="indent">1594647845176445</span>
+            <span class="indent">30000.00</span>
+        </p>
+        <p class="row">
+            <span class="address-indent">万达广场3号楼1902</span>
+            <span class="indent">2017.11.20 11:47</span>
+            <span class="indent">2017.12.20</span>
+        </p>
+    </div>
+    <div class="box2">
+        <div>
+            <p class="row">
+                <span>1</span>
+                <span>红色</span>
+                <span>晴纶</span>
+                <span class="name">羽绒服</span>
+                <span>波司登</span>
+                <span>1</span>
+                <span>100.00</span>
+                <span>100</span>
+            </p>
+            <p class="row">
+                <span>1</span>
+                <span>红色</span>
+                <span>晴纶</span>
+                <span class="name">羽绒服</span>
+                <span>波司登</span>
+                <span>1</span>
+                <span>100.00</span>
+                <span>100</span>
+            </p>
+            <p class="row">
+                <span>1</span>
+                <span>红色</span>
+                <span>晴纶</span>
+                <span class="name">羽绒服</span>
+                <span>波司登</span>
+                <span>1</span>
+                <span>100.00</span>
+                <span>100</span>
+            </p>
+            <p class="row">
+                <span>1</span>
+                <span>红色</span>
+                <span>晴纶</span>
+                <span class="name">羽绒服</span>
+                <span>波司登</span>
+                <span>1</span>
+                <span>100.00</span>
+                <span>100</span>
+            </p>
+        </div>
+        <div>不放辣椒，带一些蒜，谢谢</div>
+    </div>
+    <div class="box3">
+        <p class="row">
+            <span style="width:1.8cm;">500.00</span>
+            <span style="margin-left:10em;">450.00</span>
+        </p>
+        <p class="row">
+            <span style="width:1.8cm;">9.5</span>
+            <span style="margin-left:8em;">450.00</span>
+        </p>
+    </div>
+    <div class="box4">
+        <span>一号店员</span>
+        <span>15145296547</span>
+    </div>
+</body>
+</html>
