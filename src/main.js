@@ -30,7 +30,7 @@ const authList = {
     '10':'业务统计',
     '11':'会员管理'
 };    //权限分配列表
-const branch = 'invoice';
+const branch = 'master';
 
 //界面头部组件
 class Header extends Component {
