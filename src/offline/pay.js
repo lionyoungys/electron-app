@@ -257,9 +257,13 @@ class Pay extends Component {
         //
         //打印操作
         //
+        let printView = 'public/prints/index.html';
+        if ('invoice' == props.branch) {
+            printView = 'public/prints/invoice.html';
+        }
         ipcRenderer.send(
             'print-silent',
-            'public/prints/index.html',
+            printView,
             {uid:props.uid,order_id:this.id,token:this.props.token}
         );
         if (null != state.voucher_id) {
