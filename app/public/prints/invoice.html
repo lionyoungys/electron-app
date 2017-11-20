@@ -53,22 +53,31 @@
 </head>
 <body>
     <div class="box">
-        <p class="first-indent" onclick="window.print();">正章洗衣连锁店</p>
+        <!-- 店名 -->
+        <p class="first-indent" onclick="window.print();" id="mname"></p>
         <p class="row">
-            <span class="indent">杨云龙</span>
-            <span class="indent">18745729547</span>
-            <span class="indent">1594647845176445</span>
-            <span class="indent">30000.00</span>
+            <!-- 用户名 -->
+            <span class="indent" id="user"></span>
+            <!-- 用户手机号 -->
+            <span class="indent" id="mobile"></span>
+            <!-- 会员卡号 -->
+            <span class="indent" id="card"></span>
+            <!-- 会员卡余额 -->
+            <span class="indent" id="balance"></span>
         </p>
         <p class="row">
-            <span class="address-indent">万达广场3号楼1902</span>
-            <span class="indent">2017.11.20 11:47</span>
-            <span class="indent">2017.12.20</span>
+            <!-- 用户地址 -->
+            <span class="address-indent"></span>
+            <!-- 打印日期 -->
+            <span class="indent" id="date"></span>
+            <!-- 取衣日期 -->
+            <span class="indent"></span>
         </p>
     </div>
     <div class="box2">
-        <div>
-            <p class="row">
+        <!-- 项目 -->
+        <div id="items">
+            <!-- <p class="row">
                 <span>1</span>
                 <span>红色</span>
                 <span>晴纶</span>
@@ -77,53 +86,71 @@
                 <span>1</span>
                 <span>100.00</span>
                 <span>100</span>
-            </p>
-            <p class="row">
-                <span>1</span>
-                <span>红色</span>
-                <span>晴纶</span>
-                <span class="name">羽绒服</span>
-                <span>波司登</span>
-                <span>1</span>
-                <span>100.00</span>
-                <span>100</span>
-            </p>
-            <p class="row">
-                <span>1</span>
-                <span>红色</span>
-                <span>晴纶</span>
-                <span class="name">羽绒服</span>
-                <span>波司登</span>
-                <span>1</span>
-                <span>100.00</span>
-                <span>100</span>
-            </p>
-            <p class="row">
-                <span>1</span>
-                <span>红色</span>
-                <span>晴纶</span>
-                <span class="name">羽绒服</span>
-                <span>波司登</span>
-                <span>1</span>
-                <span>100.00</span>
-                <span>100</span>
-            </p>
+            </p> -->
         </div>
+        <!-- 备注 -->
         <div>不放辣椒，带一些蒜，谢谢</div>
     </div>
     <div class="box3">
         <p class="row">
-            <span style="width:1.8cm;">500.00</span>
-            <span style="margin-left:10em;">450.00</span>
+            <!-- 总额 -->
+            <span style="width:1.8cm;" id="amount"></span>
+            <!-- 支付金额 -->
+            <span style="margin-left:10em;" id="pay_amount"></span>
         </p>
         <p class="row">
-            <span style="width:1.8cm;">9.5</span>
-            <span style="margin-left:8em;">450.00</span>
+            <!-- 折扣 -->
+            <span style="width:1.8cm;" id="discount"></span>
+            <!-- 金额明细 -->
+            <span style="margin-left:8em;" id="amount_info"></span>
         </p>
     </div>
     <div class="box4">
-        <span>一号店员</span>
-        <span>15145296547</span>
+        <!-- 店员名称 -->
+        <span id="clerk"></span>
+        <!-- 店铺联系方式 -->
+        <span id="phone"></span>
     </div>
+    <script>
+        const {ipcRenderer} = require('electron'),
+              axios = require('axios');
+        window.onload = function() {
+            const params = ipcRenderer.sendSync('get-params');
+            //const params = {token:'9f04XUc2V8VLs1PU12esgTsnamiP0lFyk9MWUgdmi3yEoTdcAiQh0P4',order_id:'1967',uid:'84'}
+            const fd = new FormData();
+            const date = new Date(),
+                  datetime = date.getFullYear()+'.'+(date.getMonth()*1+1)+'.'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
+            fd.append('token', params.token);
+            fd.append('order_id', params.order_id);
+            fd.append('clerk_id', params.uid);
+            axios.post('http://xiyi.wzj.dev.shuxier.com/app.php/Offline/PrintInfo/o_p', fd)
+            .then(response => {
+                let result = response.data.data,
+                    order = result.orderInfo,
+                    items = result.items;
+                console.log(result);
+                    insert('mname', order.mname);
+                    insert('mobile', order.mobile);
+                    insert('phone', order.phone);
+                    insert('date',datetime);
+                    insert('amount', order.amount);
+                    insert('clerk', order.clerkname);
+                    insert('pay_amount', order.pay_amount);
+                    let len = items.length,
+                        content = '';
+                    for (let i = 0;i < len;++i) {
+                        content += '<p class="row"><span></span><span>'+items[i].color+items[i].color_text+'</span>' + 
+                            '<span></span><span class="name">'+items[i].name+'</span><span></span><span>1</span>' + 
+                            '<span></span><span></span></p>';
+                    }
+                    insert('items',content);
+                    ipcRenderer.send('print');
+                });
+                function insert(id, value) {
+                    if ('undefined' === typeof value || null == value) value = '';
+                    document.getElementById(id).innerHTML = value;
+                }
+            }
+    </script>
 </body>
 </html>
