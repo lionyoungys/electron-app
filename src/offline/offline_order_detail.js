@@ -42,9 +42,13 @@ export default class OfflineOrderDetail extends Component{
     }
 
     printOrder() {
+        let printView = 'public/prints/index.html';
+        if ('invoice' == this.props.branch) {
+            printView = 'public/prints/invoice.html';
+        }
         ipcRenderer.send(
             'print-silent',
-            'public/prints/index.html',
+            printView,
             {uid:this.props.uid,order_id:this.params.id,token:this.props.token}
         );
     }
