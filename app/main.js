@@ -39,8 +39,8 @@ app.on('ready', () => {
         },
         //'public/prints/index.html'
         //'public/prints/recharge.html'
-        'public/prints/invoice.html'
-        //'public/main.html'
+        //'public/prints/invoice.html'
+        'public/main.html'
     );
 });
 
