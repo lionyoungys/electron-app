@@ -35,7 +35,7 @@
 .ui-tab{
     display: inline-block;
     height: 40px;text-align: center;line-height: 40px;padding: 0 24px;
-    background: #f1f1f1;color: #333333;
+    background: #f1f1f1;color: #000;
     font-size: 18px;
     margin-right: 18px;
 }
@@ -292,10 +292,10 @@
     padding: 30px 0 0 30px;margin:0 37px;
     display: inline-flex;display: -webkit-inline-flex;flex-direction: column;
 }
-.ui-take-info-title{font-size: 22px;color: #333333;padding-bottom: 20px;}
-.ui-take-info-row{font-size: 18px;padding-bottom: 20px;}
-.ui-take-info-orders{display: flex;display: -webkit-flex;}
-.ui-take-order-row{line-height: 26px;font-size: 18px;padding-bottom: 10px;}
+.ui-take-info-title{font-size: 22px;color: #000;padding-bottom: 20px;}
+.ui-take-info-row{font-size: 18px;padding-bottom: 20px;color: #000;}
+.ui-take-info-orders{display: flex;display: -webkit-flex;color: #000;}
+.ui-take-order-row{line-height: 26px;font-size: 18px;padding-bottom: 10px;color: #000;}
 /* 新增散客界面样式 */
 .ui-add-member-row{font-size: 18px;line-height: 45px;}
 /* 订单支付界面样式 */

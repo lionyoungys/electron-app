@@ -125,6 +125,7 @@ export default class ClerkManage extends Component {
                             onClick={() => this.setState({editorShow:true,index:index})}
                             data-id={obj.id}
                         />
+                        &emsp;
                         <input 
                             type='button' 
                             value='删除' 
