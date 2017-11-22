@@ -11,6 +11,9 @@ import {MyChart} from './static/UI';
 import {FeedBack,UpdatePassword} from './main_layer';
 import menus from './menus';
 import route from './route';
+//引入本地数据库
+//import low from 'lowdb';
+//import LocalStorage from 'lowdb/adapters/LocalStorage';
 
 const token = localStorage.getItem('token');
 const uid = localStorage.getItem('uid');

@@ -45,6 +45,7 @@ class Container extends Component {
 class Login extends Component {
     constructor(props) {
         super(props);
+        
         this.state = {mobile:'',password:''};
         this.changeMobile = this.changeMobile.bind(this);    //更改电话
         this.changePassword = this.changePassword.bind(this);    //更改密码
