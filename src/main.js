@@ -2,7 +2,7 @@
  * 后台主界面组件
  * @author yangyunlong
  */
-const {ipcRenderer} = window.require('electron');
+//const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import './main.css';
@@ -53,12 +53,12 @@ class Header extends Component {
                 <div id="main-hright">
                     <span id="main-feedback" onClick={this.toggleFeedback}>意见反馈</span>
                     <span id="main-password" onClick={this.toggleUpdatePassword}>修改密码</span>
-                    <input 
+                    {/* <input 
                         type="button" 
                         value="退出" 
                         id="main-logout"
                         onClick={() => {ipcRenderer.send('close-main','close');}}
-                    />
+                    /> */}
                 </div>
                 <FeedBack 
                     show={state.feedbackShow} 

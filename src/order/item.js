@@ -5,12 +5,28 @@
 import React, {Component} from 'react';
 import '../static/api';
 import Crumbs, {Tabs,Math} from '../static/UI';
+import low from 'lowdb';
+import LocalStorage from 'lowdb/adapters/LocalStorage';
+const adapter = new LocalStorage('db')
+const db = low(adapter)
 
 class Item extends Component {
     constructor(props) {
         super(props);
         this.state = {choose:0,tabs:[],data:[],items:[],count:0,isChanged:false};
         this.params = this.props.param.paramToObject();
+        // db.get('items').push({ id: 1, title: 'lowdb is awesome'}).write();
+        // db.get('items').push({ id: 2, title: 'lowdb is awesome'}).write();
+        // db.get('items').find({id : 2}).set('title', 'new set').write();
+        // db.set('items', []).write()
+        // console.log('db');
+        //  console.log(db.get('items'));
+        // console.log(db.get('items').value());
+        // console.log('db');
+        // console.log('params');
+        // console.log(this.params);
+
+        // console.log('params');
         this.id = this.params.id;
         this.crumbs = [{text:'订单处理',key:0,e:'order'},{text:'添加项目',key:1}];    //面包屑参数
         if ('undefined' !== typeof this.params.from && 'offline' == this.params.from) {
@@ -46,7 +62,7 @@ class Item extends Component {
                 }
             }
             this.setState({tabs:tempTabs,data:tempData,items:tempItems,count:count});
-            console.log(tempData);
+            //console.log(tempData);
         });
     }
     //项目加减回调方法
