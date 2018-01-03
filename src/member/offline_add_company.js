@@ -4,7 +4,7 @@
  */
 const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
-import '../static/api';
+import '../api';
 import Crumbs, {Search, PayMent} from '../static/UI';
 
 export default class OfflineAddCompany extends Component{

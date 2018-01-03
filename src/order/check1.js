@@ -5,7 +5,7 @@
 const {dialog} = window.require('electron').remote;
 const fs = window.require('fs');
 import React, {Component} from 'react';
-import '../static/api';
+import '../api';
 import Crumbs from '../static/UI';
 class Check extends Component {
     constructor(props) {

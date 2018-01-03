@@ -4,7 +4,7 @@
  */
 const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
-import './static/api';
+import './api';
 import './static/UI.css';
 export class FeedBack extends Component {
     constructor(props) {
@@ -19,7 +19,7 @@ export class FeedBack extends Component {
         this.setState({content:value,len:value.length});
     }
     onConfirm() {
-        axios.post(api.U('feedback'),api.data({token:this.props.token,content:this.state.content}))
+        axios.post(api.U('feedback'),api.D({token:this.props.token,content:this.state.content}))
         .then((response) => {
             if (api.verify(response.data)) {
                 this.setState({content:'',len:0});
@@ -92,7 +92,7 @@ export class UpdatePassword extends Component {
         if (state.newPassword !== state.confirmPassword) return;
         axios.post(
             api.U('updatePassword'),
-            api.data({
+            api.D({
                 token:props.token,                
                 new:state.newPassword,
                 old:state.oldPassword

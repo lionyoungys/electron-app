@@ -3,7 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../static/api';
+import '../api';
 import Crumbs, {Search} from '../static/UI';
 import md5 from 'md5';
 

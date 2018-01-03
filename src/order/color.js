@@ -3,7 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../static/api';
+import '../api';
 import Crumbs,{QCmenu,QCtextarea} from '../static/UI';
 import {colorConfig} from '../static/config';
 

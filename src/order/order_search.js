@@ -4,7 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import '../static/api';
+import '../api';
 import Crumbs, {Tabs,Search} from '../static/UI';
 
 export default class OrderSearch extends Component {

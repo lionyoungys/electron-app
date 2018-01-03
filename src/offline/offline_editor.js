@@ -3,7 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../static/api';
+import '../api';
 import Crumbs from '../static/UI';
 
 export default class OfflineEditor extends Component{

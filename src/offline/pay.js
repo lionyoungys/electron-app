@@ -4,7 +4,7 @@
  */
 const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
-import '../static/api';
+import '../api';
 import Crumbs,{Search2, PayMent} from '../static/UI';
 
 class Pay extends Component {

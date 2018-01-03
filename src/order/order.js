@@ -3,7 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../static/api';
+import '../api';
 import Crumbs, {Tabs,Search,CheckboxAlert,Notification} from '../static/UI';
 
 class Order extends Component {

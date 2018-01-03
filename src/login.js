@@ -1,31 +1,30 @@
 /**
- * 登录界面js
+ * 登录界面
  * @author yangyunlong
  */
 const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import './login.css';
-import './static/api';
-String.prototype.trim = function () {return this.replace(/(^\s*)|(\s*$)/g,'');};    //去除字符串中的空字符；
+import './api';
+String.prototype.trim = function () {return this.replace(/(^\s*)|(\s*$)/g,'')};    //去除字符串中的空字符；
 
 class Container extends Component {
     constructor(props) {
         super(props);
-        this.state = {notice:'',isShow:false,current:0};
+        this.state = {notice:'', isShow:false, current:0};
         this.timeOutID = null;
-        this.elements = [Login,Forgot];
-        this.onCloseRequest = this.onCloseRequest.bind(this);    //关闭窗口事件
+        this.elements = [Login, Forgot];
         this.noticeCallback = this.noticeCallback.bind(this);    //提示信息回调方法
-        this.changeView = this.changeView.bind(this);    //修改界面方法
     }
-    onCloseRequest() {ipcRenderer.send('login-msg','close');}
     noticeCallback(notice) {
         this.setState({isShow:true,notice:notice});
-        this.timeID = setTimeout(() => {this.setState({isShow:false});}, 3000);
+        this.timeID = setTimeout(
+            () => {this.setState({isShow:false});}, 
+            3000
+        );
     }
-    changeView(index) {this.setState({current:index});}
-    componentWillUnmount() {if (null !== this.timeOutID) clearTimeout(timeOutID);}
+    componentWillUnmount() {null !== this.timeOutID && clearTimeout(timeOutID);}
     render () {
         let state = this.state,
             E = this.elements[state.current];
@@ -35,8 +34,11 @@ class Container extends Component {
                     className='notice' 
                     style={{display:(state.isShow ? 'inline-block' : 'none')}}
                 >{state.notice}</div>
-                <em id='close' onClick={this.onCloseRequest}></em>
-                <E noticeCallback={this.noticeCallback} changeView={this.changeView}/>
+                <em id='close' onClick={() => ipcRenderer.send('login-msg','close')}></em>
+                <E 
+                    noticeCallback={this.noticeCallback}
+                    changeView={index => this.setState({current:index})}
+                />
             </section>
         );
     }
@@ -45,39 +47,21 @@ class Container extends Component {
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {mobile:'',password:'',code:'',captcha:'',unique:'',image:''};// 电话号 密码  验证码  captcha unique
-        this.changeMobile = this.changeMobile.bind(this);    //更改电话
-        this.changePassword = this.changePassword.bind(this);    //更改密码
-        this.onVerification =this.onVerification.bind(this);     //获取验证码
+        this.state = {mobile:'',password:'',code:'',captcha:'',unique:'',image:''};
+        this.captcha = this.captcha.bind(this);    //获取验证码
         this.onLoginRequest = this.onLoginRequest.bind(this);    //登录事件      
     }
     //初始化获取验证码
-    componentDidMount() {    	
-    	axios.get(api.U('Verification')).then((response) =>{
-    			 
-    			 if(response.data.msg=='SUCCESS'){
-    			 	let state = response.data.result.image
-    			 	let captcha = response.data.result.captcha
-    			 	let unique = response.data.result.unique
-    			 	this.setState({captcha:captcha,unique:unique,image:state});  
-    			 	console.log(state);
-    			 }
-    	})
+    componentDidMount() {this.captcha()}
+
+    captcha() {
+        axios.get(api.U('captcha'))
+        .then(response => {
+            let result = response.data.result;
+            this.setState({captcha:result.captcha, unique:result.unique, image:result.image});
+        });
     }
-    changeMobile(e) {this.setState({mobile:e.target.value.trim()});}
-    changePassword(e) {this.setState({password:e.target.value.trim()});}
-    //获取验证码
-    onVerification() {
-    	axios.get(api.U('Verification')).then((response) =>{
-    			 console.log(response);
-    			 if(response.data.msg=='SUCCESS'){
-    			 	let state = response.data.result.image
-    			 	let captcha = response.data.result.captcha
-    			 	let unique = response.data.result.unique
-    			 	this.setState({image:state,captcha:captcha,unique:unique});
-    			 }
-    	})
-    }
+    
     onLoginRequest() {
         let state = this.state;
         if (
@@ -89,7 +73,7 @@ class Login extends Component {
             && 
             !isNaN(state.mobile)
         ) {
-            axios.post(api.U('login'), api.data({mobile_number:state.mobile,passwd:state.password,code:state.code,captcha:state.captcha,unique:state.unique}))
+            axios.post(api.U('login'), api.D({mobile_number:state.mobile,passwd:state.password,code:state.code,captcha:state.captcha,unique:state.unique}))
             .then((response) => {
                 console.log(response);
                 let result = response.data;
@@ -115,22 +99,22 @@ class Login extends Component {
         return (
             <div className='login-container'>
                 <div style={{marginBottom:'12px'}}>
-                    <label className='label'>电&nbsp;话：</label>
+                    <label className='label'>电&emsp;话：</label>
                     <input 
                         type="text" 
                         value={state.mobile} 
                         autoFocus 
                         maxLength="11"
-                        onChange={this.changeMobile}
+                        onChange={e => this.setState({mobile:e.target.value.trim()})}
                         className='text'
                     />
                 </div>
                 <div style={{marginBottom:'14px'}}>
-                    <label className='label'>密&nbsp;码：</label>
+                    <label className='label'>密&emsp;码：</label>
                     <input 
                         type="password" 
                         value={state.password}
-                        onChange={this.changePassword}
+                        onChange={e => this.setState({password:e.target.value.trim()})}
                         className='text'
                     />
                 </div>
@@ -142,7 +126,7 @@ class Login extends Component {
                         onChange={e => this.setState({code:e.target.value.trim()})}
                         className='input3'
                     />
-                   <img src={state.image} onClick={this.onVerification} className='img'/>
+                   <img src={state.image} onClick={this.captcha} className='img'/>
                 </div>
                 <div style={{clear:'both',marginTop:'5px'}}>
                     <label className='label'></label>
@@ -195,7 +179,7 @@ class Forgot extends Component {
         }
         axios.post(
             api.U('forgot'),
-            api.data({
+            api.D({
                 mobile_number:state.mobile_number,
                 passwd:state.newPassword,                
                 sms_code:state.captcha               
@@ -216,7 +200,7 @@ class Forgot extends Component {
     getCaptcha() {
         let state = this.state;
         if ('获取验证码' !== state.msg || '' === state.mobile_number || isNaN(state.mobile_number)) return;
-        axios.post(api.U('forgotSendCode'),api.data({mobile_number:state.mobile_number}))
+        axios.post(api.U('forgotSendCode'),api.D({mobile_number:state.mobile_number}))
         .then((response) => {
         	console.log(response);
             if (api.verify(response.data)) {

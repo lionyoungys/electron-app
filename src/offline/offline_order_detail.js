@@ -3,7 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../static/api';
+import '../api';
 import Crumbs,{LightboxImage,BoxOfImages} from '../static/UI';
 const {ipcRenderer} = window.require('electron');
 

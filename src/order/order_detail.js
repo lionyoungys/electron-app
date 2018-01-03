@@ -4,7 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import '../static/api';
+import '../api';
 import Crumbs,{LightboxImage} from '../static/UI';
 
 export default class OrderDetail extends Component {

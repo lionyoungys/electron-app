@@ -3,7 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../static/api';
+import '../api';
 import Crumbs, {LayerDate} from '../static/UI';
 import Check from '../order/check';
 

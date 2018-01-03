@@ -6,7 +6,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import './main.css';
-import './static/api';
+import './api';
 import {MyChart} from './static/UI';
 import {FeedBack,UpdatePassword} from './main_layer';
 import menus from './menus';
@@ -93,7 +93,7 @@ class Main extends Component {
     }
     //获取店铺状态数据
     componentDidMount() {
-        axios.post(api.U('index'),api.data({token:this.props.token}))
+        axios.post(api.U('index'),api.D({token:this.props.token}))
         .then((response)=>{
         	console.log(response);
             let result = response.data.result;
@@ -107,7 +107,7 @@ class Main extends Component {
             });         
         });
         setInterval(() => {
-            axios.post(api.U('index'),api.data({token:this.props.token}))
+            axios.post(api.U('index'),api.D({token:this.props.token}))
             .then((response)=>{
                 let result = response.data.result;
                 this.setState({count:result.order_count});         
@@ -200,7 +200,7 @@ class Base extends Component {
         let status = this.state.status,
             pstatus = this.props.status,
             state = null == status ? (1 == pstatus ? 0 : 1) : (1 == status ? 0 : 1);
-        axios.post(api.U('statusSwitchover'),api.data({token:this.props.token,open:state}))
+        axios.post(api.U('statusSwitchover'),api.D({token:this.props.token,open:state}))
         .then((response) => {        	
             if (api.verify(response.data)) this.setState({status:state});
         });
@@ -320,7 +320,7 @@ class Index extends Component {
 //  componentDidMount() {
 //      axios.post(
 //          api.U('operate'),
-//          api.data({token:this.props.token})
+//          api.D({token:this.props.token})
 //      )
 //      .then((respones) => {
 //          let result = respones.data.data;
@@ -349,5 +349,5 @@ class Index extends Component {
    }
 }
 ReactDOM.render(<Header/>,document.getElementsByTagName('header')[0]);
-ReactDOM.render(<Main token={token}>item</Main>,document.getElementById('main'));
+ReactDOM.render(<Main token={token}>index</Main>,document.getElementById('main'));
 /* 样式原因，所有组件根节点都要使用div */

@@ -5,7 +5,7 @@
 const {dialog} = window.require('electron').remote;
 const fs = window.require('fs');
 import React, {Component} from 'react';
-import '../static/api';
+import '../api';
 export default class Check extends Component {
     constructor(props) {
         super(props);

@@ -3,7 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../static/api';
+import '../api';
 import Crumbs,{Starts,MyChart} from '../static/UI';
 
 export default class Operate extends Component {

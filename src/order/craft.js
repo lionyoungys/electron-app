@@ -3,7 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../static/api';
+import '../api';
 import Check from './check';
 import Crumbs, {Tabs, LayerDate} from '../static/UI';
 
