@@ -2,7 +2,7 @@ html,body,div,section,label,input{padding: 0;margin: 0;}
 input,button{outline: none;border:none;}
 body{font-size: 14px;}
 #root{-webkit-app-region: drag;}
-#close,input,.back,.forgot,.word,.word2,.protocol{-webkit-app-region: no-drag;}
+#close,input,.back,.forgot,.word,.word2,.protocol,img{-webkit-app-region: no-drag;}
 html,body,#root,.container{width: 100%;height: 100%;position: relative;}
 /* 关闭窗口样式 */
 #close{
@@ -10,7 +10,7 @@ html,body,#root,.container{width: 100%;height: 100%;position: relative;}
     position: fixed;top: 8px;right: 8px;
 }
 /* 登录界面容器 */
-.login-container{padding: 125px 0 0 104px;background: url(images/login-bg.jpg) no-repeat 0 0;};
+.login-container{padding:95px 0 0 104px;background: url(images/login-bg.jpg) no-repeat 0 0;};
 /* 忘记密码界面容器 */
 .forgot-container{padding: 62px 0 0 92px;background: url(images/forgot-bg.jpg) no-repeat 0 0;}
 .login-container,.forgot-container{
@@ -42,3 +42,19 @@ html,body,#root,.container{width: 100%;height: 100%;position: relative;}
 .word,.word2{font-size: 14px;color: #f83d18;display: inline-block;height: 26px;}
 .word2{color: #333cfa;margin-left: 8px;}
 .back{text-align: right;color: #002f69;padding: 3px 67px 0 0;}
+
+/*修改样式*/
+.input3{
+	display:block;
+	width:110px;height:26px;border: 1px solid rgb(167, 199, 230);
+    box-shadow: -1px -1px 1px rgb(171, 201, 231);
+    box-sizing: border-box;-webkit-box-sizing: border-box; 
+    float:left;  
+}
+.img{
+	display:block;
+	float:left;
+	width:70px;
+	height:26px;
+	margin-left:4px;
+}

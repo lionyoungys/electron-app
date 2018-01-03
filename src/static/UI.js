@@ -335,8 +335,7 @@ export class QCmenu extends Component {
         super(props);
         this.state = {isSpread:false};
         this.toggleState = this.toggleState.bind(this);    //切换展示样式
-        this.toggleChecked = this.toggleChecked.bind(this);    //取消／选中操作
-        
+        this.toggleChecked = this.toggleChecked.bind(this);    //取消／选中操作        
     }
     toggleState() {this.setState({isSpread:!this.state.isSpread});}
     toggleChecked(e) {
@@ -348,7 +347,6 @@ export class QCmenu extends Component {
         }
         target.classList.toggle('ui-checked');
     }
-
     render() {
         let props = this.props,
             state = this.state,

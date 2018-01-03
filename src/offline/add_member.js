@@ -26,42 +26,42 @@ class AddMember extends Component {
             btns: ['now', 'confirm'],
             theme:'#ff6e42',
             done:(value) => {this.setState({birthday:value})}
-        });
-        axios.post(api.U('getNewUcode'),api.data({token:this.props.token}))
-        .then((response) => {
-            this.setState({ucode:response.data.data.ucode});
-        });
+        });        
     }
-
-    toggleRadio(e) {this.setState({sex:e.target.innerText});console.log(this.state)}
+    
+    //生成一个会员
+    toggleRadio(e) {this.setState({sex:e.target.innerText});}
     handleChange(e) {this.setState({name:e.target.value});}
     done() {
         let state = this.state,
             props = this.props;
-        if ('' == state.name || '' == state.ucode || this.mobile.length != 11) return;
+        if ('' == state.name || this.mobile.length != 11) return;
         axios.post(
             api.U('addNewMember'),
             api.data({
-                token:props.token,
-                ucode:state.ucode,
+                token:props.token,                
                 uname:state.name,
                 sex:state.sex,
-                mobile:this.mobile,
-                birthday:state.birthday
+                umobile:this.mobile,
+                birthday:state.birthday,
+                reg_from:4
             })
         )
         .then((response) => {
+        	console.log(response);
             let result = response.data;
-            console.log(result);
-            if (api.verify(result)) {
-                let user = result.user;
-                axios.post(api.U('createOrder'),api.data({token:props.token,uid:user}))
-                .then((res) => {
-                    let orderId = res.data.data.order_id;
-                    props.changeView({element:'item',param:'id=' + orderId + '&from=offline'});
-                });
+            
+//          if (api.verify(result)) {
+//              let user = result.user;
+//              axios.post(api.U('createOrder'),api.data({token:props.token,uid:user}))
+//              .then((res) => {
+//                  let orderId = res.data.data.order_id;
+//                 
+//              });
+                props.changeView({element:'item'})
+                //props.changeView({element:'item',param:'id=' + orderId + '&from=offline'})
             }
-        });
+        )
 
     }
 
@@ -75,9 +75,6 @@ class AddMember extends Component {
                     此用户不是会员，请填写以下信息
                 </div>
                 <div style={{paddingTop:'40px',width:'401px',margin:'auto'}}>
-                    <div className='ui-box-between ui-add-member-row'>
-                        <span>编号:</span><span>{state.ucode}</span>
-                    </div>
                     <div className='ui-box-between ui-add-member-row'>
                         <span>姓名:</span>
                         <input 

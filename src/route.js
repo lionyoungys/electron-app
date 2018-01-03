@@ -93,4 +93,5 @@ export default {
     offline_editor:OfflineEditor,    //线下工艺加价编辑界面
     after:After,    //洗后预估界面
     online_editor:OnlineEditor,    //线上编辑界面
+    
 }

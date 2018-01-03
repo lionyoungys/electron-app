@@ -93,23 +93,24 @@ class Main extends Component {
     }
     //获取店铺状态数据
     componentDidMount() {
-        axios.post(api.U('index'),api.data({token:this.props.token,uid:uid}))
+        axios.post(api.U('index'),api.data({token:this.props.token}))
         .then((response)=>{
-            let result = response.data.data;
+        	console.log(response);
+            let result = response.data.result;
             this.setState({
                 name:result.mname,    //店铺名称
-                status:result.state,    //店铺状态
-                logo:'url(' +api.host+result.circle_logo+ ')',    //店铺头像
+                status:result.mstatus,    //店铺状态   10营业中，11休息
+                logo:result.mlogo,    //店铺头像
                 orders:result.will_dispose,    //店铺待处理订单数
-                amount:result.total,    //营业总额
+                amount:result.amount,    //今日营业总额
                 count:result.order_count    //有效订单
             });         
         });
         setInterval(() => {
-            axios.post(api.U('index'),api.data({token:this.props.token,uid:uid}))
+            axios.post(api.U('index'),api.data({token:this.props.token}))
             .then((response)=>{
-                let result = response.data.data;
-                this.setState({orders:result.will_dispose});         
+                let result = response.data.result;
+                this.setState({count:result.order_count});         
             });
         }, 60000);
     }
@@ -123,7 +124,6 @@ class Main extends Component {
         console.log(e.target);
         console.log(e.target.scrollTop);
     }*/
-
     handleContainerView(e) {    //右侧界面动态转换事件方法
         if ('undefined' === typeof e.target) {
             this.setState({e:e.element,param:e.param});
@@ -199,9 +199,9 @@ class Base extends Component {
         //操作当前店铺状态时，获取当前店铺状态并取反
         let status = this.state.status,
             pstatus = this.props.status,
-            state = null == status ? (1 == pstatus ? 3 : 1) : (1 == status ? 3 : 1);
-        axios.post(api.U('statusSwitchover'),api.data({token:this.props.token,state:state}))
-        .then((response) => {
+            state = null == status ? (1 == pstatus ? 0 : 1) : (1 == status ? 0 : 1);
+        axios.post(api.U('statusSwitchover'),api.data({token:this.props.token,open:state}))
+        .then((response) => {        	
             if (api.verify(response.data)) this.setState({status:state});
         });
     }
@@ -213,7 +213,7 @@ class Base extends Component {
             word = isOpen ? '营业中' : '暂停营业';
         return (
             <div id='main-base'>
-                <div id="main-logo" style={{backgroundImage:props.logo}}></div>
+                <div id="main-logo"><img src={props.logo} /></div>
                 <div id="main-name">{props.name}</div>
                 <div id="main-state" onClick={this.statusSwitchover} className={bg}>{word}</div>
             </div>
@@ -230,12 +230,12 @@ class Menu extends Component {
             len = auths.length;
         this.auths = [];
         this.authList = [];
-        for (let i = 0;i < len;++i) {
-            this.auths.push(authList[auths[i]]);
-        }
-        for (let k in authList) {
-            this.authList.push(authList[k]);
-        }
+//      for (let i = 0;i < len;++i) {
+//          this.auths.push(authList[auths[i]]);
+//      }
+//      for (let k in authList) {
+//          this.authList.push(authList[k]);
+//      }
         this.chooseMenu = this.chooseMenu.bind(this);
         this.isShowOnline = this.isShowOnline.bind(this);
         this.isShowItem = this.isShowItem.bind(this);
@@ -299,54 +299,55 @@ class Menu extends Component {
     }
 }
 //首页右侧展示
+    let  divList = [
+                 {sort:'收件',order:1,e:'take'},
+                 {sort:'入厂',order:2,e:'infactory'},
+                 {sort:'清洗',order:3,e:'offline_clean'},
+                 {sort:'烘干',order:4,e:'offline_drying'},
+                 {sort:'熨烫',order:5,e:'offline_ironing'},
+                 {sort:'质检',order:6,e:'offline_check'},
+                 {sort:'上挂',order:7,e:'registration'},
+                 {sort:'出厂',order:8,e:'outfactory'},
+                 {sort:'取衣',order:9,e:'offline_take'},
+                 {sort:'反流',order:10}
+    ]
 class Index extends Component {
     constructor(props) {
         super(props);
         this.state = {currentData:[],previousData:[]};
     }
-
-    componentDidMount() {
-        axios.post(
-            api.U('operate'),
-            api.data({token:this.props.token})
-        )
-        .then((respones) => {
-            let result = respones.data.data;
-            this.setState({
-                currentData:result.now_sum,
-                previousData:result.previous_sum,
-            });
-            console.log(result);
-        });
-    }
-
+    //经营分析状况
+//  componentDidMount() {
+//      axios.post(
+//          api.U('operate'),
+//          api.data({token:this.props.token})
+//      )
+//      .then((respones) => {
+//          let result = respones.data.data;
+//          this.setState({
+//              currentData:result.now_sum,
+//              previousData:result.previous_sum,
+//          });
+//          console.log(result);
+//      });
+//  }
     render() {
-        let props = this.props,
-            state = this.state,
-            count = props.count,
-            amount = props.amount,
-            amountArr = String(amount).split('.'),    //拆分价格显示
-            wordStyle = {marginTop:'40px',fontSize:'18px'};
-        if ('undefined' == typeof amountArr[1]) amountArr[1] = '00'
-        if ('undefined' == typeof amountArr[0] || null == amountArr[0]) amountArr[0] = '0'
-        return (
-            <div style={{padding: '30px 30px 0 30px'}}>
-                <section className='ui-content'>
-                    <MyChart current={state.currentData} previous={state.previousData}/>
-                </section>
-                <section className='main-word'>
-                    今日营业总额：
-                    <span className='main-word-larger'>{amountArr[0] + '.'}</span>
-                    <span>{amountArr[1]}</span>
-                </section>
-                <section className='main-word'>
-                    今日有效订单：<span className='main-word-larger'>{amount}</span>
-                </section>
-            </div>
-        );
-    }
+    	let comp = divList.map((elt)=>    		
+    		    <div onClick={this.props.changeView} data-e={elt.e}>{elt.sort}</div>     		        		    
+    	)
+    	return (
+    		<div >
+	    		<div id='list-div'>
+	    		   {comp}
+	    		</div>
+	    		<div className='members'>               
+		             <div order='11'>新建会员</div>
+		             <div order='12'>会员充值</div>
+	            </div>
+	        </div>
+    	)
+   }
 }
-
 ReactDOM.render(<Header/>,document.getElementsByTagName('header')[0]);
-ReactDOM.render(<Main token={token}>index</Main>,document.getElementById('main'));
+ReactDOM.render(<Main token={token}>item</Main>,document.getElementById('main'));
 /* 样式原因，所有组件根节点都要使用div */

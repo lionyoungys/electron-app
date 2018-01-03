@@ -24,34 +24,33 @@ class Take extends Component {
         if (word.match(reg) !== null) {
             axios.post(api.U('getUserInfo'), api.data({token:props.token,number:word}))
             .then((response) => {
-                let result = response.data;
-                console.log(result);
-                if (api.verify(result)) {
-                    let data = result.data;
+            	console.log(response)
+                let result = response.data.result;
+                 
+                if (api.verify(response.data)) {                    
                     this.setState({
-                        id:data.id,
-                        name:data.username,mobile:data.mobile,time:data.join_time,orders:data.orders,
-                        platformCard:data.platform_card.card_number,
-                        platformLevel:1 == data.platform_card.card_type ? '金牌会员卡' : '钻石会员卡',
-                        platformBalance:data.platform_card.card_sum,
-                        merchantCard:data.card_number,merchantLevel:data.card_name,
-                        merchantBalance:data.balance
+                    	code:response.data.code,
+                        id:result.id,
+                        name:result.uname,mobile:result.umobile,time:result.last_time,orders:result.orders,  //orders：订单列表
+                        platformCard:result.platform_card.cname,platformMoney:result.platform_card.cbalance,   //平台会员卡信息
+                        platformCard:result.merchant_card.cname,platformMoney:result.merchant_card.cbalance    //商家会员卡信息                     
                     });
                 } else {
                     props.changeView({element:'addMember',param:'mobile=' + word});
                 }
             });
-        }
-        console.log(word);
+        }        
     }
-
     next() {
-        if ('' == this.state.id) return;
-        axios.post(api.U('createOrder'),api.data({token:this.props.token,uid:this.state.id}))
-        .then((res) => {
-            let orderId = res.data.data.order_id;
-            this.props.changeView({element:'item',param:'id=' + orderId + '&from=offline'});
-        });
+//      if ('' == this.state.id) return;
+//      axios.post(api.U('createOrder'),api.data({token:this.props.token}))
+//      .then((response) => {
+//      	console.log(response)
+//          let orderId = response.data.data.order_id;
+//          
+//      });
+       // this.props.changeView({element:'item',param:'id=' + orderId + '&from=offline'});
+        props.changeView({element:'item'})
     }
 
     render () {
@@ -80,16 +79,14 @@ class Take extends Component {
                         </div>
                     </div>
                     <div className='ui-take-info-box'>
-                        <div className='ui-take-info-title'>会员卡信息:</div>
-                        <div className='ui-take-info-row'>会员卡号:{state.platformCard}</div>
-                        <div className='ui-take-info-row'>会员类型:{state.platformLevel}</div>
-                        <div className='ui-take-info-row'>会员卡余额:&yen;{'' == state.platformBalance ? 0 : state.platformBalance}</div>
+                        <div className='ui-take-info-title'>会员卡信息:</div>                        
+                        <div className='ui-take-info-row'>会员类型:{state.platformCard}</div>
+                        <div className='ui-take-info-row'>会员卡余额:&yen;{'' == state.platformMoney ? 0 : state.platformMoney}</div>
                     </div>
                     <div className='ui-take-info-box'>
-                        <div className='ui-take-info-title'>专店会员卡信息:</div>
-                        <div className='ui-take-info-row'>会员卡号:{state.merchantCard}</div>
-                        <div className='ui-take-info-row'>会员类型:{state.merchantLevel}</div>
-                        <div className='ui-take-info-row'>会员卡余额:&yen;{'' == state.merchantBalance ? 0 : state.merchantBalance}</div>
+                        <div className='ui-take-info-title'>专店会员卡信息:</div>                        
+                        <div className='ui-take-info-row'>会员类型:{state.platformCard}</div>
+                        <div className='ui-take-info-row'>会员卡余额:&yen;{'' == state.platformMoney ? 0 : state.platformMoney}</div>
                     </div>
                 </div>
                 <div style={{paddingTop:'58px',textAlign:'center'}}>

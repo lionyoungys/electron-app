@@ -66,7 +66,7 @@ export class FeedBack extends Component {
         );
     }
 }
-
+//修改密码
 export class UpdatePassword extends Component {
     constructor(props) {
         super(props);
@@ -93,16 +93,19 @@ export class UpdatePassword extends Component {
         axios.post(
             api.U('updatePassword'),
             api.data({
-                token:props.token,
-                uid:props.uid,
-                new_password:state.newPassword,
-                old_password:state.oldPassword
+                token:props.token,                
+                new:state.newPassword,
+                old:state.oldPassword
             })
         )
         .then((response) => {
-            console.log(response.data);
+            console.log(response);
             if (api.verify(response.data)) {
+            	
                 ipcRenderer.send('toggle-login','update');
+                
+            }else{
+            	alert('修改失败重新填写密码');
             }
         });
     }

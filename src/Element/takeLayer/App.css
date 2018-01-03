@@ -1,0 +1,6 @@
+/*固定弹框*/
+.fixed-cloth{width:729px;height:554px;overflow-y:scroll; position:fixed;top:300px;left:350px;border:1px solid #09b1b0; z-index:99;background:#FFFFFF;}
+.fixed-cloth span{display:block;width:731px;height:44px;color:#FFFFFF;line-height:44px;font-size:24px;text-indent:24px;background:#09b1b0;background-image:url(images/item-colY.png) right center;background-repeat:no-repeat;background-size:44px;                  }
+.fixed-cloth p{width:163px;height:76px;background:#fddecc;color:#333333;font-size:16px;float:left; display: block;text-align:center; line-height:38px;margin:8px 5px 5px 5px;position: relative;}
+.fixed-cloth p b{text-align:right;position:absolute;right:5px;bottom:0px;}
+.fixed-cloth .active-colth{background:#81d2fc;}
