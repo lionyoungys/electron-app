@@ -2,7 +2,7 @@
  * 后台主界面组件
  * @author yangyunlong
  */
-//const {ipcRenderer} = window.require('electron');
+
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import './main.css';
@@ -11,9 +11,6 @@ import {MyChart} from './static/UI';
 import {FeedBack,UpdatePassword} from './main_layer';
 import menus from './menus';
 import route from './route';
-//引入本地数据库
-//import low from 'lowdb';
-//import LocalStorage from 'lowdb/adapters/LocalStorage';
 
 const token = localStorage.getItem('token');
 const uid = localStorage.getItem('uid');
@@ -202,7 +199,7 @@ class Base extends Component {
             state = null == status ? (1 == pstatus ? 0 : 1) : (1 == status ? 0 : 1);
         axios.post(api.U('statusSwitchover'),api.D({token:this.props.token,open:state}))
         .then((response) => {        	
-            if (api.verify(response.data)) this.setState({status:state});
+            if (api.V(response.data)) this.setState({status:state});
         });
     }
     render() {
@@ -316,21 +313,7 @@ class Index extends Component {
         super(props);
         this.state = {currentData:[],previousData:[]};
     }
-    //经营分析状况
-//  componentDidMount() {
-//      axios.post(
-//          api.U('operate'),
-//          api.D({token:this.props.token})
-//      )
-//      .then((respones) => {
-//          let result = respones.data.data;
-//          this.setState({
-//              currentData:result.now_sum,
-//              previousData:result.previous_sum,
-//          });
-//          console.log(result);
-//      });
-//  }
+
     render() {
     	let comp = divList.map((elt)=>    		
     		    <div onClick={this.props.changeView} data-e={elt.e}>{elt.sort}</div>     		        		    

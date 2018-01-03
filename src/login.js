@@ -12,13 +12,13 @@ String.prototype.trim = function () {return this.replace(/(^\s*)|(\s*$)/g,'')}; 
 class Container extends Component {
     constructor(props) {
         super(props);
-        this.state = {notice:'', isShow:false, current:0};
+        this.state = {text:'', isShow:false, current:0};
         this.timeOutID = null;
         this.elements = [Login, Forgot];
-        this.noticeCallback = this.noticeCallback.bind(this);    //提示信息回调方法
+        this.notice = this.notice.bind(this);    //提示信息回调方法
     }
-    noticeCallback(notice) {
-        this.setState({isShow:true,notice:notice});
+    notice(text) {
+        this.setState({isShow:true,text:text});
         this.timeID = setTimeout(
             () => {this.setState({isShow:false});}, 
             3000
@@ -33,10 +33,10 @@ class Container extends Component {
                 <div 
                     className='notice' 
                     style={{display:(state.isShow ? 'inline-block' : 'none')}}
-                >{state.notice}</div>
+                >{state.text}</div>
                 <em id='close' onClick={() => ipcRenderer.send('login-msg','close')}></em>
                 <E 
-                    noticeCallback={this.noticeCallback}
+                    notice={this.notice}
                     changeView={index => this.setState({current:index})}
                 />
             </section>
@@ -74,21 +74,20 @@ class Login extends Component {
             !isNaN(state.mobile)
         ) {
             axios.post(api.U('login'), api.D({mobile_number:state.mobile,passwd:state.password,code:state.code,captcha:state.captcha,unique:state.unique}))
-            .then((response) => {
-                console.log(response);
+            .then(response => {
                 let result = response.data;
-                //console.log(result);
-                if (!api.verify(result)) {
+                console.log(result);
+                if (!api.V(result)) {
                     //验证错误时，提示登录信息错误
-                    this.props.noticeCallback(result.msg);                   
+                    this.props.notice(result.msg);                   
                 } else {
-                	localStorage.setItem('auth', result.quanli);
+                	localStorage.setItem( 'auth', JSON.stringify(result.auth) );
                 	localStorage.setItem('code', result.code);
                 	localStorage.setItem('root', result.root);
                 	localStorage.setItem('msg', result.msg);
                     localStorage.setItem('token', result.token);                    
-                 this.props.noticeCallback('登录成功');  
-                 ipcRenderer.send('login-msg','SUCCESS');
+                    this.props.notice('登录成功');  
+                    ipcRenderer.send('login-msg','SUCCESS');
                 }
             });
         }
@@ -175,7 +174,7 @@ class Forgot extends Component {
             '' === state.captcha
         ) return;
         if (state.newPassword !== state.confirmPassword) {
-            return this.props.noticeCallback('确认密码不一致');
+            return this.props.notice('确认密码不一致');
         }
         axios.post(
             api.U('forgot'),
@@ -188,11 +187,11 @@ class Forgot extends Component {
         
         .then((response) => {
         	console.log(response);
-            if (api.verify(response.data)) {
+            if (api.V(response.data)) {
             	
                 this.props.changeView(0);
             } else {
-                this.props.noticeCallback(response.data.msg);
+                this.props.notice(response.data.msg);
             }
         });
     }
@@ -203,7 +202,7 @@ class Forgot extends Component {
         axios.post(api.U('forgotSendCode'),api.D({mobile_number:state.mobile_number}))
         .then((response) => {
         	console.log(response);
-            if (api.verify(response.data)) {
+            if (api.V(response.data)) {
             	
                 this.setState({msg:'60s'});
                 this.intervalID = setInterval(
@@ -220,7 +219,7 @@ class Forgot extends Component {
                     1000
                 );
             } else {
-                this.props.noticeCallback(response.data.msg);
+                this.props.notice(response.data.msg);
             }
         }); 
     }
