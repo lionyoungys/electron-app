@@ -1,6 +1,52 @@
 /*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
 html{line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,footer,header,nav,section{display:block}h1{font-size:2em;margin:.67em 0}figcaption,figure,main{display:block}figure{margin:1em 40px}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}a{background-color:transparent;-webkit-text-decoration-skip:objects}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:inherit}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}dfn{font-style:italic}mark{background-color:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}audio,video{display:inline-block}audio:not([controls]){display:none;height:0}img{border-style:none}svg:not(:root){overflow:hidden}button,input,optgroup,select,textarea{font-family:sans-serif;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:.35em .75em .625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{display:inline-block;vertical-align:baseline}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details,menu{display:block}summary{display:list-item}canvas{display:inline-block}template{display:none}[hidden]{display:none}
-html,body,#root{height:100%;width:100%;max-width:1920px;max-height:1080px;min-width:800px;min-height:600px;background:#09b1b0;}
+
+.fa-lock{color: rgb(232, 192, 54);font-size: 26px;}
+.fa-pencil-square{color: rgb(181, 104, 247);font-size: 26px;}
+html,body,#root{height:100%;width:100%;min-width:800px;min-height:600px;}
+#root{background:#09b1b0;position: relative;}
+
+#main>header{
+    background: url(img/header.png) no-repeat 0 0;
+    background-size: 100% 100%;
+    height: 77px;
+    line-height: 77px;
+    width: 100%;
+    color: rgb(255, 255, 255);
+    position: absolute;top: 0;left: 0;z-index: 1;
+    display: flex;display: -webkit-flex;
+    justify-content: space-between;
+}
+#main>header>:first-child{margin-left: 28px;font-size: 28px;font-weight: bold;}
+#main>header>:last-child{margin-right: 28px;font-size: 16px;}
+#main>header>:last-child>span{cursor: pointer;vertical-align: middle;}
+#main>header>:last-child>span:first-of-type{margin-right: 40px;}
+
+#main>aside{
+    width: 181px;
+    height: 100%;
+    position: absolute;top: 0;left: 10px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    padding: 87px 0 10px;
+}
+#main>aside>:first-child{
+    width: 100%;height: 100%;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    border: 2px solid #038281;
+}
+
+#main{
+    width: 100%;height: 100%;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    padding: 87px 10px 10px 201px;
+}
+
+#main>:last-child{
+    width: 100%;height: 100%;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    border: 2px solid #038281;
+    background: #fff;
+}
 
 /* body,header,input,span,div,section,aside,dl,dt,dd,nav,table,tr,th,td,p,textarea{padding: 0;margin: 0}
 input,textarea,select{outline: none;border:none;}a{text-decoration: none;}em{font-style:normal;}
@@ -12,19 +58,12 @@ body{background:#09b1b0;cursor:pointer;} */
     content: "";height: 0;line-height: 0;display: block;visibility: hidden;clear: both;overflow: hidden;
 }
 /* css init end */
-body,#main,#main-sidebar,#main-container,#main-container>div,.main-selection,.main-option{
+body,#main-sidebar,#main-container,#main-container>div,.main-selection,.main-option{
     box-sizing: border-box;-webkit-box-sizing: border-box;
-    cursor:pointer;
+    /* cursor:pointer; */
 }
 /* flex样式设置 */
 #main-header,.main-selection{display: flex;display: -webkit-flex;}
-#main-header{
-    background: url(images/main-header.png) no-repeat 0 0;
-    height: 101px;background-size: 100% 100%;min-width: 1024px;
-    color: rgb(255, 255, 255);line-height: 101px;justify-content: space-between;
-}
-#main-hleft{font-size: 32px;font-weight: bold;height: 100px;padding-left: 28px;}    /*界面顶部左侧*/
-#main-hright{padding-right: 26px;font-size: 18px;}    /*界面顶部右侧*/
 #main-hright>span{margin-right: 50px;padding-left: 34px;padding-top: 6px;}
 #main-feedback{background: url(images/main-feedback.png) no-repeat;}    /*反馈*/
 #main-password{background: url(images/main-password.png) no-repeat;background-size: 25px 25px;}    /*修改密码*/
@@ -32,7 +71,7 @@ body,#main,#main-sidebar,#main-container,#main-container>div,.main-selection,.ma
 #main-logout{background:url(images/main-logout.png);color:#fff;width:71px;height:34px;font-size:18px;}
 
 /*界面主体*/
-#main{padding: 10px;height: calc(100% - 101px);min-width: 1024px;}
+/* #main{padding: 10px;height: calc(100% - 101px);min-width: 1024px;} */
 #main-sidebar,#main-container{background:rgb(255, 255, 255);border: 2px solid #038281;height: 100%;}
 /*主体左侧宽度*/
 #main-sidebar{width: 230px;min-width: 230px;}

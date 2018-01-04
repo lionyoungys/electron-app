@@ -45,19 +45,17 @@ class Header extends Component {
     render() {
         let state = this.state;
         return (
-            <div id='main-header'>
-                <div id="main-hleft">速洗达商家管理系统</div>
-                <div id="main-hright">
-                    <span id="main-feedback" onClick={this.toggleFeedback}>意见反馈</span>
-                    <span id="main-password" onClick={this.toggleUpdatePassword}>修改密码</span>
-                    {/* <input 
-                        type="button" 
-                        value="退出" 
-                        id="main-logout"
-                        onClick={() => {ipcRenderer.send('close-main','close');}}
-                    /> */}
+            <header>
+                <div>速洗达商家管理系统</div>
+                <div>      
+                    <span onClick={this.toggleFeedback}>
+                        <i className="fa fa-pencil-square"></i>&nbsp;意见反馈
+                    </span>
+                    <span onClick={this.toggleUpdatePassword}>
+                        <i className="fa fa-lock"></i>&nbsp;修改密码
+                    </span>
                 </div>
-                <FeedBack 
+                {/* <FeedBack 
                     show={state.feedbackShow} 
                     onCancelRequest={this.toggleFeedback} 
                     token={token}
@@ -67,8 +65,8 @@ class Header extends Component {
                     onCancelRequest={this.toggleUpdatePassword} 
                     token={token}
                     uid={uid}
-                />
-            </div>
+                /> */}
+            </header>
         );
     }
 }
@@ -77,7 +75,7 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name:null,status:null,logo:null,orders:null,amount:null,count:null,    //数据状态
+            name:null,status:null,logo:null,amount:null,count:null,    //数据状态
             option:null,  //菜单栏样式状态
             e:this.props.children,param:null    //右侧展示样式状态 附带参数
         };
@@ -87,18 +85,17 @@ class Main extends Component {
         this.elements = route;
         this.elements.index = Index;
         //this.handleScroll = this.handleScroll.bind(this);
+        this.toggle = this.toggle.bind(this);
     }
     //获取店铺状态数据
     componentDidMount() {
         axios.post(api.U('index'),api.D({token:this.props.token}))
-        .then((response)=>{
-        	console.log(response);
+        .then(response => {
             let result = response.data.result;
             this.setState({
                 name:result.mname,    //店铺名称
-                status:result.mstatus,    //店铺状态   10营业中，11休息
+                status:(10 == result.mstatus ? 1 : 0),    //店铺状态   10营业中，11休息
                 logo:result.mlogo,    //店铺头像
-                orders:result.will_dispose,    //店铺待处理订单数
                 amount:result.amount,    //今日营业总额
                 count:result.order_count    //有效订单
             });         
@@ -121,6 +118,14 @@ class Main extends Component {
         console.log(e.target);
         console.log(e.target.scrollTop);
     }*/
+    //营业状态切换
+    toggle() {
+        let status = (this.state.status ? 0 : 1);    //操作当前店铺状态时，获取当前店铺状态并取反
+        axios.post(api.U('toggle'),api.D({token:token,open:status}))
+        .then(response => {        	
+            if (api.V(response.data)) this.setState({status:status});
+        });
+    }
     handleContainerView(e) {    //右侧界面动态转换事件方法
         if ('undefined' === typeof e.target) {
             this.setState({e:e.element,param:e.param});
@@ -146,30 +151,27 @@ class Main extends Component {
             <Menu 
                 key={obj.id} 
                 id={obj.id} 
-                orders={state.orders}
+                count={state.count}
                 selection={obj.selection} 
                 options={obj.options} 
                 option={state.option}
                 changeView={this.handleContainerView}
             />
         );
-        const E = this.elements[state.e],    //展示指定视图组件
-              mainStyle = {
-                  height:'100%',width:'100%',
-                  display:'flex',display:'-webkit-flex',
-                  justifyContent:'space-between'
-              };
+        const E = this.elements[state.e];   //展示指定视图组件
         return (
-            <div style={mainStyle}>
+            <div id='main'>
+                <Header/>
                 {/* 左侧菜单栏容器 */}
-                <aside id='main-sidebar'>
-                     {/* 信息展示组件 */}
-                    <Base token={props.token} name={state.name} status={state.status} logo={state.logo}/>
-                    {/* 导航容器组件及导航栏视图组件 */}
-                    <div id='main-nav'>{menusList}</div>
+                <aside>
+                    <div>
+                        {/* 信息展示组件 */}
+                        <Base name={state.name} status={state.status} logo={state.logo} toggle={this.toggle}/>
+                        {/* 导航容器组件及导航栏视图组件 */}
+                        <div id='main-nav'>{menusList}</div>
+                    </div>
                 </aside>
                 {/* 右侧视图容器 */}
-                <div id='main-container'>
                     {/* 视图组件 */}
                     <E 
                         token={props.token} 
@@ -180,39 +182,24 @@ class Main extends Component {
                         changeView={this.handleContainerView}
                         branch={branch}
                     />
-                </div>
             </div>
         );
     }
 }
 //侧边栏信息状态视图组件
 class Base extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {status:null};
-        this.statusSwitchover = this.statusSwitchover.bind(this);
-    }
-    statusSwitchover() {
-        //操作当前店铺状态时，获取当前店铺状态并取反
-        let status = this.state.status,
-            pstatus = this.props.status,
-            state = null == status ? (1 == pstatus ? 0 : 1) : (1 == status ? 0 : 1);
-        axios.post(api.U('statusSwitchover'),api.D({token:this.props.token,open:state}))
-        .then((response) => {        	
-            if (api.V(response.data)) this.setState({status:state});
-        });
-    }
+    constructor(props) {super(props)}
     render() {
-        let props = this.props,
-            status = this.state.status,
-            isOpen = null == status ? (1 == props.status) : (1 == status),
-            bg = isOpen ? 'main-open' : 'main-close',
-            word = isOpen ? '营业中' : '暂停营业';
+        let props = this.props;
         return (
             <div id='main-base'>
                 <div id="main-logo"><img src={props.logo} /></div>
                 <div id="main-name">{props.name}</div>
-                <div id="main-state" onClick={this.statusSwitchover} className={bg}>{word}</div>
+                <div 
+                    id="main-state" 
+                    onClick={props.toggle} 
+                    className={props.status ? 'main-open' : 'main-close'}
+                >{props.status ? '营业中' : '休息中'}</div>
             </div>
         );
     }
@@ -331,6 +318,6 @@ class Index extends Component {
     	)
    }
 }
-ReactDOM.render(<Header/>,document.getElementsByTagName('header')[0]);
-ReactDOM.render(<Main token={token}>index</Main>,document.getElementById('main'));
+//ReactDOM.render(<Header/>,document.getElementsByTagName('header')[0]);
+ReactDOM.render(<Main token={token}>index</Main>,document.getElementById('root'));
 /* 样式原因，所有组件根节点都要使用div */
