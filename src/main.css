@@ -1,12 +1,14 @@
 /*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
 html{line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,footer,header,nav,section{display:block}h1{font-size:2em;margin:.67em 0}figcaption,figure,main{display:block}figure{margin:1em 40px}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}a{background-color:transparent;-webkit-text-decoration-skip:objects}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:inherit}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}dfn{font-style:italic}mark{background-color:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}audio,video{display:inline-block}audio:not([controls]){display:none;height:0}img{border-style:none}svg:not(:root){overflow:hidden}button,input,optgroup,select,textarea{font-family:sans-serif;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:.35em .75em .625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{display:inline-block;vertical-align:baseline}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details,menu{display:block}summary{display:list-item}canvas{display:inline-block}template{display:none}[hidden]{display:none}
-
+/* font-awesome颜色样式修改 */
 .fa-lock{color: rgb(232, 192, 54);font-size: 26px;}
 .fa-pencil-square{color: rgb(181, 104, 247);font-size: 26px;}
-
+.fa-sort-desc{color: rgb(71, 92, 92);font-size: 30px;}
+.fa-sort-asc{color: rgb(71, 92, 92);font-size: 30px;}
+/* 根节点样式 */
 html,body,#root{height:100%;width:100%;min-width:800px;min-height:600px;}
 #root{background:#09b1b0;position: relative;}
-
+/* 界面顶部样式 */
 #main>header{
     background: url(img/header.png) no-repeat 0 0;
     background-size: 100% 100%;
@@ -22,7 +24,7 @@ html,body,#root{height:100%;width:100%;min-width:800px;min-height:600px;}
 #main>header>:last-child{margin-right: 28px;font-size: 16px;}
 #main>header>:last-child>span{cursor: pointer;vertical-align: middle;}
 #main>header>:last-child>span:first-of-type{margin-right: 40px;}
-
+/* 界面左侧side bar 样式 */
 #main>aside{
     width: 181px;
     height: 100%;
@@ -36,7 +38,7 @@ html,body,#root{height:100%;width:100%;min-width:800px;min-height:600px;}
     border: 2px solid #038281;
     position: relative;
 }
-/*主体左侧顶部展示*/
+/*界面左侧side bar顶部样式*/
 #status{
     width: 100%;height: 190px;
     position: absolute;top: 0;left: 0;
@@ -60,7 +62,34 @@ html,body,#root{height:100%;width:100%;min-width:800px;min-height:600px;}
 }
 .toggle-on{background-image: url(img/toggle-on.png);padding-right: 42px;}
 .toggle-off{background-image: url(img/toggle-off.png);padding-right: 42px;}
+/*界面左侧side bar菜单样式*/
+#menu{
+    height: 100%;width: 100%;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    padding-top: 190px;
+    background: #fff;
+    overflow-y: auto;
+}
+#menu>dl{margin: 0;padding: 0;}
+#menu>dl>dt{
+    background: url(img/menu.png);background-size:100% 100%;
+    font-size: 18px;height: 45px;line-height: 45px;padding: 0 20px;
+    /* justify-content: space-between;cursor: default; */
+}
+#menu>dl>dd{padding: 13px 0 5px 0;font-size: 16px;cursor: default;}
+/*主体左侧导航展示*/
+/*.main-option{padding: 13px 22px 5px 40px;font-size: 16px;cursor: default;} */
+.main-option>div{padding: 0 22px 0 40px;}
+.main-option>div:hover{background:#a6f6fd;cursor:pointer;}
+.main-option>div>nav{line-height:22px;margin-bottom:8px;padding-left:16px;}
+.main-shrink{background: url(images/main-shrink.png);}    /*选单收缩*/
+.main-spread{background: url(images/main-spread.png);}    /*选单展开*/
+#order,#finance,#manage{padding-left: 28px;font-style: normal;}
+#order{background: url(img/order.png) no-repeat left center;}    /*线上订单*/
+#finance{background: url(img/finance.png) no-repeat left center;}    /*线下收银*/
+#manage{background: url(img/manage.png) no-repeat left center;}    /*商家管理*/
 
+/* 主容器样式 */
 #main{
     width: 100%;height: 100%;
     box-sizing: border-box;-webkit-box-sizing: border-box;
@@ -96,34 +125,15 @@ body{background:#09b1b0;cursor:pointer;} */
 #main-logout{background:url(images/main-logout.png);color:#fff;width:71px;height:34px;font-size:18px;}
 
 
-/*主体左侧导航展示*/
-#main-nav{height:calc(100% - 228px);background:#fff;overflow: auto;}
-.main-selection{
-    background: url(images/main-option.png);background-size:100% 100%;
-    font-size: 18px;height: 45px;line-height: 45px;padding: 0 25px 0 25px;
-    justify-content: space-between;cursor: default;
-}
-/*.main-option{padding: 13px 22px 5px 40px;font-size: 16px;cursor: default;} */
-.main-option{padding: 13px 0 5px 0;font-size: 16px;cursor: default;}
-.main-option>div{padding: 0 22px 0 40px;}
-.main-option>div:hover{background:#a6f6fd;cursor:pointer;}
-.main-option>div>nav{line-height:22px;margin-bottom:8px;padding-left:16px;}
-
 /* 提示数字小标样式 */
 .main-tag{
     font-size:14px;color:#ffffff;background:#ff6d44;
     height:22px;float:right;padding:0 8px;border-radius:50px;
 }
-.main-shrink{background: url(images/main-shrink.png);}    /*选单收缩*/
-.main-spread{background: url(images/main-spread.png);}    /*选单展开*/
 .main-chosen{background: url(images/main-chosen.png) no-repeat center left;color: red;}    /*导航选中效果*/
 .main-shrink,.main-spread{
     background-position:center right;background-repeat:no-repeat;height:100%;width:18px;
 }
-#order{background: url(images/main-order.png);}    /*线上订单*/
-#finance{background: url(images/main-finance.png)}    /*线下收银*/
-#manage{background: url(images/main-manage.png)}    /*商家管理*/
-#order,#finance,#manage{background-position:center left;background-repeat:no-repeat;padding-left: 30px;}
 /* 右侧index页面文字样式 */
 .main-word{margin-top:40px;font-size:18px;}
 .main-word-larger{font-size: 24px;}

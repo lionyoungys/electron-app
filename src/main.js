@@ -16,20 +16,6 @@ const token = localStorage.getItem('token'),
       auth = localStorage.getItem('auth'),
       isRoot = localStorage.getItem('is_root'),
       branch = 'master';    //当前项目分支
-const authList = {
-    '100':'线上订单',
-    '1':'收衣',
-    '2':'入厂',
-    '3':'送洗',
-    '4':'烘干',
-    '5':'熨烫',
-    '6':'质检',
-    '7':'上挂',
-    '8':'出厂',
-    '9':'取衣',
-    '10':'业务统计',
-    '11':'会员管理'
-};    //权限分配列表
 
 //界面头部组件
 class Header extends Component {
@@ -87,7 +73,6 @@ class Main extends Component {
     componentDidMount() {
         axios.post(api.U('index'),api.D({token:token}))
         .then(response => {
-
             let result = response.data.result;
             this.setState({
                 name:result.mname,    //店铺名称
@@ -107,7 +92,7 @@ class Main extends Component {
     }
 
     componentWillUnmount() {
-        if (null !== this.interval) clearInterval(this.interval);
+        null !== this.interval && clearInterval(this.interval);
     }
     //营业状态切换
     toggle() {
@@ -138,12 +123,12 @@ class Main extends Component {
     render() {
         let state = this.state,
             props = this.props,
-            menusList = menus.map((obj) =>     //创建多个菜单组件
+            list = menus.map((obj) =>     //创建多个菜单组件
             <Menu 
-                key={obj.id} 
-                id={obj.id} 
+                key={obj.id}
+                id={obj.id}
+                text={obj.text}
                 count={state.count}
-                selection={obj.selection} 
                 options={obj.options} 
                 option={state.option}
                 changeView={this.handleContainerView}
@@ -159,7 +144,7 @@ class Main extends Component {
                         {/* 信息展示组件 */}
                         <Status name={state.name} status={state.status} logo={state.logo} toggle={this.toggle}/>
                         {/* 导航容器组件及导航栏视图组件 */}
-                        <div id='main-nav'>{menusList}</div>
+                        <div id='menu'>{list}</div>
                     </div>
                 </aside>
                 {/* 右侧视图容器 */}
@@ -193,41 +178,27 @@ class Status extends Component {
         );
     }
 }
-//菜单视图组件
+//侧边栏菜单视图组件
 class Menu extends Component {
     constructor(props) {
         super(props);
-        this.state = {isSpread:false}
-        this.isBoss = ('1' == isRoot);
-        this.chooseMenu = this.chooseMenu.bind(this);
-        this.isShowOnline = this.isShowOnline.bind(this);
+        this.state = {isUp:true}
     }
 
-    isShowOnline(value) {
-        if ('线上订单' == value) {
-            if (this.isBoss || -1 != '线上订单'.inArray(this.auths)) return null;
-            return {display:'none'};
-        }
-        return null;
-    }
-
-
-    chooseMenu(e) {this.setState({isSpread:!this.state.isSpread});}
     render() {
         let props = this.props,
-            isSpread = this.state.isSpread,
-            sel = props.selection,
+            isUp = this.state.isUp,
             opt = props.options,
-            isShowOrders = 'order' == sel.id && props.orders > 0,
-            status = isSpread ? 'main-spread' : 'main-shrink',    //判断当前大选项是否为选中状态
-            optStatus = {display:isSpread ? 'block' : 'none'},
+            isShowOrders = 'order' == props.id && props.orders > 0,
+            status = isUp ? 'main-spread' : 'main-shrink',    //判断当前大选项是否为选中状态
+            optStatus = {display:isUp ? 'block' : 'none'},
             items = opt.map((obj) => 
                 //创建多个选项
-                <div key={obj.id}>
+                <div key={obj.key}>
                     <nav  
-                        data-option={obj.id} 
-                        data-e={obj.e}
-                        className={props.option == obj.id ? 'main-chosen' : null} 
+                        data-option={obj.key} 
+                        data-e={obj.key}
+                        className={props.option == obj.key ? 'main-chosen' : null} 
                         onClick={props.changeView}
                     >
                         {obj.text}
@@ -237,13 +208,9 @@ class Menu extends Component {
             );
         return (
             <dl>
-                <dt 
-                    onClick={this.chooseMenu} 
-                    className='main-selection'
-                    style={this.isShowOnline(sel.text)}
-                >
-                    <div id={sel.id}>{sel.text}</div>
-                    <div className={status} onClick={this.chooseMenu}></div>
+                <dt onClick={() => this.setState({isUp:!this.state.isUp})}>
+                    <i id={props.id}>{props.text}</i>
+                    <i className={'fa ' + (isUp ? 'fa-sort-asc' : 'fa-sort-desc')}></i>
                 </dt>
                 <dd className='main-option' style={optStatus}>{items}</dd>
             </dl>

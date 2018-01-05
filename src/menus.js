@@ -4,53 +4,44 @@
  */
 export default [
     {
-        id:1,
-        selection:{
-            id:'order',
-            text:'线上订单'
-        },
+        id:'order',
+        text:'线上订单',
         options:[
-            {id:101, text:'订单查询',e:'order_search'},
-            {id:102, text:'订单处理',e:'order'}
+            {text:'订单查询',key:'order_search'},
+            {text:'订单处理',key:'order'}
         ]
     },
     {
-        id:2,
-        selection:{
-            id:'finance',
-            text:'线下收银'
-        },
+        id:'finance',
+        text:'线下收银',
         options:[
-            {id:201, text:'收衣',e:'take'},
-            {id:202, text:'入厂',e:'infactory'},
-            {id:203, text:'送洗',e:'offline_clean'},
-            {id:204, text:'烘干',e:'offline_drying'},
-            {id:205, text:'熨烫',e:'offline_ironing'},
-            {id:206, text:'质检',e:'offline_check'},
-            {id:207, text:'上挂',e:'registration'},
-            {id:208, text:'出厂',e:'outfactory'},
-            {id:209, text:'取衣',e:'offline_take'},
-            {id:210, text:'会员管理',e:'member_manage'},
-            {id:211, text:'业务统计',e:'offline_statistic'}
+            {text:'收衣',key:'take'},
+            {text:'入厂',key:'infactory'},
+            {text:'送洗',key:'offline_clean'},
+            {text:'烘干',key:'offline_drying'},
+            {text:'熨烫',key:'offline_ironing'},
+            {text:'质检',key:'offline_check'},
+            {text:'上挂',key:'registration'},
+            {text:'出厂',key:'outfactory'},
+            {text:'取衣',key:'offline_take'},
+            {text:'会员管理',key:'member_manage'},
+            {text:'业务统计',key:'offline_statistic'}
         ]
     },
     {
-        id:3,
-        selection:{
-            id:'manage',
-            text:'商家管理'
-        },
+        id:'manage',
+        text:'商家管理',
         options:[
-            {id:301, text:'商品管理',e:'goods'},
-            {id:302, text:'财务对账',e:'finance'},
-            {id:303, text:'经营分析',e:'operate'},
-            {id:304, text:'员工管理',e:'clerk_manage'},
-            {id:305, text:'返现记录',e:'award'},
-            {id:306, text:'消息通知',e:'message'},
-            {id:307, text:'用户评价',e:'appraise'},
-            {id:308, text:'门店信息',e:'info'},
-            {id:309, text:'合作门店',e:'teamwork'},
-            {id:310, text:'制作代金券',e:'voucher'}
+            {text:'商品管理',key:'goods'},
+            {text:'财务对账',key:'finance'},
+            {text:'经营分析',key:'operate'},
+            {text:'员工管理',key:'clerk_manage'},
+            {text:'返现记录',key:'award'},
+            {text:'消息通知',key:'message'},
+            {text:'用户评价',key:'appraise'},
+            {text:'门店信息',key:'info'},
+            {text:'合作门店',key:'teamwork'},
+            {text:'制作代金券',key:'voucher'}
         ]
     }
 ];
