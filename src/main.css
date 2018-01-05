@@ -3,6 +3,7 @@ html{line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}bo
 
 .fa-lock{color: rgb(232, 192, 54);font-size: 26px;}
 .fa-pencil-square{color: rgb(181, 104, 247);font-size: 26px;}
+
 html,body,#root{height:100%;width:100%;min-width:800px;min-height:600px;}
 #root{background:#09b1b0;position: relative;}
 
@@ -33,7 +34,32 @@ html,body,#root{height:100%;width:100%;min-width:800px;min-height:600px;}
     width: 100%;height: 100%;
     box-sizing: border-box;-webkit-box-sizing: border-box;
     border: 2px solid #038281;
+    position: relative;
 }
+/*主体左侧顶部展示*/
+#status{
+    width: 100%;height: 190px;
+    position: absolute;top: 0;left: 0;
+    background: #a7efef;
+}
+#status>div{text-align: center;}
+#status>:first-child{margin:20px 0;height: 80px;}
+#status>:first-child>img{width: 80px;height: 80px;}
+#status>:nth-child(2){margin-bottom: 16px;font-size: 14px;color:black;}
+.toggle{
+    height: 20px;
+    display: inline-block;
+    line-height: 20px;
+    font-size: 14px;
+    font-style: normal;
+    color: #ff6f43;
+    background-position: right center;
+    background-repeat: no-repeat;
+    background-size: 40px 20px;
+    cursor: pointer;
+}
+.toggle-on{background-image: url(img/toggle-on.png);padding-right: 42px;}
+.toggle-off{background-image: url(img/toggle-off.png);padding-right: 42px;}
 
 #main{
     width: 100%;height: 100%;
@@ -46,6 +72,7 @@ html,body,#root{height:100%;width:100%;min-width:800px;min-height:600px;}
     box-sizing: border-box;-webkit-box-sizing: border-box;
     border: 2px solid #038281;
     background: #fff;
+    position: relative;
 }
 
 /* body,header,input,span,div,section,aside,dl,dt,dd,nav,table,tr,th,td,p,textarea{padding: 0;margin: 0}
@@ -58,42 +85,17 @@ body{background:#09b1b0;cursor:pointer;} */
     content: "";height: 0;line-height: 0;display: block;visibility: hidden;clear: both;overflow: hidden;
 }
 /* css init end */
-body,#main-sidebar,#main-container,#main-container>div,.main-selection,.main-option{
+.main-selection,.main-option{
     box-sizing: border-box;-webkit-box-sizing: border-box;
-    /* cursor:pointer; */
 }
 /* flex样式设置 */
-#main-header,.main-selection{display: flex;display: -webkit-flex;}
-#main-hright>span{margin-right: 50px;padding-left: 34px;padding-top: 6px;}
+.main-selection{display: flex;display: -webkit-flex;}
 #main-feedback{background: url(images/main-feedback.png) no-repeat;}    /*反馈*/
 #main-password{background: url(images/main-password.png) no-repeat;background-size: 25px 25px;}    /*修改密码*/
 /*退出登录*/
 #main-logout{background:url(images/main-logout.png);color:#fff;width:71px;height:34px;font-size:18px;}
 
-/*界面主体*/
-/* #main{padding: 10px;height: calc(100% - 101px);min-width: 1024px;} */
-#main-sidebar,#main-container{background:rgb(255, 255, 255);border: 2px solid #038281;height: 100%;}
-/*主体左侧宽度*/
-#main-sidebar{width: 230px;min-width: 230px;}
-/*主体右侧宽度*/
-#main-container{width: calc(100% - 240px);min-width: 800px;}
-#main-container>div{width:100%;height: 100%;overflow: auto;position: relative;}
-#main-sidebar,#main-container{min-height: 600px;}
-/*主体左侧顶部展示*/
-#main-base{
-    display:flex;display:-webkit-flex;flex-direction:column;align-items:center;
-    padding-top: 26px;height: 202px;
-    background: #a7efef;
-}
-#main-logo{height: 88px;width: 88px;margin-bottom:16px;}
-#main-logo img{display:block;width:88px;height:88px;}
-#main-name{margin-bottom: 16px;font-size: 22px;color: #242424;}
-#main-state{
-    font-size: 18px;color: #ff6f43;height: 27px;line-height: 27px;
-    padding-right: 60px;background-repeat:no-repeat;background-position:center right;
-}
-.main-open{background-image: url(images/main-open.png)}
-.main-close{background-image: url(images/main-close.png)}
+
 /*主体左侧导航展示*/
 #main-nav{height:calc(100% - 228px);background:#fff;overflow: auto;}
 .main-selection{

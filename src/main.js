@@ -12,10 +12,10 @@ import {FeedBack,UpdatePassword} from './main_layer';
 import menus from './menus';
 import route from './route';
 
-const token = localStorage.getItem('token');
-const uid = localStorage.getItem('uid');
-const auth = localStorage.getItem('auth');
-const role = localStorage.getItem('role');
+const token = localStorage.getItem('token'),
+      auth = localStorage.getItem('auth'),
+      isRoot = localStorage.getItem('is_root'),
+      branch = 'master';    //当前项目分支
 const authList = {
     '100':'线上订单',
     '1':'收衣',
@@ -30,7 +30,6 @@ const authList = {
     '10':'业务统计',
     '11':'会员管理'
 };    //权限分配列表
-const branch = 'master';
 
 //界面头部组件
 class Header extends Component {
@@ -77,20 +76,18 @@ class Main extends Component {
         this.state = {
             name:null,status:null,logo:null,amount:null,count:null,    //数据状态
             option:null,  //菜单栏样式状态
-            e:this.props.children,param:null    //右侧展示样式状态 附带参数
+            e:'index',param:null    //右侧展示样式状态 附带参数
         };
+        route.index = Index;
         this.interval = null;
         this.handleContainerView = this.handleContainerView.bind(this);
-        //注册组件列表
-        this.elements = route;
-        this.elements.index = Index;
-        //this.handleScroll = this.handleScroll.bind(this);
         this.toggle = this.toggle.bind(this);
     }
     //获取店铺状态数据
     componentDidMount() {
-        axios.post(api.U('index'),api.D({token:this.props.token}))
+        axios.post(api.U('index'),api.D({token:token}))
         .then(response => {
+
             let result = response.data.result;
             this.setState({
                 name:result.mname,    //店铺名称
@@ -101,7 +98,7 @@ class Main extends Component {
             });         
         });
         setInterval(() => {
-            axios.post(api.U('index'),api.D({token:this.props.token}))
+            axios.post(api.U('index'),api.D({token:token}))
             .then((response)=>{
                 let result = response.data.result;
                 this.setState({count:result.order_count});         
@@ -110,14 +107,8 @@ class Main extends Component {
     }
 
     componentWillUnmount() {
-        if (null !== this.interval) {
-            clearInterval(this.interval);
-        }
+        if (null !== this.interval) clearInterval(this.interval);
     }
-    /*handleScroll(e) {
-        console.log(e.target);
-        console.log(e.target.scrollTop);
-    }*/
     //营业状态切换
     toggle() {
         let status = (this.state.status ? 0 : 1);    //操作当前店铺状态时，获取当前店铺状态并取反
@@ -158,7 +149,7 @@ class Main extends Component {
                 changeView={this.handleContainerView}
             />
         );
-        const E = this.elements[state.e];   //展示指定视图组件
+        let E = route[state.e];   //展示指定视图组件
         return (
             <div id='main'>
                 <Header/>
@@ -166,7 +157,7 @@ class Main extends Component {
                 <aside>
                     <div>
                         {/* 信息展示组件 */}
-                        <Base name={state.name} status={state.status} logo={state.logo} toggle={this.toggle}/>
+                        <Status name={state.name} status={state.status} logo={state.logo} toggle={this.toggle}/>
                         {/* 导航容器组件及导航栏视图组件 */}
                         <div id='main-nav'>{menusList}</div>
                     </div>
@@ -174,10 +165,7 @@ class Main extends Component {
                 {/* 右侧视图容器 */}
                     {/* 视图组件 */}
                     <E 
-                        token={props.token} 
-                        uid={uid}
-                        amount={state.amount} 
-                        count={state.count} 
+                        token={token} 
                         param={state.param}
                         changeView={this.handleContainerView}
                         branch={branch}
@@ -187,19 +175,20 @@ class Main extends Component {
     }
 }
 //侧边栏信息状态视图组件
-class Base extends Component {
+class Status extends Component {
     constructor(props) {super(props)}
     render() {
-        let props = this.props;
+        let props = this.props,
+            word = ( props.status ? '营业中' : '休息中' ),
+            style = ( "toggle " + (props.status ? 'toggle-on' : 'toggle-off') ),
+            handle = ( 1 == isRoot ? props.toggle : null );
         return (
-            <div id='main-base'>
-                <div id="main-logo"><img src={props.logo} /></div>
-                <div id="main-name">{props.name}</div>
-                <div 
-                    id="main-state" 
-                    onClick={props.toggle} 
-                    className={props.status ? 'main-open' : 'main-close'}
-                >{props.status ? '营业中' : '休息中'}</div>
+            <div id='status'>
+                <div><img src={props.logo}/></div>
+                <div>{props.name}</div>
+                <div onClick={handle}>
+                    {1 == isRoot ? <i className={style}>{word}</i> : <i className="toggle">{word}</i>}
+                </div>
             </div>
         );
     }
@@ -209,20 +198,9 @@ class Menu extends Component {
     constructor(props) {
         super(props);
         this.state = {isSpread:false}
-        this.isBoss = ('1' == role);
-        let auths = ('' != auth) ? auth.split(',') : [],
-            len = auths.length;
-        this.auths = [];
-        this.authList = [];
-//      for (let i = 0;i < len;++i) {
-//          this.auths.push(authList[auths[i]]);
-//      }
-//      for (let k in authList) {
-//          this.authList.push(authList[k]);
-//      }
+        this.isBoss = ('1' == isRoot);
         this.chooseMenu = this.chooseMenu.bind(this);
         this.isShowOnline = this.isShowOnline.bind(this);
-        this.isShowItem = this.isShowItem.bind(this);
     }
 
     isShowOnline(value) {
@@ -230,15 +208,6 @@ class Menu extends Component {
             if (this.isBoss || -1 != '线上订单'.inArray(this.auths)) return null;
             return {display:'none'};
         }
-        return null;
-    }
-
-    isShowItem(value) {
-        if (!this.isBoss) {
-            if (-1 !== value.inArray(this.authList) && -1 == value.inArray(this.auths)) {
-                return {display:'none'};
-            }
-        } 
         return null;
     }
 
@@ -260,7 +229,6 @@ class Menu extends Component {
                         data-e={obj.e}
                         className={props.option == obj.id ? 'main-chosen' : null} 
                         onClick={props.changeView}
-                        style={this.isShowItem(obj.text)}
                     >
                         {obj.text}
                         {isShowOrders && '订单处理' == obj.text? <em className='main-tag'>{props.orders}</em> : ''}
@@ -282,19 +250,7 @@ class Menu extends Component {
         );
     }
 }
-//首页右侧展示
-    let  divList = [
-                 {sort:'收件',order:1,e:'take'},
-                 {sort:'入厂',order:2,e:'infactory'},
-                 {sort:'清洗',order:3,e:'offline_clean'},
-                 {sort:'烘干',order:4,e:'offline_drying'},
-                 {sort:'熨烫',order:5,e:'offline_ironing'},
-                 {sort:'质检',order:6,e:'offline_check'},
-                 {sort:'上挂',order:7,e:'registration'},
-                 {sort:'出厂',order:8,e:'outfactory'},
-                 {sort:'取衣',order:9,e:'offline_take'},
-                 {sort:'反流',order:10}
-    ]
+
 class Index extends Component {
     constructor(props) {
         super(props);
@@ -302,13 +258,26 @@ class Index extends Component {
     }
 
     render() {
-    	let comp = divList.map((elt)=>    		
-    		    <div onClick={this.props.changeView} data-e={elt.e}>{elt.sort}</div>     		        		    
+        //首页右侧展示
+        let list = [
+            {sort:'收件',key:0,e:'take'},
+            {sort:'入厂',key:1,e:'infactory'},
+            {sort:'清洗',key:2,e:'offline_clean'},
+            {sort:'烘干',key:3,e:'offline_drying'},
+            {sort:'熨烫',key:4,e:'offline_ironing'},
+            {sort:'质检',key:5,e:'offline_check'},
+            {sort:'上挂',key:6,e:'registration'},
+            {sort:'出厂',key:7,e:'outfactory'},
+            {sort:'取衣',key:8,e:'offline_take'},
+            {sort:'反流',key:9}
+        ]
+    	let html = list.map((obj)=>    		
+    		<div onClick={this.props.changeView} data-e={obj.e} key={obj.key}>{obj.sort}</div>     		        		    
     	)
     	return (
     		<div >
 	    		<div id='list-div'>
-	    		   {comp}
+	    		   {html}
 	    		</div>
 	    		<div className='members'>               
 		             <div order='11'>新建会员</div>
@@ -318,6 +287,5 @@ class Index extends Component {
     	)
    }
 }
-//ReactDOM.render(<Header/>,document.getElementsByTagName('header')[0]);
-ReactDOM.render(<Main token={token}>index</Main>,document.getElementById('root'));
-/* 样式原因，所有组件根节点都要使用div */
+
+ReactDOM.render(<Main/>,document.getElementById('root'));

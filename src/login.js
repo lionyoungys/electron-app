@@ -83,7 +83,7 @@ class Login extends Component {
                 } else {
                 	localStorage.setItem( 'auth', JSON.stringify(result.auth) );
                 	localStorage.setItem('code', result.code);
-                	localStorage.setItem('root', result.root);
+                	localStorage.setItem('is_root', result.is_root);
                 	localStorage.setItem('msg', result.msg);
                     localStorage.setItem('token', result.token);                    
                     this.props.notice('登录成功');  
