@@ -1,0 +1,65 @@
+/**
+ * 后台首页界面组件
+ * @author yangyunlong
+ */
+
+import React, {Component} from 'react';
+import './App.css';
+const list = [
+    {value:'收件',view:'take'},
+    {value:'入厂',view:'infactory'},
+    {value:'清洗',view:'offline_clean'},
+    {value:'烘干',view:'offline_drying'},
+    {value:'熨烫',view:'offline_ironing'},
+    {value:'质检',view:'offline_check'},
+    {value:'上挂',view:'registration'},
+    {value:'出厂',view:'outfactory'},
+    {value:'取衣',view:'offline_take'},
+    {value:'返流审核',view:'back'},
+    {value:'新建会员',view:'member_manage'},
+    {value:'会员充值',view:'member_recharge'},
+];
+
+
+
+export default class extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {currentData:[],previousData:[]};
+    }
+
+    render() {
+        let len = list.length, topLen = len - 2, top = [], bottom = [];
+        for (let i = 0;i < topLen;++i) {
+            top.push(
+                <div 
+                    onClick={this.props.changeView}
+                    key={list[i].view}
+                    data-view={list[i].view}
+                >{list[i].value}</div>
+            );
+        }
+
+        for (let i = topLen;i < len;++i) {
+            bottom.push(
+                <div 
+                    onClick={this.props.changeView}
+                    key={list[i].view}
+                    data-view={list[i].view}
+                >{list[i].value}</div>
+            );
+        }
+
+    	return (
+    		<div>
+                <div className='index'></div>
+	    		<div id='list-div'>
+	    		   {top}
+	    		</div>
+	    		<div className='members'>               
+		             {bottom}
+	            </div>
+	        </div>
+    	)
+   }
+}

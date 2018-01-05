@@ -16,13 +16,13 @@ export default class Crumbs extends Component {
             items = props.crumbs.map((obj) => 
                 <div key={obj.key}>
                     <em>&gt;</em>
-                    <span data-e={obj.e} data-param={obj.param} onClick={props.callback}>{obj.text}</span>
+                    <span data-view={obj.e} data-param={obj.param} onClick={props.callback}>{obj.text}</span>
                 </div>
             );
         return (
             <nav id="crumbs">
                 位置&nbsp;:
-                <span data-e={index} onClick={props.callback}>首页</span>{items}
+                <span data-view={index} onClick={props.callback}>首页</span>{items}
             </nav>
         );
     }

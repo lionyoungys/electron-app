@@ -1,0 +1,23 @@
+.index{
+	position: absolute;
+	top: 50%;left: 50%;
+	
+}
+#list-div{width:auto;height:auto;padding:104px 200px 100px 200px;clear:both;}
+#list-div div{
+	width:222px;height:129px;font-size:24px;line-height:129px;text-align:center;color:#FFFFFF;float:left;margin-right:22px;margin-bottom:15px;
+}
+#list-div div:nth-child(1){background:#4e94dc;}
+#list-div div:nth-child(2){background:#dc974e;}	
+#list-div div:nth-child(3){background:#4fd3df;}		
+#list-div div:nth-child(4){background:#f74f3d;}
+#list-div div:nth-child(5){background:#d791a3;}
+#list-div div:nth-child(6){background:#e58d78;}
+#list-div div:nth-child(7){background:#4edc8d;}
+#list-div div:nth-child(8){background:#f65bf1;}
+#list-div div:nth-child(9){background:#9577d1;}
+#list-div div:nth-child(10){background:#eb446f;}
+.members{height:auto;padding-top:40px;margin:auto;clear:both;margin-top:230px;padding-left:200px;}
+.members div{width:310px;height:150px;color:#FFFFFF;font-size:24px;line-height:150px;text-align:center;float:left;}
+.members div:nth-child(1){background:#52a6ed;}
+.members div:nth-child(2){background:#fa6a56;margin-left:15px;}

@@ -1,0 +1,19 @@
+.passwd{
+    width: 447px;height: 373px;background: url(img/passwd.png);
+    position: fixed;top: 50%;left: 50%;margin: -186.5px 0 0 -223.5px;
+    line-height: normal;color: #333333;
+}
+.passwd-cancel{
+    width: 35px;height: 35px;float: right;margin: 18px 16px 0 0;
+    background: url(img/passwd-cancel.png);
+}
+.passwd-cancel:hover{background: url(img/passwd-cancel2.png);}
+.passwd-label{
+    width: 136px;height:40px;display: inline-block;font-size: 18px;line-height: 40px;text-align: right;
+}
+.passwd-input{
+    width: 260px;height: 40px;line-height: 40px;font-size: 18px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    border: 1px solid #cccccc;
+}
+.passwd-btn{width: 81px;height: 37px;background: url(img/passwd-btn.png);border: 0;}
