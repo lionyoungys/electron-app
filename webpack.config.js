@@ -28,19 +28,6 @@ const config = {
               {loader: "style-loader",options: { url: false, minimize: true }},
               {loader: "css-loader",options: { url: false, minimize: true }}
             ]
-          },
-          {
-            test: /\.(png|jpg|gif)$/,
-            use: [
-              {
-                loader: 'url-loader',
-                options: {
-                  limit: 8192,
-                  name: '[name].[ext]',
-                  outputPath: 'images/'
-                }
-              }
-            ]
           }
         ]
       }

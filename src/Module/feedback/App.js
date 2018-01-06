@@ -8,19 +8,14 @@ import './App.css';
 export default class extends Component {
     constructor(props) {
         super(props);
-        this.state = {content:'',len:0};
-        this.changeContent = this.changeContent.bind(this);
+        this.state = {content:''};
         this.onConfirm = this.onConfirm.bind(this);
     }
 
-    changeContent(e) {
-        let value = e.target.value;
-        this.setState({content:value,len:value.length});
-    }
     onConfirm() {
         axios.post(api.U('feedback'),api.D({token:this.props.token,content:this.state.content}))
         .then((response) => {
-            if (api.verify(response.data)) {
+            if (api.V(response.data)) {
                 this.setState({content:'',len:0});
                 this.props.onCancelRequest();
             }
@@ -30,33 +25,28 @@ export default class extends Component {
     render() {
         if (!this.props.show) return null;
         return (
-            <section className='c-layer-bg'>
+            <section className='m-layer-bg'>
                 <div className='fb'>
-                    <div className='fb-bg'></div>
-                    <div className='fb-inputer'>
+                    <div>
                         <textarea 
                             placeholder='意见反馈需小于100字' 
                             maxLength='100' 
                             value={this.state.content}
-                            onChange={this.changeContent}
+                            onChange={e => this.setState({content:e.target.value})}
                         ></textarea>
-                        <em 
-                            className='ui-textarea-postfix' 
-                            style={{right:'24px',bottom:'30px'}}
-                        >{this.state.len}/100</em>
+                        <i className='m-counter'>{this.state.content.length}/100</i>
                     </div>
-                    <div className='ui-feedback-btn-area'>
+                    <div>
                         <input 
                             type='button' 
                             value='取消' 
-                            className='ui-btn ui-btn-cancel ui-btn-large'
+                            className='m-btn m-btn-cancel m-btn-large'
                             onClick={this.props.onCancelRequest}
                         />
-                        &emsp;&emsp;&emsp;&emsp;
                         <input 
                             type='button' 
                             value='确认' 
-                            className='ui-btn ui-btn-confirm ui-btn-large'
+                            className='m-btn m-btn-confirm m-btn-large'
                             onClick={this.onConfirm}
                         />
                     </div>

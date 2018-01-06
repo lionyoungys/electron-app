@@ -1,7 +1,7 @@
 /*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
 html{line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,footer,header,nav,section{display:block}h1{font-size:2em;margin:.67em 0}figcaption,figure,main{display:block}figure{margin:1em 40px}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}a{background-color:transparent;-webkit-text-decoration-skip:objects}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:inherit}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}dfn{font-style:italic}mark{background-color:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}audio,video{display:inline-block}audio:not([controls]){display:none;height:0}img{border-style:none}svg:not(:root){overflow:hidden}button,input,optgroup,select,textarea{font-family:sans-serif;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:.35em .75em .625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{display:inline-block;vertical-align:baseline}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details,menu{display:block}summary{display:list-item}canvas{display:inline-block}template{display:none}[hidden]{display:none}
 i{font-style: normal}
-input{outline-color: #09b1b0;}
+input,textarea{outline-color: #09b1b0;box-sizing: border-box;-webkit-box-sizing: border-box;}
 /* #a7efef */
 /* font-awesome颜色样式修改 */
 .fa-lock{color: rgb(232, 192, 54);font-size: 26px;}
@@ -14,15 +14,14 @@ html,body,#root{height:100%;width:100%;min-width:800px;min-height:600px;}
     background: url(img/header.png) no-repeat 0 0;
     background-size: 100% 100%;
     height: 77px;
-    line-height: 77px;
     width: 100%;
     color: rgb(255, 255, 255);
     position: absolute;top: 0;left: 0;z-index: 1;
     display: flex;display: -webkit-flex;
     justify-content: space-between;
 }
-#main>header>:first-child{margin-left: 28px;font-size: 28px;font-weight: bold;}
-#main>header>:nth-child(2){margin-right: 28px;font-size: 16px;}
+#main>header>:first-child{margin-left: 28px;font-size: 28px;font-weight: bold;line-height: 77px;}
+#main>header>:nth-child(2){margin-right: 28px;font-size: 16px;line-height: 77px;}
 #main>header>:nth-child(2)>span{cursor: pointer;vertical-align: middle;}
 #main>header>:nth-child(2)>span:first-of-type{margin-right: 40px;}
 /* 界面左侧side bar 样式 */
@@ -135,10 +134,41 @@ body{background:#09b1b0;cursor:pointer;} */
 .clearfix::before, .clearfix::after{
     content: "";height: 0;line-height: 0;display: block;visibility: hidden;clear: both;overflow: hidden;
 }
+/* 公共样式 */
 
-
-
-.main-shrink,.main-spread{
-    background-position:center right;background-repeat:no-repeat;height:100%;width:18px;
-} */
-
+/* 背景遮罩层 */
+.m-layer-bg{
+    background: rgba(153,153,153,.5);
+    position: fixed;
+    top: 0;left: 0;
+    z-index: 100;
+    width: 100%;
+    height:100%;
+}
+/* 按钮样式 */
+.m-btn{
+    font-size: 14px;
+    height: 27px;
+    padding: 0 12px;
+    text-align:center;
+    vertical-align:middle;
+    border-radius:5px;
+    background: #fff;
+    border: 0;
+}
+.m-btn-large{height: 46px;padding: 0 64px;font-size: 20px;}    /* 大按钮样式 */
+.m-btn-middle{height: 34px;font-size: 18px;padding: 0 20px;}    /* 中等按钮样式 */
+.m-btn-cancel{border:1px solid #b2b2b2;}    /* 取消按钮 */
+.m-btn-confirm{background: #09b1b0;color: #fff;}    /* 确认按钮 */
+.m-btn-grey{background: grey;color: #fff;}    /* 按钮至灰 */
+.m-btn-editor{background: #ff6e42;color: #fff;}    /* 编辑按钮 */
+/* 文本计数器样式 */
+.m-counter{
+    height: 18px;
+    line-height: 18px;
+    font-size: 16px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: grey;
+}

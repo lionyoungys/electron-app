@@ -1,5 +1,6 @@
 import Index from './Module/index/App';
 import Passwd from './Module/passwd/App';
+import Feedback from './Module/feedback/App';
 import Order from './order/order';
 import Item from './order/item';
 import Craft from './order/craft';
@@ -50,6 +51,7 @@ import OnlineEditor from './order/online_editor';
 export default {
     index:Index,    //首页
     passwd:Passwd,    //修改密码
+    feedback:Feedback,    //反馈
     order:Order,    //订单处理
     item:Item,    //添加项目
     craft:Craft,    //工艺加价

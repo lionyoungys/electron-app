@@ -45,7 +45,7 @@ export default class extends Component {
         if (!this.props.show) return null;
         let state = this.state;
         return (
-            <section className='c-layer-bg'>
+            <section className='m-layer-bg'>
                 <div className='passwd'>
                     <em className='passwd-cancel' onClick={this.props.onCancelRequest}></em>
                     <div style={{paddingTop:'101px'}}>

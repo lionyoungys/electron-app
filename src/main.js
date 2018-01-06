@@ -6,13 +6,13 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import './main.css';
-import './Module/UI/common.css';
 import './api';
 import {MyChart} from './static/UI';
 import {FeedBack,UpdatePassword} from './main_layer';
 import menus from './menus';
 import route from './route';
 const Passwd = route.passwd;    //修改密码组件
+const Feedback = route.feedback;    //用户反馈
 
 const token = localStorage.getItem('token'),
       auth = localStorage.getItem('auth'),
@@ -121,10 +121,10 @@ class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {feedbackShow:false,passwdShow:false};
-        this.toggleFeedback = this.toggleFeedback.bind(this);
+        this.toggleFeedbackShow = this.toggleFeedbackShow.bind(this);
         this.togglePasswdShow = this.togglePasswdShow.bind(this);
     }
-    toggleFeedback() {this.setState({feedbackShow:!this.state.feedbackShow});}
+    toggleFeedbackShow() {this.setState({feedbackShow:!this.state.feedbackShow});}
     togglePasswdShow() {this.setState({passwdShow:!this.state.passwdShow});}
     render() {
         let state = this.state;
@@ -132,7 +132,7 @@ class Header extends Component {
             <header>
                 <div>速洗达商家管理系统</div>
                 <div>      
-                    <span onClick={this.toggleFeedback}>
+                    <span onClick={this.toggleFeedbackShow}>
                         <i className="fa fa-pencil-square"></i>&nbsp;意见反馈
                     </span>
                     <span onClick={this.togglePasswdShow}>
@@ -144,9 +144,14 @@ class Header extends Component {
                     onCancelRequest={this.togglePasswdShow} 
                     token={token}
                 />
+                <Feedback
+                    show={state.feedbackShow} 
+                    onCancelRequest={this.toggleFeedbackShow} 
+                    token={token}
+                />
                 {/* <FeedBack 
                     show={state.feedbackShow} 
-                    onCancelRequest={this.toggleFeedback} 
+                    onCancelRequest={this.toggleFeedbackShow} 
                     token={token}
                 />
                 <UpdatePassword 
