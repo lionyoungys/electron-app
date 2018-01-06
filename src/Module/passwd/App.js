@@ -5,7 +5,7 @@
 const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
 import './App.css';
-import '../../api';
+import '../api';
 
 export default class extends Component {
     constructor(props) {

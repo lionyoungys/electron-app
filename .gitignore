@@ -2,3 +2,4 @@
 node_modules
 packager
 src/api.js
+src/Module/api.js

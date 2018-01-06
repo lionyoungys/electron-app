@@ -5,7 +5,7 @@ html,body,#root{height:100%;width:100%;min-width:900px;min-height:600px;}
 #root{background:#09b1b0;position: relative;}
 /* 共用元素样式 */
 i{font-style: normal}
-input,textarea{outline-color: #09b1b0;box-sizing: border-box;-webkit-box-sizing: border-box;}
+input,textarea,button{outline-color: #09b1b0;-webkit-box-sizing: border-box;box-sizing: border-box;}
 /* font-awesome颜色样式修改 */
 .fa-lock{color: rgb(232, 192, 54);font-size: 26px;}
 .fa-pencil-square{color: rgb(181, 104, 247);font-size: 26px;}

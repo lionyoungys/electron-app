@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import {MyChart} from './static/UI';
 import menus from './menus';
 import route from './route';
-import './api';
+import './Module/api';
 import './main.css';
 import './media.css';    //媒体查询相应式处理css
 const Passwd = route.passwd;    //修改密码组件

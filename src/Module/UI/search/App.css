@@ -1,0 +1,21 @@
+.search{
+    width: 340px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    display: inline-flex;display: -webkit-inline-flex;
+}
+.search>input[type=text], .search>button{outline-color: #f83600;line-height: 40px;height: 100%;border: 0;}
+.search>input[type=text]{
+    width: 280px;
+    font-size: 16px;
+    padding-left: 15px;
+}
+.search>button{
+    width: 60px;
+    background: #ff6c43;
+    color: #fff;
+    font-size: 22px;
+    text-align: center;
+}
