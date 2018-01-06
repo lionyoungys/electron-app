@@ -45,6 +45,7 @@ export default class extends Component {
                 <div 
                     onClick={this.props.changeView}
                     key={list[i].view}
+                    // className='disabled'
                     data-view={list[i].view}
                 >{list[i].value}</div>
             );
@@ -52,13 +53,9 @@ export default class extends Component {
 
     	return (
     		<div>
+                <div className='index'>{top}</div>
                 <div className='index'></div>
-	    		<div id='list-div'>
-	    		   {top}
-	    		</div>
-	    		<div className='members'>               
-		             {bottom}
-	            </div>
+	    		<div className='index'>{bottom}</div>
 	        </div>
     	)
    }

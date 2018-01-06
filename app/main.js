@@ -33,8 +33,8 @@ app.on('ready', () => {
         {
             width:size.width,
             height:size.height,
-            minWidth:800,
-            minHeight:800,
+            minWidth:900,
+            minHeight:600,
             autoHideMenuBar:true
         },
         //'public/prints/index.html'
@@ -64,8 +64,8 @@ ipcMain.on('login-msg', (e, args) => {    //登录界面ipc监听
             {
                 width:size.width,
                 height:size.height,
-                minWidth:800,
-                minHeight:800,
+                minWidth:900,
+                minHeight:600,
                 autoHideMenuBar:true
             },
             'public/main.html'

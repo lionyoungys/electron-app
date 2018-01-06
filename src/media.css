@@ -1,0 +1,15 @@
+/*! 小于1400 大于 900 最小屏幕兼容900 * 600 */
+@media screen and (max-width: 1400px) and (min-width: 800px) {
+	.index{width: 640px}
+	.index:first-child>:nth-child(3n+0){margin-right: 0}
+}
+/* 小于1600 大于 1400 */
+@media screen and (max-width: 1600px) and (min-width: 1400px) {
+	.index{width: 860px}
+	.index:first-child>:nth-child(4n+0){margin-right: 0}
+}
+/* 大于 1600 */
+@media screen and (min-width: 1600px) {
+	.index{width: 1080px}
+	.index:first-child>:nth-child(5n+0){margin-right: 0}
+}

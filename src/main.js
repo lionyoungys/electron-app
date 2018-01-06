@@ -5,12 +5,12 @@
 
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import './main.css';
-import './api';
 import {MyChart} from './static/UI';
-import {FeedBack,UpdatePassword} from './main_layer';
 import menus from './menus';
 import route from './route';
+import './api';
+import './main.css';
+import './media.css';    //媒体查询相应式处理css
 const Passwd = route.passwd;    //修改密码组件
 const Feedback = route.feedback;    //用户反馈
 
@@ -149,17 +149,6 @@ class Header extends Component {
                     onCancelRequest={this.toggleFeedbackShow} 
                     token={token}
                 />
-                {/* <FeedBack 
-                    show={state.feedbackShow} 
-                    onCancelRequest={this.toggleFeedbackShow} 
-                    token={token}
-                />
-                <UpdatePassword 
-                    show={state.passwdShow} 
-                    onCancelRequest={this.togglePasswdShow} 
-                    token={token}
-                    uid={uid}
-                /> */}
             </header>
         );
     }
