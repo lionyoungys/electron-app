@@ -3,7 +3,7 @@
  * @author yangyunlong
  */
 
-import React, {Component} from 'react';
+import React from 'react';
 import './App.css';
 const list = [
     {value:'收件',view:'take'},
@@ -22,7 +22,7 @@ const list = [
 
 
 
-export default class extends Component {
+export default class extends React.Component {
     constructor(props) {
         super(props);
         this.state = {currentData:[],previousData:[]};

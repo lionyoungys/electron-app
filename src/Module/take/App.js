@@ -2,12 +2,12 @@
  * 收件组件
  * @author yangyunlong
  */
-import React, {Component} from 'react';
+import React from 'react';
 import Crumb from '../UI/crumb/App';
 import Search from '../UI/search/App';
 import './App.css';
 
-export default class extends Component {
+export default class extends React.Component {
     constructor(props) {
         super(props);
         this.state = {id:'',name:'',mobile:'',time:'',orders:[],platform:{cbalance:'',cname:''},merchant:{cbalance:'',cname:''}};

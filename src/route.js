@@ -3,6 +3,7 @@ import Passwd from './Module/passwd/App';
 import Feedback from './Module/feedback/App';
 import Take from './Module/take/App';
 import Register from './Module/register/App';
+import Online from './Module/online/App';
 import Order from './order/order';
 import Item from './order/item';
 import Craft from './order/craft';
@@ -54,6 +55,7 @@ export default {
     feedback:Feedback,    //反馈
     take:Take,    //线下收衣
     register:Register,    //新增散客添加信息
+    online:Online,    //线上订单订单处理
     order:Order,    //订单处理
     item:Item,    //添加项目
     craft:Craft,    //工艺加价

@@ -1,11 +1,11 @@
 /**
- * 面包屑组件
+ * 单选框组件
  * @author yangyunlong
  */
-import React, {Component} from 'react';
+import React from 'react';
 import './App.css';
 //单选框    boolean:true/false(是否选中)    children:值    onClick:点击回调(arg:children)
-export default class extends Component {
+export default class extends React.Component {
     constructor(props) {super(props)}
     render() {
         return (

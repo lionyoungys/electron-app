@@ -2,12 +2,12 @@
  * 新增散客会员组件
  * @author yangyunlong
  */
-import React, {Component} from 'react';
+import React from 'react';
 import Crumb from '../UI/crumb/App';
 import Radio from '../UI/radio/App';
 import './App.css';
 
-export default class extends Component {
+export default class extends React.Component {
     constructor(props) {
         super(props);
         this.state = {sex:1,name:'',birthday:'1980-01-01'};

@@ -139,8 +139,42 @@ body{background:#09b1b0;cursor:pointer;} */
 .clearfix::before, .clearfix::after{
     content: "";height: 0;line-height: 0;display: block;visibility: hidden;clear: both;overflow: hidden;
 }
-/* common style of main 主界面公共样式 前缀为m*/
+/* common style of main 主界面公共样式 前缀为m */
+/* 布局容器 */
+.m-container{display: block;-webkit-box-sizing: border-box;box-sizing: border-box;padding: 12px 10px 0}
+.m-box{display: block;margin-top: 16px}
+/* 
+.ui-table th,.ui-table td,.ui-table-b th,.ui-table-b td{padding: 0 10px;text-align: center;}
+.ui-table-b th,.ui-table-b td{border: 1px solid #b2b2b2;}
+.ui-fieldset{border: 1px solid #b2b2b2;}   
 
+.ui-tr-h{height: 38px;background: #eef8ff;font-size: 16px;}
+.ui-tr-d{height: 50px;max-width: 390px;}
+.ui-tr-d img{width: 60px;height: 60px;padding: 20px 0;}
+.ui-tr-h th,.ui-tr-d td,.ui-tr-d img{vertical-align: middle;}
+
+.ui-table .ui-b{border: 1px solid #b2b2b2;}
+.ui-red{color: red;}
+.ui-grey{color: #b2b2b2;}
+.ui-orange{color: #f7bb03}
+.ui-default{color: #09b1b0;}
+.ui-default2{color: #eb6304}
+.ui-mv-default:hover{color: #09b1b0} */
+/* 行列布局容器 */
+.m-layout{display: block;width:100%;border: 1px solid #ccc}
+.m-layout>.m-row,.m-layout>.m-row-bg{border-bottom: 1px solid #ccc}
+.m-layout>.m-row:last-child,.m-layout>.m-row-bg:last-child{border-bottom: 0}
+/* 布局行 */
+.m-row,.m-row-bg{
+    display: -webkit-flex;display: flex;
+    -webkit-box-sizing: border-box;box-sizing: border-box;
+    width: 100%;
+}
+.m-row{height: 30px;}
+.m-row-bg{height: 30px;line-height: 30px;background: #eef8ff;}
+/* 布局列 */
+.m-col{}
+.m-col-bg{}
 /* 背景遮罩层 */
 .m-layer-bg{
     background: rgba(153,153,153,.5);
@@ -179,7 +213,6 @@ body{background:#09b1b0;cursor:pointer;} */
 }
 /* input text style */
 .m-input{width: 240px;height: 35px;line-height: 35px;font-size: 18px;padding: 0 10px;}
-
 .m-input2{
     width: 110px;height: 32px;
     padding: 0 9px;font-size: 18px;
@@ -192,3 +225,18 @@ body{background:#09b1b0;cursor:pointer;} */
 }
 .m-input-r{text-align: right}
 .m-input-c{text-align: center}
+/* tab style */
+.m-tab{
+    display: inline-block;
+    height: 36px;
+    text-align: center;
+    line-height: 36px;
+    padding: 0 20px;
+    background: #f1f1f1;
+    font-size: 18px;
+    margin-right: 18px;
+    cursor: pointer;
+}
+.m-tab:last-child{margin-right: 0}
+/*选中样式*/
+.m-tab-checked{color: #fff;background: #09b1b0;}

@@ -3,10 +3,10 @@
  * @author yangyunlong
  */
 const {ipcRenderer} = window.require('electron');
-import React, {Component} from 'react';
+import React from 'react';
 import './App.css';
 
-export default class extends Component {
+export default class extends React.Component {
     constructor(props) {
         super(props);
         this.state = {oldPasswd:'', newPasswd:'', passwdAgain:''};
