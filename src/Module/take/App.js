@@ -6,7 +6,6 @@ import React, {Component} from 'react';
 import Crumb from '../UI/crumb/App';
 import Search from '../UI/search/App';
 import './App.css';
-import '../api';
 
 export default class extends Component {
     constructor(props) {
@@ -51,44 +50,42 @@ export default class extends Component {
     render () {
         let props = this.props,
             state = this.state,
-            orders = state.orders.map((obj) =>
-                <div className='ui-take-order-row' key={obj}>{obj}</div>
-            );
+            orders = state.orders.map((obj) => <div key={obj}>{obj}</div>);
         return (
             <div>
                 <Crumb data={[{key:0,value:'收件'}]} callback={props.changeView}/>
-                <div style={{textAlign:'center',paddingTop:'42px'}}>
+                <div style={{textAlign:'center',margin:'30px 0'}}>
                     <Search placeholder='请输入会员手机号' callback={this.search}/>
                 </div>
-                <div style={{color:'#fd592d',fontSize:'22px',textAlign:'center',paddingTop:'47px'}}>
+                <div style={{color:'#fd592d',fontSize:'18px',textAlign:'center'}}>
                     请核对以下会员信息，确认无误后收衣下单
                 </div>
-                <div className='ui-take-info-container'>
-                    <div className='ui-take-info-box'>
-                        <div className='ui-take-info-title'>客户信息:</div>
-                        <div className='ui-take-info-row'>客户姓名:{state.name}</div>
-                        <div className='ui-take-info-row'>手机号:{state.mobile}</div>
-                        <div className='ui-take-info-row'>上次到店:{state.time}</div>
-                        <div className='ui-take-info-row ui-take-info-orders'>
-                            <div>未取订单:</div><div>{orders}</div>
+                <div className='take'>
+                    <div>
+                        <div>客户信息：</div>
+                        <div>客户姓名：{state.name}</div>
+                        <div>手机号：{state.mobile}</div>
+                        <div>上次到店：{state.time}</div>
+                        <div>
+                            未取订单：<div>{orders}</div>
                         </div>
                     </div>
-                    <div className='ui-take-info-box'>
-                        <div className='ui-take-info-title'>会员卡信息:</div>                        
-                        <div className='ui-take-info-row'>会员类型:{state.platformCard}</div>
-                        <div className='ui-take-info-row'>会员卡余额:&yen;{'' == state.platformMoney ? 0 : state.platformMoney}</div>
+                    <div>
+                        <div>会员卡信息：</div>                        
+                        <div>会员类型：{state.platform.cname}</div>
+                        <div>会员卡余额：{'' == state.platform.cbalance ? 0 : <span>&yen;{state.platform.cbalance}</span>}</div>
                     </div>
-                    <div className='ui-take-info-box'>
-                        <div className='ui-take-info-title'>专店会员卡信息:</div>                        
-                        <div className='ui-take-info-row'>会员类型:{state.platformCard}</div>
-                        <div className='ui-take-info-row'>会员卡余额:&yen;{'' == state.platformMoney ? 0 : state.platformMoney}</div>
+                    <div>
+                        <div>专店会员卡信息：</div>                        
+                        <div>会员类型：{state.merchant.cname}</div>
+                        <div>会员卡余额：{'' == state.merchant.cbalance ? 0 : <span>&yen;{state.merchant.cbalance}</span>}</div>
                     </div>
                 </div>
-                <div style={{paddingTop:'58px',textAlign:'center'}}>
+                <div style={{textAlign:'center'}}>
                     <input 
                         type='button' 
                         value='收衣下单' 
-                        className='ui-btn ui-btn-confirm ui-btn-large'
+                        className='m-btn m-btn-confirm m-btn-large'
                         onClick={this.next}
                     />
                 </div>

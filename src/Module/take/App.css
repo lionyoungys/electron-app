@@ -1,13 +1,12 @@
-.ui-take-info-container{
-    padding-top:53px;display: flex;display: -webkit-flex;justify-content: center;
+.take{
+    display: -webkit-flex;display: flex;justify-content: space-around;margin: 30px auto;
 }
-.ui-take-info-box{
-    min-height: 400px;width: 370px;background: #f7f7f7;
+.take>div{
+    min-height: 400px;
+    background: #f7f7f7;
     box-sizing: border-box;-webkit-box-sizing: border-box;
-    padding: 30px 0 0 30px;margin:0 37px;
-    display: inline-flex;display: -webkit-inline-flex;flex-direction: column;
+    padding: 20px;
 }
-.ui-take-info-title{font-size: 22px;color: #000;padding-bottom: 20px;}
-.ui-take-info-row{font-size: 18px;padding-bottom: 20px;color: #000;}
-.ui-take-info-orders{display: flex;display: -webkit-flex;color: #000;}
-.ui-take-order-row{line-height: 26px;font-size: 18px;padding-bottom: 10px;color: #000;}
+.take>div>div{display: -webkit-flex;display: flex;font-size: 18px;line-height: 40px}
+.take>div>div>div>div{font-size: 18px;line-height: 40px}
+.take>div>div:first-child{font-size: 22px;font-weight: bold;}

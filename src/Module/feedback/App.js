@@ -3,7 +3,6 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
 import './App.css';
 export default class extends Component {
     constructor(props) {
