@@ -1,0 +1,4 @@
+.register-title{color: #fd592d;font-size: 22px;text-align: center;margin: 40px 0;}
+.register{width: 400px;margin: auto}
+.register>div{font-size: 18px;line-height: 40px;display: -webkit-flex;display: flex;}
+.register>div>:first-child{width: 160px}

@@ -2,13 +2,13 @@ import Index from './Module/index/App';
 import Passwd from './Module/passwd/App';
 import Feedback from './Module/feedback/App';
 import Take from './Module/take/App';
+import Register from './Module/register/App';
 import Order from './order/order';
 import Item from './order/item';
 import Craft from './order/craft';
 import Check from './order/check';
 import Color from './order/color';
 import Question from './order/question';
-import AddMember from './offline/add_member';
 import Pay from './offline/pay';
 import Info from './manage/info';
 import InfoEditor from './manage/info_editor';
@@ -52,14 +52,14 @@ export default {
     index:Index,    //首页
     passwd:Passwd,    //修改密码
     feedback:Feedback,    //反馈
+    take:Take,    //线下收衣
+    register:Register,    //新增散客添加信息
     order:Order,    //订单处理
     item:Item,    //添加项目
     craft:Craft,    //工艺加价
     check:Check,    //衣物检查
     color:Color,    //颜色设置
     question:Question,    //问题描述
-    take:Take,    //线下收衣
-    addMember:AddMember,    //散客信息
     pay:Pay,    //订单支付
     info:Info,    //门店信息
     info_editor:InfoEditor,    //信息编辑

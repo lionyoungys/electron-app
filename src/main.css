@@ -6,9 +6,14 @@ html,body,#root{height:100%;width:100%;min-width:900px;min-height:600px;}
 /* 共用元素样式 */
 i{font-style: normal}
 input,textarea,button{outline-color: #09b1b0;-webkit-box-sizing: border-box;box-sizing: border-box;}
+/* 滚动条样式 */
+::-webkit-scrollbar{width: 5px;height: 5px;}
+::-webkit-scrollbar-thumb{border-radius: 10px;background: #c6c6c7;}
 /* font-awesome颜色样式修改 */
-.fa-lock{color: rgb(232, 192, 54);font-size: 26px;}
-.fa-pencil-square{color: rgb(181, 104, 247);font-size: 26px;}
+.fa-lock{color: #e8c036;font-size: 26px;}
+.fa-pencil-square{color: #b568f7;font-size: 26px;}
+.fa-check-circle{color: #09b1b0;font-size: 22px;}
+.fa-check-circle-o{color: #ccc;font-size: 22px;}
 /* 界面顶部样式 */
 #main>header{
     background: url(img/header.png) no-repeat 0 0;
@@ -134,7 +139,7 @@ body{background:#09b1b0;cursor:pointer;} */
 .clearfix::before, .clearfix::after{
     content: "";height: 0;line-height: 0;display: block;visibility: hidden;clear: both;overflow: hidden;
 }
-/* 公共样式 */
+/* common style of main 主界面公共样式 前缀为m*/
 
 /* 背景遮罩层 */
 .m-layer-bg{
@@ -172,3 +177,18 @@ body{background:#09b1b0;cursor:pointer;} */
     right: 10px;
     color: grey;
 }
+/* input text style */
+.m-input{width: 240px;height: 35px;line-height: 35px;font-size: 18px;padding: 0 10px;}
+
+.m-input2{
+    width: 110px;height: 32px;
+    padding: 0 9px;font-size: 18px;
+    line-height: 32px;border:1px solid #666666
+}
+.m-input3{
+    width: 210px;height: 32px;
+    padding: 0 9px;font-size: 16px;
+    line-height: 32px;border:1px solid #666666
+}
+.m-input-r{text-align: right}
+.m-input-c{text-align: center}

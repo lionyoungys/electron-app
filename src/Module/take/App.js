@@ -10,7 +10,7 @@ import './App.css';
 export default class extends Component {
     constructor(props) {
         super(props);
-        this.state = {id:'',name:'',mobile:'',time:'',orders:[],platform:{},merchant:{}};
+        this.state = {id:'',name:'',mobile:'',time:'',orders:[],platform:{cbalance:'',cname:''},merchant:{cbalance:'',cname:''}};
         this.search = this.search.bind(this);
         this.next = this.next.bind(this);
     }
@@ -30,7 +30,7 @@ export default class extends Component {
                         merchant:result.merchant_card                 
                     });
                 } else {
-                    this.props.changeView({view:'addMember',param:{mobile:value}});
+                    this.props.changeView({view:'register',param:{number:value}});
                 }
             });
         }        
@@ -73,12 +73,12 @@ export default class extends Component {
                     <div>
                         <div>会员卡信息：</div>                        
                         <div>会员类型：{state.platform.cname}</div>
-                        <div>会员卡余额：{'' == state.platform.cbalance ? 0 : <span>&yen;{state.platform.cbalance}</span>}</div>
+                        <div>会员卡余额：{'' == state.platform.cbalance ? '' : <span>&yen;{state.platform.cbalance}</span>}</div>
                     </div>
                     <div>
                         <div>专店会员卡信息：</div>                        
                         <div>会员类型：{state.merchant.cname}</div>
-                        <div>会员卡余额：{'' == state.merchant.cbalance ? 0 : <span>&yen;{state.merchant.cbalance}</span>}</div>
+                        <div>会员卡余额：{'' == state.merchant.cbalance ? '' : <span>&yen;{state.merchant.cbalance}</span>}</div>
                     </div>
                 </div>
                 <div style={{textAlign:'center'}}>

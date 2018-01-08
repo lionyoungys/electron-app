@@ -10,13 +10,12 @@ export default class extends Component {
     constructor(props) {
         super(props);
         this.state = {value:''};
-        this.onEnterRequest = this.onEnterRequest.bind(this);
     }
-    onEnterRequest(input) {
-        if (null !== input) {
-            input.onkeydown = ( e => {'Enter' === e.code && this.props.callback(this.state.value)} );
-        }
+
+    componentDidMount() {
+        this.input.onkeydown = ( e => {'Enter' === e.code && this.props.callback(this.state.value)} );
     }
+    
     render() {
         return (
             <div className='search'>
@@ -24,7 +23,7 @@ export default class extends Component {
                     type='text' 
                     placeholder={this.props.placeholder} 
                     value={this.state.value}
-                    ref={input => this.onEnterRequest(input)}
+                    ref={input => this.input = input}
                     onChange={e => this.setState({value:e.target.value})}
                 />
                 <button type='button' onClick={() => this.props.callback(this.state.value)}>
