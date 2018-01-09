@@ -29,7 +29,6 @@ export default class extends React.Component {
         this.checkDone = this.checkDone.bind(this);    //检查完成方法
         this.cleanDone = this.cleanDone.bind(this);    //清洗完成方法
         this.done = this.done.bind(this);    //送件完成方法
-        this.onClose = this.onClose.bind(this);    //弹窗关闭方法
         this.openAlert = this.openAlert.bind(this);    //打开弹窗方法
         this.onConfirm = this.onConfirm.bind(this);    //弹窗确认回调方法
         //选项卡列表 api 对应接口地址
@@ -42,11 +41,11 @@ export default class extends React.Component {
         ];
         //多选框参数
         this.checkboxs = [
-            {text:'商家暂不接单',key:0},
-            {text:'超出服务范围',key:1},
-            {text:'无法提供客户所选服务',key:2},
-            {text:'距离太远',key:3},
-            {text:'其他原因',key:4},
+            {key:0,value:'商家暂不接单'},
+            {key:1,value:'超出服务范围'},
+            {key:2,value:'无法提供客户所选服务'},
+            {key:3,value:'距离太远'},
+            {key:4,value:'其他原因'},
         ];
 
         this.timerID = null;
@@ -262,10 +261,6 @@ export default class extends React.Component {
             }
         });
     }
-    //关闭弹框方法
-    onClose() {
-        if (this.state.show) this.setState({show:false}); 
-    }
     //弹窗确认方法
     onConfirm(checkedList) {
         if (checkedList.length < 1) return;
@@ -301,13 +296,12 @@ export default class extends React.Component {
     }
 
     render() {
-        let state = this.state,
-            adapter = this.adapter();
+        let adapter = this.adapter();
         let tabs = this.tabs.map(obj => 
             <span
                 key={obj.api}
                 data-api={obj.api}
-                className={'m-tab ' + (state.checked == obj.api ? 'm-tab-checked': '')}
+                className={'m-tab ' + (this.state.checked == obj.api ? 'm-tab-checked': '')}
                 onClick={this.handleClick}
             >{obj.value}</span>
         );
@@ -324,14 +318,14 @@ export default class extends React.Component {
                     </div>
                 </div>
                 <Cancel 
-                    show={state.show} 
+                    show={this.state.show} 
                     checkboxs={this.checkboxs} 
-                    onClose={this.onClose} 
+                    onCloseRequest={() => this.setState({show:!this.state.show})} 
                     title='取消订单原因' 
                     button='取消订单'
                     callback={this.onConfirm}
                 />
-                {/* <Notification show={state.showNotice} width='320'>
+                {/* <Notification show={this.state.showNotice} width='320'>
                     {state.noticeMsg}
                 </Notification> */}
             </div>

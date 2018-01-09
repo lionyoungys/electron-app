@@ -12,12 +12,11 @@
      */
     Number.prototype.inArray = 
     String.prototype.inArray = function(array) {
-        let ret = -1,
-            len = array.length;
-        if (len > 0) {
-            for (var i = 0;i < len;++i) {
-                if (array[i] == this) {
-                    ret = i;
+        let ret = -1;
+        if (array.length > 0) {
+            for (var k in array) {
+                if (array[k] == this) {
+                    ret = k;
                     break;
                 }
             }

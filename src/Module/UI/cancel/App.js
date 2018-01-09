@@ -3,6 +3,7 @@
  * @author yangyunlong
  */
 import React from 'react';
+import Checkbox from '../checkbox/App';
 import './App.css';
 
 
@@ -10,16 +11,17 @@ import './App.css';
 export default class extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {checked:[]};
         this.checkedList = [];
         this.checkedList2 = [];
-        this.onClose = this.onClose.bind(this);
+        this.onCloseRequest = this.onCloseRequest.bind(this);
         this.onConfirm = this.onConfirm.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
-    onClose() {
+    onCloseRequest() {
         this.checkedList = [];
         this.checkedList2 = [];
-        this.props.onClose();
+        this.props.onCloseRequest();
     }
     onConfirm() {
         if (func.isSet(this.props.detail)) {
@@ -30,50 +32,40 @@ export default class extends React.Component {
         this.checkedList = [];
         this.checkedList2 = [];
     }
-    handleClick(e) {
-        let node = e.target,
-            text = e.target.innerText;
-        if (node.classList.contains('ui-checked')) {    //判断是否选中状态
-            let index = text.inArray(this.checkedList),
-                index2 = text.inObjectArray(this.checkedList2,'text');
-            this.checkedList.splice(index,1);    //清除选中
-            this.checkedList2.splice(index2,1);
+    handleClick(value, boolean) {
+        let checked = this.state.checked;
+        let index = value.inArray(checked);
+        if (boolean) {    //判断是否选中状态
+            checked.splice(index,1);    //清除选中
+            this.setState({checked:checked});
         } else {
-            this.checkedList.push(text);    //添加选中
-            this.checkedList2.push({key:node.dataset.id,text:text});
+            checked.push(value);    //添加选中
+            this.setState({checked:checked});
         }
-        node.classList.toggle('ui-checked');
     }
     render() {
-        let props = this.props,
-            state = this.state;
-        if (!props.show) return null;
-        let items = props.checkboxs.map((obj) => 
-            <div className='ui-alert-line' key={obj.key}>
-                <span 
-                    className={-1 !== obj.text.inArray(this.checkedList) ? 'ui-checkbox ui-checked' : 'ui-checkbox'} 
-                    onClick={this.handleClick}
-                    data-id={obj.key}
-                >{obj.text}</span>
+        if (!this.props.show) return null;
+        let items = this.props.checkboxs.map((obj) => 
+            <div key={obj.key}>
+                <Checkbox onClick={this.handleClick} boolean={-1 !== obj.value.inArray(this.state.checked)}>{obj.value}</Checkbox>
             </div>
         );
         return (
-            <section className='ui-alert-bg'>
-                <div className='ui-alert-checkbox'>
-                    <div className='ui-alert-title'>
-                        {props.title}<em className='right ui-close' onClick={this.onClose}></em>
-                    </div>
-                    {items}
-                    <div className='ui-botton-area'>
+            <div className='m-layer-bg'>
+                <div className='cancel'>
+                    <i className='fa fa-times-circle close' onClick={this.onCloseRequest}></i>
+                    <div>{this.props.title}</div>
+                    <div>{items}</div>
+                    <div>
                         <input 
                             type='button' 
-                            value={props.button} 
+                            value={this.props.button} 
                             onClick={this.onConfirm} 
-                            className='ui-btn ui-btn-large ui-btn-confirm' 
+                            className='m-btn m-btn-large m-btn-confirm' 
                         />
                     </div>
                 </div>
-            </section>
+            </div>
         );
     }
 }

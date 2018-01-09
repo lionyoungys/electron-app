@@ -14,7 +14,10 @@ input,textarea,button{outline-color: #09b1b0;-webkit-box-sizing: border-box;box-
 .fa-pencil-square{color: #b568f7;font-size: 26px}
 .fa-check-circle{color: #09b1b0;font-size: 22px}
 .fa-check-circle-o{color: #ccc;font-size: 22px}
-.fa-times-circle{color: #e4e4e4;font-size: 26px}
+.fa-check-square{color: #ccc;font-size: 22px}
+.fa-check-square.checked{color: #09b1b0}
+.fa-times-circle{color: #ccc;font-size: 36px}
+.fa-times-circle:hover{color: #e0e0e0}
 /* 界面顶部样式 */
 #main>header{
     background: url(img/header.png) no-repeat 0 0;
@@ -197,7 +200,8 @@ body{background:#09b1b0;cursor:pointer;} */
 .m-red{color: #fb3f06}
 .m-bd-lightgrey{border:1px solid lightgrey}
 .m-bg-white{background-color: #eef8ff}
-
+/* 光标样式 */
+.m-pointer:hover{cursor: pointer}
 /* 背景遮罩层 */
 .m-layer-bg{
     background: rgba(153,153,153,.5);
