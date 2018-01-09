@@ -15,22 +15,21 @@ export default class extends React.Component {
             checked: ( ( tool.isSet(param) && tool.isSet(param.checked) ) ? param.checked : 'ordering' ),    //选项卡选中
             data:[],
             show:false,
-            currentOrder:null,
+            oid:null,
             showNotice:false,
             noticeMsg:'用户尚未付款，您暂时不能做此操作'
         };    //选项卡选择属性 当前数据 弹窗展示与否 当前订单
         this.handleClick = this.handleClick.bind(this);    //切换选项卡方法
         this.adapter = this.adapter.bind(this);    //数据适配处理方法
         this.btnAdapter = this.btnAdapter.bind(this);    //根据数据状态返回按钮操作
-        this.showCancelLayer = this.showCancelLayer.bind(this);    //隐藏展示取消框方法
+        this.showCancelLayer = this.showCancelLayer.bind(this);    //隐藏展示取消订单弹出层方法
         this.onCancelRequest = this.onCancelRequest.bind(this);    //订单取消方法
+        this.onConfirmRequest = this.onConfirmRequest.bind(this);    //确认订单方法
         this.generateItemsList = this.generateItemsList.bind(this);    //项目列表生成器
-        this.orderConfirm = this.orderConfirm.bind(this);    //确认订单方法
         this.checkDone = this.checkDone.bind(this);    //检查完成方法
         this.cleanDone = this.cleanDone.bind(this);    //清洗完成方法
         this.done = this.done.bind(this);    //送件完成方法
         this.openAlert = this.openAlert.bind(this);    //打开弹窗方法
-        this.onConfirm = this.onConfirm.bind(this);    //弹窗确认回调方法
         //选项卡列表 api 对应接口地址
         this.tabs = [
             {value:'待处理',api:'ordering'},
@@ -39,15 +38,13 @@ export default class extends React.Component {
             {value:'清洗中',api:'cleaning'},
             {value:'待送达',api:'posting'}
         ];
-        //多选框参数
-        this.checkboxs = [
+        //取消订单选项
+        this.options = [
             {key:0,value:'商家暂不接单'},
             {key:1,value:'超出服务范围'},
             {key:2,value:'无法提供客户所选服务'},
-            {key:3,value:'距离太远'},
-            {key:4,value:'其他原因'},
+            {key:3,value:'距离太远'}
         ];
-
         this.timerID = null;
     }
     componentDidMount() {
@@ -141,7 +138,14 @@ export default class extends React.Component {
                                 onClick={this.showCancelLayer}
                             >取消订单</button>
                         </p>
-                        <p><button type='button' className='m-btn m-btn-confirm'>确认订单</button></p>
+                        <p>
+                            <button
+                                type='button'
+                                className='m-btn m-btn-confirm'
+                                data-id={id}
+                                onClick={this.onConfirmRequest}
+                            >确认订单</button>
+                        </p>
                     </td>
                 );
             case 'to_take':
@@ -177,22 +181,30 @@ export default class extends React.Component {
                 return (<td><button type='button' className='m-btn m-btn-confirm'>送件完成</button></td>);
         }
     }
-    showCancelLayer() {this.setState({show:!this.state.show})}
-    onCancelRequest(e) {
-    }
-    //确认订单方法
-    orderConfirm(e) {
-        let state = this.state,
-            id = e.target.dataset.id;
-        axios.post(
-            api.U('orderHandle'), 
-            api.D({token:this.props.token,id:id,state:state.checked})
-        )
+    showCancelLayer(e) {this.setState({show:true,oid:e.target.dataset.id})}
+    onCancelRequest(data) {
+        console.log(data);
+        this.setState({show:false})
+        axios.post(api.U('cancel'),api.D({token:this.props.token,oid:this.state.oid,cause:data.toString()}))
         .then((response) => {
-            if (api.verify(response.data)) {
-                let index = id.inObjectArray(state.data,'id');
+            if (api.V(response.data)) {
+                let index = this.state.oid.inObjectArray(this.state.data,'id');
                 if (-1 !== index) {
-                    state.data.splice(index,1);
+                    this.state.data.splice(index,1);
+                    this.setState({data:this.state.data});
+                }
+            }
+        });
+    }
+    onConfirmRequest(e) {
+        let id = e.target.dataset.id;
+        axios.post(api.U('confirm'),api.D({token:this.props.token,oid:id}))
+        .then((response) => {
+            if (api.V(response.data)) {
+                let index = id.inObjectArray(this.state.data, 'id');
+                if (-1 !== index) {
+                    this.state.data.splice(index, 1);
+                    this.setState({data:this.state.data});
                 }
             }
         });
@@ -204,7 +216,7 @@ export default class extends React.Component {
         axios.post(api.U('cleanDone'),api.D({token:this.props.token,id:id}))
         .then((response) => {
             let result = response.data;
-            if (api.verify(result)) {
+            if (api.V(result)) {
                 let index = id.inObjectArray(state.data,'id');
                 if (-1 !== index) {
                     state.data.splice(index,1);
@@ -224,7 +236,7 @@ export default class extends React.Component {
             .then((response) => {
                 let result = response.data;
                 console.log(response.data);
-                if (api.verify(result)) {
+                if (api.V(result)) {
                     let index = id.inObjectArray(state.data,'id');
                     if (-1 !== index) {
                         state.data.splice(index,1);
@@ -253,26 +265,8 @@ export default class extends React.Component {
             id = e.target.dataset.id;
         axios.post(api.U('done'),api.D({token:this.props.token,id:id}))
         .then((response) => {
-            if (api.verify(response.data)) {
+            if (api.V(response.data)) {
                 let index = id.inObjectArray(state.data,'id');
-                if (-1 !== index) {
-                    state.data.splice(index,1);
-                }
-            }
-        });
-    }
-    //弹窗确认方法
-    onConfirm(checkedList) {
-        if (checkedList.length < 1) return;
-        this.setState({show:false})
-        let state = this.state;
-        axios.post(
-            api.U('orderCancel'),
-            api.D({token:this.props.token,id:state.currentOrder,quxiao:checkedList.toString()})
-        )
-        .then((response) => {
-            if (api.verify(response.data)) {
-                let index = state.currentOrder.inObjectArray(state.data,'id');
                 if (-1 !== index) {
                     state.data.splice(index,1);
                 }
@@ -319,11 +313,11 @@ export default class extends React.Component {
                 </div>
                 <Cancel 
                     show={this.state.show} 
-                    checkboxs={this.checkboxs} 
-                    onCloseRequest={() => this.setState({show:!this.state.show})} 
+                    data={this.options} 
+                    onCloseRequest={() => this.setState({show:false})} 
                     title='取消订单原因' 
-                    button='取消订单'
-                    callback={this.onConfirm}
+                    btnValue='取消订单'
+                    onConfirmRequest={this.onCancelRequest}
                 />
                 {/* <Notification show={this.state.showNotice} width='320'>
                     {state.noticeMsg}

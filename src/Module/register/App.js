@@ -69,9 +69,9 @@ export default class extends React.Component {
                     <div>
                         <span>性&emsp;&emsp;别:</span>
                         <span>
-                            <Radio boolean={1 == state.sex} onClick={() => this.setState({sex:1})}>男</Radio>
+                            <Radio checked={1 == state.sex} onClick={() => this.setState({sex:1})}>男</Radio>
                             &emsp;&emsp;
-                            <Radio boolean={2 == state.sex} onClick={() => this.setState({sex:2})}>女</Radio>
+                            <Radio checked={2 == state.sex} onClick={() => this.setState({sex:2})}>女</Radio>
                         </span>
                     </div>
                     <div>

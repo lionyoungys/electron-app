@@ -14,7 +14,7 @@
     String.prototype.inArray = function(array) {
         let ret = -1;
         if (array.length > 0) {
-            for (var k in array) {
+            for (let k in array) {
                 if (array[k] == this) {
                     ret = k;
                     break;
@@ -30,12 +30,11 @@
      * @return ret 索引值/-1
      */
     String.prototype.inObjectArray = function(array, key) {
-        let ret = -1,
-            len = array.length;
-        if (len > 0) {
-            for (let i = 0;i < len;++i) {
-                if (this == array[i][key]) {
-                    ret = i;
+        let ret = -1;
+        if (array.length > 0) {
+            for (let k in array) {
+                if (this == array[k][key]) {
+                    ret = k;
                     break;
                 }
             }
