@@ -103,8 +103,59 @@ export default class extends React.Component {
     }
 
     adapter() {
-
+        let adapter = {head:null,body:null},
+            checked = this.state.checked;
+        if ('ordering' == checked) {
+            adapter.head = (
+                <tr className='bd-lightgrey m-bg-white'>
+                    <th>订单号</th>
+                    <th>预约时间</th>
+                    <th>姓名</th>
+                    <th>电话</th>
+                    <th>地址</th>
+                    <th>时间</th>
+                    <th>处理</th>
+                </tr>
+            );
+            adapter.body = this.state.data.map(obj => 
+                <tr className='bd-lightgrey' key={obj.id}>
+                    <td>{obj.ordersn}</td>
+                    <td className='m-red'>{obj.time}</td>
+                    <td>{obj.uname}</td>
+                    <td>{obj.umobile}</td>
+                    <td>{obj.uaddress}</td>
+                    <td>{obj.otime}</td>
+                    <td></td>
+                </tr>
+            );
+        }
+        /*
+        this.theadsModel = [
+            <tr className='ui-tr-h'>
+                <th>订单号</th>
+                <th>预约上门时间</th>
+                <th>姓名</th>
+                <th>电话</th>
+                <th>地址</th>
+                <th>时间</th>
+                <th>处理</th>
+            </tr>,
+            <tr className='ui-tr-h'>
+                <th>订单号</th>
+                <th>项目</th>
+                <th>工艺加价</th>
+                <th>件数</th>
+                <th>总价</th>
+                <th>姓名／电话</th>
+                <th>地址</th>
+                <th>时间</th>
+                <th>操作</th>
+            </tr>
+        ];
+         */
+        return adapter;
     }
+
     //待处理
     willDispose(data) {
         let items = data.map((obj) => 
@@ -352,7 +403,8 @@ export default class extends React.Component {
     }
 
     render() {
-        let state = this.state;
+        let state = this.state,
+            adapter = this.adapter();
         let tabs = this.tabs.map(obj => 
             <span
                 key={obj.api}
@@ -367,9 +419,9 @@ export default class extends React.Component {
                 <div className='m-container'>
                     <div>{tabs}</div>
                     <div className='m-box'>
-                        <table className='ui-table ui-table-b'>
-                            <thead>{this.theads[state.checked]}</thead>
-                            <tbody>{state.html}</tbody>
+                        <table className='m-table'>
+                            <thead>{adapter.head}</thead>
+                            <tbody>{adapter.body}</tbody>
                         </table>
                     </div>
                 </div>

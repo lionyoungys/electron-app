@@ -143,8 +143,38 @@ body{background:#09b1b0;cursor:pointer;} */
 /* 布局容器 */
 .m-container{display: block;-webkit-box-sizing: border-box;box-sizing: border-box;padding: 12px 10px 0}
 .m-box{display: block;margin-top: 16px}
-/* 
-.ui-table th,.ui-table td,.ui-table-b th,.ui-table-b td{padding: 0 10px;text-align: center;}
+/* 行列布局容器 */
+/* .m-layout{
+    display: block;
+    width:100%;
+    border: 1px solid #ccc;
+    -webkit-box-sizing: border-box;box-sizing: border-box;
+}
+.m-layout>.m-row{border-bottom: 1px solid #ccc}
+.m-layout>:last-child{border-bottom: 0} */
+/* 布局行 */
+/* .m-row{
+    display: -webkit-flex;display: flex;
+    -webkit-box-sizing: border-box;box-sizing: border-box;
+    width: 100%;
+}
+.m-row{}
+.m-row-bg{height: 30px;line-height: 30px;background: #eef8ff;}
+.m-row>.m-col{border-right: 1px solid #ccc}
+.m-row:last-child{border-right: 0} */
+/* 布局列 */
+/* .m-col{
+    -webkit-box-sizing: border-box;box-sizing: border-box;
+    padding: 0 10px;height: 40px;line-height: 40px;
+} */
+/* table layout style */
+.m-table{border-collapse: collapse;width: 100%}
+.m-table .bd-lightgrey>td,
+.m-table .bd-lightgrey>th{border:1px solid lightgrey}
+.m-table tr{height: 40px;}
+.m-table th,.m-table td{padding: 0 8px;font-size: 16px}
+
+/* .ui-table th,.ui-table td,.ui-table-b th,.ui-table-b td{padding: 0 10px;text-align: center;}
 .ui-table-b th,.ui-table-b td{border: 1px solid #b2b2b2;}
 .ui-fieldset{border: 1px solid #b2b2b2;}   
 
@@ -160,21 +190,11 @@ body{background:#09b1b0;cursor:pointer;} */
 .ui-default{color: #09b1b0;}
 .ui-default2{color: #eb6304}
 .ui-mv-default:hover{color: #09b1b0} */
-/* 行列布局容器 */
-.m-layout{display: block;width:100%;border: 1px solid #ccc}
-.m-layout>.m-row,.m-layout>.m-row-bg{border-bottom: 1px solid #ccc}
-.m-layout>.m-row:last-child,.m-layout>.m-row-bg:last-child{border-bottom: 0}
-/* 布局行 */
-.m-row,.m-row-bg{
-    display: -webkit-flex;display: flex;
-    -webkit-box-sizing: border-box;box-sizing: border-box;
-    width: 100%;
-}
-.m-row{height: 30px;}
-.m-row-bg{height: 30px;line-height: 30px;background: #eef8ff;}
-/* 布局列 */
-.m-col{}
-.m-col-bg{}
+/* word,background,border style */
+.m-red{color: #fb3f06}
+.m-bd-lightgrey{border:1px solid lightgrey}
+.m-bg-white{background-color: #eef8ff}
+
 /* 背景遮罩层 */
 .m-layer-bg{
     background: rgba(153,153,153,.5);
