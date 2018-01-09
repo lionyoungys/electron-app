@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import './App.css';
-//面包屑导航栏 data = [{view:跳转的视图组件,value:文字显示,key:索引key}] callback=回调操作
+//面包屑导航栏 data = [{view:跳转的视图组件,value:文字显示,key:索引key,param:携带参数}] callback=回调操作
 export default class extends React.Component {
     constructor(props) {super(props);}
 

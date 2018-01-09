@@ -25,6 +25,7 @@ export default class extends React.Component {
         this.showCancelLayer = this.showCancelLayer.bind(this);    //隐藏展示取消订单弹出层方法
         this.onCancelRequest = this.onCancelRequest.bind(this);    //订单取消方法
         this.onConfirmRequest = this.onConfirmRequest.bind(this);    //确认订单方法
+        this.addItem = this.addItem.bind(this);    //跳转添加项目界面
         this.generateItemsList = this.generateItemsList.bind(this);    //项目列表生成器
         this.checkDone = this.checkDone.bind(this);    //检查完成方法
         this.cleanDone = this.cleanDone.bind(this);    //清洗完成方法
@@ -159,7 +160,7 @@ export default class extends React.Component {
                                 onClick={this.showCancelLayer}
                             >取消订单</button>
                         </p>
-                        <p><button type='button' className='m-btn m-btn-confirm'>添加项目</button></p>
+                        <p><button type='button' data-id={id} className='m-btn m-btn-confirm' onClick={this.addItem}>添加项目</button></p>
                     </td>
                 );
             case 'to_clean':
@@ -183,7 +184,6 @@ export default class extends React.Component {
     }
     showCancelLayer(e) {this.setState({show:true,oid:e.target.dataset.id})}
     onCancelRequest(data) {
-        console.log(data);
         this.setState({show:false})
         axios.post(api.U('cancel'),api.D({token:this.props.token,oid:this.state.oid,cause:data.toString()}))
         .then((response) => {
@@ -209,6 +209,7 @@ export default class extends React.Component {
             }
         });
     }
+    addItem(e) {this.props.changeView({view:'online_add_item',param:{oid:e.target.dataset.id}})}
     //清洗完成
     cleanDone(e) {
         let state = this.state,
@@ -295,7 +296,7 @@ export default class extends React.Component {
             <span
                 key={obj.api}
                 data-api={obj.api}
-                className={'m-tab ' + (this.state.checked == obj.api ? 'm-tab-checked': '')}
+                className={'m-tab' + (this.state.checked == obj.api ? ' checked': '')}
                 onClick={this.handleClick}
             >{obj.value}</span>
         );

@@ -4,7 +4,7 @@ import Feedback from './Module/feedback/App';
 import Take from './Module/take/App';
 import Register from './Module/register/App';
 import Online from './Module/online/App';
-import Order from './order/order';
+import OnlineAddItem from './Module/online_add_item/App';
 import Item from './order/item';
 import Craft from './order/craft';
 import Check from './order/check';
@@ -56,7 +56,7 @@ export default {
     take:Take,    //线下收衣
     register:Register,    //新增散客添加信息
     online:Online,    //线上订单订单处理
-    order:Order,    //订单处理
+    online_add_item:OnlineAddItem,    //线上订单添加项目
     item:Item,    //添加项目
     craft:Craft,    //工艺加价
     check:Check,    //衣物检查

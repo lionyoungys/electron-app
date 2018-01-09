@@ -146,7 +146,7 @@ body{background:#09b1b0;cursor:pointer;} */
 /* common style of main 主界面公共样式 前缀为m */
 /* 布局容器 */
 .m-container{display: block;-webkit-box-sizing: border-box;box-sizing: border-box;padding: 12px}
-.m-box{display: block;margin-top: 16px}
+.m-box{display: block;margin-top: 16px;width: 100%}
 /* 行列布局容器 */
 /* .m-layout{
     display: block;
@@ -263,6 +263,6 @@ body{background:#09b1b0;cursor:pointer;} */
     margin-right: 18px;
     cursor: pointer;
 }
-.m-tab:last-child{margin-right: 0}
+.m-tab:last-child,.m-tab-group>.m-tab:last-child{margin-right: 0}
 /*选中样式*/
-.m-tab-checked{color: #fff;background: #09b1b0;}
+.m-tab.checked{color: #fff;background: #09b1b0;}
