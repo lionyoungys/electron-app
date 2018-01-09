@@ -10,10 +10,11 @@ input,textarea,button{outline-color: #09b1b0;-webkit-box-sizing: border-box;box-
 ::-webkit-scrollbar{width: 5px;height: 5px;}
 ::-webkit-scrollbar-thumb{border-radius: 10px;background: #c6c6c7;}
 /* font-awesome颜色样式修改 */
-.fa-lock{color: #e8c036;font-size: 26px;}
-.fa-pencil-square{color: #b568f7;font-size: 26px;}
-.fa-check-circle{color: #09b1b0;font-size: 22px;}
-.fa-check-circle-o{color: #ccc;font-size: 22px;}
+.fa-lock{color: #e8c036;font-size: 26px}
+.fa-pencil-square{color: #b568f7;font-size: 26px}
+.fa-check-circle{color: #09b1b0;font-size: 22px}
+.fa-check-circle-o{color: #ccc;font-size: 22px}
+.fa-times-circle{color: #e4e4e4;font-size: 26px}
 /* 界面顶部样式 */
 #main>header{
     background: url(img/header.png) no-repeat 0 0;
@@ -141,7 +142,7 @@ body{background:#09b1b0;cursor:pointer;} */
 }
 /* common style of main 主界面公共样式 前缀为m */
 /* 布局容器 */
-.m-container{display: block;-webkit-box-sizing: border-box;box-sizing: border-box;padding: 12px 10px 0}
+.m-container{display: block;-webkit-box-sizing: border-box;box-sizing: border-box;padding: 12px}
 .m-box{display: block;margin-top: 16px}
 /* 行列布局容器 */
 /* .m-layout{
@@ -171,8 +172,8 @@ body{background:#09b1b0;cursor:pointer;} */
 .m-table{border-collapse: collapse;width: 100%}
 .m-table .bd-lightgrey>td,
 .m-table .bd-lightgrey>th{border:1px solid lightgrey}
-.m-table tr{height: 40px;}
-.m-table th,.m-table td{padding: 0 8px;font-size: 16px}
+.m-table tr{height: 40px}
+.m-table th,.m-table td{padding: 0 8px;font-size: 16px;word-break: break-all}
 
 /* .ui-table th,.ui-table td,.ui-table-b th,.ui-table-b td{padding: 0 10px;text-align: center;}
 .ui-table-b th,.ui-table-b td{border: 1px solid #b2b2b2;}
@@ -191,6 +192,8 @@ body{background:#09b1b0;cursor:pointer;} */
 .ui-default2{color: #eb6304}
 .ui-mv-default:hover{color: #09b1b0} */
 /* word,background,border style */
+.m-text-r{text-align: right}
+.m-text-c{text-align: center}
 .m-red{color: #fb3f06}
 .m-bd-lightgrey{border:1px solid lightgrey}
 .m-bg-white{background-color: #eef8ff}
@@ -214,10 +217,11 @@ body{background:#09b1b0;cursor:pointer;} */
     border-radius:5px;
     background: #fff;
     border: 0;
+    word-break: keep-all;
 }
 .m-btn-large{height: 46px;padding: 0 64px;font-size: 20px;}    /* 大按钮样式 */
 .m-btn-middle{height: 34px;font-size: 18px;padding: 0 20px;}    /* 中等按钮样式 */
-.m-btn-cancel{border:1px solid #b2b2b2;}    /* 取消按钮 */
+.m-btn-cancel{border:1px solid #b2b2b2;outline-color: #b2b2b2}    /* 取消按钮 */
 .m-btn-confirm{background: #09b1b0;color: #fff;}    /* 确认按钮 */
 .m-btn-grey{background: grey;color: #fff;}    /* 按钮至灰 */
 .m-btn-editor{background: #ff6e42;color: #fff;}    /* 编辑按钮 */
@@ -243,8 +247,6 @@ body{background:#09b1b0;cursor:pointer;} */
     padding: 0 9px;font-size: 16px;
     line-height: 32px;border:1px solid #666666
 }
-.m-input-r{text-align: right}
-.m-input-c{text-align: center}
 /* tab style */
 .m-tab{
     display: inline-block;

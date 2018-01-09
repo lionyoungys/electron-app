@@ -4,6 +4,8 @@
  */
 import React from 'react';
 import Crumb from '../UI/crumb/App';
+import Cancel from '../UI/cancel/App';
+import './App.css';
 
 export default class extends React.Component {
     constructor(props) {
@@ -11,16 +13,17 @@ export default class extends React.Component {
         let param = this.props.param;
         this.state = {
             checked: ( ( tool.isSet(param) && tool.isSet(param.checked) ) ? param.checked : 'ordering' ),    //选项卡选中
-            data:[],html:null,show:false,currentOrder:null,
-            showNotice:false,noticeMsg:'用户尚未付款，您暂时不能做此操作'
-        };    //选项卡选择属性 当前数据 展示html 弹窗展示与否 当前订单
+            data:[],
+            show:false,
+            currentOrder:null,
+            showNotice:false,
+            noticeMsg:'用户尚未付款，您暂时不能做此操作'
+        };    //选项卡选择属性 当前数据 弹窗展示与否 当前订单
         this.handleClick = this.handleClick.bind(this);    //切换选项卡方法
         this.adapter = this.adapter.bind(this);    //数据适配处理方法
-        this.willDispose = this.willDispose.bind(this);    //待处理
-        this.willTake = this.willTake.bind(this);    //待收件
-        this.willClean = this.willClean.bind(this);    //待清洗
-        this.cleaning = this.cleaning.bind(this);    //清洗中
-        this.willDelivery = this.willDelivery.bind(this);    //待送达
+        this.btnAdapter = this.btnAdapter.bind(this);    //根据数据状态返回按钮操作
+        this.showCancelLayer = this.showCancelLayer.bind(this);    //隐藏展示取消框方法
+        this.onCancelRequest = this.onCancelRequest.bind(this);    //订单取消方法
         this.generateItemsList = this.generateItemsList.bind(this);    //项目列表生成器
         this.orderConfirm = this.orderConfirm.bind(this);    //确认订单方法
         this.checkDone = this.checkDone.bind(this);    //检查完成方法
@@ -32,10 +35,10 @@ export default class extends React.Component {
         //选项卡列表 api 对应接口地址
         this.tabs = [
             {value:'待处理',api:'ordering'},
-            {value:'待收件',api:'ordering2'},
-            {value:'待清洗',api:'ordering3'},
-            {value:'清洗中',api:'ordering4'},
-            {value:'待送达',api:'ordering5'}
+            {value:'待收件',api:'to_take'},
+            {value:'待清洗',api:'to_clean'},
+            {value:'清洗中',api:'cleaning'},
+            {value:'待送达',api:'posting'}
         ];
         //多选框参数
         this.checkboxs = [
@@ -45,39 +48,7 @@ export default class extends React.Component {
             {text:'距离太远',key:3},
             {text:'其他原因',key:4},
         ];
-        //表格头部模型
-        this.theadsModel = [
-            <tr className='ui-tr-h'>
-                <th>订单号</th>
-                <th>预约上门时间</th>
-                <th>姓名</th>
-                <th>电话</th>
-                <th>地址</th>
-                <th>时间</th>
-                <th>处理</th>
-            </tr>,
-            <tr className='ui-tr-h'>
-                <th>订单号</th>
-                <th>项目</th>
-                <th>工艺加价</th>
-                <th>件数</th>
-                <th>总价</th>
-                <th>姓名／电话</th>
-                <th>地址</th>
-                <th>时间</th>
-                <th>操作</th>
-            </tr>
-        ];
-        //表格头部内容
-        this.theads = [
-            this.theadsModel[0],
-            this.theadsModel[0],
-            this.theadsModel[1],
-            this.theadsModel[1],
-            this.theadsModel[1]
-        ];
-        //订单进程列表对应状态
-        this.process = [this.willDispose,this.willTake,this.willClean,this.cleaning,this.willDelivery];
+
         this.timerID = null;
     }
     componentDidMount() {
@@ -92,20 +63,16 @@ export default class extends React.Component {
     }
     handleClick(e) {
         let checked = e.target.dataset.api;
-        this.setState({checked:checked});
-        return;
-        axios.post(api.U(checked),api.data({token:this.props.token}))
+        axios.post(api.U(checked),api.D({token:this.props.token,page:1,limit:10000}))
         .then((response) => {
-            api.V(response.data) && this.setState({data:response.data.result});
-            /*let result = response.data;
-            this.setState({checked:state,data:result.data,html:html});*/
+            api.V(response.data) && this.setState({data:response.data.result,checked:checked});
         });
     }
 
     adapter() {
         let adapter = {head:null,body:null},
             checked = this.state.checked;
-        if ('ordering' == checked) {
+        if ('ordering' == checked || 'to_take' == checked) {
             adapter.head = (
                 <tr className='bd-lightgrey m-bg-white'>
                     <th>订单号</th>
@@ -125,153 +92,94 @@ export default class extends React.Component {
                     <td>{obj.umobile}</td>
                     <td>{obj.uaddress}</td>
                     <td>{obj.otime}</td>
+                    {this.btnAdapter(obj.id)}
+                </tr>
+            );
+        } else {
+            adapter.head = (
+                <tr className='bd-lightgrey m-bg-white'>
+                    <th>订单号</th>
+                    <th>项目</th>
+                    <th>工艺加价</th>
+                    <th>件数</th>
+                    <th>总价</th>
+                    <th>姓名</th>
+                    <th>电话</th>
+                    <th>地址</th>
+                    <th>时间</th>
+                    <th>操作</th>
+                </tr>
+            );
+            adapter.body = this.state.data.map(obj => 
+                <tr className='bd-lightgrey' key={obj.id}>
+                    <td>{obj.ordersn}</td>
                     <td></td>
+                    <td></td>
+                    <td>{obj.items.length}件</td>
+                    <td className='m-red'>&yen;{obj.pay_amount}</td>
+                    <td>{obj.uname}</td>
+                    <td>{obj.umobile}</td>
+                    <td>{obj.uaddress}</td>
+                    <td>{obj.otime}</td>
+                    {this.btnAdapter(obj.id)}
                 </tr>
             );
         }
-        /*
-        this.theadsModel = [
-            <tr className='ui-tr-h'>
-                <th>订单号</th>
-                <th>预约上门时间</th>
-                <th>姓名</th>
-                <th>电话</th>
-                <th>地址</th>
-                <th>时间</th>
-                <th>处理</th>
-            </tr>,
-            <tr className='ui-tr-h'>
-                <th>订单号</th>
-                <th>项目</th>
-                <th>工艺加价</th>
-                <th>件数</th>
-                <th>总价</th>
-                <th>姓名／电话</th>
-                <th>地址</th>
-                <th>时间</th>
-                <th>操作</th>
-            </tr>
-        ];
-         */
         return adapter;
     }
 
-    //待处理
-    willDispose(data) {
-        let items = data.map((obj) => 
-            <tr key={obj.id} className='ui-tr-d'>
-                <td>{obj.ordersn}</td>
-                <td className='ui-red'>{obj.time}</td>
-                <td>{obj.name}</td>
-                <td>{obj.phone}</td>
-                <td>{obj.adr}</td>
-                <td>{obj.create_time}</td>
-                <td>
-                    <div className='ui-box-between'>
-                        <input type='button' data-id={obj.id} type='button' value='取消订单' className='ui-btn ui-btn-cancel' onClick={this.openAlert}/>
-                        <input type='button' data-id={obj.id} type='button' value='确认订单' className='ui-btn ui-btn-confirm' onClick={this.orderConfirm}/>
-                    </div> 
-                </td>
-            </tr>
-        );
-        return items;
+    btnAdapter(id) {
+        switch (this.state.checked)
+        {
+            case 'ordering':
+                return (
+                    <td>
+                        <p>
+                            <button 
+                                type='button' 
+                                className='m-btn m-btn-cancel'
+                                data-id={id}
+                                onClick={this.showCancelLayer}
+                            >取消订单</button>
+                        </p>
+                        <p><button type='button' className='m-btn m-btn-confirm'>确认订单</button></p>
+                    </td>
+                );
+            case 'to_take':
+                return (
+                    <td>
+                        <p>
+                            <button 
+                                type='button' 
+                                className='m-btn m-btn-cancel'
+                                data-id={id}
+                                onClick={this.showCancelLayer}
+                            >取消订单</button>
+                        </p>
+                        <p><button type='button' className='m-btn m-btn-confirm'>添加项目</button></p>
+                    </td>
+                );
+            case 'to_clean':
+                return (
+                    <td>
+                        <p>
+                            <button 
+                                type='button' 
+                                className='m-btn m-btn-confirm'
+                                data-id={id}
+                            >上传照片</button>
+                        </p>
+                        <p><button type='button' className='m-btn m-btn-confirm'>检查完成</button></p>
+                    </td>
+                );
+            case 'cleaning':
+                return (<td><button type='button' className='m-btn m-btn-confirm'>清洗完成</button></td>);
+            case 'posting':
+                return (<td><button type='button' className='m-btn m-btn-confirm'>送件完成</button></td>);
+        }
     }
-    //待收件
-    willTake(data) {
-        let items = data.map((obj) => 
-            <tr key={obj.id} className='ui-tr-d'>
-                <td>{obj.ordersn}</td>
-                <td className='ui-red'>{obj.time}</td>
-                <td>{obj.name}</td>
-                <td>{obj.phone}</td>
-                <td>{obj.adr}</td>
-                <td>{obj.create_time}</td>
-                <td>
-                    <div className='ui-box-between'>
-                        <input data-id={obj.id} type='button' value='取消订单' className='ui-btn ui-btn-cancel' onClick={this.openAlert}/>
-                        <input data-param={'id=' + obj.id} data-e='item' type='button' value='添加项目' className='ui-btn ui-btn-confirm' onClick={this.props.changeView}/>
-                    </div> 
-                </td>
-            </tr>
-        );
-        return items;
-    }
-    //待清洗
-    willClean(data) {
-        let items = data.map((obj) => 
-            <tr key={obj.id} className='ui-tr-d'>
-                <td>{obj.ordersn}</td>
-                <td>{this.generateItemsList(obj.item)}</td>
-                <td>
-                    <div className='ui-box-between'><span>上门服务费</span><span>&yen;{obj.freight}</span></div>
-                    <div className='ui-box-between'><span>特殊工艺加价</span><span>&yen;{obj.special}</span></div>
-                    <div className='ui-box-between'><span>保值洗</span><span>&yen;{obj.hedging}</span></div>
-                    <div className='ui-box-between'><span>优惠金额</span><span>&yen;{obj.coupon_price}</span></div>
-                </td>
-                <td>{obj.sum}件</td>
-                <td className='ui-red'>{obj.amount}</td>
-                <td>{obj.name}<br/>{obj.phone}</td>
-                <td>{obj.adr}</td>
-                <td>{obj.update_time}</td>
-                <td>
-                    <div className='ui-box-column'>
-                        <div style={{height:'10px'}}></div>
-                        <input 
-                            type='button' 
-                            data-id={obj.id} 
-                            value='检查完成' 
-                            className={'ui-btn ' + (1==obj.pay_state ? 'ui-btn-confirm' : 'ui-btn-grey')}
-                            onClick={this.checkDone}
-                        />
-                    </div>
-                </td>
-            </tr>
-        );
-        return items;
-    }
-    //清洗中
-    cleaning(data) {
-        let items = data.map((obj) => 
-            <tr key={obj.id} className='ui-tr-d'>
-                <td>{obj.ordersn}</td>
-                <td>{this.generateItemsList(obj.item)}</td>
-                <td>
-                    <div className='ui-box-between'><span>上门服务费</span><span>&yen;{obj.freight}</span></div>
-                    <div className='ui-box-between'><span>特殊工艺加价</span><span>&yen;{obj.special}</span></div>
-                    <div className='ui-box-between'><span>保值洗</span><span>&yen;{obj.hedging}</span></div>
-                    <div className='ui-box-between'><span>优惠金额</span><span>&yen;{obj.coupon_price}</span></div>
-                </td>
-                <td>{obj.sum}件</td>
-                <td className='ui-red'>{obj.amount}</td>
-                <td>{obj.name}<br/>{obj.phone}</td>
-                <td>{obj.adr}</td>
-                <td>{obj.update_time}</td>
-                <td><input type='button' data-id={obj.id} value='清洗完成' className='ui-btn ui-btn-confirm' onClick={this.cleanDone}/></td>
-            </tr>
-        );
-        return items;
-    }
-    //待送达
-    willDelivery(data) {
-        let items = data.map((obj) => 
-            <tr key={obj.id} className='ui-tr-d'>
-                <td>{obj.ordersn}</td>
-                <td>{this.generateItemsList(obj.item)}</td>
-                <td>
-                    <div className='ui-box-between'><span>上门服务费</span><span>&yen;{obj.freight}</span></div>
-                    <div className='ui-box-between'><span>特殊工艺加价</span><span>&yen;{obj.special}</span></div>
-                    <div className='ui-box-between'><span>保值洗</span><span>&yen;{obj.hedging}</span></div>
-                    <div className='ui-box-between'><span>优惠金额</span><span>&yen;{obj.coupon_price}</span></div>
-                </td>
-                <td>{obj.sum}件</td>
-                <td className='ui-red'>{obj.amount}</td>
-                <td>{obj.name}<br/>{obj.phone}</td>
-                <td>{obj.adr}</td>
-                <td>{obj.update_time}</td>
-                <td><input type='button' data-id={obj.id} value='送件完成' className='ui-btn ui-btn-confirm' onClick={this.done}/></td>
-            </tr>
-        );
-        return items;
+    showCancelLayer() {this.setState({show:!this.state.show})}
+    onCancelRequest(e) {
     }
     //确认订单方法
     orderConfirm(e) {
@@ -279,15 +187,13 @@ export default class extends React.Component {
             id = e.target.dataset.id;
         axios.post(
             api.U('orderHandle'), 
-            api.data({token:this.props.token,id:id,state:state.checked})
+            api.D({token:this.props.token,id:id,state:state.checked})
         )
         .then((response) => {
             if (api.verify(response.data)) {
                 let index = id.inObjectArray(state.data,'id');
                 if (-1 !== index) {
                     state.data.splice(index,1);
-                    let html = this.process[state.checked](state.data);
-                    this.setState({html:html});
                 }
             }
         });
@@ -296,15 +202,13 @@ export default class extends React.Component {
     cleanDone(e) {
         let state = this.state,
             id = e.target.dataset.id;
-        axios.post(api.U('cleanDone'),api.data({token:this.props.token,id:id}))
+        axios.post(api.U('cleanDone'),api.D({token:this.props.token,id:id}))
         .then((response) => {
             let result = response.data;
             if (api.verify(result)) {
                 let index = id.inObjectArray(state.data,'id');
                 if (-1 !== index) {
                     state.data.splice(index,1);
-                    let html = this.process[state.checked](state.data);
-                    this.setState({html:html});
                 }
             } else {
 
@@ -317,7 +221,7 @@ export default class extends React.Component {
             id = target.dataset.id,
             state = this.state;
         if (target.classList.contains('ui-btn-confirm')) {
-            axios.post(api.U('checkDone'),api.data({token:this.props.token,orderid:id}))
+            axios.post(api.U('checkDone'),api.D({token:this.props.token,orderid:id}))
             .then((response) => {
                 let result = response.data;
                 console.log(response.data);
@@ -325,8 +229,6 @@ export default class extends React.Component {
                     let index = id.inObjectArray(state.data,'id');
                     if (-1 !== index) {
                         state.data.splice(index,1);
-                        let html = this.process[state.checked](state.data);
-                        this.setState({html:html});
                     }
                 } else {
                     this.setState({showNotice:true,noticeMsg:result.status});
@@ -350,14 +252,12 @@ export default class extends React.Component {
     done(e) {
         let state = this.state,
             id = e.target.dataset.id;
-        axios.post(api.U('done'),api.data({token:this.props.token,id:id}))
+        axios.post(api.U('done'),api.D({token:this.props.token,id:id}))
         .then((response) => {
             if (api.verify(response.data)) {
                 let index = id.inObjectArray(state.data,'id');
                 if (-1 !== index) {
                     state.data.splice(index,1);
-                    let html = this.process[state.checked](state.data);
-                    this.setState({html:html});
                 }
             }
         });
@@ -373,15 +273,13 @@ export default class extends React.Component {
         let state = this.state;
         axios.post(
             api.U('orderCancel'),
-            api.data({token:this.props.token,id:state.currentOrder,quxiao:checkedList.toString()})
+            api.D({token:this.props.token,id:state.currentOrder,quxiao:checkedList.toString()})
         )
         .then((response) => {
             if (api.verify(response.data)) {
                 let index = state.currentOrder.inObjectArray(state.data,'id');
                 if (-1 !== index) {
                     state.data.splice(index,1);
-                    let html = this.process[state.checked](state.data);
-                    this.setState({html:html});
                 }
             }
         });
@@ -425,7 +323,7 @@ export default class extends React.Component {
                         </table>
                     </div>
                 </div>
-                {/* <CheckboxAlert 
+                <Cancel 
                     show={state.show} 
                     checkboxs={this.checkboxs} 
                     onClose={this.onClose} 
@@ -433,7 +331,7 @@ export default class extends React.Component {
                     button='取消订单'
                     callback={this.onConfirm}
                 />
-                <Notification show={state.showNotice} width='320'>
+                {/* <Notification show={state.showNotice} width='320'>
                     {state.noticeMsg}
                 </Notification> */}
             </div>
