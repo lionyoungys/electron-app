@@ -20,7 +20,7 @@
 @media screen and (min-width: 1600px) {
 	.index{width: 1080px}
 	.index:first-child>:nth-child(5n+0){margin-right: 0}
-	
+
 	.take{width: 1300px}
 	.take>div{width: 370px;}
 }

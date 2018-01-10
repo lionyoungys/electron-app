@@ -26,11 +26,11 @@ export default class extends React.Component {
         this.onCancelRequest = this.onCancelRequest.bind(this);    //订单取消方法
         this.onConfirmRequest = this.onConfirmRequest.bind(this);    //确认订单方法
         this.addItem = this.addItem.bind(this);    //跳转添加项目界面
-        this.generateItemsList = this.generateItemsList.bind(this);    //项目列表生成器
-        this.checkDone = this.checkDone.bind(this);    //检查完成方法
-        this.cleanDone = this.cleanDone.bind(this);    //清洗完成方法
-        this.done = this.done.bind(this);    //送件完成方法
-        this.openAlert = this.openAlert.bind(this);    //打开弹窗方法
+        this.upload = this.upload.bind(this);    //跳转上传图片界面
+        this.checkOff = this.checkOff.bind(this);    //检查完成方法
+        this.isClean = this.isClean.bind(this);    //清洗完成方法
+        this.isPost = this.isPost.bind(this);    //送件完成
+        this.generateItemsList = this.generateItemsList.bind(this);    //项目列表生成器 
         //选项卡列表 api 对应接口地址
         this.tabs = [
             {value:'待处理',api:'ordering'},
@@ -63,6 +63,7 @@ export default class extends React.Component {
         axios.post(api.U(checked),api.D({token:this.props.token,page:1,limit:10000}))
         .then((response) => {
             api.V(response.data) && this.setState({data:response.data.result,checked:checked});
+            console.log(response.data);
         });
     }
 
@@ -118,66 +119,46 @@ export default class extends React.Component {
                     <td>{obj.umobile}</td>
                     <td>{obj.uaddress}</td>
                     <td>{obj.otime}</td>
-                    {this.btnAdapter(obj.id)}
+                    {this.btnAdapter(obj.id, obj.checked)}
                 </tr>
             );
         }
         return adapter;
     }
 
-    btnAdapter(id) {
+    btnAdapter(id, checked) {
         switch (this.state.checked)
         {
             case 'ordering':
                 return (
                     <td>
-                        <p>
-                            <button 
-                                type='button' 
-                                className='m-btn m-btn-cancel'
-                                data-id={id}
-                                onClick={this.showCancelLayer}
-                            >取消订单</button>
-                        </p>
-                        <p>
-                            <button
-                                type='button'
-                                className='m-btn m-btn-confirm'
-                                data-id={id}
-                                onClick={this.onConfirmRequest}
-                            >确认订单</button>
-                        </p>
+                        <p><button type='button' className='m-btn m-btn-cancel' data-id={id} onClick={this.showCancelLayer}>取消订单</button></p>
+                        <p><button type='button' className='m-btn m-btn-confirm' data-id={id} onClick={this.onConfirmRequest}>确认订单</button></p>
                     </td>
                 );
             case 'to_take':
                 return (
                     <td>
-                        <p>
-                            <button 
-                                type='button' 
-                                className='m-btn m-btn-cancel'
-                                data-id={id}
-                                onClick={this.showCancelLayer}
-                            >取消订单</button>
-                        </p>
+                        <p><button type='button' className='m-btn m-btn-cancel' data-id={id} onClick={this.showCancelLayer}>取消订单</button></p>
                         <p><button type='button' data-id={id} className='m-btn m-btn-confirm' onClick={this.addItem}>添加项目</button></p>
                     </td>
                 );
             case 'to_clean':
                 return (
                     <td>
+                        <p><button type='button' className='m-btn m-btn-confirm' data-id={id} onClick={this.upload}>上传照片</button></p>
                         <p>
                             <button 
-                                type='button' 
-                                className='m-btn m-btn-confirm'
-                                data-id={id}
-                            >上传照片</button>
+                                type='button'
+                                className={'m-btn m-btn-confirm' + (checked ? '' : ' disabled')}
+                                title={checked ? null : '用户尚未付款，您暂时不能做此操作'}
+                                onClick={checked ? null : this.checkOff}
+                            >检查完成</button>
                         </p>
-                        <p><button type='button' className='m-btn m-btn-confirm'>检查完成</button></p>
                     </td>
                 );
             case 'cleaning':
-                return (<td><button type='button' className='m-btn m-btn-confirm'>清洗完成</button></td>);
+                return (<td><button type='button' className='m-btn m-btn-confirm' onClick={this.isClean}>清洗完成</button></td>);
             case 'posting':
                 return (<td><button type='button' className='m-btn m-btn-confirm'>送件完成</button></td>);
         }
@@ -210,25 +191,8 @@ export default class extends React.Component {
         });
     }
     addItem(e) {this.props.changeView({view:'online_add_item',param:{oid:e.target.dataset.id}})}
-    //清洗完成
-    cleanDone(e) {
-        let state = this.state,
-            id = e.target.dataset.id;
-        axios.post(api.U('cleanDone'),api.D({token:this.props.token,id:id}))
-        .then((response) => {
-            let result = response.data;
-            if (api.V(result)) {
-                let index = id.inObjectArray(state.data,'id');
-                if (-1 !== index) {
-                    state.data.splice(index,1);
-                }
-            } else {
-
-            }
-        });
-    }
-    //检查完成
-    checkDone(e) {
+    upload(e) {this.props.changeView({view:'upload',param:{oid:e.target.dataset.id}})}
+    checkOff(e) {
         let target = e.target,
             id = target.dataset.id,
             state = this.state;
@@ -260,8 +224,23 @@ export default class extends React.Component {
             },3000);
         }
     }
-    //送件完成
-    done(e) {
+    isClean(e) {
+        let state = this.state,
+            id = e.target.dataset.id;
+        axios.post(api.U('cleanDone'),api.D({token:this.props.token,id:id}))
+        .then((response) => {
+            let result = response.data;
+            if (api.V(result)) {
+                let index = id.inObjectArray(state.data,'id');
+                if (-1 !== index) {
+                    state.data.splice(index,1);
+                }
+            } else {
+
+            }
+        });
+    }
+    isPost(e) {
         let state = this.state,
             id = e.target.dataset.id;
         axios.post(api.U('done'),api.D({token:this.props.token,id:id}))
@@ -274,13 +253,6 @@ export default class extends React.Component {
             }
         });
     }
-    //打开弹窗方法
-    openAlert(e) {
-        this.setState({currentOrder:e.target.dataset.id});
-        if (!this.state.show) this.setState({show:true});
-    }
-
-
     generateItemsList(items) {
         return items.map((obj) => 
             <div key={obj.id} className='ui-box-between'>

@@ -226,9 +226,9 @@ body{background:#09b1b0;cursor:pointer;} */
 .m-btn-large{height: 46px;padding: 0 64px;font-size: 20px;}    /* 大按钮样式 */
 .m-btn-middle{height: 34px;font-size: 18px;padding: 0 20px;}    /* 中等按钮样式 */
 .m-btn-cancel{border:1px solid #b2b2b2;outline-color: #b2b2b2}    /* 取消按钮 */
-.m-btn-confirm{background: #09b1b0;color: #fff;}    /* 确认按钮 */
-.m-btn-grey{background: grey;color: #fff;}    /* 按钮至灰 */
-.m-btn-editor{background: #ff6e42;color: #fff;}    /* 编辑按钮 */
+.m-btn-confirm{background: #09b1b0;color: #fff}    /* 确认按钮 */
+.m-btn-editor{background: #ff6e42;color: #fff}    /* 编辑按钮 */
+.m-btn.disabled{background: #a8a8a8;color: #fff;outline: none;cursor: help}
 /* 文本计数器样式 */
 .m-counter{
     height: 18px;
