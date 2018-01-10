@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import './App.css';
-// title:标题文字    onCloseRequest:关闭弹窗    展示数据 data:api接口返回的items集合    onClick(index):选中选项点击
+//  show:是否展示    title:标题文字    onCloseRequest:关闭弹窗    展示数据 data:api接口返回的items集合    onClick(index):选中选项点击
 export default class extends React.Component {
     constructor(props) {
         super(props);

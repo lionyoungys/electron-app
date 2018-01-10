@@ -5,6 +5,7 @@
 import React from 'react';
 import Crumb from '../UI/crumb/App';
 import Clothes from '../UI/clothes/App';
+import Question from '../UI/question/App';
 import './App.css';
 
 export default class extends React.Component {
@@ -15,7 +16,9 @@ export default class extends React.Component {
             item:[],
             index:0,
             clothesShow:false,
-            clothes:[]
+            clothes:[],
+            type:null,
+            tempData:[]
         };
         this.handleTabClick = this.handleTabClick.bind(this);
         this.handleClothesClick = this.handleClothesClick.bind(this);
@@ -57,8 +60,8 @@ export default class extends React.Component {
                 <Crumb data={[{key:0,value:'待收件',view:'online',param:{checked:'to_take'}},{key:1,value:'添加项目'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div>{tabs}</div>
-                    <div className='m-box' onClick={() => this.setState({clothesShow:true})}>section one</div>
-                    <div className='m-box'>section two</div>
+                    <div className='m-box' onClick={() => this.setState({type:'question'})}>question</div>
+                    <div className='m-box' onClick={() => this.setState({type:'color'})}>color</div>
                 </div>
                 <Clothes
                     show={state.clothesShow}
@@ -67,6 +70,7 @@ export default class extends React.Component {
                     onClick={this.handleClothesClick}
                     onCloseRequest={() => this.setState({clothesShow:false})}
                 />
+                <Question type={this.state.type} onCloseRequest={() => this.setState({type:null})}/>
             </div>
         );
     }
