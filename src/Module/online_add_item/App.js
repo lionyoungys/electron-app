@@ -22,6 +22,8 @@ export default class extends React.Component {
         };
         this.handleTabClick = this.handleTabClick.bind(this);
         this.handleClothesClick = this.handleClothesClick.bind(this);
+        this.colorConfirm = this.colorConfirm.bind(this);
+        this.questionConfirm = this.questionConfirm.bind(this);
         console.log(this.props.param.oid);
     }
     componentDidMount() {
@@ -42,11 +44,20 @@ export default class extends React.Component {
 
     handleTabClick(e) {this.setState({index:e.target.dataset.key,clothesShow:true})}
     handleClothesClick(index) {console.log(index)}
+    colorConfirm(value, options) {
+        console.log(value);
+        console.log(options);
+    }
+    questionConfirm(value, options) {
+        console.log(value);
+        console.log(options);
+    }
 
     render() {
         let state = this.state,
             title = (state.category.length > 0 ? state.category[state.index].value : null),
             data = (state.item.length > 0 ? state.item[state.index] : []),
+            questionHandle = null === this.state.type ? null : this[this.state.type + 'Confirm'],
             tabs = this.state.category.map(obj => 
             <span
                 key={obj.key}
@@ -70,7 +81,11 @@ export default class extends React.Component {
                     onClick={this.handleClothesClick}
                     onCloseRequest={() => this.setState({clothesShow:false})}
                 />
-                <Question type={this.state.type} onCloseRequest={() => this.setState({type:null})}/>
+                <Question
+                    type={this.state.type}
+                    onCloseRequest={() => this.setState({type:null})}
+                    onConfirmRequest={questionHandle}
+                />
             </div>
         );
     }
