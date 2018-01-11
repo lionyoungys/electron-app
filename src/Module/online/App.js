@@ -30,7 +30,7 @@ export default class extends React.Component {
         this.checkOff = this.checkOff.bind(this);    //检查完成方法
         this.isClean = this.isClean.bind(this);    //清洗完成方法
         this.isPost = this.isPost.bind(this);    //送件完成
-        this.generateItemsList = this.generateItemsList.bind(this);    //项目列表生成器 
+        this.itemsToHtml = this.itemsToHtml.bind(this);
         //选项卡列表 api 对应接口地址
         this.tabs = [
             {value:'待处理',api:'ordering'},
@@ -111,8 +111,13 @@ export default class extends React.Component {
             adapter.body = this.state.data.map(obj => 
                 <tr className='bd-lightgrey' key={obj.id}>
                     <td>{obj.ordersn}</td>
-                    <td></td>
-                    <td></td>
+                    <td>{this.itemsToHtml(obj.items)}</td>
+                    <td>
+                        <div className='m-between-box online'><span>上门服务费</span><span>&yen;{obj.freight_price}</span></div>
+                        <div className='m-between-box online'><span>特殊工艺加价</span><span>&yen;{obj.craft_price}</span></div>
+                        <div className='m-between-box online'><span>保值清洗费</span><span>&yen;{obj.keep_price}</span></div>
+                        <div className='m-between-box online'><span>优惠金额</span><span>&yen;{obj.reduce_price}</span></div>
+                    </td>
                     <td>{obj.items.length}件</td>
                     <td className='m-red'>&yen;{obj.pay_amount}</td>
                     <td>{obj.uname}</td>
@@ -253,11 +258,11 @@ export default class extends React.Component {
             }
         });
     }
-    generateItemsList(items) {
-        return items.map((obj) => 
-            <div key={obj.id} className='ui-box-between'>
-                <span>{obj.g_name}</span>
-                <span>&yen;{obj.price}</span>
+    itemsToHtml(items) {
+        return items.map((obj, index) => 
+            <div key={index} className='m-between-box online'>
+                <span>{obj.item_name}</span>
+                <span>&yen;{obj.item_price}</span>
             </div>
         );
     }

@@ -4,7 +4,7 @@
  */
 (window => {
     //去除字符串中的空字符；
-    String.prototype.trim = function () {return this.replace(/(^\s*)|(\s*$)/g,'');};
+    String.prototype.trim = function () {return this.replace(/(^\s*)|(\s*$)/g,'')};
     /**
      * 判断字符串是否在指定数组里
      * @param array 数组
@@ -24,6 +24,14 @@
         }
         return ret;
     };
+    /**
+     * 获取文件路径字符串的扩展名
+     * @return 文件扩展名
+     */
+    String.prototype.ext = function() {
+        let result = /\.[^\.]+$/.exec(this);
+        return null === result ? '' : result[0].replace('.', '').toLowerCase();
+    }
     /**
      * 判断字符串是否在指定key的对象数组中
      * @param array 数组
@@ -63,25 +71,26 @@
 
     /**
      * base64装二进制
+     * @param string ext 选传参数 文件后缀
      * @return Blob
      */
-    String.prototype.base64toBlob = function () {
-        let splitArray = this.split(','),    //分割base64数据的头与内容
-            byteString, mimeString;
-        if (splitArray.length > 1) {
-            byteString = atob(splitArray[1]);    //base64解码
-            mimeString = splitArray[0].split(':')[1].split(';')[0];    //data:image/png;base64，获取mime类型
+    String.prototype.base64toBlob = function (ext) {
+        let splitArr = this.split(','),    //分割base64数据的头与内容
+            byteStr, mime;
+        if (splitArr.length > 1) {
+            byteStr = atob(splitArr[1]);    //base64解码
+            mime = splitArr[0].split(':')[1].split(';')[0];    //data:image/png;base64,获取mime类型
         } else {
-            byteString = atob(splitArray[0]);
-            mimeString = 'image/jpg';
+            byteStr = atob(splitArr[0]);
+            mime = ('undefined' === typeof ext || 'jpg' === ext) ? 'image/jpeg' : ('image/' + ext);
         }
-        let bufferSize = byteString.length,    //获取数据的大小
+        let bufferSize = byteStr.length,    //获取数据的大小
             buffer = new ArrayBuffer(bufferSize),    //创建同等于数据大小的内存区域
             dataView = new Uint8Array(buffer);    //创建一个8位无符号整数，长度1个字节的数据视图，并分配buffer
-        for (let i = 0; i < byteString.length; i++) {
-            dataView[i] = byteString.charCodeAt(i);    //获取每个字节Unicode编码并追加数据视图数组
+        for (let i = 0; i < byteStr.length; i++) {
+            dataView[i] = byteStr.charCodeAt(i);    //获取每个字节Unicode编码并追加数据视图数组
         }
-        return new Blob([buffer], {type: mimeString});    //返回原数据类型对象
+        return new Blob([buffer], {type: mime});    //返回原数据类型对象
     };
 
     /**
