@@ -6,6 +6,9 @@ import React from 'react';
 import Crumb from '../UI/crumb/App';
 import Clothes from '../UI/clothes/App';
 import Question from '../UI/question/App';
+import Item from '../UI/item/App';
+import ItemInfo from '../UI/item_info/App';
+import ItemCost from '../UI/item_cost/App';
 import './App.css';
 
 export default class extends React.Component {
@@ -71,6 +74,11 @@ export default class extends React.Component {
                 <Crumb data={[{key:0,value:'待收件',view:'online',param:{checked:'to_take'}},{key:1,value:'添加项目'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div>{tabs}</div>
+                    <div className='m-box oai-tab-box'>
+                        <Item/>
+                        <ItemInfo/>
+                        <ItemCost/>
+                    </div>
                     <div className='m-box' onClick={() => this.setState({type:'question'})}>question</div>
                     <div className='m-box' onClick={() => this.setState({type:'color'})}>color</div>
                 </div>

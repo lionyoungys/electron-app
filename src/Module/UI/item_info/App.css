@@ -1,0 +1,32 @@
+.item-info{
+    width: 340px;
+    height: 150px;
+    border: 1px solid #09b1b0;
+    display: inline-block;
+    border-radius: 5px;
+}
+.item-info>div{padding: 0 10px;box-sizing: border-box;-webkit-box-sizing: border-box}
+.item-info>:first-child{
+    background: #09b1b0;
+    color: #fff;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+}
+.item-info>:nth-child(2),
+.item-info>:nth-child(3),
+.item-info>:last-child{
+    margin-top: 10px;
+    display: -webkit-flex;display: flex;
+    height: 26px;
+    line-height: 26px;
+    font-size: 14px;
+}
+.item-info>:nth-child(2)>:first-child,
+.item-info>:nth-child(3)>:first-child,
+.item-info>:last-child>:first-child{
+    width: 60px;
+    text-align: right;
+    margin-right: 6px;
+}

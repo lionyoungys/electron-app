@@ -240,16 +240,43 @@ body{background:#09b1b0;cursor:pointer;} */
     color: grey;
 }
 /* input text style */
-.m-input{width: 240px;height: 35px;line-height: 35px;font-size: 18px;padding: 0 10px;}
+.m-input{
+    width: 240px;
+    height: 36px;
+    line-height: 36px;
+    font-size: 18px;
+    padding: 0 10px;
+    border: 1px solid #a9a9a9;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+}
+.m-input-small{
+    width: 154px;
+    height: 26px;
+    line-height: 26px;
+    font-size: 14px;
+    padding: 0 7px;
+    border: 1px solid #a9a9a9;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+}
+.m-input-small.long{width: 254px}
+.m-input-small.postfix{
+    padding-right: 18px;
+    background-image: url(img/small-postfix.png);
+    background-position: right center;
+    background-size: 18px 100%;
+    background-repeat: no-repeat;
+}
 .m-input2{
     width: 110px;height: 32px;
     padding: 0 9px;font-size: 18px;
-    line-height: 32px;border:1px solid #666666
+    line-height: 32px;
+    border: 1px solid #a9a9a9;
 }
 .m-input3{
     width: 210px;height: 32px;
     padding: 0 9px;font-size: 16px;
-    line-height: 32px;border:1px solid #666666
+    line-height: 32px;
+    border: 1px solid #a9a9a9;
 }
 /* tab style */
 .m-tab{

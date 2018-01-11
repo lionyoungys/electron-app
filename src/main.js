@@ -68,13 +68,13 @@ class Main extends Component {
     }
     //右侧界面动态转换事件方法
     changeView(e) {
-        if ('undefined' === typeof e.target) {
-            this.setState({view:e.view,param:e.param});
+        if (!tool.isSet(e.target)) {
+            tool.isSet(e.view) && this.setState({view:e.view,param:e.param});
         } else {
             let data = e.target.dataset;
-            'undefined' !== typeof data.view && this.state.view != data.view && this.setState({view:data.view});
-            'undefined' !== typeof data.option && this.setState({option:data.option});
-            'undefined' !== typeof data.param && this.setState({param:data.param});
+            tool.isSet(data.view) && this.state.view != data.view && this.setState({view:data.view});
+            tool.isSet(data.option) && this.setState({option:data.option});
+            tool.isSet(data.param) && this.setState({param:data.param});
         }
     }
 
