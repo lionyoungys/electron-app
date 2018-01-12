@@ -1,0 +1,24 @@
+.coupon>:first-child>:first-child{
+    margin-right: 40px;
+    width: 211px;
+    height: 75px;
+    display: inline-block;
+    background-image: url(img/make-coupon.png);
+}
+.coupon>:first-child>:last-child{
+    width: 211px;
+    height: 75px;
+    display: inline-block;
+    background-image: url(img/make-card.png);
+}
+
+.coupon>:nth-child(2){
+    display: -webkit-flex;display: flex;justify-content: space-between;
+    padding: 0 10px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 18px;
+    background-color: #f0f0f0;
+    margin: 30px 0;
+}
+.coupon>:nth-child(2)>:last-child{text-indent: -2em}

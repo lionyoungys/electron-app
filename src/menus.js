@@ -43,7 +43,7 @@ export default [
             {text:'连锁门店',key:'info2'},
             {text:'门店信息',key:'info'},
             {text:'合作门店',key:'teamwork'},
-            {text:'卡券中心',key:'voucher'}
+            {text:'卡券中心',key:'coupon'}
         ]
     }
 ];

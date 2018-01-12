@@ -212,18 +212,25 @@
     t.currentDate = function (format) {
         let currentDate = new Date();
         if ('undefined' !== typeof format) {
-            let date = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
+            let year = currentDate.getFullYear(),
+                month = (currentDate.getMonth() + 1),
+                day = currentDate.getDate();
+            if (10 > month) month = '0' + month;
+            let date = year + '-' + month + '-' + day;
             let time = currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds();
             switch (format) {
+                case 'year':
+                    return year;
+                case 'month':
+                    return month;
+                case 'yearmonth':
+                    return (year + '-' + month);
                 case 'date':
-                    currentDate = date;
-                break;
+                    return date;
                 case 'time':
-                    currentDate = time;
-                break;
+                    return time;
                 case 'datetime':
-                    currentDate = date + ' ' + time;
-                break;
+                    return (date + ' ' + time);
             }
         }
         return currentDate;

@@ -54,9 +54,7 @@ export default class extends React.Component {
                     {images}
                     {this.props.loading ? (<div className='m-img-box'><img src={this.state.image}/><i className='m-loading'></i></div>) : null}
                     {this.props.img.length >= 12 ? null : (<div className='m-img-box upload' onClick={this.chooseImage}></div>)}
-                    <div className='m-img-text'>
-                        <div className='m-img-text-bottom'>(上传不得超过12张)</div>
-                    </div>
+                    <div><div>(上传不得超过12张)</div></div>
                 </div>
             </div>
          );

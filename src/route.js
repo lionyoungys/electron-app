@@ -6,6 +6,9 @@ import Register from './Module/register/App';
 import Online from './Module/online/App';
 import OnlineAddItem from './Module/online_add_item/App';
 import Upload from './Module/upload/App';
+import Coupon from './Module/coupon/App';
+import CouponDetail from './Module/coupon_detail/App';
+
 
 import Item from './order/item';
 import Craft from './order/craft';
@@ -26,8 +29,6 @@ import Operate from './manage/operate';
 import OrderSearch from './order/order_search';
 import OrderDetail from './order/order_detail';
 import Teamwork from './manage/teamwork';
-import Voucher from './manage/voucher';
-import VoucherList from './manage/voucher_list';
 import OfflineClean from './offline/offline_clean'
 import OfflineDrying from './offline/offline_drying'
 import OfflineIroning from './offline/offline_ironing'
@@ -60,7 +61,9 @@ export default {
     online:Online,    //线上订单订单处理
     online_add_item:OnlineAddItem,    //线上订单添加项目
     upload:Upload,    //添加图片
-
+    coupon:Coupon,    //卡券中心
+    coupon_detail:CouponDetail,    //卡券详情
+    
     item:Item,    //添加项目
     craft:Craft,    //工艺加价
     check:Check,    //衣物检查
@@ -80,8 +83,6 @@ export default {
     order_search:OrderSearch,    //订单查询
     order_detail:OrderDetail,    //订单详情
     teamwork:Teamwork,    //合作门店
-    voucher:Voucher,    //制作代金券
-    voucher_list:VoucherList,    //生成代金券
     offline_clean:OfflineClean,    //送洗
     offline_drying:OfflineDrying,    //烘干
     offline_ironing:OfflineIroning,    //熨烫

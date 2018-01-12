@@ -15,4 +15,15 @@
     flex-wrap: wrap;
 }
 .upload>:last-child>div{margin: 0 10px 10px 0}
-.upload>:last-child>div:last-child{margin-right: 0}
+.upload>:last-child>:last-child{
+    height: 80px;
+    width: 140px;
+    position: relative;
+    text-align:center;
+    margin-right: 0
+}
+.upload>:last-child>:last-child>:first-child{
+    color: #ff6f43;
+    position: absolute;
+    bottom:0;left:0;
+}
