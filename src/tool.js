@@ -29,8 +29,9 @@
      * @return 文件扩展名
      */
     String.prototype.ext = function() {
-        let result = /\.[^\.]+$/.exec(this);
-        return null === result ? '' : result[0].replace('.', '').toLowerCase();
+        let result = /\.[^\.]+$/.exec(this),
+            ext = ( null === result ? '' : result[0].replace('.', '').toLowerCase() );
+        return 'jpg' === ext ? 'jpeg' : ext;
     }
     /**
      * 判断字符串是否在指定key的对象数组中
@@ -70,25 +71,16 @@
     }
 
     /**
-     * base64装二进制
-     * @param string ext 选传参数 文件后缀
+     * 图片base64转二进制对象
+     * @param string mime 数据mime类型
      * @return Blob
      */
-    String.prototype.base64toBlob = function (ext) {
-        let splitArr = this.split(','),    //分割base64数据的头与内容
-            byteStr, mime;
-        if (splitArr.length > 1) {
-            byteStr = atob(splitArr[1]);    //base64解码
-            mime = splitArr[0].split(':')[1].split(';')[0];    //data:image/png;base64,获取mime类型
-        } else {
-            byteStr = atob(splitArr[0]);
-            mime = ('undefined' === typeof ext || 'jpg' === ext) ? 'image/jpeg' : ('image/' + ext);
-        }
-        let bufferSize = byteStr.length,    //获取数据的大小
-            buffer = new ArrayBuffer(bufferSize),    //创建同等于数据大小的内存区域
-            dataView = new Uint8Array(buffer);    //创建一个8位无符号整数，长度1个字节的数据视图，并分配buffer
-        for (let i = 0; i < byteStr.length; i++) {
-            dataView[i] = byteStr.charCodeAt(i);    //获取每个字节Unicode编码并追加数据视图数组
+    String.prototype.base64toBlob = function (mime) {
+        let byteStr = atob(this),
+            bufferSize = byteStr.length,    //获取数据的大小
+            buffer = new Uint8Array(bufferSize);    //创建一个8位无符号整数，长度1个字节的数据视图，并分配buffer
+        for (let i = 0; i < bufferSize; i++) {
+            buffer[i] = byteStr.charCodeAt(i);    //获取每个字节Unicode编码并追加数据视图数组
         }
         return new Blob([buffer], {type: mime});    //返回原数据类型对象
     };
