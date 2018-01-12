@@ -61,8 +61,22 @@ export default class extends React.Component {
         );
         return (
             <div>
-            <Crumb data={[{key:0,value:'待清洗',view:'online',param:{checked:'to_clean'}},{key:1,value:'上传照片'}]} callback={this.props.changeView}/>
-            <div className='m-container'>{html}</div>
+                <Crumb data={[{key:0,value:'待清洗',view:'online',param:{checked:'to_clean'}},{key:1,value:'上传照片'}]} callback={this.props.changeView}/>
+                <div className='m-container'>
+                    {html}
+                    <div className='upload-item'>
+                        <button
+                            type='button'
+                            className='m-btn m-btn-confirm m-btn-large'
+                            onClick={() => this.props.changeView({view:'online',param:{checked:'to_clean'}})}
+                        >返回</button>
+                        <button
+                            type='button'
+                            className='m-btn m-btn-confirm m-btn-large'
+                            onClick={() => this.props.changeView({view:'online',param:{checked:'to_clean'}})}
+                        >确定</button>
+                    </div>
+                </div>
             </div>
         );
     }

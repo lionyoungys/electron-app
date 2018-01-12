@@ -30,7 +30,6 @@ export default class extends React.Component {
         this.checkOff = this.checkOff.bind(this);    //检查完成方法
         this.isClean = this.isClean.bind(this);    //清洗完成方法
         this.isPost = this.isPost.bind(this);    //送件完成
-        this.itemsToHtml = this.itemsToHtml.bind(this);
         //选项卡列表 api 对应接口地址
         this.tabs = [
             {value:'待处理',api:'ordering'},
@@ -156,16 +155,16 @@ export default class extends React.Component {
                             <button 
                                 type='button'
                                 className={'m-btn m-btn-confirm' + (checked ? '' : ' disabled')}
-                                title={checked ? null : '用户尚未付款，您暂时不能做此操作'}
-                                onClick={checked ? null : this.checkOff}
+                                data-id={id}
+                                onClick={this.checkOff}
                             >检查完成</button>
                         </p>
                     </td>
                 );
             case 'cleaning':
-                return (<td><button type='button' className='m-btn m-btn-confirm' onClick={this.isClean}>清洗完成</button></td>);
+                return (<td><button type='button' className='m-btn m-btn-confirm' data-id={id} onClick={this.isClean}>清洗完成</button></td>);
             case 'posting':
-                return (<td><button type='button' className='m-btn m-btn-confirm'>送件完成</button></td>);
+                return (<td><button type='button' className='m-btn m-btn-confirm' data-id={id} onClick={this.isPost}>送件完成</button></td>);
         }
     }
     showCancelLayer(e) {this.setState({show:true,oid:e.target.dataset.id})}
@@ -198,64 +197,45 @@ export default class extends React.Component {
     addItem(e) {this.props.changeView({view:'online_add_item',param:{oid:e.target.dataset.id}})}
     upload(e) {this.props.changeView({view:'upload',param:{oid:e.target.dataset.id}})}
     checkOff(e) {
-        let target = e.target,
-            id = target.dataset.id,
-            state = this.state;
-        if (target.classList.contains('ui-btn-confirm')) {
-            axios.post(api.U('checkDone'),api.D({token:this.props.token,orderid:id}))
-            .then((response) => {
-                let result = response.data;
-                console.log(response.data);
-                if (api.V(result)) {
-                    let index = id.inObjectArray(state.data,'id');
-                    if (-1 !== index) {
-                        state.data.splice(index,1);
-                    }
-                } else {
-                    this.setState({showNotice:true,noticeMsg:result.status});
-                    this.timerID = setTimeout(()=>{
-                        if ('undefined' !== state.showNotice && null !== state.showNotice) {
-                            this.setState({showNotice:false});
-                        }
-                    },3000);
+        let id = e.target.dataset.id;
+        axios.post(api.U('checkoff'), api.D({token:this.props.token,oid:id}))
+        .then(response => {
+            if (api.V(response.data)) {
+                let index = id.inObjectArray(this.state.data,'id');
+                if (-1 !== index) {
+                    this.state.data.splice(index, 1);
+                    this.setState({data:this.state.data});
                 }
-            });
-        } else {
-            this.setState({showNotice:true,noticeMsg:'用户尚未付款，您暂时不能做此操作'});
-            this.timerID = setTimeout(()=>{
-                if ('undefined' !== state.showNotice && null !== state.showNotice) {
-                    this.setState({showNotice:false});
-                }
-            },3000);
-        }
+            }
+            console.log(response.data);
+        });
     }
     isClean(e) {
-        let state = this.state,
-            id = e.target.dataset.id;
-        axios.post(api.U('cleanDone'),api.D({token:this.props.token,id:id}))
-        .then((response) => {
-            let result = response.data;
-            if (api.V(result)) {
-                let index = id.inObjectArray(state.data,'id');
+        let id = e.target.dataset.id;
+        axios.post(api.U('is_clean'), api.D({token:this.props.token,oid:id}))
+        .then(response => {
+            if (api.V(response.data)) {
+                let index = id.inObjectArray(this.state.data,'id');
                 if (-1 !== index) {
-                    state.data.splice(index,1);
+                    this.state.data.splice(index, 1);
+                    this.setState({data:this.state.data});
                 }
-            } else {
-
             }
+            console.log(response.data);
         });
     }
     isPost(e) {
-        let state = this.state,
-            id = e.target.dataset.id;
-        axios.post(api.U('done'),api.D({token:this.props.token,id:id}))
-        .then((response) => {
+        let id = e.target.dataset.id;
+        axios.post(api.U('is_post'), api.D({token:this.props.token,oid:id}))
+        .then(response => {
             if (api.V(response.data)) {
-                let index = id.inObjectArray(state.data,'id');
+                let index = id.inObjectArray(this.state.data,'id');
                 if (-1 !== index) {
-                    state.data.splice(index,1);
+                    this.state.data.splice(index, 1);
+                    this.setState({data:this.state.data});
                 }
             }
+            console.log(response.data);
         });
     }
     itemsToHtml(items) {
