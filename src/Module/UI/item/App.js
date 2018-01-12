@@ -15,7 +15,7 @@ export default class extends React.Component {
                 <div>衣物</div>
                 <div>
                     <label>名称</label>
-                    <input className='m-input-small' type='text' disabled value={this.props.name}/>
+                    <input className='m-input-small' type='text' readOnly value={this.props.name}/>
                 </div>
                 <div>
                     <label htmlFor='item_sn'>衣物编码</label>

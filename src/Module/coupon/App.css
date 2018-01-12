@@ -22,3 +22,44 @@
     margin: 30px 0;
 }
 .coupon>:nth-child(2)>:last-child{text-indent: -2em}
+
+.coupon-layer{
+    width: 336px;
+    height: 220px;
+    padding: 30px;
+    border: 1px solid #09b1b0;
+    border-radius: 5px;
+    position: fixed;top: 50%;left: 50%;
+    margin: -110px 0 0 -168px;
+    background: #fff;
+}
+.coupon-layer>div{
+    height: 36px;
+    line-height: 36px;
+    margin-bottom: 10px;
+    display: -webkit-flex;display: flex;
+}
+.coupon-layer>:last-child{margin-bottom: 0;text-align: center;display: block;height: auto;line-height: normal}
+
+.coupon-layer label{
+    width: 115px;
+    font-size: 18px;
+    text-align: right;
+    margin-right: 20px;
+}
+.coupon-layer>:first-child>input,
+.coupon-layer>:nth-child(2)>input{width: 150px;}
+/* select-postfix.png */
+.coupon-layer>:nth-child(3)>input,
+.coupon-layer>:nth-child(4)>input{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    width: 200px;
+    padding-right: 36px;
+    background-image: url(img/select-postfix.png);
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 36px;
+    border: 1px solid #a9a9a9;
+    text-align: center;
+}

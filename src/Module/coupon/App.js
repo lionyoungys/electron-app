@@ -19,7 +19,6 @@ export default class extends React.Component {
     componentDidMount() {
         laydate.render({
             elem:this.input,
-            value:this.state.date,
             min:'1980-01-01',
             max:0,
             type:'month',
@@ -91,6 +90,67 @@ export default class extends React.Component {
                         <thead><tr className='m-text-c bd-lightgrey m-bg-white'><th>制作日期</th><th>类型</th><th>张数</th><th>操作</th></tr></thead>
                         <tbody>{html}</tbody>
                     </table>
+                </div>
+                <CouponLayer show={this.state.show}/>
+            </div>
+        );
+    }
+}
+
+class CouponLayer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {count:'',amount:'',start:tool.currentDate('date'),end:tool.currentDate('date')}
+    }
+    componentDidMount() {
+        laydate.render({
+            elem:this.input,
+            value:this.state.start,
+            min:0,
+            btns: ['now', 'confirm'],
+            theme:'#ff6e42',
+            done:(value) => {this.setState({start:value})}
+        });
+        laydate.render({
+            elem:this.input2,
+            value:this.state.end,
+            min:0,
+            btns: ['now', 'confirm'],
+            theme:'#ff6e42',
+            done:(value) => {this.setState({end:value})}
+        });
+    }
+    render() {
+        return (
+            <div className='m-layer-bg' style={{display:(this.props.show ? 'block' : 'none')}}>
+                <div className='coupon-layer'>
+                    <div>
+                        <label htmlFor='coupon_count'>制作张数:</label>
+                        <input
+                            type='text' 
+                            id='coupon_count' 
+                            value={this.state.count} 
+                            onChange={e => this.setState({count:e.target.value})}
+                        />&nbsp;&nbsp;&nbsp;张
+                    </div>
+                    <div>
+                        <label htmlFor='coupon_amount'>金额:</label>
+                        <input
+                            type='text'
+                            id='coupon_amount'
+                            value={this.state.amount} 
+                            onChange={e => this.setState({amount:e.target.value})}
+                        />&nbsp;&nbsp;&nbsp;元
+                    </div>
+                    <div>
+                        <label>开始使用日期:</label>
+                        <input ref={input1 => this.input = input1} readOnly type='text'/>
+                    </div>
+                    <div>
+                        <label>结束使用日期:</label>
+                        <input ref={input2 => this.input2 = input2} readOnly type='text'/>
+                    </div>
+                    <div><button type='button' className='m-btn m-btn-middle m-btn-confirm'>一键生成</button></div>
                 </div>
             </div>
         );

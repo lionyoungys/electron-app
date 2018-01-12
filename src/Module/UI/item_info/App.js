@@ -14,11 +14,11 @@ export default class extends React.Component {
                 <div>特征</div>
                 <div>
                     <label>颜色</label>
-                    <input className='m-input-small long postfix' type='text' disabled value={this.props.color}/>
+                    <input className='m-input-small long postfix' type='text' readOnly value={this.props.color}/>
                 </div>
                 <div>
                     <label>瑕疵</label>
-                    <input className='m-input-small long postfix' type='text' disabled value={this.props.question}/>
+                    <input className='m-input-small long postfix' type='text' readOnly value={this.props.question}/>
                 </div>
                 <div>
                     <label htmlFor='item_sn'>洗后预估</label>
