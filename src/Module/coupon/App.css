@@ -26,13 +26,14 @@
 .coupon-layer{
     width: 336px;
     height: 220px;
-    padding: 30px;
+    padding: 60px 30px 30px;
     border: 1px solid #09b1b0;
     border-radius: 5px;
     position: fixed;top: 50%;left: 50%;
-    margin: -110px 0 0 -168px;
+    margin: -125px 0 0 -168px;
     background: #fff;
 }
+.coupon-layer>.fa-times-circle{position: absolute;top: 6px;right: 6px}
 .coupon-layer>div{
     height: 36px;
     line-height: 36px;
@@ -47,16 +48,16 @@
     text-align: right;
     margin-right: 20px;
 }
-.coupon-layer>:first-child>input,
-.coupon-layer>:nth-child(2)>input{width: 150px;}
+.coupon-layer>div:first-of-type>input,
+.coupon-layer>div:nth-of-type(2)>input{width: 150px;}
 /* select-postfix.png */
-.coupon-layer>:nth-child(3)>input,
-.coupon-layer>:nth-child(4)>input{
+.coupon-layer>div:nth-of-type(3)>input,
+.coupon-layer>div:nth-of-type(4)>input{
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     width: 200px;
     padding-right: 36px;
-    background-image: url(img/select-postfix.png);
+    background-image: url(img/select-postfix-larger.png);
     background-repeat: no-repeat;
     background-position: right center;
     background-size: 36px;

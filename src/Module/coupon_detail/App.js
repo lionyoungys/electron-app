@@ -14,6 +14,7 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
+        if (tool.isSet(this.props.param.result)) return this.setState({data:this.props.param.result});
         axios.post(api.U('coupon_detail'), api.D({token:this.props.token,mrid:this.props.param.id,type:this.props.param.type}))
         .then(response => {
             api.V(response.data) && this.setState({data:response.data.result});
