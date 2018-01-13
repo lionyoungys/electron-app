@@ -224,6 +224,12 @@ body{background:#09b1b0;cursor:pointer;} */
     border: 0;
     word-break: keep-all;
 }
+.m-btn.gradient.lightblue{
+    border: 1px solid #78a7bc;
+    background: linear-gradient(#fefefe, #aeddf2);
+    color: #537185;
+}
+.m-btn.middle{height: 34px;font-size: 18px;padding: 0 20px;}
 .m-btn-large{height: 46px;padding: 0 64px;font-size: 20px;}    /* 大按钮样式 */
 .m-btn-middle{height: 34px;font-size: 18px;padding: 0 20px;}    /* 中等按钮样式 */
 .m-btn-cancel{border:1px solid #b2b2b2;outline-color: #b2b2b2}    /* 取消按钮 */
@@ -239,6 +245,21 @@ body{background:#09b1b0;cursor:pointer;} */
     bottom: 10px;
     right: 10px;
     color: grey;
+}
+/* 窗口关闭样式 */
+.m-close{
+    padding: 29px 29px 0 0;
+    background-image: url(img/close.png);
+    background-repeat: no-repeat;
+}
+.m-close:hover{background-image: url(img/close-hover.png)}
+/* icon 小图 */
+.m-clothes{
+    padding-left: 30px;
+    background-image: url(img/clothes.png);
+    background-repeat: no-repeat;
+    background-position: left center;
+    display: inline-block;
 }
 /* input text style */
 .m-input{

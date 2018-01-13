@@ -5,13 +5,16 @@
 
 import React from 'react';
 import Crumb from '../UI/crumb/App';
+import Radio from '../UI/radio/App';
 import './App.css';
 
 export default class extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {category:[],items:[],checked:0};
+        this.state = {category:[],items:[],checked:0,show:false,data:{}};
         this.handleClick=this.handleClick.bind(this);
+        this.editor = this.editor.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
@@ -31,6 +34,20 @@ export default class extends React.Component {
     }
 
     handleClick(e) {this.setState({checked:e.target.dataset.key})}
+    editor(e) {
+        axios.post(api.U('goods_detail'),api.D({token:this.props.token,item_id:e.target.dataset.id}))
+        .then(response => {
+            console.log(response.data);
+            api.V(response.data) && this.setState({
+                show:true,
+                data:response.data.result
+            });
+        });
+    }
+    handleChange(value, key) {
+        this.state.data[key] = value;
+        this.setState({data:this.state.data});
+    }
 
     render() {
         let html = null;
@@ -51,7 +68,7 @@ export default class extends React.Component {
                     <td>
                         <button type='button' className='m-btn m-btn-confirm' data-id={obj.id}>删除</button>
                         &emsp;
-                        <button type='button' className='m-btn m-btn-editor' data-id={obj.id}>编辑</button>
+                        <button type='button' className='m-btn m-btn-editor' data-id={obj.id} onClick={this.editor}>编辑</button>
                     </td>
                 </tr>
             );
@@ -81,6 +98,89 @@ export default class extends React.Component {
                             </thead>
                             <tbody>{html}</tbody>
                         </table>
+                    </div>
+                </div>
+                <GoodsLayer
+                    data={this.state.data}
+                    show={this.state.show}
+                    onCloseRequest={() => this.setState({show:false})}
+                    onChange={this.handleChange}
+                />
+            </div>
+        );
+    }
+}
+
+class GoodsLayer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(value) {
+        this.props.onChange(('是' == value ? 1 : 0),'has_discount');
+    }
+
+    render() {
+        if (!this.props.show) return null;
+        let data = this.props.data;
+        return (
+            <div className='m-layer-bg'>
+                <div className='goods-layer'>
+                    <i className='m-close' onClick={this.props.onCloseRequest}></i>
+                    <div><span className='m-clothes'>编辑</span></div>
+                    <div className='row'>
+                        <label>名称:</label><span>{data.item_name}</span>
+                    </div>
+                    <div className='row'>
+                        <label>价格:</label>
+                        <input
+                            type='text'
+                            className='m-text-c'
+                            value={data.item_price}
+                            onChange={e => this.props.onChange(e.target.value,'item_price')}
+                        />&nbsp;&nbsp;元
+                    </div>
+                    <div className='row'>
+                        <label>洗护周期:</label>
+                        <input
+                            type='text'
+                            className='m-text-c'
+                            value={data.item_cycle}
+                            onChange={e => this.props.onChange(e.target.value,'item_cycle')}
+                        />&nbsp;&nbsp;天
+                    </div>
+                    <div className='row'>
+                        <label>普客折扣:</label>
+                        <input
+                            type='text'
+                            className='m-text-c'
+                            value={data.item_discount}
+                            onChange={e => this.props.onChange(e.target.value,'item_discount')}
+                        />&nbsp;&nbsp;折
+                    </div>
+                    <div className='row'>
+                        <label>会员是否打折:</label>
+                        <span>
+                            <Radio checked={1 == data.has_discount} onClick={this.handleClick}>是</Radio>
+                            &emsp;&emsp;
+                            <Radio checked={0 == data.has_discount} onClick={this.handleClick}>否</Radio>
+                        </span>
+                    </div>
+                    <div className='row'>
+                        <label className='label'>洗后预估:</label>
+                        <div>
+                            <textarea
+                                value={data.item_forecast}
+                                maxLength='10'
+                                onChange={e => this.props.onChange(e.target.value,'item_forecast')}
+                            ></textarea>
+                            <i className='m-counter'>{data.item_forecast.length}/10</i>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <label></label>
+                        <button type='button' className='m-btn gradient lightblue middle'>确定</button>
                     </div>
                 </div>
             </div>

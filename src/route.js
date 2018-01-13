@@ -9,7 +9,7 @@ import Upload from './Module/upload/App';
 import Coupon from './Module/coupon/App';
 import CouponDetail from './Module/coupon_detail/App';
 import Goods from './Module/goods/App';
-
+import GoodsAdd from './Module/goods_add/App';
 
 import Item from './order/item';
 import Craft from './order/craft';
@@ -24,7 +24,6 @@ import ClerkManage from './manage/clerk_manage'
 import Finance from './manage/finance';
 import Appraise from './manage/appraise';
 import Award from './manage/award';
-import GoodsAdd from './manage/goods_add';
 import Operate from './manage/operate';
 import OrderSearch from './order/order_search';
 import OrderDetail from './order/order_detail';
@@ -64,7 +63,8 @@ export default {
     coupon:Coupon,    //卡券中心
     coupon_detail:CouponDetail,    //卡券详情
     goods:Goods,    //商品管理
-
+    goods_add:GoodsAdd,    //添加商品
+    
     
     item:Item,    //添加项目
     craft:Craft,    //工艺加价
@@ -79,8 +79,6 @@ export default {
     finance:Finance,    //财务对账
     appraise:Appraise,    //用户评价
     award:Award,    //返现记录
-    
-    goods_add:GoodsAdd,    //添加商品
     operate:Operate,    //经营分析
     order_search:OrderSearch,    //订单查询
     order_detail:OrderDetail,    //订单详情
