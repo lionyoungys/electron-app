@@ -10,6 +10,7 @@ import Coupon from './Module/coupon/App';
 import CouponDetail from './Module/coupon_detail/App';
 import Goods from './Module/goods/App';
 import GoodsAdd from './Module/goods_add/App';
+import Info from './Module/info/App';
 
 import Item from './order/item';
 import Craft from './order/craft';
@@ -17,7 +18,6 @@ import Check from './order/check';
 import Color from './order/color';
 import Question from './order/question';
 import Pay from './offline/pay';
-import Info from './manage/info';
 import InfoEditor from './manage/info_editor';
 import Message from './manage/message';
 import ClerkManage from './manage/clerk_manage'
@@ -64,6 +64,7 @@ export default {
     coupon_detail:CouponDetail,    //卡券详情
     goods:Goods,    //商品管理
     goods_add:GoodsAdd,    //添加商品
+    info:Info,    //门店信息
     
     
     item:Item,    //添加项目
@@ -72,7 +73,6 @@ export default {
     color:Color,    //颜色设置
     question:Question,    //问题描述
     pay:Pay,    //订单支付
-    info:Info,    //门店信息
     info_editor:InfoEditor,    //信息编辑
     message:Message,    //消息通知
     clerk_manage:ClerkManage,    //员工管理

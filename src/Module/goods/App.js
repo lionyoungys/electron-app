@@ -15,12 +15,13 @@ export default class extends React.Component {
         this.handleClick=this.handleClick.bind(this);
         this.editor = this.editor.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleConfirm = this.handleConfirm.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
     }
 
     componentDidMount() {
         axios.post(api.U('goods'),api.D({token:this.props.token}))
         .then(response => {
-            console.log(response);
             if (api.V(response.data)) {
                 let result = response.data.result,
                     len = result.length;
@@ -37,7 +38,6 @@ export default class extends React.Component {
     editor(e) {
         axios.post(api.U('goods_detail'),api.D({token:this.props.token,item_id:e.target.dataset.id}))
         .then(response => {
-            console.log(response.data);
             api.V(response.data) && this.setState({
                 show:true,
                 data:response.data.result
@@ -47,6 +47,36 @@ export default class extends React.Component {
     handleChange(value, key) {
         this.state.data[key] = value;
         this.setState({data:this.state.data});
+    }
+    handleConfirm() {
+        let data = this.state.data;
+        data.token = this.props.token;
+        data.item_id = data.id;
+        delete data.id;
+        axios.post(api.U('goods_editor'), api.D(data))
+        .then(response => {
+            if (api.V(response.data) || 1000 == response.data.code) {
+                let index = data.item_id.inObjectArray(this.state.items[this.state.checked], 'id');
+                if (-1 !== index) {
+                    this.state.items[this.state.checked][index].item_price = data.item_price;
+                    this.setState({items:this.state.items, show:false});
+                }
+            }
+        });
+    }
+    handleDelete(e) {
+        let id = e.target.dataset.id;
+        axios.post(api.U('goods_delete'), api.D({token:this.props.token,item_id:id}))
+        .then(response => {
+            console.log(response.data);
+            if (api.V(response.data)) {
+                let index = id.inObjectArray(this.state.items[this.state.checked], 'id');
+                if (-1 !== index) {
+                    this.state.items[this.state.checked].splice(index, 1);
+                    this.setState({items:this.state.items});
+                }
+            }
+        });
     }
 
     render() {
@@ -66,7 +96,7 @@ export default class extends React.Component {
                     <td>{this.state.category[this.state.checked].value}</td>
                     <td>{obj.item_price}</td>
                     <td>
-                        <button type='button' className='m-btn m-btn-confirm' data-id={obj.id}>删除</button>
+                        <button type='button' className='m-btn m-btn-confirm' data-id={obj.id} onClick={this.handleDelete}>删除</button>
                         &emsp;
                         <button type='button' className='m-btn m-btn-editor' data-id={obj.id} onClick={this.editor}>编辑</button>
                     </td>
@@ -105,6 +135,7 @@ export default class extends React.Component {
                     show={this.state.show}
                     onCloseRequest={() => this.setState({show:false})}
                     onChange={this.handleChange}
+                    onConfirm={this.handleConfirm}
                 />
             </div>
         );
@@ -180,7 +211,7 @@ class GoodsLayer extends React.Component {
                     </div>
                     <div className='row'>
                         <label></label>
-                        <button type='button' className='m-btn gradient lightblue middle'>确定</button>
+                        <button type='button' className='m-btn gradient lightblue middle' onClick={this.props.onConfirm}>确定</button>
                     </div>
                 </div>
             </div>
