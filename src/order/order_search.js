@@ -27,7 +27,7 @@ export default class OrderSearch extends Component {
     componentDidMount() {
         axios.post(
             api.U('orderSearch'),
-            api.data({
+            api.D({
                 token:this.props.token,
                 state:this.state.choose
             })

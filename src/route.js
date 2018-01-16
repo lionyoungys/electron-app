@@ -11,6 +11,8 @@ import CouponDetail from './Module/coupon_detail/App';
 import Goods from './Module/goods/App';
 import GoodsAdd from './Module/goods_add/App';
 import Info from './Module/info/App';
+import OrderSearch from './Module/order_search/App';
+
 
 import Item from './order/item';
 import Craft from './order/craft';
@@ -25,7 +27,6 @@ import Finance from './manage/finance';
 import Appraise from './manage/appraise';
 import Award from './manage/award';
 import Operate from './manage/operate';
-import OrderSearch from './order/order_search';
 import OrderDetail from './order/order_detail';
 import Teamwork from './manage/teamwork';
 import OfflineClean from './offline/offline_clean'
@@ -65,6 +66,7 @@ export default {
     goods:Goods,    //商品管理
     goods_add:GoodsAdd,    //添加商品
     info:Info,    //门店信息
+    order_search:OrderSearch,    //订单查询
     
     
     item:Item,    //添加项目
@@ -80,7 +82,6 @@ export default {
     appraise:Appraise,    //用户评价
     award:Award,    //返现记录
     operate:Operate,    //经营分析
-    order_search:OrderSearch,    //订单查询
     order_detail:OrderDetail,    //订单详情
     teamwork:Teamwork,    //合作门店
     offline_clean:OfflineClean,    //送洗

@@ -235,5 +235,42 @@
         }
         return currentDate;
     }
+
+    // api相关
+    t.orderStatus = function (status) {
+        if (isNaN(status)) return null;
+        status *= 1;
+        switch (status)
+        {
+            case 0:
+                return '预约下单';
+            case 1:
+                return '预约成功';
+            case 2:
+                return '已取件';
+            case 3:
+                return '清洗中';
+            case 4:
+                return '请洗完成';
+            case 5:
+                return '送件完成';
+            case 10:
+                return '烘干中';
+            case 11:
+                return '熨烫中';
+            case 12:
+                return '质检中';
+            case 13:
+                return '已上挂';
+            case 99:
+                return '订单完成';
+            case 101:
+                return '用户取消';
+            case 102:
+                return '店铺取消';
+            default:
+                return null;
+        }
+    }
     window.tool = t;
 })(window);

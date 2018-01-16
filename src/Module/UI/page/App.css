@@ -1,0 +1,15 @@
+.page{
+    width: 100%;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+}
+.page>.page-item,.page>.page-choose{
+    height: 26px;line-height: 26px;
+    font-size: 14px;border-radius: 5px;
+    padding: 0 10px;margin-right: 4px;
+}
+.page>.page-item:last-child,
+.page>.page-choose:last-child{margin-right: 0}
+.page>.page-item{background: #f5f5f5;border:1px solid #e0e0e0;cursor: pointer}
+.page>.page-choose{color: red;cursor: default}
