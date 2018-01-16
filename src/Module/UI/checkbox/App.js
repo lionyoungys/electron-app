@@ -9,7 +9,7 @@ export default class extends React.Component {
     constructor(props) {super(props)}
     render() {
         return (
-            <span className='m-pointer' onClick={() => this.props.onClick(this.props.children, this.props.checked)}>
+            <span className='m-pointer' onClick={() => this.props.onClick((tool.isSet(this.props.value) ? this.props.value : this.props.children), this.props.checked)}>
                 <i className={'fa fa-check-square' + (this.props.checked ? ' checked' : '')}></i>&nbsp;{this.props.children}
             </span>
         );

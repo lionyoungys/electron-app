@@ -25,6 +25,7 @@ export default class extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleCardChange = this.handleCardChange.bind(this);
+        this.handleModuleChange = this.handleModuleChange.bind(this);
     }
     componentDidMount() {
         axios.post(api.U('info'), api.D({token:this.props.token}))
@@ -57,6 +58,15 @@ export default class extends React.Component {
                 this.setState({cardUpdate:false});
             });
         }
+        if (this.state.moduleUpdate) {
+            let modules = [];
+            this.state.module.map(obj => modules.push(obj.module));
+            console.log(modules);
+            axios.post(api.U('module_update'), api.D({token:this.props.token,modules:JSON.stringify(modules)}))
+            .then(response => {
+                this.setState({moduleUpdate:false});
+            });
+        }
     }
 
     handleChange(e) {
@@ -69,6 +79,17 @@ export default class extends React.Component {
     handleCardChange(e) {
         this.state.mcards[e.target.dataset.index][e.target.dataset.key] = e.target.value;
         this.setState({mcards:this.state.mcards,cardUpdate:true});
+    }
+    handleModuleChange(value, checked) {
+        let index = null;
+        if (checked) {
+            index = value.inObjectArray(this.state.module, 'module');
+            -1 !== index && this.state.module.splice(index, 1);
+        } else {
+            index = value.inObjectArray(this.state.allModule, 'module');
+            -1 !== index && this.state.module.push(this.state.allModule[index]);
+        }
+        this.setState({module:this.state.module,moduleUpdate:true});
     }
 
     adapter() {
@@ -92,8 +113,9 @@ export default class extends React.Component {
                 }
             ]
         };
-        let module = this.state.module.map(obj => {return obj.module_name});
-        data.module = module.toString();
+        let module = [];
+        this.state.module.map(obj => module.push(obj.module_name));
+        data.module = module.length > 0 ? module.toString() : <span>&emsp;</span>;
         if (this.state.isEditor) {
             data.number = (<input type='text' value={this.state.merchant.phone_number} data-key='phone_number' onChange={this.handleChange}/>);
             data.range = (<input type='text' value={this.state.merchant.mrange} data-key='mrange' onChange={this.handleChange}/>);
@@ -110,7 +132,14 @@ export default class extends React.Component {
             data.cards[0].price = (<input type='text' className='input' data-index='0' data-key='price' value={this.state.mcards[0].price} onChange={this.handleCardChange}/>);;
             data.cards[1].discount = (<input type='text' className='input' data-index='1' data-key='discount' value={this.state.mcards[1].discount} onChange={this.handleCardChange}/>);;
             data.cards[1].price = (<input type='text' className='input' data-index='1' data-key='price' value={this.state.mcards[1].price} onChange={this.handleCardChange}/>);;
-            //data.module = this.state.allModule.map
+            data.module = this.state.allModule.map(obj =>
+                <Checkbox
+                    key={obj.module}
+                    checked={-1 !== obj.module.inObjectArray(this.state.module, 'module')}
+                    value={obj.module}
+                    onClick={this.handleModuleChange}
+                >{obj.module_name}&emsp;&emsp;</Checkbox>
+            );
         }
         return data;
     }
