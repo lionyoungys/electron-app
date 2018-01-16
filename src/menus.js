@@ -33,7 +33,7 @@ export default [
         text:'商家管理',
         options:[
             {text:'商品管理',key:'goods'},
-            {text:'财务对账',key:'finance'},
+            {text:'财务对账',key:'balance'},
             {text:'经营分析',key:'operate'},
             {text:'订单查询',key:'order_search'},
             {text:'员工管理',key:'clerk_manage'},

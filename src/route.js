@@ -12,6 +12,7 @@ import Goods from './Module/goods/App';
 import GoodsAdd from './Module/goods_add/App';
 import Info from './Module/info/App';
 import OrderSearch from './Module/order_search/App';
+import Balance from './Module/balance/App';
 
 
 import Item from './order/item';
@@ -67,6 +68,7 @@ export default {
     goods_add:GoodsAdd,    //添加商品
     info:Info,    //门店信息
     order_search:OrderSearch,    //订单查询
+    balance:Balance,    //财务对账
     
     
     item:Item,    //添加项目
@@ -78,7 +80,6 @@ export default {
     info_editor:InfoEditor,    //信息编辑
     message:Message,    //消息通知
     clerk_manage:ClerkManage,    //员工管理
-    finance:Finance,    //财务对账
     appraise:Appraise,    //用户评价
     award:Award,    //返现记录
     operate:Operate,    //经营分析
