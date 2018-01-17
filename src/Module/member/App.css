@@ -1,0 +1,58 @@
+.member{width: 620px;margin: 40px auto 0}
+.member>:first-child{text-align: center}
+.member>:last-child{
+    display: -webkit-flex;display: flex;
+    flex-wrap: wrap;
+    padding-top: 38px;
+}
+.member>:last-child>div:nth-child(1){background-color: #fb6041;background-image: url(img/member-1.png)}
+.member>:last-child>div:nth-child(2){background-color: #2aadf1;background-image: url(img/member-2.png)}
+.member>:last-child>div:nth-child(3){background-color: #de56d9;background-image: url(img/member-3.png)}
+.member>:last-child>div:nth-child(4){background-color: #6394e4;background-image: url(img/member-4.png)}
+.member>:last-child>div:nth-child(5){background-color: #faa537;background-image: url(img/member-5.png)}
+.member>:last-child>div:nth-child(6){background-color: #40d355;background-image: url(img/member-6.png)}
+.member>:last-child>div{
+    margin: 0 10px 10px 0;
+    width: 200px;
+    height: 120px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    padding-top: 80px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 20px;
+    color: white;
+    background-repeat: no-repeat;
+    background-position: center 20px;
+    cursor: pointer;
+}
+.member>:last-child>div:nth-child(3n + 0){margin-right: 0;}
+/* 会员管理界面新增会员弹框 */
+.ui-mm-add{
+    width: 352px;height: 286px;
+    background: url(images/ui-mm-add.png);
+    position: fixed;top: 50%;left: 50%;margin: -176px 0 0 -143px;
+}
+.ui-mm-upd{
+    width: 321px;height: 258px;
+    position: fixed;top: 50%;left: 50%;margin: -129px 0 0 -160.5px;
+    background: url(images/ui-mm-upd.png);
+}
+.ui-mm-layer-title{
+    height: 60px;padding: 15px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    display: flex;display: -webkit-flex;
+    justify-content: space-between;align-items: center;
+}
+.ui-mm-input-area{
+    display: inline-block;margin: 38px 0 27px 46px;
+    height: 35px;line-height: 35px;font-size: 16px;
+}
+.ui-mm-input-area>input{
+    width: 200px;height: 35px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    border: 1px solid #e0e7eb;
+}
+.ui-mm-radio-area{
+    width: 100%;padding: 0 0 39px 46px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+}

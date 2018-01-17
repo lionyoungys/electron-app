@@ -13,6 +13,7 @@ import GoodsAdd from './Module/goods_add/App';
 import Info from './Module/info/App';
 import OrderSearch from './Module/order_search/App';
 import Balance from './Module/balance/App';
+import Member from './Module/member/App';
 
 
 import Item from './order/item';
@@ -69,6 +70,7 @@ export default {
     info:Info,    //门店信息
     order_search:OrderSearch,    //订单查询
     balance:Balance,    //财务对账
+    member:Member,    //会员管理
     
     
     item:Item,    //添加项目

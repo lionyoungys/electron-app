@@ -37,7 +37,7 @@ export default class extends React.Component {
             }
         });
     }
-    toHtml(obj) {
+    adapter(obj) {
         obj.type *= 1;
         switch (obj.type)
         {
@@ -58,7 +58,7 @@ export default class extends React.Component {
         let html = state.record.map((obj, index) =>
             <div className='row' key={index}>
                 <span><i className='prefix'></i>&emsp;{10 == obj.type ? '出账' : '入账'}</span>
-                {this.toHtml(obj)}
+                {this.adapter(obj)}
                 <span>{obj.trade_time}</span>
                 {10 == obj.type ? (<span className='m-green'>-&yen;{obj.real_amount}</span>) : (<span className='m-red'>+&yen;{obj.real_amount}</span>)}
             </div>
