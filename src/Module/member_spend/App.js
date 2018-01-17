@@ -90,7 +90,7 @@ export default class extends React.Component{
                         累计订单总额：<span style={{fontSize:'22px'}}>&yen;{this.state.sum}</span>
                     </div>
                     <div className='m-box'>
-                        <table className='m-table'>
+                        <table className='m-table tr-b'>
                             <thead><tr className='m-bg-white'><th>会员手机号</th><th>交易单号</th><th>时间</th><th>金额</th></tr></thead>
                             <tbody>{html}</tbody>
                         </table>

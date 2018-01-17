@@ -90,7 +90,7 @@ export default class extends React.Component{
                         累计赠送金额：<span style={{fontSize:'22px'}}>&yen;{this.state.give}</span>
                     </div>
                     <div className='m-box'>
-                        <table className='m-table'>
+                        <table className='m-table tr-b'>
                             <thead><tr className='m-bg-white'><th>会员手机号</th><th>时间</th><th>充值金额</th><th>赠送金额</th></tr></thead>
                             <tbody>{html}</tbody>
                         </table>

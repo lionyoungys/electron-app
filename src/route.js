@@ -16,6 +16,7 @@ import Balance from './Module/balance/App';
 import Member from './Module/member/App';
 import MemberSpend from './Module/member_spend/App';
 import MemberRecharge from './Module/member_recharge/App';
+import MemberBalance from './Module/member_balance/App';
 
 
 import Item from './order/item';
@@ -45,7 +46,6 @@ import MemberManage from './member/member_manage';
 import MemberDetail from './member/member_detail';
 import MemberConsume from './member/member_consume';
 import MemberRechargeRecord from './member/member_recharge_record';
-import MemberBalance from './member/member_balance';
 import OfflineStatistic from './offline/offline_statistic';
 import OfflineAddMember from './member/offline_add_member';
 import OfflineAddCompany from './member/offline_add_company';
@@ -75,6 +75,7 @@ export default {
     member:Member,    //会员管理
     member_spend:MemberSpend,    //用户消费
     member_recharge:MemberRecharge,    //会员充值
+    member_balance:MemberBalance,    //会员余额
     
     
     item:Item,    //添加项目
@@ -103,7 +104,6 @@ export default {
     member_detail:MemberDetail,    //会员详情
     member_consume:MemberConsume,    //会员消费报表
     member_recharge_record:MemberRechargeRecord,    //会员充值报表
-    member_balance:MemberBalance,    //会员余额
     offline_statistic:OfflineStatistic,    //业务统计
     offline_add_member:OfflineAddMember,    //新增个人会员
     offline_add_company:OfflineAddCompany,    //新增企业会员
