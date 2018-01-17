@@ -14,6 +14,8 @@ import Info from './Module/info/App';
 import OrderSearch from './Module/order_search/App';
 import Balance from './Module/balance/App';
 import Member from './Module/member/App';
+import MemberSpend from './Module/member_spend/App';
+import MemberRecharge from './Module/member_recharge/App';
 
 
 import Item from './order/item';
@@ -47,7 +49,7 @@ import MemberBalance from './member/member_balance';
 import OfflineStatistic from './offline/offline_statistic';
 import OfflineAddMember from './member/offline_add_member';
 import OfflineAddCompany from './member/offline_add_company';
-import MemberRecharge from './member/member_recharge';
+//import MemberRecharge from './member/member_recharge';
 import MemberUpdateInfo from './member/member_update_info';
 import OfflineOrderDetail from './offline/offline_order_detail';
 import OfflineCraft from './offline/offline_craft';
@@ -71,6 +73,8 @@ export default {
     order_search:OrderSearch,    //订单查询
     balance:Balance,    //财务对账
     member:Member,    //会员管理
+    member_spend:MemberSpend,    //用户消费
+    member_recharge:MemberRecharge,    //会员充值
     
     
     item:Item,    //添加项目
@@ -103,7 +107,6 @@ export default {
     offline_statistic:OfflineStatistic,    //业务统计
     offline_add_member:OfflineAddMember,    //新增个人会员
     offline_add_company:OfflineAddCompany,    //新增企业会员
-    member_recharge:MemberRecharge,    //会员充值
     member_update_info:MemberUpdateInfo,    //会员信息变更
     offline_order_detail:OfflineOrderDetail,    //线下订单详情
     offline_craft:OfflineCraft,    //线下工艺加价界面

@@ -36,8 +36,8 @@ export default class extends Component{
                 <div className='member'>
                     <div><Search placeholder='请输入客户手机号' callback={this.onSearchRequest}/></div>
                     <div>
-                        <div data-view='member_consume' onClick={this.props.changeView}>会员消费报表</div>
-                        <div data-view='member_recharge_record' onClick={this.props.changeView}>会员充值报表</div>
+                        <div data-view='member_spend' onClick={this.props.changeView}>会员消费报表</div>
+                        <div data-view='member_recharge' onClick={this.props.changeView}>会员充值报表</div>
                         <div data-view='member_balance' onClick={this.props.changeView}>会员余额</div>
                         <div onClick={() => this.setState({addShow:true})}>新增会员</div>
                         <div onClick={() => this.setState({otherShow:true,otherType:0})}>会员信息变更</div>
