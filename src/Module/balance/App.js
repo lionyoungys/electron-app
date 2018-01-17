@@ -37,36 +37,30 @@ export default class extends React.Component {
             }
         });
     }
+    toHtml(obj) {
+        obj.type *= 1;
+        switch (obj.type)
+        {
+            case 0:
+                return (<span className='detail'>明细：<span className='word'>营收</span>{obj.amount}-<span className='word'>平台服务费</span>{obj.platform_gain}</span>);
+            case 1:
+                return (<span className='detail'>明细：<span className='word'>返现</span>{obj.real_amount}</span>);
+            case 2:
+                return (<span className='detail'>明细：<span className='word'>专店卡充值</span>{obj.real_amount}</span>);
+            case 10:
+                return (<span className='detail'>明细：<span className='word'>平台打款</span>{obj.real_amount}</span>);
+        }
+    }
 
     render() {
         let props = this.props,
             state = this.state;
         let html = state.record.map((obj, index) =>
             <div className='row' key={index}>
-                <span className='ui-finance-prefix'>{1 == obj.state ? '入账' : '出账'}</span>
-                {
-                    1 == obj.state ?
-                    (
-                        <span>
-                        明细：<span className='ui-finance-small-word'>营收</span>{obj.total}-
-                        <span className='ui-finance-small-word'>平台服务费</span>{obj.mch_get}
-                        </span>
-                    ) 
-                    : 
-                    (
-                        <span>
-                            明细：<span className='ui-finance-small-word'>平台打款</span>
-                            {obj.sum}
-                        </span>
-                    )
-                }
-                <span>{obj.time}</span>
-                {
-                    1 == obj.state ? 
-                    (<span style={{color:'red'}}>+&yen;{obj.sum}</span>) 
-                    : 
-                    (<span style={{color:'green'}}>-&yen;{obj.sum}</span>)
-                }
+                <span><i className='prefix'></i>&emsp;{10 == obj.type ? '出账' : '入账'}</span>
+                {this.toHtml(obj)}
+                <span>{obj.trade_time}</span>
+                {10 == obj.type ? (<span className='m-green'>-&yen;{obj.real_amount}</span>) : (<span className='m-red'>+&yen;{obj.real_amount}</span>)}
             </div>
         );
         let tabs = this.tab.map(obj => 
@@ -89,6 +83,7 @@ export default class extends React.Component {
                     <div className='m-box balance'>
                         <div><div>{tabs}</div><div>账户余额：<span>&yen;{state.balance}</span></div></div>
                         {html}
+                        <div className='m-blue'>下载</div>
                     </div>
                 </div>
             </div>
