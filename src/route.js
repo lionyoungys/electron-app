@@ -17,6 +17,7 @@ import Member from './Module/member/App';
 import MemberSpend from './Module/member_spend/App';
 import MemberRecharge from './Module/member_recharge/App';
 import MemberBalance from './Module/member_balance/App';
+import Statistics from './Module/statistics/App';
 
 
 import Item from './order/item';
@@ -76,6 +77,7 @@ export default {
     member_spend:MemberSpend,    //用户消费
     member_recharge:MemberRecharge,    //会员充值
     member_balance:MemberBalance,    //会员余额
+    statistics:Statistics,        //业务统计
     
     
     item:Item,    //添加项目

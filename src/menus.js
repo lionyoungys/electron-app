@@ -25,7 +25,7 @@ export default [
             {text:'取衣',key:'offline_take'},
             {text:'返流审核',key:'offline_take2'},
             {text:'会员管理',key:'member'},
-            {text:'业务统计',key:'offline_statistic'}
+            {text:'业务统计',key:'statistics'}
         ]
     },
     {
