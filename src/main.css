@@ -204,6 +204,7 @@ body{background:#09b1b0;cursor:pointer;} */
 .m-blue{color: #09b1b0}
 .m-blue-h:hover{color: #09b1b0;cursor: pointer}
 .m-bd-lightgrey{border:1px solid lightgrey}
+.m-bg-linear{background: linear-gradient(#abdcf2, #d4ecfa)}
 .m-bg-white{background-color: #eef8ff}
 /* 光标样式 */
 .m-pointer:hover{cursor: pointer}
@@ -225,6 +226,7 @@ body{background:#09b1b0;cursor:pointer;} */
     vertical-align:middle;
     border-radius:5px;
     background: #fff;
+    color: #000;
     border: 0;
     word-break: keep-all;
 }
@@ -259,13 +261,14 @@ body{background:#09b1b0;cursor:pointer;} */
 }
 .m-close:hover{background-image: url(img/close-hover.png)}
 /* icon 小图 */
-.m-clothes{
+.m-clothes,.m-add-member{
     padding-left: 30px;
     background-image: url(img/clothes.png);
     background-repeat: no-repeat;
     background-position: left center;
     display: inline-block;
 }
+.m-add-member{background-image: url(img/add-member.png);}
 /* input text style */
 .m-input{
     width: 240px;

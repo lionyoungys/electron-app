@@ -27,11 +27,36 @@
 }
 .member>:last-child>div:nth-child(3n + 0){margin-right: 0;}
 /* 会员管理界面新增会员弹框 */
-.ui-mm-add{
-    width: 352px;height: 286px;
-    background: url(images/ui-mm-add.png);
-    position: fixed;top: 50%;left: 50%;margin: -176px 0 0 -143px;
+.add-member{
+    width: 340px;
+    height: 260px;
+    position: fixed;top: 50%;left: 50%;
+    margin: -130px 0 0 -170px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
 }
+.add-member>.m-close{position: absolute;top: 8px;right: 10px}
+.add-member>div:first-of-type{
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    padding: 0 10px;
+}
+.add-member>div:nth-of-type(2){
+    font-size: 18px;
+    margin: 30px 0;
+    text-align: center;
+}
+.add-member>div:nth-of-type(3){
+    text-align: center;
+    margin-bottom: 30px;
+}
+.add-member>div:nth-of-type(4){text-align: center}
+
+
+
+
 .ui-mm-upd{
     width: 321px;height: 258px;
     position: fixed;top: 50%;left: 50%;margin: -129px 0 0 -160.5px;

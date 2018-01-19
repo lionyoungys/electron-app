@@ -5,12 +5,14 @@
 import React, {Component} from 'react';
 import Crumb from '../UI/crumb/App';
 import Search from '../UI/search/App';
+import Radio from '../UI/radio/App';
 import './App.css';
+
 
 export default class extends Component{
     constructor(props) {
         super(props);
-        this.state = {addShow:false,otherShow:false,otherType:0};
+        this.state = {addMemberShow:false,otherShow:false,otherType:0};
         this.onSearchRequest = this.onSearchRequest.bind(this);
     }
 
@@ -39,16 +41,16 @@ export default class extends Component{
                         <div data-view='member_spend' onClick={this.props.changeView}>会员消费报表</div>
                         <div data-view='member_recharge' onClick={this.props.changeView}>会员充值报表</div>
                         <div data-view='member_balance' onClick={this.props.changeView}>会员余额</div>
-                        <div onClick={() => this.setState({addShow:true})}>新增会员</div>
+                        <div onClick={() => this.setState({addMemberShow:true})}>新增会员</div>
                         <div onClick={() => this.setState({otherShow:true,otherType:0})}>会员信息变更</div>
                         <div onClick={() => this.setState({otherShow:true,otherType:1})}>会员充值</div>
                     </div>
                 </div>
                 <AddMember 
-                    show={state.addShow} 
-                    token={props.token}
-                    onCancelRequest={() => this.setState({addShow:false})}
-                    changeView={props.changeView}
+                    show={this.state.addMemberShow} 
+                    token={this.props.token}
+                    onClose={() => this.setState({addMemberShow:false})}
+                    changeView={this.props.changeView}
                 />
                 <UpdateOrCharge 
                     show={state.otherShow} 
@@ -65,25 +67,26 @@ export default class extends Component{
 class AddMember extends Component{
     constructor(props) {
         super(props);
-        this.state = {mobile:'',type:0};
+        this.state = {mobile:'', type:0};
         this.onConfirmRequest = this.onConfirmRequest.bind(this);
+        this.handleClose = this.handleClose.bind(this);   
+    }
+    handleClose() {
+        this.setState({mobile:'',type:0});
+        this.props.onClose();
     }
 
     onConfirmRequest() {
-        let state = this.state;
-        if (isNaN(state.mobile) || state.mobile.length !== 11) return;
-        axios.post(
-            api.U('memberAdd'), 
-            api.D({token:this.props.token,mobile:state.mobile})
-        )
+        let mobile = this.state.mobile;
+        if (isNaN(mobile) || mobile.length !== 11) return;
+        axios.post(api.U('whether_add'), api.D({token:this.props.token,number:mobile}))
         .then(response => {
-            if (api.verify(response.data)) {
-                let param = {ucode:response.data.data.ucode,mobile:state.mobile}
-                if (0 === state.type) {
-                    this.props.changeView({element:'offline_add_member',param:param});
-                } else {
-                    this.props.changeView({element:'offline_add_company',param:param});
-                }
+            if (api.V(response.data)) {
+                let redirect = {param:mobile};
+                redirect.view = (0 == this.state.type ? 'offline_add_member' : 'offline_add_company');
+                this.props.changeView(redirect);
+            } else {
+
             }
             console.log(response.data);
         });
@@ -92,36 +95,23 @@ class AddMember extends Component{
     render() {
         let props = this.props,
             state = this.state;
-        if (!props.show) return null;
+        if (!this.props.show) return null;
         return (
-            <section className='ui-fixed-bg'>
-                <div className='ui-mm-add'>
-                    <div className='ui-mm-layer-title'>
-                        <div className='ui-mm-icon-member'>新增会员</div>
-                        <em className='ui-close3' onClick={props.onCancelRequest}></em>
+            <div className='m-layer-bg'>
+                <div className='add-member'>
+                    <i className='m-close' onClick={this.handleClose}></i>
+                    <div className='m-bg-linear'><span className='m-add-member'>新增会员</span></div>
+                    <div>
+                        手机号：<input type='text' value={this.state.mobile} onChange={e => this.setState({mobile:e.target.value})}/>
                     </div>
-                    <div className='ui-mm-input-area'>
-                        手机号：<input type='text' value={state.mobile} onChange={e => this.setState({mobile:e.target.value})}/>
+                    <div>
+                        <Radio checked={0 == this.state.type} value='0' onClick={value => this.setState({type:value})}>个人会员</Radio>
+                        &emsp;&emsp;
+                        <Radio checked={1 == this.state.type} value='1' onClick={value => this.setState({type:value})}>企业会员</Radio>
                     </div>
-                    <div className='ui-mm-radio-area'>
-                        <em 
-                            className={'ui-radio' + (0 == state.type ? ' ui-radio-checked' : '')} 
-                            style={{marginRight:'46px'}}
-                            onClick={e => this.setState({type:0})}
-                        >个人会员</em>
-                        <em 
-                            className={'ui-radio' + (1 == state.type ? ' ui-radio-checked' : '')}
-                            onClick={e => this.setState({type:1})}
-                        >企业会员</em>
-                    </div>
-                    <input 
-                        type='button' 
-                        className='ui-teamwork-confirm' 
-                        style={{marginLeft:'46px'}}
-                        onClick={this.onConfirmRequest}
-                    />
+                    <div><button className='m-btn middle gradient lightblue' onClick={this.onConfirmRequest}>确认</button></div>
                 </div>
-            </section>
+            </div>
         );
     }
 }
