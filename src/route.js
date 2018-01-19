@@ -30,7 +30,7 @@ import InfoEditor from './manage/info_editor';
 import Message from './manage/message';
 import ClerkManage from './manage/clerk_manage'
 import Finance from './manage/finance';
-import Appraise from './manage/appraise';
+import Comment from './manage/comment';
 import Award from './manage/award';
 import Operate from './manage/operate';
 import OrderDetail from './order/order_detail';
@@ -43,9 +43,7 @@ import Registration from './offline/registration';
 import InFactory from './offline/infactory';
 import OutFactory from './offline/outfactory';
 import OfflineTake from './offline/offline_take';
-import MemberManage from './member/member_manage';
 import MemberDetail from './member/member_detail';
-import MemberConsume from './member/member_consume';
 import MemberRechargeRecord from './member/member_recharge_record';
 import OfflineStatistic from './offline/offline_statistic';
 import OfflineAddMember from './member/offline_add_member';
@@ -89,7 +87,7 @@ export default {
     info_editor:InfoEditor,    //信息编辑
     message:Message,    //消息通知
     clerk_manage:ClerkManage,    //员工管理
-    appraise:Appraise,    //用户评价
+    comment:Comment,    //用户评价
     award:Award,    //返现记录
     operate:Operate,    //经营分析
     order_detail:OrderDetail,    //订单详情
@@ -102,9 +100,7 @@ export default {
     infactory:InFactory,    //入厂
     outfactory:OutFactory,    //出厂
     offline_take:OfflineTake,    //取衣
-    member_manage:MemberManage,    //会员管理
     member_detail:MemberDetail,    //会员详情
-    member_consume:MemberConsume,    //会员消费报表
     member_recharge_record:MemberRechargeRecord,    //会员充值报表
     offline_statistic:OfflineStatistic,    //业务统计
     offline_add_member:OfflineAddMember,    //新增个人会员

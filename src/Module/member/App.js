@@ -23,7 +23,7 @@ export default class extends Component{
                 api.D({token:this.props.token,number:word})
             )
             .then(response => {
-                if (api.verify(response.data)) {
+                if (api.V(response.data)) {
                     this.props.changeView({element:'member_detail',param:'number=' + word});
                 }
             });
@@ -86,7 +86,7 @@ class AddMember extends Component{
                 redirect.view = (0 == this.state.type ? 'offline_add_member' : 'offline_add_company');
                 this.props.changeView(redirect);
             } else {
-
+                alert(response.data);
             }
             console.log(response.data);
         });
@@ -132,7 +132,7 @@ class UpdateOrCharge extends Component{
             api.D({token:this.props.token,number:state.mobile})
         )
         .then(response => {
-            if (api.verify(response.data)) {
+            if (api.V(response.data)) {
                 if (0 == props.type) {
                     props.changeView({element:'member_update_info',param:{id:response.data.data.id,number:state.mobile}});
                 } else {
@@ -172,7 +172,8 @@ class UpdateOrCharge extends Component{
                     <div style={{textAlign:'center'}}>
                         <input 
                             type='button' 
-                            className='ui-teamwork-confirm' 
+                            className='m-btn middle gradient lightblue'
+                            value='确认'
                             onClick={this.onConfirmRequest}
                         />
                     </div>

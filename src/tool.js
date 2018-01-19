@@ -209,8 +209,9 @@
      * @param format 格式化方式
      * @return currentDate
      */
-    t.currentDate = function (format) {
-        let currentDate = new Date();
+    t.currentDate = function (format, timestamp) {
+
+        let currentDate = this.isSet(timestamp) ? new Date(timestamp) : new Date();
         if ('undefined' !== typeof format) {
             let year = currentDate.getFullYear(),
                 month = (currentDate.getMonth() + 1),

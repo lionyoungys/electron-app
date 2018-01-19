@@ -3,9 +3,12 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs from '../static/UI';
+import Crumb from '../Module/UI/crumb/App';
 
+const style = {
+    minHeight:'47px',lineHeight:'47px',fontSize:'16px',
+    background:'#f5f5f5',padding:'0 20px',display:'inline-block'
+};
 class Award extends Component {
     constructor(props) {
         super(props);
@@ -13,39 +16,34 @@ class Award extends Component {
     }
 
     componentDidMount() {
-        axios.post(api.U('award'),api.data({token:this.props.token}))
+        axios.post(api.U('award'),api.D({token:this.props.token}))
         .then((response) => {
-            let result = response.data.data;
-            this.setState({
-                amount:result.totalFee,
-                number:result.personalNumber,
-                record:result.record
-            });
+            if (api.V(response.data)) {
+                let result = response.data.result;
+                this.setState({amount:result.back_balance,number:result.share_total,record:result.list});
+            } 
+            console.log(response.data);
         });
     }
 
     render() {
         let props = this.props,
             state = this.state,
-            html = state.record.map((obj) => 
-                <tr className='ui-tr-d ui-b' key={obj.id}>
-                    <td>{obj.username}</td>
-                    <td>{obj.time}</td>
-                    <td className='ui-red'>{obj.reward}</td>
+            html = state.record.map((obj, index) => 
+                <tr className='m-text-c' key={index}>
+                    <td>{obj.uname}</td>
+                    <td>{obj.update_time}</td>
+                    <td className='m-red'>{obj.value}</td>
                 </tr>
             );
-        const style = {
-            minHeight:'47px',lineHeight:'47px',fontSize:'16px',
-            background:'#f5f5f5',padding:'0 20px',display:'inline-block'
-        };
         return (
             <div>
-                <Crumbs crumbs={[{text:'返现记录',key:0}]} callback={props.changeView}/>
+                <Crumb data={[{value:'返现记录',key:0}]} callback={this.props.changeView}/>
                 <section className='ui-container'>
-                    <header style={{textAlign:'center'}}>
+                    <header className='m-text-c'>
                         <div style={style}>
                             邀请好友成功下单且订单达成，即享受该单支付金额的
-                            <span className='ui-red'>1%</span>返现奖励。
+                            <span className='m-red'>1%</span>返现奖励。
                         </div>
                     </header>
                     <div className='ui-content'>
@@ -61,9 +59,9 @@ class Award extends Component {
                         </div>
                     </div>
                     <div className='ui-content'>
-                        <table className='ui-table'>
-                            <thead className='ui-fieldset'>
-                                <tr className='ui-tr-h'><th>姓名</th><th>时间</th><th>金额</th></tr>
+                        <table className='m-table tr-b'>
+                            <thead>
+                                <tr className='m-bg-white'><th>姓名</th><th>时间</th><th>金额</th></tr>
                             </thead>
                             <tbody>
                                 {html}

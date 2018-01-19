@@ -4,20 +4,19 @@
  */
 import React, {Component} from 'react';
 import '../api';
-import Crumbs,{Starts} from '../static/UI';
+import Crumb from '../Module/UI/crumb/App';
+import {Starts} from '../static/UI';
 
-class Appraise extends Component {
+export default class Comment extends Component {
     constructor(props) {
         super(props);
         this.state = {list:[]};
     }
 
     componentDidMount() {
-        axios.post(api.U('appraise'), api.data({token:this.props.token}))
+        axios.post(api.U('comment'), api.D({token:this.props.token}))
         .then((response) => {
-            let result = response.data.data;
-            this.setState({list:result});
-            console.log(result);
+            api.V(response.data) && this.setState({list:response.data.result});
         });
     }
 
@@ -29,7 +28,7 @@ class Appraise extends Component {
             );
         return (
             <div>
-                <Crumbs crumbs={[{text:'用户评价',key:0}]} callback={props.changeView}/>
+                <Crumb data={[{value:'用户评价',key:0}]} callback={props.changeView}/>
                 <section className='ui-container'>
                     {html}
                 </section>
@@ -52,8 +51,8 @@ class Row extends Component {
     handleAnswer() {
         let state = this.state;
         axios.post(
-            api.U('appraise'), 
-            api.data({
+            api.U('comment'), 
+            api.D({
                 token:this.props.token,
                 id:state.info.id,
                 mer_content:state.word
@@ -61,7 +60,7 @@ class Row extends Component {
         )
         .then((response) => {
             if (api.verify(response.data)) {
-                state.info.mer_content = state.word;
+                state.info.manswer = state.word;
                 this.setState({info:state.info,word:'',cancel:!state.cancel});
             }
         });
@@ -72,14 +71,14 @@ class Row extends Component {
         let props = this.props,
             state = this.state,
             info = state.info;
-        const answer = null == info.mer_content ? false :true;
+        const answer = null == info.manswer ? false :true;
         return (
             <div className='ui-appraise-box'>
                 <div className='ui-appraise-row'>
                     <div>
-                        <span>{info.mobile}</span>
-                            &emsp;<Starts number='5' lighter={info.grade}/>&emsp;
-                        <span className='ui-red'>{info.grade}分</span>
+                        <span>{info.uname}</span>
+                            &emsp;<Starts number='5' lighter={info.level}/>&emsp;
+                        <span className='ui-red'>{info.level}分</span>
                     </div>
                     {
                         answer ? 
@@ -88,19 +87,19 @@ class Row extends Component {
                         <input 
                             type='button' 
                             value={state.cancel?'回复':'取消'} 
-                            className='ui-btn ui-btn-cancel ui-btn-middle'
+                            className='m-btn cancel middle'
                             onClick={this.toggleCancel}
                         />
                     }
                 </div>
-                <div className='ui-appraise-row2'>{info.time}</div>
+                <div className='ui-appraise-row2'>{tool.currentDate( 'datetime', (info.ctime * 1000) )}</div>
                 <div className='ui-appraise-row3'>
-                    {info.user_content}
+                    {info.ucomment}
                 </div>
                 {
                     answer ?
                     <div className='ui-appraise-row4'>
-                        <span className='ui-default'>商家回复：</span>{info.mer_content}
+                        <span className='ui-default'>商家回复：</span>{info.manswer}
                     </div>
                     :
                     null
@@ -127,5 +126,3 @@ class Row extends Component {
         );
     }
 }
-
-export default Appraise;
