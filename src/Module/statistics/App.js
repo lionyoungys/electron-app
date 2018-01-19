@@ -11,19 +11,16 @@ export default class extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            choose:0,
             checked:0,
-            total:0,
-            pages:[1,1,1],
-            pageCount:[1,1,1],
-            data:[[],[],[]],
+            page:1,
+            sum:0,
+            pageCount:1,
+            record:[],
             start:tool.currentDate('date'),
             end:tool.currentDate('date')
         };
-        this.apis = ['financeStatistic','noPayStatistic','noDoneStatistic'];
-        this.tab = [{value:'收银统计',key:0},{value:'未付款统计',key:1},{value:'未结单统计',key:2}];
-        this.toggleOption = this.toggleOption.bind(this);
-        this.dataRequest = this.dataRequest.bind(this);    //数据请求方法
+        this.tab = [{value:'收银统计',key:0,api:'finance'},{value:'未付款统计',key:1,api:'to_pay'},{value:'未结单统计',key:2,api:'to_done'}];
+        this.query = this.query.bind(this);    //数据请求方法
         this.updatePage = this.updatePage.bind(this);
         this.redirect = this.redirect.bind(this);
         this.handleTab = this.handleTab.bind(this);
@@ -46,47 +43,38 @@ export default class extends React.Component{
             theme:'#ff6e42',
             done:(value) => {this.setState({end:value})}
         });
-        this.dataRequest();
+        this.query();
     }
 
-    dataRequest() {
-        let state = this.state,
-            choose = state.choose;
+    query(checked, page) {
         axios.post(
-            api.U(this.apis[choose]),
-            api.D({
-                token:this.props.token,
-                start_time:state.start,
-                end_time:state.end,
-                page:state.pages[choose]
-            })
+            api.U(this.tab[(tool.isSet(checked) ? checked : this.state.checked)].api),
+            api.D({token:this.props.token,start:this.state.start,end:this.state.end,page:(tool.isSet(page) ? page : this.state.page),limit:10})
         )
         .then(response => {
-            let result = response.data.data;
-            state.pageCount[choose] = result.page_count;
-            if (0 == choose) {
-                state.data[choose] = result.record;
-            } else {
-                state.data[choose] = result.orders;
+            if (api.V(response.data)) {
+                let result = response.data.result;
+                if (0 == this.state.changeView) {
+                    this.setState({sum:result.sum,pageCount:result.page_count,record:result.record});
+                } else {
+                    this.setState({record:result,pageCount:1,page:1});
+                }
             }
-            let baseSet = {pageCount:state.pageCount,data:state.data};
-            if (tool.isSet(result.total_amount)) {
-                baseSet.total = result.total_amount;
-            }
-            this.setState(baseSet);
         });
     }
-    //切换选项
-    toggleOption(e) {this.setState({choose:e.target.dataset.index});}
+
     handleTab(e) {
         let key = e.target.dataset.key;
-        this.setState({checked:key});
+        if (key != this.state.changeView) {
+            this.setState({checked:key});
+            this.query(key);
+        }
     }
     updatePage(page) {
         let state = this.state;
         state.pages[state.choose] = page;
         this.setState({pages:state.pages});
-        this.dataRequest();
+        this.query();
     }
     redirect(e) {
         this.props.changeView({element:'offline_order_detail',param:{id:e.target.dataset.id}});
@@ -184,7 +172,7 @@ export default class extends React.Component{
                             &emsp;
                             结束：<input type='text'  value={this.state.end} ref={input => this.input2 = input} className='m-input-small m-select-postfix m-text-c' readOnly/>
                             &emsp;
-                            <button type='button' className='m-btn confirm' onClick={this.dataRequest}>查询</button>
+                            <button type='button' className='m-btn confirm' onClick={this.query}>查询</button>
                         </div>
                     </div>
                     <div className='m-box'>
@@ -216,23 +204,6 @@ export default class extends React.Component{
                         </table>
                     </div>
                 </div>
-                <div className='ui-os-box'>
-                    <div 
-                        className={0 == choose ? 'choose' : ''}
-                        data-index='0'
-                        onClick={this.toggleOption}
-                    >收银统计</div>
-                    <div 
-                        className={1 == choose ? 'choose' : ''}
-                        data-index='1'
-                        onClick={this.toggleOption}
-                    >未付款统计</div>
-                    <div 
-                        className={2 == choose ? 'choose' : ''}
-                        data-index='2'
-                        onClick={this.toggleOption}
-                    >未结单统计</div>
-                </div>
                 <div className='ui-os-box2'>
                     <div>
                         <p 
@@ -248,7 +219,7 @@ export default class extends React.Component{
                 </div>
                 <Page 
                     count={state.pageCount[choose]}
-                    current={state.pages[choose]}
+                    current={this.state.page}
                     callback={this.updatePage}
                 />
             </div>
