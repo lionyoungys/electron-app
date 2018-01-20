@@ -66,8 +66,8 @@ export default class extends React.Component{
     }
 
     render () {
-        let html = this.state.data.map(obj =>
-                <tr key={obj.ordersn} className='m-text-c'>
+        let html = this.state.data.map((obj, index) =>
+                <tr key={index} className='m-text-c'>
                     <td>{obj.umobile}</td><td>{obj.log_time}</td><td>{obj.amount}</td><td>{obj.give}</td>
                 </tr>
             );
