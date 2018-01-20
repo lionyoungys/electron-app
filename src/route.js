@@ -18,6 +18,7 @@ import MemberSpend from './Module/member_spend/App';
 import MemberRecharge from './Module/member_recharge/App';
 import MemberBalance from './Module/member_balance/App';
 import Statistics from './Module/statistics/App';
+import Employee from './Module/employee/App';
 
 
 import Item from './order/item';
@@ -28,7 +29,6 @@ import Question from './order/question';
 import Pay from './offline/pay';
 import InfoEditor from './manage/info_editor';
 import Message from './manage/message';
-import ClerkManage from './manage/clerk_manage'
 import Finance from './manage/finance';
 import Comment from './manage/comment';
 import Award from './manage/award';
@@ -76,6 +76,7 @@ export default {
     member_recharge:MemberRecharge,    //会员充值
     member_balance:MemberBalance,    //会员余额
     statistics:Statistics,        //业务统计
+    employee:Employee,       //员工管理
     
     
     item:Item,    //添加项目
@@ -86,7 +87,6 @@ export default {
     pay:Pay,    //订单支付
     info_editor:InfoEditor,    //信息编辑
     message:Message,    //消息通知
-    clerk_manage:ClerkManage,    //员工管理
     comment:Comment,    //用户评价
     award:Award,    //返现记录
     operate:Operate,    //经营分析

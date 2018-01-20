@@ -36,7 +36,7 @@ export default [
             {text:'财务对账',key:'balance'},
             {text:'经营分析',key:'operate'},
             {text:'订单查询',key:'order_search'},
-            {text:'员工管理',key:'clerk_manage'},
+            {text:'员工管理',key:'employee'},
             {text:'返现记录',key:'award'},
             {text:'消息通知',key:'message'},
             {text:'用户评价',key:'comment'},

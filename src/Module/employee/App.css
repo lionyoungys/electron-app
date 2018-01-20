@@ -1,0 +1,45 @@
+.add-employee{
+    width: 380px;
+    min-height: 340px;
+    background: #fff;
+    border-radius: 10px;
+    position: fixed;left: 50%;top: 50%;
+    margin: -300px 0 0 -190px;
+    overflow: hidden;
+}
+.add-employee>.m-close{position: absolute;top: 8px;right: 10px}
+.add-employee>div{margin-bottom: 20px}
+.add-employee>div:first-of-type{
+    height: 50px;
+    line-height: 50px;
+    padding: 0 10px;
+    font-size: 18px;
+    color: #537185;
+}
+.add-employee>.row{font-size: 18px;}
+.add-employee>.row>label{width: 110px;margin-right: 10px;text-align: right;display: inline-block}
+.add-employee>.row.auth{
+    display: -webkit-flex;
+    display: flex;
+}
+.add-employee>.row.auth>div{width: 224px;}
+.add-employee>.row.auth>div>span{margin-right: 24px;display: inline-block;width: 100px}
+.add-employee>.row.auth>div>span:nth-child(2n+0){
+    margin-right: 0;
+}
+
+
+
+.ui-clerk-box-row>span:first-child{
+    width: 125px;height: 40px;font-size: 18px;line-height: 40px;
+    margin-right: 14px;text-align: right;
+}
+.ui-clerk-box-row>input[type=text],.ui-clerk-box-row>input[type=password]{
+    height: 40px;line-height: 40px;width: 272px;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    border: 1px solid #e0e7eb;
+}
+.ui-clerk-box-row>.input{width: 168px;margin-right: 14px;}
+.ui-clerk-box-row>.captcha{height: 40px;line-height: 40px;font-size: 16px;color:#ff6536;}
+.ui-clerk-box-row>.auth{display: inline-flex;display: -webkit-inline-flex;flex-wrap: wrap;width: 420px;}
+.ui-clerk-box-row>.auth>span{width: 101px;margin-bottom: 20px;}
