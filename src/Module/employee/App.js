@@ -10,101 +10,119 @@ import './App.css';
 export default class extends Component {
     constructor(props) {
         super(props);
-        this.state = {employee:[],auth:[],show:false,editorShow:false,index:0};
-        this.callback = this.callback.bind(this);    //弹窗回调函数
-        this.deleteClerk = this.deleteClerk.bind(this);    //删除员工
-        this.retStr = this.retStr.bind(this);
-        this.editorCallback = this.editorCallback.bind(this);
-        this.isShowEditor = this.isShowEditor.bind(this);
+        this.state = {
+            employee:[],
+            checked:[],
+            name:'',
+            number:'',
+            passwd:'',
+            show:false,
+            isAdd:true,
+            employeeId:null,
+            editorShow:false,
+            index:0
+        };
+        this.query = this.query.bind(this);
+        this.handleCheck = this.handleCheck.bind(this);
+        this.onConfirm = this.onConfirm.bind(this);
+        this.handleEditor = this.handleEditor.bind(this);
     }
 
-    componentDidMount() {
-        axios.post(api.U('auth'),api.D({token:this.props.token}))
-        .then(response => {
-            api.V(response.data) && this.setState({auth:response.data.result});
-            console.log(response.data.result);
-        });
+    componentDidMount() {this.query()}
+    query() {
         axios.post(api.U('employee_list'),api.D({token:this.props.token}))
         .then((response) => {
             api.V(response.data) && this.setState({employee:response.data.result});
         });
     }
 
-    callback(isConfirm,obj) {
-        if (isConfirm) {
-            obj.token = this.props.token;
-            axios.post(api.U('getAuth'),api.D(obj))
-            .then((response) => {
-                if (api.verify(response.data)) {
-                    axios.post(api.U('clerkList'),api.D({token:this.props.token}))
-                    .then((response) => {
-                        let result = response.data.data;
-                        this.setState({employee:result});
-                        //console.log(result);
-                    });
-                }
-            });
+    handleCheck(value, checked) {
+        let index = value.inArray(this.state.checked);
+        if (checked) {
+            -1 !== index && this.state.checked.splice(index, 1);
+        } else {
+            -1 === index && this.state.checked.push(value);
         }
-        this.setState({show:false})
+        this.setState({checked:this.state.checked});
     }
 
-    editorCallback(isConfirm) {
-        if (isConfirm) {
-            axios.post(api.U('clerkList'),api.D({token:this.props.token}))
-            .then((response) => {
-                let result = response.data.data;
-                this.setState({employee:result});
-                //console.log(result);
-            });
-        }
-        this.setState({editorShow:false});
-    }
-
-    isShowEditor() {
-        let state = this.state;
-        if (state.editorShow) {
-            return (
-                <AddEmployee 
-                    show={state.editorShow} 
-                    auth={state.auth} 
-                    callback={this.editorCallback}
-                    id={state.employee[state.index].id}
-                    token={this.props.token}
-                    type='editor'
-                />
-            );
-        }
-        return null;
-    }
-    retStr(value) {
-        let arr = value.split(','),
-            arrLen = arr.length,
-            auth = this.state.auth,
-            len = auth.length,
-            retStr = [];
-        for (let i = 0;i < len;++i) {
-            for (let j = 0;j < arrLen;++j) {
-                if (auth[i].num == arr[j]) retStr.push(auth[i].name);
+    onConfirm() {
+        if (this.state.isAdd) {
+            if (
+                '' != this.state.name
+                &&
+                this.state.number.length == 11
+                &&
+                '' != this.state.passwd
+                &&
+                this.state.checked.length > 0
+            ) {
+                axios.post(
+                    api.U('auth'),
+                    api.D({
+                        token:this.props.token,
+                        name:this.state.name,
+                        phone:this.state.number,
+                        password:this.state.passwd,
+                        auth:JSON.stringify(this.state.checked)
+                    })
+                )
+                .then(response => {
+                    if (api.V(response.data) ) {
+                        this.query();
+                        this.setState({show:false,name:'',number:'',passwd:'',checked:[]});
+                    }
+                });
+            }
+        } else {
+            if (
+                '' != this.state.name
+                &&
+                this.state.number.length == 11
+                &&
+                this.state.checked.length > 0
+            ) {
+                axios.post(
+                    api.U('employee_upd'),
+                    api.D({
+                        token:this.props.token,
+                        staff_id:this.state.employeeId,
+                        name:this.state.name,
+                        phone:this.state.number,
+                        password:this.state.passwd,
+                        auth:JSON.stringify(this.state.checked)
+                    })
+                )
+                .then(response => {
+                    if (api.V(response.data)) {
+                        this.query();
+                        this.setState({show:false,name:'',number:'',passwd:'',checked:[]});
+                    }
+                });
             }
         }
-        if (-1 != '100'.inArray(arr)) retStr.push('订单管理');
-        return retStr.toString();
     }
 
-    deleteClerk(e) {
-        let id = e.target.dataset.id,
-            state = this.state;
-        axios.post(api.U('deleteClerk'),api.D({token:this.props.token,id:id}))
-        .then((response) => {
-            if (api.verify(response.data)) {
-                let index = id.inObjectArray(state.employee,'id');
-                if (-1 !== index) {
-                    state.employee.splice(index,1);
-                    this.setState({employee:state.employee});
+    handleEditor(e) {
+        let id = e.target.dataset.id;
+        axios.post(api.U('employee_upd'),api.D({token:this.props.token,staff_id:id}))
+        .then(response => {
+            if (api.V(response.data)) {
+                let result = response.data.result;
+                let auth = null;
+                try {
+                    auth = JSON.parse(result.data.auth);
+                } catch (e) {
+                    auth = [];
                 }
+                if (auth.constructor != Array) auth = [];
+                this.setState({employeeId:id,name:result.data.aname,number:result.data.account,checked:auth,show:true,isAdd:false});
             }
+            console.log(response.data);
         });
     }
+
+
 
     render () {
         let html = this.state.employee.map((obj) => 
@@ -113,13 +131,7 @@ export default class extends Component {
                     <td>{obj.account}</td>
                     <td>{null}</td>
                     <td>
-                        <input 
-                            type='button'
-                            value='编辑' 
-                            className='m-btn editor'
-                            onClick={() => this.setState({editorShow:true,index:index})}
-                            data-id={obj.id}
-                        />
+                        <input type='button' value='编辑' className='m-btn editor' onClick={this.handleEditor} data-id={obj.id}/>
                         &emsp;
                         <input 
                             type='button' 
@@ -136,19 +148,29 @@ export default class extends Component {
                 <Crumb data={[{key:0,value:'员工管理'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div style={{textAlign:'right'}}>
-                        <button type='button' className='m-btn confirm middle' onClick={() => this.setState({show:true})}>+添加员工</button>
+                        <button type='button' className='m-btn confirm middle' onClick={() => this.setState({show:true,isAdd:true})}>+添加员工</button>
                     </div>
                     <div className='m-box'>
                         <table className='m-table tr-b'>
-                            <thead>
-                                <tr className='m-bg-white'><th>姓名</th><th>手机号</th><th>权限</th><th>编辑</th></tr>
-                            </thead>
+                            <thead><tr className='m-bg-white'><th>姓名</th><th>手机号</th><th>权限</th><th>编辑</th></tr></thead>
                             <tbody>{html}</tbody>
                         </table>
                     </div>
                 </div>
-                <AddEmployee show={this.state.show} auth={this.state.auth} callback={this.callback}/>
-                {this.isShowEditor()}
+                <AddEmployee
+                    show={this.state.show}
+                    checked={this.state.checked}
+                    name={this.state.name}
+                    onNameChange={e => this.setState({name:e.target.value})}
+                    number={this.state.number}
+                    onNumberChange={e => !isNaN(e.target.value) && this.setState({number:e.target.value})}
+                    passwd={this.state.passwd}
+                    onPasswdChange={e => this.setState({passwd:e.target.value})}
+                    token={this.props.token}
+                    onClose={() => this.setState({show:false,checked:[],name:'',number:'',passwd:''})}
+                    handleCheck={this.handleCheck}
+                    onConfirm={this.onConfirm}
+                />
             </div>
         );
     }
@@ -158,128 +180,48 @@ export default class extends Component {
 class AddEmployee extends Component {
     constructor(props) {
         super(props);
-        this.state = {name:'',mobile:'',password:'',auth:[],checked:[]};
-        this.handleClick = this.handleClick.bind(this);
-        this.onConfirm = this.onConfirm.bind(this);    //确认
-        this.toggleChecked = this.toggleChecked.bind(this);
-        this.onClose = this.onClose.bind(this);
+        this.state = {auth:[]};
     }
     componentDidMount() {
-        let props = this.props;
-        if (func.isSet(props.type)) {
-            axios.post(api.U('updateClerkInfo'),api.D({token:props.token,id:props.id}))
-            .then(response => {
-                let result = response.data.data.info;
-                this.setState({name:result.nickname,mobile:result.username,auth:result.quanli.split(',')});
-            });
-        }
-    }
-
-    componentWillUnmount() {this.setState({name:'',mobile:'',password:'',auth:[]});}
-    handleClick(value, checked) {
-        if (checked) {
-            let index = value.inArray(this.state.checked);
-            this.state.checked.splice(index, 1);
-        } else {
-            this.state.checked.push(value);
-        }
-        this.setState({checked:this.state.checked});
-    }
-
-    onConfirm() {
-        let state = this.state;
-        if (func.isSet(this.props.type)) {
-            if (
-                '' != state.name && 
-                !isNaN(state.mobile) &&
-                state.mobile.length == 11 &&
-                state.auth.length > 0) {
-            } {
-                let data = {
-                    id:this.props.id,
-                    nickname:state.name,
-                    username:state.mobile,
-                    assess:state.auth.toString(),
-                    token:this.props.token
-                };
-                if ('' != state.password) data.password = state.password;
-                axios.post(api.U('updateClerkInfo'),api.D(data))
-                .then(response => {
-                    if (api.verify(response.data)) {
-                        this.props.callback(true);
-                    }
-                });
-            }
-        } else {
-            if (
-                '' != state.name &&
-                '' != state.password && 
-                !isNaN(state.mobile) &&
-                state.mobile.length == 11 &&
-                state.auth.length > 0
-            ) {
-                this.props.callback(true, {
-                    nickname:state.name,
-                    username:state.mobile,
-                    password:state.password,
-                    assess:state.auth.toString()
-                });
-                this.setState({name:'',mobile:'',password:'',auth:[]});
-            }
-        }
-    }
-    onClose() {
-        this.setState({name:'',mobile:'',password:'',auth:[]});
-        this.props.callback(false);
-    }
-
-    toggleChecked(e) {
-        let index = e.target.dataset.index,
-            auth = this.state.auth,
-            i = index.inArray(auth);
-        if (-1 === i) {
-            auth.push(index);
-        } else {
-            auth.splice(i, 1);
-        }
-        this.setState({auth:auth});
+        axios.post(api.U('auth'),api.D({token:this.props.token}))
+        .then(response => {
+            api.V(response.data) && this.setState({auth:response.data.result});
+        });
     }
     
     render() {
         if (!this.props.show) return null;
-        let props = this.props,
-            state = this.state;
-        let auth = this.props.auth.map(obj =>
+        let auth = this.state.auth.map(obj =>
             <Checkbox
                 key={obj.module}
                 value={obj.module}
-                checked={-1 !== obj.module.inArray(this.state.checked)}
-                onClick={this.handleClick}
+                checked={-1 !== obj.module.inArray(this.props.checked)}
+                onClick={this.props.handleCheck}
             >{obj.module_name}</Checkbox>
         );
         return (
             <div className='m-layer-bg'>
                 <div className='add-employee'>
-                    <i className='m-close' onClick={this.onClose}></i>
+                    <i className='m-close' onClick={this.props.onClose}></i>
                     <div className='m-bg-linear'><span className='m-add-employee'>添加员工</span></div>
                     <div className='row'>
                         <label>姓名：</label>
-                        <input type='text' value={this.state.name} onChange={e => this.setState({name:e.target.value})}/>
+                        <input type='text' value={this.props.name} onChange={this.props.onNameChange}/>
                     </div>
                     <div className='row'>
                         <label>手机号：</label>
-                        <input type='text' value={this.state.mobile} onChange={e =>{!isNaN(e.target.value) && this.setState({mobile:e.target.value})}}/>
+                        <input type='text' value={this.props.number} onChange={this.props.onNumberChange}/>
                     </div>
                     <div className='row'>
                         <label>密码：</label>
-                        <input type='password' value={this.state.password} onChange={e => this.setState({password:e.target.value})}/>
+                        <input type='password' value={this.props.passwd} onChange={this.props.onPasswdChange}/>
                     </div>
                     <div className='row auth'>
                         <label>权限设置：</label>
                         <div>{auth}</div>
                     </div>
                     <div style={{textAlign:'center'}}>
-                        <button type='button' className='m-btn gradient lightblue middle' onClick={this.onConfirm}>确认</button>
+                        <button type='button' className='m-btn gradient lightblue middle' onClick={this.props.onConfirm}>确认</button>
                     </div>
                 </div>
             </div>
