@@ -26,6 +26,7 @@ export default class extends Component {
         this.handleCheck = this.handleCheck.bind(this);
         this.onConfirm = this.onConfirm.bind(this);
         this.handleEditor = this.handleEditor.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
     }
 
     componentDidMount() {this.query()}
@@ -122,6 +123,14 @@ export default class extends Component {
         });
     }
 
+    handleDelete(e) {
+        let id = e.target.dataset.id;
+        axios.post(api.U('employee_del'), api.D({token:this.props.token,staff_id:id}))
+        .then(response => {
+            api.V(response.data) && this.query();
+        });
+    }
+
 
 
     render () {
@@ -137,7 +146,7 @@ export default class extends Component {
                             type='button' 
                             value='删除' 
                             className='m-btn editor'
-                            onClick={this.deleteClerk}
+                            onClick={this.handleDelete}
                             data-id={obj.id}
                         />
                     </td>
