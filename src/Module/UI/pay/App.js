@@ -11,15 +11,23 @@ export default class extends React.Component{
         super(props);
         this.state = {authcode:['','','','']}
         this.input = [];
+        this.onClose = this.onClose.bind(this);
         this.paymentStatus = this.paymentStatus.bind(this);
         this.setAuthCode = this.setAuthCode.bind(this);
         this.onConfirm = this.onConfirm.bind(this);
         this.enterListener = this.enterListener.bind(this);
     }
+    onClose() {
+        this.setState({authcode:['','','','']});
+        this.props.onClose();
+    }
+    componentDidMount() {
+
+    }
 
     enterListener(input) {
         this.input[3] = input;
-        if (func.isSet(input)) {
+        if (tool.isSet(input)) {
             input.onkeydown = e => {if ('Enter' === e.code) this.onConfirm();}
         }
     }
@@ -142,23 +150,71 @@ export default class extends React.Component{
             </div>
         );
 
-        return func.isSet(props.status) ? status[props.status] : status.payment;
+        return tool.isSet(props.status) ? status[props.status] : status.payment;
     }
 
     render() {
-        let props = this.props,
-            state = this.state;
-        if (!props.isShow) return null;
+        let status = this.props.status,
+            authcode = this.state.authcode;
         return (
-            <section className='ui-fixed-bg'>
-                <div className='ui-payment'>
-                    <div className='ui-mm-layer-title'>
-                        <em className='ui-mm-icon-payment'>用户支付</em>
-                        <em className='ui-close3' onClick={() => {this.setState({authcode:['','','','']});props.onCancelRequest();}}></em>
-                    </div>
-                    {this.paymentStatus()}
+            <div className='m-layer-bg' style={{display:(this.props.show ? 'block' : 'none')}}>
+                <div className='pay'>
+                    <i className='m-close' onClick={this.onClose}></i>
+                    <div className='m-bg-linear'><span className='m-pay'>支付</span></div>
+                    <div className='pay-box' style={{display:('pay' === status ? 'block' : 'none')}}>
+                        <div className='amount'>支付金额：<span>{this.props.amount}</span></div>
+                        <div className='pay-notice'>输入付款码或扫描支付码</div>
+                        <div className='input-box'>
+                        <input 
+                            type='text' 
+                            value={authcode[0]} 
+                            onChange={this.setAuthCode} 
+                            maxLength='4'
+                            data-index='0'
+                            autoFocus
+                            ref={input => this.input[0] = input}
+                        />
+                    <input 
+                        type='text' 
+                        value={authcode[1]} 
+                        onChange={this.setAuthCode} 
+                        maxLength='4'
+                        data-index='1'
+                        ref={input => this.input[1] = input}
+                    />
+                    <input 
+                        type='text' 
+                        value={authcode[2]} 
+                        onChange={this.setAuthCode} 
+                        maxLength='4'
+                        data-index='2'
+                        ref={input => this.input[2] = input}
+                    />
+                    <input 
+                        type='text' 
+                        value={authcode[3]} 
+                        onChange={this.setAuthCode} 
+                        data-index='3'
+                        maxLength='6'
+                        ref={this.enterListener}
+                    />
                 </div>
-            </section>
+                <div className='m-text-c'><button type='button' className='m-btn gradient lightblue middle' onClick={this.onConfirm}>确认</button></div>
+                    </div>
+                    <div className='pay-box' style={{display:('loading' === status ? 'block' : 'none')}}>
+
+                    </div>
+                    <div className='pay-box' style={{display:('success' === status ? 'block' : 'none')}}>
+
+                    </div>
+                    <div className='pay-box' style={{display:('fail' === status ? 'block' : 'none')}}>
+
+                    </div>
+                    <div className='pay-box' style={{display:('free' === status ? 'block' : 'none')}}>
+
+                    </div>
+                </div>
+            </div>
         );
     }
 }

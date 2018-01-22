@@ -263,7 +263,7 @@ body{background:#09b1b0;cursor:pointer;} */
 }
 .m-close:hover{background-image: url(img/close-hover.png)}
 /* icon 小图 */
-.m-clothes,.m-add-member,.m-add-employee,.m-phone{
+.m-clothes,.m-add-member,.m-add-employee,.m-phone,.m-pay{
     padding-left: 30px;
     background-image: url(img/clothes.png);
     background-repeat: no-repeat;
@@ -273,6 +273,7 @@ body{background:#09b1b0;cursor:pointer;} */
 .m-add-member{background-image: url(img/add-member.png)}
 .m-add-employee{background-image: url(img/add-employee.png)}
 .m-phone{background-image: url(img/phone.png)}
+.m-pay{background-image: url(img/pay.png)}
 .m-icon{
     display: inline-block;
     height: 34px;

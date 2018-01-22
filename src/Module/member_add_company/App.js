@@ -6,6 +6,7 @@ const {ipcRenderer} = window.require('electron');
 import React from 'react';
 import Crumb from '../UI/crumb/App';
 import Gateway from '../UI/gateway/App';
+import Pay from '../Ui/pay/App';
 import {PayMent} from '../../static/UI';
 
 export default class extends React.Component{
@@ -19,6 +20,8 @@ export default class extends React.Component{
             remark:'',
             addr:'',
             checked:0,
+            show:false,
+            status:'pay',
             name:'',discount:'',address:'',
             payment:0,isShow:false,
             paymentStatus:'payment',id:null
@@ -35,6 +38,7 @@ export default class extends React.Component{
     }
 
     handleClick() {
+        this.setState({show:true});
         let state = this.state,
             param = this.props.param;
         if (
@@ -165,6 +169,11 @@ export default class extends React.Component{
                         <input type='button' className='m-btn confirm large' value='立即支付' onClick={this.handleClick}/>
                     </div>
                 </div>
+                <Pay
+                    show={this.state.show}
+                    status={this.state.status}
+                    onClose={() => this.setState({show:false})}
+                />
                 <PayMent 
                     isShow={state.isShow}
                     status={state.paymentStatus}

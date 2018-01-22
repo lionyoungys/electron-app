@@ -1,0 +1,49 @@
+/* 支付框样式 */
+.pay{
+    width: 400px;
+    height: 280px;
+    position: fixed;left: 50%;top: 50%;
+    margin: -140px 0 0 -200px;
+    background-color: #fff;
+    overflow: hidden;
+    border-radius: 10px;
+}
+.pay>.m-close{position: absolute;right: 10px;top: 10px;}
+.pay>div:first-of-type{
+    height: 50px;
+    line-height: 50px;
+    padding: 0 10px;
+    color: #537185;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.pay-box{width: 340px;margin: 0 auto;}
+.pay-box>.amount{font-size: 18px;}
+.pay-box>.amount>span{font-size: 22px;color: #ff6e42}
+.pay-box>.pay-notice{font-size: 16px;color: #b2b2b2;margin: 20px 0}
+.pay-box>.input-box{
+    display: -webkit-flex;display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+.pay-box>.input-box>input{
+    width: 78px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    font-size: 16px;
+    border: 1px solid #ccc;
+}
+.ui-payment-loading{
+    width: 78px;height: 78px;
+    background-image: url(images/ui-payment-loading.gif);
+    background-size: 78px;
+}
+.ui-payment-fail{
+    width: 79px;height: 79px;
+    background-image: url(images/ui-payment-fail.png);
+}
+.ui-payment-success{
+    width: 76px;height: 76px;
+    background-image: url(images/ui-payment-success.png);
+}
