@@ -124,24 +124,17 @@ class UpdateOrCharge extends Component{
     }
 
     onConfirmRequest() {
-        let state = this.state,
-            props = this.props;
-        if (isNaN(state.mobile) || state.mobile.length !== 11) return;
-        axios.post(
-            api.U('getUserInfo'), 
-            api.D({token:this.props.token,number:state.mobile})
-        )
+        if (isNaN(this.state.mobile) || this.state.mobile.length !== 11) return;
+        axios.post(api.U('member'), api.D({token:this.props.token,number:this.state.mobile}))
         .then(response => {
             if (api.V(response.data)) {
-                if (0 == props.type) {
-                    props.changeView({element:'member_update_info',param:{id:response.data.data.id,number:state.mobile}});
+                if (0 == this.props.type) {
+                    this.props.changeView({view:'member_update',param:this.state.mobile});
                 } else {
-                    props.changeView({element:'member_recharge',param:{id:response.data.data.id,number:state.mobile}});
+                    this.props.changeView({view:'member_recharge',param:result.id});
                 }
             }
         });
-        console.log(state.mobile);
-        console.log(props.type); 
     }
 
     render() {

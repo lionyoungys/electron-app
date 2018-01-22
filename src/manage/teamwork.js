@@ -5,7 +5,6 @@
 import React, {Component} from 'react';
 import '../api';
 import Crumbs,{Notification} from '../static/UI';
-import md5 from 'md5';
 
 export default class Teamwork extends Component {
     constructor(props) {
