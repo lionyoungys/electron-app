@@ -20,6 +20,8 @@ import MemberBalance from './Module/member_balance/App';
 import Statistics from './Module/statistics/App';
 import Employee from './Module/employee/App';
 import MemberUpdate from './Module/member_update/App';
+import MemberAddUser from './Module/member_add_user/App';
+import MemberAddCompany from './Module/member_add_company/App';
 
 
 import Item from './order/item';
@@ -78,6 +80,8 @@ export default {
     statistics:Statistics,        //业务统计
     employee:Employee,       //员工管理
     member_update:MemberUpdate,    //会员信息变更
+    member_add_user:MemberAddUser,    //新增个人会员
+    member_add_company:MemberAddCompany,    //新增企业会员
     
     
     item:Item,    //添加项目

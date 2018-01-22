@@ -1,0 +1,18 @@
+.gateway>:first-child{
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.gateway>:last-child{
+    height: 60px;
+    line-height: 60px;
+    padding: 0 20px;
+    border: 1px dashed #ccc;
+}
+.gateway>:last-child>span>.fa-check-circle{
+    font-size: 30px;
+    vertical-align: middle;
+}
+.gateway>:last-child>span>.fa-check-circle-o{
+    font-size: 30px;
+    vertical-align: middle;
+}

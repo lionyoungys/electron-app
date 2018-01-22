@@ -83,10 +83,10 @@ class AddMember extends Component{
         .then(response => {
             if (api.V(response.data)) {
                 let redirect = {param:mobile};
-                redirect.view = (0 == this.state.type ? 'offline_add_member' : 'offline_add_company');
+                redirect.view = (0 == this.state.type ? 'member_add_user' : 'member_add_company');
                 this.props.changeView(redirect);
             } else {
-                alert(response.data);
+                alert(response.data.msg);
             }
             console.log(response.data);
         });

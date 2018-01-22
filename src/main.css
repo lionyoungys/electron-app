@@ -273,6 +273,18 @@ body{background:#09b1b0;cursor:pointer;} */
 .m-add-member{background-image: url(img/add-member.png)}
 .m-add-employee{background-image: url(img/add-employee.png)}
 .m-phone{background-image: url(img/phone.png)}
+.m-icon{
+    display: inline-block;
+    height: 34px;
+    line-height: 34px;
+    font-size: 18px;
+    padding-left: 40px;
+    background-position: left center;
+    background-repeat: no-repeat;
+}
+.m-icon.cash{background-image: url(img/cash.png)}
+.m-icon.wechat{background-image: url(img/wechat.png)}
+.m-icon.alipay{background-image: url(img/alipay.png)}
 /* input text style */
 .m-input{
     width: 240px;
