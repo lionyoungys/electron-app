@@ -1,0 +1,47 @@
+.sms{
+    width: 380px;
+    height: 240px;
+    position: fixed;top: 50%;left: 50%;
+    margin: -120px 0 0 -190px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #fff;
+}
+.sms>.m-close{
+    position: absolute;
+    top: 8px;right: 10px;
+}
+.sms>div:first-of-type{
+    height: 50px;
+    line-height: 50px;
+    padding: 0 10px;
+    font-size: 18px;
+    color: #537185;
+    margin-bottom: 20px;
+}
+.sms>div:nth-of-type(2){
+    color: #999;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.sms>div:nth-of-type(2)>span{color: #f8953d}
+.sms>div:nth-of-type(3){
+    text-align: center;
+    margin-bottom: 20px;
+}
+.sms>div:nth-of-type(3)>input[type=text]{
+    height: 36px;
+    line-height: 36px;
+    width: 140px;
+}
+.sms>div:nth-of-type(3)>span{
+    cursor: pointer;
+    color: #09b1b0;
+    display: inline-block;
+    width: 80px;
+    text-align: left;
+}
+.sms>div:nth-of-type(4){
+    text-align: left;
+    margin-left: 104px;
+}

@@ -1,19 +1,25 @@
 /**
- * 新增企业会员组件
+ * 会员信息修改组件
  * @author yangyunlong
  */
 import React, {Component} from 'react';
 import Crumb from '../UI/crumb/App';
 import Radio from '../UI/radio/App';
+import Sms from '../UI/sms/App';
 import './App.css';
 
 export default class extends Component{
     constructor(props) {
         super(props);
-        this.state = {data:{uname:'',sex:1,umobile:'',birthday:'',addr:'',remark:'',is_company:'0',cdiscount:''}};
+        this.state = {
+            data:{uname:'',sex:1,umobile:'',birthday:'',addr:'',remark:'',is_company:'0',cdiscount:''},
+            show:false
+        };
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.onSendRequest = this.onSendRequest.bind(this);
         this.handleConfirm = this.handleConfirm.bind(this);
+        this.callback = this.callback.bind(this);
     }
 
     componentDidMount() {
@@ -43,8 +49,40 @@ export default class extends Component{
         this.state.data[e.target.dataset.key] = e.target.value;
         this.setState({data:this.state.data});
     }
+    onSendRequest() {
+        axios.post(api.U('member_sms'),api.D({token:this.props.token,uid:this.state.data.id}))
+        .then(response => {});
+    }
     handleConfirm() {
-
+        let data = this.state.data;
+        if (data.umobile.match(/^1\d{10}$/) === null) return;
+        if ('' == data.uname) return;
+        if ('' == data.birthday) return;
+        if (isNaN(data.cdiscount) || data.cdiscount > 10 || data.cdiscount <= 0) return;
+        this.setState({show:true});
+    }
+    callback(smsCode) {
+        let data = this.state.data,
+            obj = {
+                token:this.props.token,
+                uid:data.id,
+                umobile:data.umobile,
+                uname:data.uname,
+                sms_code:smsCode,
+                remark:data.remark,
+                addr:data.addr
+            };
+        if (1 == data.is_company) {
+            obj.cdiscount = data.cdiscount;
+        } else {
+            obj.sex = data.sex;
+            obj.birthday = data.birthday;
+        }
+        axios.post(api.U('member_submit'),api.D(obj))
+        .then(response => {
+            console.log(response.data);
+        });
+        this.setState({show:false});
     }
 
     render() {
@@ -111,63 +149,15 @@ export default class extends Component{
                     </table>
                     <button type='button' style={{marginTop:'20px'}} className='m-btn middle confirm' onClick={this.handleConfirm}>确定</button>
                 </div>
-                {/* <UpdateDiscount 
-                    show={state.discountShow} 
-                    onCancelRequest={() => this.setState({discountShow:false})}
-                    onConfirmRequest={this.onUpdateDiscountRequest}
-                /> */}
-                {/* <UpdateMobile 
-                    show={state.mobileShow}
-                    token={props.token}
-                    mobile={user.mobile_number}
-                    onCancelRequest={() => this.setState({mobileShow:false})}
-                    onConfirmRequest={this.onUpdateMobileRequest}
-                /> */}
+                <Sms
+                    show={this.state.show}
+                    onClose={() => this.setState({show:false})}
+                    number={this.props.param}
+                    onSendRequest={this.onSendRequest}
+                    callback={this.callback}
+                />
             </div>
         );
     }
 }
 
-class UpdateDiscount extends Component{
-    constructor(props) {
-        super(props);
-        this.state = {discount:''};
-    }
-
-    render() {
-        let props = this.props,
-            state = this.state;
-
-        if (!props.show) return null;
-        return (
-            <section className='ui-fixed-bg'>
-                <div className='ui-update-discount'>
-                    <div className='ui-mm-layer-title'>
-                        <em className='ui-mm-icon-discount'>变更会员折扣</em>
-                        <em className='ui-close3' onClick={props.onCancelRequest}></em>
-                    </div>
-                    <div style={{textAlign:'center',padding:'33px 0 30px',fontSize:'18px',color:'#999'}}>请输入新折扣信息</div>
-                    <div style={{textAlign:'center',lineHeight:'40px',fontSize:'18px',paddingBottom:'29px'}}>
-                        <input 
-                            type='text'
-                            style={{width:'198px',height:'38px',border:'1px solid #e0e7eb'}}
-                            value={state.discount}
-                            onChange={e => this.setState({discount:e.target.value})}
-                        />&nbsp;折
-                    </div>
-                    <div style={{textAlign:'center'}}>
-                        <input
-                            type='button' 
-                            className='ui-teamwork-confirm'
-                            onClick={() => {
-                                if (!isNaN(state.discount) && state.discount > 0 && state.discount < 10) {
-                                    props.onConfirmRequest(state.discount);
-                                }
-                            }}
-                        />
-                    </div>
-                </div>
-            </section>
-        );
-    }
-}
