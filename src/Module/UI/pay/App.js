@@ -4,8 +4,8 @@
  */
 import React from 'react';
 import './App.css';
-//支付提示框    onCancelRequest=取消操作    onConfirm=确认操作    onFreeRequest=免洗操作
-//isShow=true/false    status=payment/loading/fail/success/free    free=免费时显示字段    amount=支付金额
+//支付提示框    onClose=取消操作    onConfirm=确认操作   onFree=免洗操作
+//show=true/false    status=pay/loading/fail/success/free     amount=支付金额 
 export default class extends React.Component{
     constructor(props) {
         super(props);

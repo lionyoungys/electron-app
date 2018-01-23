@@ -1,0 +1,27 @@
+.mau-box{margin-bottom: 20px}
+.mau-box>div{margin-right: 20px}
+.mau-box>div:last-of-type{margin-right: 0}
+.mau-option{
+    display: inline-block;
+    width: 160px;
+    height: 156px;
+    background-image: url(img/mau-option.png);
+    background-size: 160px 156px;
+    text-align: center;
+}
+.mau-option>:first-child{
+    height: 47px;
+    line-height: 47px;
+    font-size: 18px;
+}
+.mau-option>:nth-child(2){
+    height: 66px;
+    line-height: 66px;
+    font-size: 30px;
+}
+.mau-option>:nth-child(2)>span{font-size: 18px}
+.mau-option>:last-child{font-size: 22px}
+.mau-option.checked{
+    background-image: url(img/mau-checked.png);
+    color: #ff6f43;
+}

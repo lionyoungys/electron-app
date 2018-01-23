@@ -68,7 +68,7 @@ export default class extends React.Component{
 
     handleClick() {
         if (
-            '' == this.state.name
+            '' == this.state.uname
             ||
             isNaN(this.state.cdiscount)
             ||
@@ -130,7 +130,7 @@ export default class extends React.Component{
             state = this.state;
         return (
             <div>
-                <Crumb data={[{key:0,value:'会员管理',e:'member'},{key:1,value:'新增企业会员'}]} callback={this.props.changeView}/>
+                <Crumb data={[{key:0,value:'会员管理',view:'member'},{key:1,value:'新增企业会员'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div style={{marginBottom:'10px',fontSize:'18px'}}>企业会员信息</div>
                     <table className='m-table' style={{marginBottom:'20px'}}>
@@ -165,6 +165,7 @@ export default class extends React.Component{
                 </div>
                 <Pay
                     show={this.state.show}
+                    amount={this.state.amount}
                     status={this.state.status}
                     onClose={() => this.setState({show:false,status:'pay'})}
                     onConfirm={this.onConfirm}

@@ -5,22 +5,36 @@
 const {ipcRenderer} = window.require('electron');
 import React from 'react';
 import Crumb from '../UI/crumb/App';
-import {PayMent} from '../../static/UI';
+import Radio from '../UI/radio/App';
+import Gateway from '../UI/gateway/App';
+import Pay from '../Ui/pay/App';
+import './App.css';
 
 export default class extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            name:'',sex:2,
-            birthday:'1980-01-01',address:'',
-            remark:'',rechargeType:200,payment:0,
-            isShow:false,paymentStatus:'payment',
-            id:null,
+            uname:'',
+            sex:1,
+            birthday:'1980-01-01',
+            addr:'',
+            remark:'',
+            checked:0,
+            cardChecked:0,
+            show:false,
+            status:'pay',
+            cards:[],
+            amount:0
         };
-        console.log(this.props.param);
-        this.addMember = this.addMember.bind(this);
-        this.payRequest = this.payRequest.bind(this);
-        this.printOrder = this.printOrder.bind(this);
+        this.gateway = [
+            'CASH',             //现金支付
+            'WechatPay_Pos',    //微信扫码支付
+            'Alipay_AopF2F'    //支付宝扫码付
+        ];
+        this.handleSex = this.handleSex.bind(this);
+        this.handleCardChecked = this.handleCardChecked.bind(this);
+        this.onConfirm = this.onConfirm.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -32,227 +46,124 @@ export default class extends React.Component{
             theme:'#ff6e42',
             done:(value => this.setState({birthday:value}))
         });
+        axios.post(api.U('merchant_cards'),api.D({token:this.props.token}))
+        .then(response => {
+            api.V(response.data) && this.setState({cards:response.data.result,amount:response.data.result[0].price});
+        });
     }
-
-    addMember() {
-        let state = this.state,
-            param = this.props.param;
+    handleSex(value, checked) {!checked && this.setState({sex:value})}
+    handleCardChecked(e) {
+        let index = e.target.dataset.index;
+        (this.state.cardChecked != index) && this.setState({cardChecked:index,amount:this.state.cards[index].price});
+    }
+    handleClick() {
         if (
-            '' != state.name &&
-            '' != state.address
-        ) {
-            axios.post(
-                api.U('addNewMember'),
-                api.D({
-                    token:this.props.token,
-                    uid:this.props.uid,
-                    ucode:param.ucode,
-                    mobile:param.mobile,
-                    uname:state.name,
-                    sex:state.sex,
-                    birthday:state.birthday,
-                    address:state.address,
-                    remark:state.remark
-                })
-            )
-            .then(response => {
-                if (api.verify(response.data)) {
-                    let id = response.data.data.user;
-                    this.setState({id:id});
-                    if (0 == state.payment) {
-                        let card_name = '普通会员', discount = 10;
-                        if (500 == state.rechargeType) card_name = '黄金会员';discount = 9;
-                        if (1000 == state.rechargeType) card_name = '钻石会员';discount = 8;
-                        axios.post(
-                            api.U('rechargeMerchantCard'),
-                            api.D({
-                                uid:id,
-                                token:this.props.token,
-                                card_name:card_name,
-                                balance:state.rechargeType,
-                                discount:discount,
-                                pay_type:'CASH',
-                                type:1
-                            })
-                        )
-                        .then(response => {
-                            console.log(response.data);
-                            if (api.verify(response.data)) {
-                                this.printOrder(response.data.data.rechargeId);
-                                this.props.changeView({element:'index'});
-                            }
-                        });
-                    } else {
-                        this.setState({isShow:true});
-                    }
-                }
-            });
+            '' == this.state.uname
+            ||
+            isNaN(this.state.amount)
+            ||
+            this.state.amount < 0
+        ) return;
+        if (0 != this.state.checked) {
+            this.setState({show:true});
+        } else {
+            this.submit();
         }
     }
-
-    payRequest(authcode) {
-        let state = this.state,
-            param = this.props.param;
-        this.setState({paymentStatus:'loading'});
-        let card_name = '普通会员', discount = 10, pay_type = 'WECHAT';
-        if (500 == state.rechargeType) card_name = '黄金会员';discount = 9;
-        if (1000 == state.rechargeType) card_name = '钻石会员';discount = 8;
-        if (2 == state.payment) pay_type = 'ALI';
+    submit(authCode) {
+        authCode = tool.isSet(authCode) ? authCode : '1';
         axios.post(
-            api.U('rechargeMerchantCard'),
+            api.U('member_add'),
             api.D({
-                uid:state.id,
                 token:this.props.token,
-                card_name:card_name,
-                balance:state.rechargeType,
-                discount:discount,
-                pay_type:pay_type,
-                type:1,
-                auth_code:authcode,
+                umobile:this.props.param,
+                uname:this.state.uname,
+                sex:this.state.sex,
+                birthday:this.state.birthday,
+                reg_from:4,
+                auth_code:authCode,
+                cid:this.state.cards[this.state.cardChecked].id,
+                remark:this.state.remark,
+                addr:this.state.addr,
+                gateway:this.gateway[this.state.checked]
             })
         )
         .then(response => {
-            if (api.verify(response.data)) {
-                this.setState({paymentStatus:'success'});
-                this.printOrder(response.data.data.rechargeId);
-                this.props.changeView({element:'index'});
+            if (api.V(response.data)) {
+                this.props.changeView({view:'index'});
+            } else {
+                if (0 != this.state.checked) {
+                    this.setState({status:'fail'});
+                }
             }
         });
-        //rechargeMerchantCard
     }
-
-    printOrder(rechargeId) {
-        let props = this.props;
-        ipcRenderer.send(
-            'print-silent',
-            'public/prints/recharge.html',
-            {uid:props.uid,token:props.token,recharge_id:rechargeId}
-        );
+    onConfirm(authCode) {
+        this.setState({status:'loading'});
+        this.submit(authCode);
     }
-
     render() {
         let props = this.props,
             state = this.state;
+        let html = this.state.cards.map((obj, index) =>
+            <div
+                key={obj.id}
+                data-index={index}
+                className={'mau-option' + (this.state.cardChecked == index ? ' checked' : '')}
+                onClick={this.handleCardChecked}
+            >
+                <div data-index={index}>{obj.card_name}</div>
+                <div data-index={index}>{obj.price}<span>元</span></div>
+                <div data-index={index}>{obj.discount}折</div>
+            </div>
+        );
         return (
             <div>
-                <Crumb data={[{key:0,value:'会员管理',view:'member'},{key:1,value:'新增个人会员'}]} callback={this.props.changeView}
-                />
-                <div className='ui-container'>
-                    <div style={{marginBottom:'10px',fontSize:'18px'}}>个人会员信息</div>
-                    <div className='ui-mcd-row'>
-                        <div style={{width:'25%'}}>卡号：{props.param.ucode}</div>
-                        <div style={{width:'25%'}}>
-                            姓名：
-                            <input 
-                                type='text' 
-                                className='ui-mcd-input' 
-                                value={state.name}
-                                onChange={e => this.setState({name:e.target.value})}
-                            />
-                        </div>
-                        <div style={{width:'25%'}}>手机号：{props.param.mobile}</div>
-                        <div style={{width:'25%'}}>
-                            性别：
-                            <em 
-                                className={'ui-radio' + (2 == state.sex ? ' ui-radio-checked' : '')}
-                                onClick={() => this.setState({sex:2})}
-                            >女</em>
-                            &emsp;&emsp;
-                            <em 
-                                className={'ui-radio' + (1 == state.sex ? ' ui-radio-checked' : '')}
-                                onClick={() => this.setState({sex:1})}
-                            >男</em>
-                        </div>
-                    </div>
-                    <div className='ui-mcd-row'>
-                        <div style={{width:'25%'}}>
-                            生日：
-                            <input 
-                                type='text' 
-                                className='ui-mcd-input' 
-                                ref={input => this.input = input}
-                                readOnly
-                            />
-                        </div>
-                        <div style={{width:'75%'}}>
-                            地址：
-                            <input 
-                                type='text' 
-                                className='ui-mcd-input' 
-                                style={{width:'80%'}}
-                                value={state.address}
-                                onChange={e => {this.setState({address:e.target.value})}}
-                            />
-                        </div>
-                    </div>
-                    <div className='ui-mcd-row'>
-                        <div style={{width:'100%'}}>
-                            备注：
-                            <input 
-                                type='text' 
-                                className='ui-mcd-input' 
-                                style={{width:'80%'}}
-                                value={state.remark}
-                                onChange={e => this.setState({remark:e.target.value})}
-                            />
-                        </div>
-                    </div>
-                    <div style={{padding:'41px 0 25px',fontSize:'18px'}}>会员类型</div>
-                    <div className='ui-box'>
-                        <div 
-                            style={{marginLeft:'37px'}} 
-                            className={'ui-recharge-option' + (200 == state.rechargeType ? ' ui-recharge-option-checked' : '')}
-                            onClick={e => this.setState({rechargeType:200})}
-                        >
-                            <div>普通会员</div>
-                            <div>200<span>元</span></div>
-                            <div>无折扣</div>
-                        </div>
-                        <div 
-                            style={{marginLeft:'37px'}} 
-                            className={'ui-recharge-option' + (500 == state.rechargeType ? ' ui-recharge-option-checked' : '')}
-                            onClick={e => this.setState({rechargeType:500})}
-                        >
-                            <div>黄金会员</div>
-                            <div>500<span>元</span></div>
-                            <div>9折</div>
-                        </div>
-                        <div 
-                            style={{marginLeft:'37px'}} 
-                            className={'ui-recharge-option' + (1000 == state.rechargeType ? ' ui-recharge-option-checked' : '')}
-                            onClick={e => this.setState({rechargeType:1000})}
-                        >
-                            <div>钻石会员</div>
-                            <div>1000<span>元</span></div>
-                            <div>8折</div>
-                        </div>
-                    </div>
-                    <div style={{padding:'42px 0 22px',fontSize:'18px'}}>选择支付方式：</div>
-                    <div className='ui-recharge-box'>
-                        <section 
-                            className={'ui-checkbox2' + (0 == state.payment ? ' ui-checked2' : '')} 
-                            onClick={() => this.setState({payment:0})}
-                        ><em className='ui-pay-icon-cash'></em><span className='ui-pay-payment'>现金支付</span></section>
-                        <section 
-                            className={'ui-checkbox2' + (1 == state.payment ? ' ui-checked2' : '')} 
-                            onClick={() => this.setState({payment:1})}
-                        ><em className='ui-pay-icon-wechat'></em><span className='ui-pay-payment'>微信支付</span></section>
-                        <section 
-                            className={'ui-checkbox2' + (2 == state.payment ? ' ui-checked2' : '')} 
-                            onClick={() => this.setState({payment:2})}
-                        ><em className='ui-pay-icon-alipay'></em><span className='ui-pay-payment'>支付宝支付</span></section>
-                    </div>
-                    <div style={{marginTop:'32px'}}>
-                        <input type='button' className='ui-btn ui-btn-confirm ui-btn-large' value='立即支付' onClick={this.addMember}/>
+                <Crumb data={[{key:0,value:'会员管理',view:'member'},{key:1,value:'新增个人会员'}]} callback={this.props.changeView}/>
+                <div className='m-container'>
+                    <div style={{marginBottom:'10px',fontSize:'18px'}}>企业会员信息</div>
+                    <table className='m-table' style={{marginBottom:'20px'}}>
+                        <tbody className='member-update'>
+                            <tr className='bd-lightgrey'>
+                                <td>姓名</td>
+                                <td><input type='text' value={this.state.uname} onChange={e => this.setState({uname:e.target.value})}/></td>
+                            </tr>
+                            <tr className='bd-lightgrey'><td>手机号</td><td>{this.props.param}</td></tr>
+                            <tr className='bd-lightgrey'>
+                                <td>性别</td>
+                                <td>
+                                    <Radio value='1' checked={1 == this.state.sex} onClick={this.handleSex}>男</Radio>
+                                    &emsp;&emsp;
+                                    <Radio value='2' checked={2 == this.state.sex} onClick={this.handleSex}>女</Radio>
+                                </td>
+                            </tr>
+                            <tr className='bd-lightgrey'>
+                                <td>生日</td>
+                                <td><input type='text' value={this.state.birthday} ref={input => this.input = input} readOnly/></td>
+                            </tr>
+                            <tr className='bd-lightgrey'>
+                                <td>地址</td>
+                                <td><input style={{width:'100%'}} type='text' value={this.state.addr} onChange={e => this.setState({addr:e.target.value})}/></td>
+                            </tr>
+                            <tr className='bd-lightgrey'>
+                                <td>备注</td>
+                                <td><input style={{width:'100%'}} type='text' value={this.state.remark} onChange={e => this.setState({remark:e.target.value})}/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style={{fontSize:'18px',marginBottom:'20px'}}>会员类型</div>
+                    <div className='mau-box'>{html}</div>
+                    <Gateway checked={this.state.checked} callback={value => this.setState({checked:value})}/>
+                    <div style={{marginTop:'20px'}}>
+                        <input type='button' className='m-btn confirm large' value='立即支付' onClick={this.handleClick}/>
                     </div>
                 </div>
-                <PayMent 
-                    isShow={state.isShow}
-                    status={state.paymentStatus}
-                    amount={state.rechargeType}
-                    free='免洗订单将不会支付任何金额，此订单确定免洗吗？'
-                    onCancelRequest={() => this.setState({isShow:false,paymentStatus:'payment'})}
-                    onConfirmRequest={this.payRequest}
+                <Pay
+                    show={this.state.show}
+                    status={this.state.status}
+                    amount={this.state.amount}
+                    onClose={() => this.setState({show:false,status:'pay'})}
+                    onConfirm={this.onConfirm}
                 />
             </div>
         );
