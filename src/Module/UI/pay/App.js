@@ -4,158 +4,52 @@
  */
 import React from 'react';
 import './App.css';
-//支付提示框    onCancelRequest=取消操作    onConfirmRequest=确认操作    onFreeRequest=免洗操作
+//支付提示框    onCancelRequest=取消操作    onConfirm=确认操作    onFreeRequest=免洗操作
 //isShow=true/false    status=payment/loading/fail/success/free    free=免费时显示字段    amount=支付金额
 export default class extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {authcode:['','','','']}
+        this.state = {authCode:['','','','']}
         this.input = [];
         this.onClose = this.onClose.bind(this);
-        this.paymentStatus = this.paymentStatus.bind(this);
         this.setAuthCode = this.setAuthCode.bind(this);
         this.onConfirm = this.onConfirm.bind(this);
-        this.enterListener = this.enterListener.bind(this);
     }
     onClose() {
-        this.setState({authcode:['','','','']});
+        this.setState({authCode:['','','','']});
         this.props.onClose();
     }
     componentDidMount() {
-
-    }
-
-    enterListener(input) {
-        this.input[3] = input;
-        if (tool.isSet(input)) {
-            input.onkeydown = e => {if ('Enter' === e.code) this.onConfirm();}
-        }
+        this.input[3].onkeydown = ( e => {'Enter' === e.code && this.onConfirm()} )
     }
     
     setAuthCode(e) {
-        let value = e.target.value, len = value.length,
+        let value = e.target.value,
             index = Number(e.target.dataset.index),
-            authcode = this.state.authcode,autoSubmit = false;
-        if (3 !== index && 4 == len) this.input[index + 1].focus();    //判断是否为前三个输入框
-        this.state.authcode[index] = value
-        this.setState({authcode:this.state.authcode});
-    }
-
-    onConfirm() {
-        let authcode = this.state.authcode;
-        if (
-            4 === authcode[0].length
-            &&
-            4 === authcode[1].length
-            &&
-            4 === authcode[2].length
-            &&
-            6 === authcode[3].length
-        ) {
-            this.props.onConfirmRequest(
-                (authcode[0] + authcode[1] + authcode[2] + authcode[3]),
-                this.props.amount
-            );
+            len = value.length;
+        if (3 !== index && 4 === len) this.input[index + 1].focus();
+        if (( 3 !== index && 4 >= len ) || ( 3 === index && 6 >= len )) {
+            this.state.authCode[index] = value
+            this.setState({authCode:this.state.authCode});
         }
     }
 
-    paymentStatus() {
-        const status = {}, 
-              props = this.props, 
-              state = this.state,
-              center = {alignItems:'center',justifyContent:'center'};
-        // 支付
-        status.payment = (
-            <div className='ui-payment-box' style={{flexDirection:'column'}}>
-                <div 
-                    style={{margin:'24px 0 30px 6px',fontSize:'18px',color:'#333'}}
-                >支付金额：<span style={{fontSize:'22px',color:'#ff3413'}}>{props.amount}</span></div>
-                <div 
-                    style={{margin:'0 0 12px 6px',fontSize:'16px',color:'#b2b2b2'}}
-                >输入付款码或扫描支付码</div>
-                <div className='ui-payment-input-box'>
-                    <input 
-                        type='text' 
-                        value={state.authcode[0]} 
-                        onChange={this.setAuthCode} 
-                        maxLength='4'
-                        data-index='0'
-                        autoFocus
-                        ref={input => this.input[0] = input}
-                    />
-                    <input 
-                        type='text' 
-                        value={state.authcode[1]} 
-                        onChange={this.setAuthCode} 
-                        maxLength='4'
-                        data-index='1'
-                        ref={input => this.input[1] = input}
-                    />
-                    <input 
-                        type='text' 
-                        value={state.authcode[2]} 
-                        onChange={this.setAuthCode} 
-                        maxLength='4'
-                        data-index='2'
-                        ref={input => this.input[2] = input}
-                    />
-                    <input 
-                        type='text' 
-                        value={state.authcode[3]} 
-                        onChange={this.setAuthCode} 
-                        data-index='3'
-                        maxLength='6'
-                        ref={this.enterListener}
-                    />
-                </div>
-                <div style={{textAlign:'center'}}>
-                    <input type='button' className='ui-teamwork-confirm' onClick={this.onConfirm}/>
-                </div>
-            </div>
-        );
-        // 支付中
-        status.loading = (
-            <div className='ui-payment-box' style={center}>
-                <div>
-                    <div className='ui-payment-loading'></div>
-                    <div style={{marginTop:'33px',fontSize:'20px',color:'#b2b2b2',textAlign:'center'}}>支付中</div>
-                </div>
-            </div>
-        );
-        // 失败
-        status.fail = (
-            <div className='ui-payment-box' style={center}>
-                <div>
-                    <div className='ui-payment-fail'></div>
-                    <div style={{marginTop:'24px',fontSize:'22px',color:'#b2b2b2',textAlign:'center'}}>支付失败</div>
-                </div>
-            </div>
-        );
-        // 成功
-        status.success = (
-            <div className='ui-payment-box' style={center}>
-                <div>
-                    <div className='ui-payment-success'></div>
-                    <div style={{marginTop:'22px',fontSize:'22px',color:'#26a4da',textAlign:'center'}}>支付成功</div>
-                </div>
-            </div>
-        );
-        // 免费
-        status.free = (
-            <div className='ui-payment-box' style={{flexDirection:'column'}}>
-                <div style={{width:'318px',padding:'42px 20px',lineHeight:'30px',fontSize:'16px',color:'#333'}}>{props.free}</div>
-                <div style={{textAlign:'center'}}>
-                    <input type='button' className='ui-teamwork-confirm' onClick={props.onFreeRequest}/>
-                </div>
-            </div>
-        );
-
-        return tool.isSet(props.status) ? status[props.status] : status.payment;
+    onConfirm() {
+        let authCode = this.state.authCode;
+        if (
+            4 === authCode[0].length && !isNaN(authCode[0])
+            &&
+            4 === authCode[1].length && !isNaN(authCode[1])
+            &&
+            4 === authCode[2].length && !isNaN(authCode[1])
+            &&
+            6 === authCode[3].length && !isNaN(authCode[1])
+        ) this.props.onConfirm((authCode[0] + authCode[1] + authCode[2] + authCode[3]));
     }
 
     render() {
         let status = this.props.status,
-            authcode = this.state.authcode;
+            authCode = this.state.authCode; 
         return (
             <div className='m-layer-bg' style={{display:(this.props.show ? 'block' : 'none')}}>
                 <div className='pay'>
@@ -165,53 +59,29 @@ export default class extends React.Component{
                         <div className='amount'>支付金额：<span>{this.props.amount}</span></div>
                         <div className='pay-notice'>输入付款码或扫描支付码</div>
                         <div className='input-box'>
-                        <input 
-                            type='text' 
-                            value={authcode[0]} 
-                            onChange={this.setAuthCode} 
-                            maxLength='4'
-                            data-index='0'
-                            autoFocus
-                            ref={input => this.input[0] = input}
-                        />
-                    <input 
-                        type='text' 
-                        value={authcode[1]} 
-                        onChange={this.setAuthCode} 
-                        maxLength='4'
-                        data-index='1'
-                        ref={input => this.input[1] = input}
-                    />
-                    <input 
-                        type='text' 
-                        value={authcode[2]} 
-                        onChange={this.setAuthCode} 
-                        maxLength='4'
-                        data-index='2'
-                        ref={input => this.input[2] = input}
-                    />
-                    <input 
-                        type='text' 
-                        value={authcode[3]} 
-                        onChange={this.setAuthCode} 
-                        data-index='3'
-                        maxLength='6'
-                        ref={this.enterListener}
-                    />
-                </div>
-                <div className='m-text-c'><button type='button' className='m-btn gradient lightblue middle' onClick={this.onConfirm}>确认</button></div>
+                            <input type='text' value={authCode[0]} onChange={this.setAuthCode} data-index='0' ref={input => this.input[0] = input}/>
+                            <input type='text' value={authCode[1]} onChange={this.setAuthCode} data-index='1' ref={input => this.input[1] = input}/>
+                            <input type='text' value={authCode[2]} onChange={this.setAuthCode} data-index='2' ref={input => this.input[2] = input}/>
+                            <input type='text' value={authCode[3]} onChange={this.setAuthCode} data-index='3' ref={input => this.input[3] = input}/>
+                        </div>
+                        <div className='m-text-c'>
+                            <button type='button' className='m-btn gradient lightblue middle' onClick={this.onConfirm}>确认</button>
+                        </div>
                     </div>
                     <div className='pay-box' style={{display:('loading' === status ? 'block' : 'none')}}>
-
+                        <img src='./img/loading.gif'/><div className='word'>支付中...</div>
                     </div>
                     <div className='pay-box' style={{display:('success' === status ? 'block' : 'none')}}>
-
+                        <img src='./img/pay-success.png'/><div className='word success'>支付成功</div>
                     </div>
                     <div className='pay-box' style={{display:('fail' === status ? 'block' : 'none')}}>
-
+                        <img src='./img/pay-fail.png'/><div className='word'>支付失败!</div>
                     </div>
                     <div className='pay-box' style={{display:('free' === status ? 'block' : 'none')}}>
-
+                        <div className='word free'>免洗订单将不会支付任何金额，此订单确认免洗吗？</div>
+                        <div className='m-text-c'>
+                            <button type='button' className='m-btn gradient lightblue middle' onClick={this.props.onFree}>确认</button>
+                        </div>
                     </div>
                 </div>
             </div>

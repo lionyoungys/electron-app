@@ -7,7 +7,6 @@ import React from 'react';
 import Crumb from '../UI/crumb/App';
 import Gateway from '../UI/gateway/App';
 import Pay from '../Ui/pay/App';
-import {PayMent} from '../../static/UI';
 
 export default class extends React.Component{
     constructor(props) {
@@ -21,7 +20,7 @@ export default class extends React.Component{
             addr:'',
             checked:0,
             show:false,
-            status:'pay',
+            status:'free',
             name:'',discount:'',address:'',
             payment:0,isShow:false,
             paymentStatus:'payment',id:null
@@ -31,10 +30,13 @@ export default class extends React.Component{
             'Alipay_AopF2F',    //支付宝扫码付
             'CASH',             //现金支付
         ];
-        console.log(this.props.param);
+        this.onConfirm = this.onConfirm.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.printOrder = this.printOrder.bind(this);
         this.payRequest = this.payRequest.bind(this);
+    }
+    onConfirm(authCode) {
+        console.log(authCode);
     }
 
     handleClick() {
@@ -173,14 +175,7 @@ export default class extends React.Component{
                     show={this.state.show}
                     status={this.state.status}
                     onClose={() => this.setState({show:false})}
-                />
-                <PayMent 
-                    isShow={state.isShow}
-                    status={state.paymentStatus}
-                    amount={state.amount}
-                    free='免洗订单将不会支付任何金额，此订单确定免洗吗？'
-                    onCancelRequest={() => this.setState({isShow:false,paymentStatus:'payment'})}
-                    onConfirmRequest={this.payRequest}
+                    onConfirm={this.onConfirm}
                 />
             </div>
         );
