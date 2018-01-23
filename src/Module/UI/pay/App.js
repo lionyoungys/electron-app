@@ -27,7 +27,7 @@ export default class extends React.Component{
         let value = e.target.value,
             index = Number(e.target.dataset.index),
             len = value.length;
-        if (3 !== index && 4 === len) this.input[index + 1].focus();
+        (3 !== index && 4 === len) && this.input[index + 1].focus();
         if (( 3 !== index && 4 >= len ) || ( 3 === index && 6 >= len )) {
             this.state.authCode[index] = value
             this.setState({authCode:this.state.authCode});

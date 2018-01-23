@@ -20,79 +20,71 @@ export default class extends React.Component{
             addr:'',
             checked:0,
             show:false,
-            status:'free',
-            name:'',discount:'',address:'',
-            payment:0,isShow:false,
-            paymentStatus:'payment',id:null
+            status:'pay'
         };
         this.gateway = [
-            'WechatPay_pos',    //微信扫码支付
-            'Alipay_AopF2F',    //支付宝扫码付
             'CASH',             //现金支付
+            'WechatPay_Pos',    //微信扫码支付
+            'Alipay_AopF2F'    //支付宝扫码付
         ];
         this.onConfirm = this.onConfirm.bind(this);
+        this.submit = this.submit.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.printOrder = this.printOrder.bind(this);
         this.payRequest = this.payRequest.bind(this);
     }
     onConfirm(authCode) {
-        console.log(authCode);
+        this.setState({status:'loading'});
+        this.submit(authCode);
     }
 
-    handleClick() {
-        this.setState({show:true});
-        let state = this.state,
-            param = this.props.param;
-        if (
-            '' != state.name &&
-            '' != state.address &&
-            !isNaN(state.discount) && 10 > state.discount && 0 < state.discount &&
-            !isNaN(state.amount) && state.amount > 0 &&
-            '' != state.address
-        ) {
-            axios.post(
-                api.U('addNewMember'),
-                api.D({
-                    token:this.props.token,
-                    uid:this.props.uid,
-                    ucode:param.ucode,
-                    mobile:param.mobile,
-                    uname:state.name,
-                    address:state.address,
-                    remark:state.remark,
-                    type: 2
-                })
-            )
-            .then(response => {
-                if (api.verify(response.data)) {
-                    let id = response.data.data.user;
-                    this.setState({id:id});
-                    if (0 == state.payment) {
-                    axios.post(
-                        api.U('rechargeMerchantCard'),
-                        api.D({
-                            uid:id,
-                            token:this.props.token,
-                            card_name:'企业会员',
-                            balance:state.amount,
-                            discount:state.discount,
-                            pay_type:'CASH',
-                            type:1
-                        })
-                    )
-                    .then(response => {
-                        console.log(response.data);
-                        if (api.verify(response.data)) {
-                            this.printOrder(response.data.data.rechargeId);
-                            this.props.changeView({element:'index'});
-                        }
-                    });
-                } else {
-                    this.setState({isShow:true});
+    submit(authCode) {
+        authCode = tool.isSet(authCode) ? authCode : '1';
+        axios.post(
+            api.U('company_add'),
+            api.D({
+                token:this.props.token,
+                umobile:this.props.param,
+                uname:this.state.uname,
+                reg_from:4,
+                auth_code:authCode,
+                cdiscount:this.state.cdiscount,
+                amount:this.state.amount,
+                remark:this.state.remark,
+                addr:this.state.addr,
+                gateway:this.gateway[this.state.checked]
+            })
+        )
+        .then(response => {
+            if (api.V(response.data)) {
+                this.props.changeView({view:'index'});
+            } else {
+                if (0 != this.state.checked) {
+                    this.setState({status:'fail'});
                 }
             }
         });
     }
+
+    handleClick() {
+        if (
+            '' == this.state.name
+            ||
+            isNaN(this.state.cdiscount)
+            ||
+            isNaN(this.state.amount)
+            ||
+            this.state.amount < 0
+            ||
+            this.state.cdiscount > 10
+            ||
+            this.state.cdiscount < 0.1
+        ) return;
+        if (0 != this.state.checked) {
+            this.setState({show:true});
+        } else {
+            this.submit();
+        }
     }
 
     payRequest(authcode) {
@@ -174,7 +166,7 @@ export default class extends React.Component{
                 <Pay
                     show={this.state.show}
                     status={this.state.status}
-                    onClose={() => this.setState({show:false})}
+                    onClose={() => this.setState({show:false,status:'pay'})}
                     onConfirm={this.onConfirm}
                 />
             </div>

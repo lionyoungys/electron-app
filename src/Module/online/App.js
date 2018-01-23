@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import Crumb from '../UI/crumb/App';
-import Cancel from '../UI/cancel/App';
+import CancelToast from '../UI/cancel-toast/App';
 import './App.css';
 
 export default class extends React.Component {
@@ -269,7 +269,7 @@ export default class extends React.Component {
                         </table>
                     </div>
                 </div>
-                <Cancel 
+                <CancelToast 
                     show={this.state.show} 
                     data={this.options} 
                     onCloseRequest={() => this.setState({show:false})} 

@@ -36,18 +36,8 @@ export default class extends React.Component {
                         <i className='m-counter'>{this.state.content.length}/100</i>
                     </div>
                     <div>
-                        <input 
-                            type='button' 
-                            value='取消' 
-                            className='m-btn m-btn-cancel m-btn-large'
-                            onClick={this.props.onCancelRequest}
-                        />
-                        <input 
-                            type='button' 
-                            value='确认' 
-                            className='m-btn m-btn-confirm m-btn-large'
-                            onClick={this.onConfirm}
-                        />
+                        <input type='button' value='取消' className='m-btn cancel large'onClick={this.props.onCancelRequest}/>
+                        <input type='button' value='确认' className='m-btn confirm large'onClick={this.onConfirm}/>
                     </div>
                 </div>
             </section>

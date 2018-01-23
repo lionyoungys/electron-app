@@ -188,10 +188,9 @@ class Menu extends Component {
             tag = ('order' == props.id ? <i className='tag'>10</i> : null),
             status = isUp ? 'main-shrink' : 'main-spread',    //判断当前大选项是否为选中状态
             optStatus = {display:isUp ? 'none' : 'block'},
-            options = props.options.map((obj) => 
-                //创建多个选项
+            options = props.options.map((obj, index) => 
                 <dd
-                    key={obj.key}
+                    key={index}
                     data-option={obj.key}
                     data-view={obj.key}
                     className={props.option == obj.key ? 'option-choose' : null}

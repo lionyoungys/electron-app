@@ -46,7 +46,7 @@ export default class extends React.Component {
         );
         return (
             <div className='m-layer-bg'>
-                <div className='cancel'>
+                <div className='cancel-toast'>
                     <i className='fa fa-times-circle close' onClick={this.onCloseRequest}></i>
                     <div>{this.props.title}</div>
                     <div>{options}</div>
