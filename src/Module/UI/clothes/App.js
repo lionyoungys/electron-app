@@ -17,8 +17,8 @@ export default class extends React.Component {
         if (!this.props.show) return null;
         let options = this.props.data.map((obj, index) => 
             <div key={obj.id} data-index={index} onClick={this.handleClick}>
-                <div>{obj.item_name}</div>
-                <div>{obj.item_price}</div>
+                <div data-index={index}>{obj.item_name}</div>
+                <div data-index={index}>{obj.item_price}</div>
             </div>
         );
         return (

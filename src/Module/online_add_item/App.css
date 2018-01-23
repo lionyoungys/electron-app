@@ -3,3 +3,4 @@
     flex-wrap: wrap;
 }
 .oai-tab-box>:first-child,.oai-tab-box>:nth-child(2){margin-right: 10px}
+.oai-checked{background-color: #a4e6fd}

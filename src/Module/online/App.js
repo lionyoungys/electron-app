@@ -194,7 +194,7 @@ export default class extends React.Component {
             }
         });
     }
-    addItem(e) {this.props.changeView({view:'online_add_item',param:{oid:e.target.dataset.id}})}
+    addItem(e) {this.props.changeView({view:'online_add_item',param:e.target.dataset.id})}
     upload(e) {this.props.changeView({view:'upload',param:{oid:e.target.dataset.id}})}
     checkOff(e) {
         let id = e.target.dataset.id;
