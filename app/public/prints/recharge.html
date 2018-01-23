@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <style>
-    @page{margin: auto;}
+    @page{margin: auto}
     body,span,img,p,div{margin: 0;padding: 0;}
-    body{width: 5.8cm;font-size: 14pt;font-weight: bold;word-break: break-all;}
+    body{width: 5.8cm;font-size: 14pt;word-break: break-all;font-weight: 500;}
     .center{text-align: center;}.right{text-align: right;}
     .f30{font-size: 30pt;}
     .f24{font-size: 24pt;}
@@ -27,9 +27,9 @@
 <p class="center" onclick="window.print();">(全国连锁)</p>
 <p class="center f24">速洗达洗衣</p>
 <p class="border"></p>
-<p class="center" style="padding-bottom:5pt;">美国GEP干洗</p>
+<p class="center" style="padding-bottom:5pt;" id="mname">美国GEP干洗</p>
 <p class="center">会&nbsp;员&nbsp;充&nbsp;值&nbsp;凭&nbsp;据</p>
-<p class="line">交易单号：<span id='ordersn'>2323323222232</span></p>
+<p class="line">交易单号：<span id='trade_sn'>2323323222232</span></p>
 <p class="line">顾客电话：<span id='mobile'>1883434232</span></p>
 <p class="line">顾客签字：</p>
 <p class="empty"></p>
@@ -37,13 +37,16 @@
 <p class="border"></p>
 <p class="f24">实收：<span id="pay_amount">218.00</span>元</p>
 <p class="empty"></p>
+<p class="line">付款方式：<span id="gateway">现金支付</span></p>
+<p class="line">卡号：<span id="number">121212</span></p>
+<p class="line">卡内余额：<span id="balance">100</span></p>
 <p class="empty"></p>
 <p class="line">本店地址：<span id="address">dfdfdfdfdfdfdfdfdfdffdfdfdfddffffdfd</span></p>
 <p class="line">服务热线：<span id="phone">18734343434</span></p>
-<p class="line">店&nbsp;&nbsp;员：<span id="clerk">哈哈哈</span></p>
+<p class="line">店&nbsp;&nbsp;员：<span id="employee">哈哈哈</span></p>
 <p class="line">店&nbsp;&nbsp;号：<span id="id">dfdfd</span></p>
 <p class="line">打印日期：<span id="date">2017-11-07 18:24</span></p>
-<p class="img-box"><img src="qrcode.jpg" id="qrcode"/></p>
+<p class="img-box"><img id="qrcode"/></p>
 <p class="line center">（速洗达洗衣洗护）</p>
 <p class="line center">（扫描关注公众号）</p>
 <p class="border"></p>
@@ -55,27 +58,33 @@
     const {ipcRenderer} = require('electron'),
           axios = require('axios');
     window.onload = function() {
-        const params = ipcRenderer.sendSync('get-params');
-        console.log(params);
+        const param = ipcRenderer.sendSync('get-param');
+        console.log(param);
         const fd = new FormData();
-        const date = new Date(),
-              datetime = date.getFullYear()+'-'+(date.getMonth()*1+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
-        fd.append('token', params.token);
-        fd.append('recharge_id', params.recharge_id);
-        fd.append('clerk_id', params.uid);
-        axios.post('http://xiyi.wzj.dev.shuxier.com/app.php/Offline/PrintInfo/r_p', fd)
+        const date = new Date();
+        const datetime = date.getFullYear()+'-'+(date.getMonth()*1+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
+        fd.append('token', param.token);
+        //fd.append('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIzNCIsIm1pZCI6IjEwOCIsImlzUm9vdCI6IjEiLCJhdXRoIjoiW1wiMVwiLFwiMlwiLFwiM1wiLFwiNFwiXSIsInRpbWUiOjE1MTY2ODg0MTB9.Px13bbKjYxRdhm7kZiVOP9lGyjkwBc0hq96WZBJyhdg');
+        fd.append('record_id', param.record_id);
+        //fd.append('record_id', '1');  'http://xiyi.wzj.dev.shuxier.com/mapi/print/recharge'
+        axios.post(param.url, fd)
         .then(response => {
-            let result = response.data.data;
-            console.log(response);
-            document.getElementById('qrcode').src = result.qrcodeUrl;
-            insert('ordersn', result.ordersn);
-            insert('mobile', result.mobile);
-            insert('amount', result.recharge_amount);
+            console.log(response.data);
+            if (0 != response.data.code) return;
+            let result = response.data.result;
+            document.getElementById('qrcode').src = result.qrcode;
+            insert('mname', result.mname);
+            insert('trade_sn', result.trade_sn);
+            insert('mobile', result.umobile);
+            insert('amount', result.amount);
             insert('give', result.give);
-            insert('pay_amount', result.recharge_amount);
-            insert('address', result.address);
-            insert('phone', result.phone);
-            insert('clerk', result.clerkname);
+            insert('pay_amount', result.amount);
+            insert('gateway', gateway(result.gateway));
+            insert('number', result.umobile);
+            insert('balance', result.cbalance);
+            insert('address', result.maddress);
+            insert('phone', result.phone_number);
+            insert('employee', result.employee);
             insert('id',result.mid);
             insert('date',datetime);
             document.getElementById('qrcode').onload = function() {
@@ -86,6 +95,35 @@
         function insert(id, value) {
             if ('undefined' === typeof value || null == value) value = '';
             document.getElementById(id).innerHTML = value;
+        }
+
+        function gateway(code) {
+            code = Number(code);
+            switch (code)
+            {
+                case 0:
+                    return '现金支付';
+                case 1:
+                    return '零钱支付';
+                case 2:
+                    return '免洗';
+                case 3:
+                    return '平台会员卡';
+                case 4:
+                    return '商家会员卡';
+                case 5:
+                    return '企业会员卡';
+                case 10:
+                    return '微信公众号';
+                case 11:
+                    return '微信app支付';
+                case 12:
+                    return '微信刷卡支付';
+                case 20:
+                    return '支付宝app支付';
+                case 21:
+                    return '支付宝面对面付';
+            }
         }
     }
 </script>

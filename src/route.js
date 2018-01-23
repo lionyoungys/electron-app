@@ -22,6 +22,7 @@ import Employee from './Module/employee/App';
 import MemberUpdate from './Module/member_update/App';
 import MemberAddUser from './Module/member_add_user/App';
 import MemberAddCompany from './Module/member_add_company/App';
+import Recharge from './Module/recharge/App';
 
 
 import Item from './order/item';
@@ -82,6 +83,7 @@ export default {
     member_update:MemberUpdate,    //会员信息变更
     member_add_user:MemberAddUser,    //新增个人会员
     member_add_company:MemberAddCompany,    //新增企业会员
+    recharge:Recharge,                  //会员充值
     
     
     item:Item,    //添加项目

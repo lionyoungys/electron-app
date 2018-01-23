@@ -7,7 +7,7 @@ import React from 'react';
 import Crumb from '../UI/crumb/App';
 import Radio from '../UI/radio/App';
 import Gateway from '../UI/gateway/App';
-import Pay from '../Ui/pay/App';
+import Pay from '../UI/pay/App';
 import './App.css';
 
 export default class extends React.Component{
@@ -90,6 +90,11 @@ export default class extends React.Component{
         )
         .then(response => {
             if (api.V(response.data)) {
+                ipcRenderer.send(
+                    'print-silent',
+                    'public/prints/recharge.html',
+                    {token:this.props.token,record_id:response.data.result,url:api.U('recharge_print')}
+                );
                 this.props.changeView({view:'index'});
             } else {
                 if (0 != this.state.checked) {

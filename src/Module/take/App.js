@@ -85,7 +85,7 @@ export default class extends React.Component {
                     <input 
                         type='button' 
                         value='收衣下单' 
-                        className='m-btn m-btn-confirm m-btn-large'
+                        className='m-btn confirm large'
                         onClick={this.next}
                     />
                 </div>

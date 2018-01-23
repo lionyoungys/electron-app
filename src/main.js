@@ -20,6 +20,8 @@ const token = localStorage.getItem('token'),
       isRoot = localStorage.getItem('is_root'),
       branch = 'master';    //当前项目分支
 
+console.log(token);
+
 //界面主体容器组件
 class Main extends Component {
     constructor(props) {
@@ -86,7 +88,6 @@ class Main extends Component {
                 key={obj.id}
                 id={obj.id}
                 text={obj.text}
-                count={state.count}
                 options={obj.options} 
                 option={state.option}
                 changeView={this.changeView}
@@ -185,7 +186,7 @@ class Menu extends Component {
         let props = this.props,
             isUp = this.state.isUp,
             isShowOrders = 'order' == props.id && props.orders > 0,
-            tag = ('order' == props.id ? <i className='tag'>10</i> : null),
+            tag = ('order' == props.id ? <i className='tag'>0</i> : null),
             status = isUp ? 'main-shrink' : 'main-spread',    //判断当前大选项是否为选中状态
             optStatus = {display:isUp ? 'none' : 'block'},
             options = props.options.map((obj, index) => 

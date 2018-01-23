@@ -131,7 +131,7 @@ class UpdateOrCharge extends Component{
                 if (0 == this.props.type) {
                     this.props.changeView({view:'member_update',param:this.state.mobile});
                 } else {
-                    this.props.changeView({view:'member_recharge',param:result.id});
+                    this.props.changeView({view:'recharge',param:this.state.mobile});
                 }
             }
         });

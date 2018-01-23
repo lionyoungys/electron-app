@@ -7,7 +7,7 @@ const electron = require('electron'),
     url = require('url');
 let win = {},    //声明窗口对象
     winprints = null,
-    params = {};
+    param = {};
 
 const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
         // Someone tried to run a second instance, we should focus our window.
@@ -89,7 +89,7 @@ ipcMain.on('protocol', (e, args) => {
     }
 });
 ipcMain.on('print-silent', (e, arg, arg2) => {
-    if ('object' === typeof arg2) params = arg2;
+    if ('object' === typeof arg2) param = arg2;
     if (null === winprints) {
         winprints = new BrowserWindow({show: false});
         //winprints = new BrowserWindow({width:840,height:556,frame:false,resizable:false});
@@ -105,8 +105,8 @@ ipcMain.on('print-silent', (e, arg, arg2) => {
 ipcMain.on('print', (event, arg) => {
     winprints.webContents.print({silent: true, printBackground: true});
 });
-ipcMain.on('get-params',(e, args) => {
-    e.returnValue = params;
+ipcMain.on('get-param',(e, args) => {
+    e.returnValue = param;
 });
 //窗口创建函数
 function createWindow(name, windowStyle, uri) {
