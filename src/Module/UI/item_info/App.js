@@ -28,6 +28,7 @@ export default class extends React.Component {
                         id='item_forecast'
                         readOnly
                         value={this.props.forecast}
+                        onClick={this.props.handleForecast}
                     />
                 </div>
             </div>

@@ -99,6 +99,22 @@
         return retArr;
     }
 
+    /**
+     * 数组对象转一维数组
+     * @param string key 对象指定key值
+     * @return Array retArr
+     */
+    Array.prototype.toSimpleArray = function (key) {
+        let len = this.length,
+            retArr = [];
+        if (len > 0) {
+            for (let i = 0;i < len;++i) {
+                retArr.push(this[i][key]);
+            }
+        }
+        return retArr;
+    }
+
     Array.prototype.filtration = function(value) {
         let retArr = this;
         console.log(retArr);
@@ -193,9 +209,9 @@
     t.isSet = function (value) {return ('undefined' !== typeof value && null !== value)}
     t.objToString = function(object) {
         if (object.constructor === Object) {
-            len = object.options.length;
+            const len = object.options.length;
             if (len < 1 && '' == object.content) return;
-            var retStr = '';
+            let retStr = '';
             for (let i = 0;i < len;++i) {
                 retStr += (object.options[i] + ';');
             }

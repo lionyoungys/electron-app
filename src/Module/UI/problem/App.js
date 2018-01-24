@@ -19,14 +19,14 @@ export default class extends React.Component {
         let value = this.state[this.props.type + 'Val'],
             options = this.state[this.props.type];
         if ('' !== value || options.length > 0) {
-            this.props.onConfirmRequest(value, options);
-            this.setState({color:[],problem:[],colorVal:'',problemVal:''});
+            this.props.onConfirmRequest(value, options.toSimpleArray('value'));
+            this.setState({color:[],problem:[],forecast:[],colorVal:'',problemVal:'',forecastVal:''});
         }
         
     }
 
     handleClose() {
-        this.setState({color:[],problem:[],colorVal:'',problemVal:''});
+        this.setState({color:[],problem:[],forecast:[],colorVal:'',problemVal:'',forecastVal:''});
         this.props.onCloseRequest();
     }
     handleCancel(e) {

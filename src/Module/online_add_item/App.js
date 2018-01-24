@@ -10,6 +10,7 @@ import Item from '../UI/item/App';
 import ItemInfo from '../UI/item_info/App';
 import ItemCost from '../UI/item_cost/App';
 import './App.css';
+import { toUnicode } from 'punycode';
 
 export default class extends React.Component {
     constructor(props) {
@@ -22,17 +23,14 @@ export default class extends React.Component {
             clothes:[],
             type:null,
             data:[],
-            handleId:null,
+            amount:0,
             handleIndex:null
         };
         this.handleTabClick = this.handleTabClick.bind(this);
         this.handleClothesClick = this.handleClothesClick.bind(this);
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
-        this.handleUploadClick = this.handleUploadClick.bind(this);
         this.handleSnChange = this.handleSnChange.bind(this);
-        this.colorConfirm = this.colorConfirm.bind(this);
-        this.problemConfirm = this.problemConfirm.bind(this);
-        console.log(this.props.param);
+        this.handleProblemSubmit = this.handleProblemSubmit.bind(this);
     }
     componentDidMount() {
         axios.post(api.U('take_piece'),api.D({token:this.props.token,oid:this.props.param}))
@@ -41,7 +39,8 @@ export default class extends React.Component {
                 let result = response.data.result,
                     len = result.length,
                     tempLen = 0,
-                    itemCount = 0;
+                    itemCount = 0,
+                    amount = 0;
                 console.log(result);
                 for (let i = 0;i < len;++i) {
                     this.state.category.push({key:i,value:result[i].cate_name});
@@ -51,50 +50,50 @@ export default class extends React.Component {
                         itemCount = result[i].items[j].item_count;
                         if (itemCount > 0) {
                             for (let c = 0;c < itemCount;++c) {
+                                amount = tool.sum(amount, result[i].items[j].item_real_price);
                                 this.state.data.push(result[i].items[j]);
                             }
                         }
                     }
                 }
-                this.setState({category:this.state.category,item:this.state.item,data:this.state.data});
+                this.setState({category:this.state.category,item:this.state.item,data:this.state.data,amount:amount});
             }
         });
     }
-
+    handleDeleteClick(dom, index) {
+        if (tool.isSet(dom)) {
+            dom.onclick = (e => {
+                this.state.data.splice(index, 1);
+                this.setState({data:this.state.data,handleIndex:null});
+                e.stopPropagation()
+            });
+        }
+    }
     handleTabClick(e) {this.setState({index:e.target.dataset.key,clothesShow:true})}
     handleClothesClick(index) {
         let item = this.state.item[this.state.index][index];
         this.state.data.push(item);
-        this.setState({data:this.state.data,clothesShow:false});
-        console.log(item);
-    }
-    handleUploadClick(e) {
-
-    }
-    handleDeleteClick(e) {
-        this.state.data.splice(e.target.dataset.index, 1);
-        this.setState({data:this.state.data,handleId:null,handleIndex:null});
+        this.setState({data:this.state.data,clothesShow:false,amount:( tool.sum(this.state.amount,item.item_real_price) )});
     }
     handleSnChange(e) {
         if (null !== this.state.handleIndex) {
+            console.log(this.state.handleIndex);
+            console.log(this.state.data[this.state.handleIndex]);
             this.state.data[this.state.handleIndex].clean_sn = e.target.value;
             this.setState({data:this.state.data});
         }
     }
-    colorConfirm(value, options) {
-        console.log(value);
-        console.log(options);
-    }
-    problemConfirm(value, options) {
-        console.log(value);
-        console.log(options);
+    handleProblemSubmit(value, options) {
+        if (null !== this.state.handleIndex) {
+            this.state.data[this.state.handleIndex][this.state.type] = {options:options,content:value};
+            this.setState({data:this.state.data,type:null});
+        }
     }
 
     render() {
         let state = this.state,
             title = (state.category.length > 0 ? state.category[state.index].value : null),
             data = (state.item.length > 0 ? state.item[state.index] : []),
-            problemHandle = null === this.state.type ? null : this[this.state.type + 'Confirm'],
             tabs = this.state.category.map(obj => 
                 <span
                     key={obj.key}
@@ -107,7 +106,7 @@ export default class extends React.Component {
                 <tr
                     key={index}
                     className={'m-text-c m-pointer' + ( this.state.handleIndex == index ? ' oai-checked' : '' )}
-                    onClick={() => this.setState({handleId:obj.id, handleIndex:index})}
+                    onClick={() => this.setState({handleIndex:index})}
                 >
                     <td>{obj.item_name}</td>
                     <td>{obj.clean_sn}</td>
@@ -115,9 +114,13 @@ export default class extends React.Component {
                     <td>{obj.keep_price}</td>
                     <td>{obj.craft_price}</td>
                     <td>
-                        <button type='button' className='m-btn confirm' data-index={index} data-id={obj.id} onClick={this.handleUploadClick}>添加图片</button>
-                        &nbsp;&nbsp;
-                        <button type='button' className='m-btn editor'data-index={index} data-id={obj.id} onClick={this.handleDeleteClick}>删除</button>
+                        <button
+                            type='button'
+                            className='m-btn editor'
+                            ref={dom => this.handleDeleteClick(dom, index)}
+                            data-index={index} 
+                            data-id={obj.id}
+                        >删除</button>
                     </td>
                 </tr>
             );
@@ -144,6 +147,9 @@ export default class extends React.Component {
                             color={color}
                             problem={problem}
                             forecast={forecast}
+                            handleColor={() => ( null !== this.state.handleIndex && this.setState({type:'color'}) )}
+                            handleProblem={() => ( null !== this.state.handleIndex && this.setState({type:'problem'}) )}
+                            handleForecast={() => ( null !== this.state.handleIndex && this.setState({type:'forecast'}) )}
                         />
                         <ItemCost/>
                     </div>
@@ -154,6 +160,14 @@ export default class extends React.Component {
                             </tr></thead>
                             <tbody>{html}</tbody>
                         </table>
+                    </div>
+                    <div className='m-box'>
+                        共&nbsp;<span className='m-red'>{this.state.data.length}</span>&nbsp;件
+                        &emsp;
+                        总价：<span className='m-red'>{this.state.amount}</span>
+                    </div>
+                    <div className='m-box'>
+                        <button type='button' className='m-btn confirm large'>确认收件</button>
                     </div>
                     <div className='m-box' onClick={() => this.setState({type:'problem'})}>problem</div>
                     <div className='m-box' onClick={() => this.setState({type:'color'})}>color</div>
@@ -169,7 +183,7 @@ export default class extends React.Component {
                 <Problem
                     type={this.state.type}
                     onCloseRequest={() => this.setState({type:null})}
-                    onConfirmRequest={problemHandle}
+                    onConfirmRequest={this.handleProblemSubmit}
                 />
             </div>
         );
