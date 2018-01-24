@@ -9,6 +9,7 @@ import Problem from '../UI/problem/App';
 import Item from '../UI/item/App';
 import ItemInfo from '../UI/item_info/App';
 import ItemCost from '../UI/item_cost/App';
+import UploadToast from '../UI/upload-toast/App';
 import './App.css';
 
 export default class extends React.Component {
@@ -23,6 +24,7 @@ export default class extends React.Component {
             clothes:[],
             type:null,
             data:[],
+            images:[],
             amount:0,
             handleIndex:null,
             trace:null
@@ -36,6 +38,8 @@ export default class extends React.Component {
         this.handleCraftPrice = this.handleCraftPrice.bind(this);
         this.handleKeepPrice = this.handleKeepPrice.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleImageDelete = this.handleImageDelete.bind(this);
+        this.handleImageChoose = this.handleImageChoose.bind(this);
         console.log(this.props.param);
     }
     componentDidMount() {
@@ -124,14 +128,34 @@ export default class extends React.Component {
             this.setState({data:this.state.data,type:type,trace:type});
         }
     }
-    handleSubmit() {
+    handleImageDelete(index) {
+        if (null !== this.state.handleIndex) {
+            this.state.images[this.state.handleIndex].splice(index, 1);
+            this.setState({images:this.state.images});
+        }
+    }
+    handleImageChoose(base64) {
+        if (null !== this.state.handleIndex) {
+            if (tool.isSet(this.state.images[this.state.handleIndex])) {
+                this.state.images[this.state.handleIndex].push(base64);
+            } else {
+                this.state.images[this.state.handleIndex] = [base64];
+            }
+            this.setState({images:this.state.images});
+        }
+    }
+    handleSubmit(e) {
         let data = this.state.data,
-            len = data.length;
+            len = data.length,
+            type = e.target.dataset.type;
         if (len < 1) return;
         let request = [],
-            temp = {};
+            requestData = {token:this.props.token,uid:this.props.param},
+            temp = {},
+            tempLen,tempArr;
         for (let i = 0;i < len;++i) {
             if (!tool.isSet(data[i].clean_sn)) return alert('尚有项目未填写衣物编码!');
+            if (!tool.isSet(this.state.images[i]) || this.state.images[i].length < 1) return alert('尚有项目未上传图片');
             if (!tool.isSet(data[i].color)) return alert('尚有项目未选择颜色!');
             if (!tool.isSet(data[i].problem)) return alert('尚有项目未选择问题!');
             temp = {
@@ -144,11 +168,17 @@ export default class extends React.Component {
                 craft_price:( tool.isSet(data[i].craft_price) ? data[i].craft_price : 0 ),
                 craft_des:( tool.isSet(data[i].craft_des) ? data[i].craft_des : '' )
             };
+            tempLen = this.state.images[i].length;
+            for (let j = 0;j < tempLen;++j) {
+                tempArr = this.state.images[i][j].toBase64();
+                requestData[i + '_' + j] = tempArr[1].base64toBlob(tempArr[0]);
+            }
             request.push(temp);
         }
-        axios.post(api.U('item_submit'), api.D({token:this.props.token,oid:this.props.param,items:JSON.stringify(request)}))
+        requestData.items = JSON.stringify(request);
+        axios.post(api.U('item_submit'), api.D(requestData))
         .then(response => {
-            api.V(response.data) && this.props.changeView({view:'online',param:{checked:'to_take'}});
+            api.V(response.data) && this.props.changeView({view:'index'});
         });
     }
 
@@ -189,7 +219,7 @@ export default class extends React.Component {
                     </td>
                 </tr>
             );
-        let name = '',sn = '', color = '', problem = '', forecast = '',keep_price = '',craft_price = '',craft_des = '';
+        let name = '',sn = '', color = '', problem = '', forecast = '',keep_price = '',craft_price = '',craft_des = '',images = [];
         if (null !== this.state.handleIndex) {
             let item = this.state.data[this.state.handleIndex];
             name = item.item_name;
@@ -200,6 +230,7 @@ export default class extends React.Component {
             keep_price = tool.isSet(item.keep_price) ? item.keep_price : '';
             craft_price = tool.isSet(item.craft_price) ? item.craft_price : '';
             craft_des = tool.isSet(item.craft_des) ? item.craft_des : '';
+            images = tool.isSet(this.state.images[this.state.handleIndex]) ? this.state.images[this.state.handleIndex] : [];
         }
         return (
             <div>
@@ -239,7 +270,9 @@ export default class extends React.Component {
                         总价：<span className='m-red'>{this.state.amount}</span>
                     </div>
                     <div className='m-box'>
-                        <button type='button' className='m-btn confirm middle' onClick={this.handleSubmit}>确认收件</button>
+                        <button type='button' className='m-btn confirm middle' data-type='take_pay' onClick={this.handleSubmit}>取衣付款</button>
+                        &emsp;
+                        <button type='button' className='m-btn confirm middle' data-type='pay' onClick={this.handleSubmit}>立即付款</button>
                     </div>
                 </div>
                 <Clothes
@@ -253,6 +286,13 @@ export default class extends React.Component {
                     type={this.state.type}
                     onCloseRequest={() => this.setState({type:null})}
                     onConfirmRequest={this.handleProblemSubmit}
+                />
+                <UploadToast
+                    show={this.state.uploadShow}
+                    images={images}
+                    onDelete={this.handleImageDelete}
+                    onChoose={this.handleImageChoose}
+                    onClose={() => this.setState({uploadShow:false})}
                 />
             </div>
         );

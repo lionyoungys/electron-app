@@ -33,6 +33,12 @@
             ext = ( null === result ? '' : result[0].replace('.', '').toLowerCase() );
         return 'jpg' === ext ? 'jpeg' : ext;
     }
+    String.prototype.toDataBase64 = function(ext) {return 'data:image/' + ext + ';base64,' + this}
+    String.prototype.toBase64 = function () {
+        let splitArr = this.split(','),
+            mime = splitArr[0].split(';')[0].split(':')[1];
+        return [mime, splitArr[1]];
+    }
     /**
      * 判断字符串是否在指定key的对象数组中
      * @param array 数组

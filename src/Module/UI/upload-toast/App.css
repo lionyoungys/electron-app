@@ -1,0 +1,37 @@
+.upload-toast{
+    width: 370px;
+    height: 320px;
+    position: fixed;
+    top: 50%;left: 50%;
+    margin: -160px 0 0 -185px;
+    border: 1px solid #09b1b0;
+    border-radius: 5px;
+    background-color: #fff;
+}
+.upload-toast>div{-webkit-box-sizing: border-box;box-sizing: border-box;width: 100%}
+.upload-toast>div:first-child{
+    background: #09b1b0;
+    color: #fff;
+    height: 40px;
+    line-height: 40px;
+    font-size: 18px;
+    position: relative;
+    padding: 0 10px;
+}
+.upload-toast>div:first-child>span{font-size: 14px}
+.upload-toast>div:first-child>i.fa-times{
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    font-size: 26px;
+    color: #fff;
+}
+.upload-toast>div:first-child>i.fa-times:hover{background: #2cd3d2;cursor: default}
+.upload-toast>div:last-child{
+    padding: 10px 10px 0;
+    display:-webkit-flex;display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+.upload-toast>div:last-child>div{margin: 0 10px 10px 0}
+.upload-toast>div:last-child>div:nth-child(4n+0){margin-right: 0}
