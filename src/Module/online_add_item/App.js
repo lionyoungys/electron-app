@@ -5,7 +5,7 @@
 import React from 'react';
 import Crumb from '../UI/crumb/App';
 import Clothes from '../UI/clothes/App';
-import Question from '../UI/question/App';
+import Problem from '../UI/problem/App';
 import Item from '../UI/item/App';
 import ItemInfo from '../UI/item_info/App';
 import ItemCost from '../UI/item_cost/App';
@@ -31,7 +31,7 @@ export default class extends React.Component {
         this.handleUploadClick = this.handleUploadClick.bind(this);
         this.handleSnChange = this.handleSnChange.bind(this);
         this.colorConfirm = this.colorConfirm.bind(this);
-        this.questionConfirm = this.questionConfirm.bind(this);
+        this.problemConfirm = this.problemConfirm.bind(this);
         console.log(this.props.param);
     }
     componentDidMount() {
@@ -85,7 +85,7 @@ export default class extends React.Component {
         console.log(value);
         console.log(options);
     }
-    questionConfirm(value, options) {
+    problemConfirm(value, options) {
         console.log(value);
         console.log(options);
     }
@@ -94,7 +94,7 @@ export default class extends React.Component {
         let state = this.state,
             title = (state.category.length > 0 ? state.category[state.index].value : null),
             data = (state.item.length > 0 ? state.item[state.index] : []),
-            questionHandle = null === this.state.type ? null : this[this.state.type + 'Confirm'],
+            problemHandle = null === this.state.type ? null : this[this.state.type + 'Confirm'],
             tabs = this.state.category.map(obj => 
                 <span
                     key={obj.key}
@@ -121,13 +121,17 @@ export default class extends React.Component {
                     </td>
                 </tr>
             );
-        let name = '',sn = '';
+        let name = '',sn = '', color = '', problem = '', forecast = '',keep_price = '',craft_price = '',craft_des = '';
         if (null !== this.state.handleIndex) {
-            console.log(this.state.handleIndex);
-            name = this.state.data[this.state.handleIndex].item_name;
-            sn = this.state.data[this.state.handleIndex].clean_sn;
-            sn = tool.isSet(sn) ? sn : '';
-            console.log(this.state.data[this.state.handleIndex]);
+            let item = this.state.data[this.state.handleIndex];
+            name = item.item_name;
+            sn = tool.isSet(item.clean_sn) ? item.clean_sn : '';
+            color = tool.isSet(item.color) ? tool.objToString(item.color): '';
+            problem = tool.isSet(item.problem) ? tool.objToString(item.problem): '';
+            forecast = tool.isSet(item.forecast) ? tool.objToString(item.forecast): '';
+            keep_price = tool.isSet(item.keep_price) ? item.keep_price : '';
+            craft_price = tool.isSet(item.craft_price) ? item.craft_price : '';
+            craft_des = tool.isSet(item.craft_des) ? item.craft_des : '';
         }
         return (
             <div>
@@ -136,7 +140,11 @@ export default class extends React.Component {
                     <div>{tabs}</div>
                     <div className='m-box oai-tab-box'>
                         <Item name={name} sn={sn} onChange={this.handleSnChange}/>
-                        <ItemInfo/>
+                        <ItemInfo
+                            color={color}
+                            problem={problem}
+                            forecast={forecast}
+                        />
                         <ItemCost/>
                     </div>
                     <div className='m-box'>
@@ -147,8 +155,9 @@ export default class extends React.Component {
                             <tbody>{html}</tbody>
                         </table>
                     </div>
-                    <div className='m-box' onClick={() => this.setState({type:'question'})}>question</div>
+                    <div className='m-box' onClick={() => this.setState({type:'problem'})}>problem</div>
                     <div className='m-box' onClick={() => this.setState({type:'color'})}>color</div>
+                    <div className='m-box' onClick={() => this.setState({type:'forecast'})}>forecast</div>
                 </div>
                 <Clothes
                     show={state.clothesShow}
@@ -157,10 +166,10 @@ export default class extends React.Component {
                     onClick={this.handleClothesClick}
                     onCloseRequest={() => this.setState({clothesShow:false})}
                 />
-                <Question
+                <Problem
                     type={this.state.type}
                     onCloseRequest={() => this.setState({type:null})}
-                    onConfirmRequest={questionHandle}
+                    onConfirmRequest={problemHandle}
                 />
             </div>
         );

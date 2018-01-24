@@ -14,20 +14,20 @@ export default class extends React.Component {
                 <div>特征</div>
                 <div>
                     <label>颜色</label>
-                    <input className='m-input-small long postfix' type='text' readOnly value={this.props.color}/>
+                    <input className='m-input-small long postfix' type='text' readOnly value={this.props.color} onClick={this.props.handleColor}/>
                 </div>
                 <div>
                     <label>瑕疵</label>
-                    <input className='m-input-small long postfix' type='text' readOnly value={this.props.question}/>
+                    <input className='m-input-small long postfix' type='text' readOnly value={this.props.problem}  onClick={this.props.handleProblem}/>
                 </div>
                 <div>
-                    <label htmlFor='item_sn'>洗后预估</label>
+                    <label htmlFor='item_forecast'>洗后预估</label>
                     <input
                         className='m-input-small long'
                         type='text'
-                        id='item_sn'
-                        value={this.props.sn}
-                        onChange={this.props.onChange}
+                        id='item_forecast'
+                        readOnly
+                        value={this.props.forecast}
                     />
                 </div>
             </div>

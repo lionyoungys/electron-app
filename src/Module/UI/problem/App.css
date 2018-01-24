@@ -1,4 +1,4 @@
-.question{
+.problem{
     width: 700px;
     height: 580px;
     position: fixed;
@@ -7,8 +7,8 @@
     border: 1px solid #09b1b0;
     border-radius: 5px;
 }
-.question>div{-webkit-box-sizing: border-box;box-sizing: border-box;width: 100%}
-.question>div:first-child{
+.problem>div{-webkit-box-sizing: border-box;box-sizing: border-box;width: 100%}
+.problem>div:first-child{
     background: #09b1b0;
     color: #fff;
     height: 40px;
@@ -17,14 +17,14 @@
     position: relative;
     padding: 0 10px;
 }
-.question>div:first-child>i.fa-times{
+.problem>div:first-child>i.fa-times{
     position: absolute;
     top: 6px;right: 10px;
     font-size: 26px;
     color: #fff;
 }
-.question>div:first-child>i.fa-times:hover{background: #2cd3d2;cursor: default}
-.question>div:nth-child(2){
+.problem>div:first-child>i.fa-times:hover{background: #2cd3d2;cursor: default}
+.problem>div:nth-child(2){
     height: 390px;
     padding: 10px;
     background: #fff;
@@ -33,7 +33,7 @@
     flex-wrap: wrap;
     align-content: flex-start;
 }
-.question>div:nth-child(2)>div{
+.problem>div:nth-child(2)>div{
     width: 164.2px;
     height: 70px;
     margin: 0 6px 6px 0;
@@ -42,34 +42,35 @@
     padding: 6px;
     text-align: center;
     line-height: 58px;
+    cursor: pointer;
 }
-.question>div:nth-child(2)>div:hover{background-color: #f93}
-.question>div:nth-child(2)>div:nth-child(4n+0){margin-right: 0}
+.problem>div:nth-child(2)>div:hover{background-color: #f93}
+.problem>div:nth-child(2)>div:nth-child(4n+0){margin-right: 0}
 
-.question>div:nth-child(3){
+.problem>div:nth-child(3){
     margin: 16px 0;
     height: 28px;
     line-height: 28px;
     display: -webkit-flex;display: flex;
 }
-.question>div:nth-child(3)>div{height: 100%;line-height: 28px}
-.question>div:nth-child(3)>:first-child{width: 80px;text-align: center}
-.question .m-tag-box{margin-right: 20px}
-.question .m-tag-box:last-child{margin-right: 0}
-.question>div:last-child{
+.problem>div:nth-child(3)>div{height: 100%;line-height: 28px}
+.problem>div:nth-child(3)>:first-child{width: 80px;text-align: center}
+.problem .m-tag-box{margin-right: 20px}
+.problem .m-tag-box:last-child{margin-right: 0}
+.problem>div:last-child{
     height: 75px;
     display: -webkit-flex;display: flex;
 }
-.question>div:last-child>:first-child{width: 80px}
-.question>div:last-child>:last-child{
+.problem>div:last-child>:first-child{width: 80px}
+.problem>div:last-child>:last-child{
     display: -webkit-inline-flex;display: inline-flex;
     align-items: flex-end;
 }
-.question>div:last-child>:last-child>:first-child{
+.problem>div:last-child>:last-child>:first-child{
     width: 466px;
     height: 100%;
     box-sizing: border-box;-webkit-box-sizing: border-box;
     position: relative;
     margin-right: 30px;
 }
-.question>div:last-child>:last-child>:first-child>textarea{width: 100%;height: 100%;resize: none}
+.problem>div:last-child>:last-child>:first-child>textarea{width: 100%;height: 100%;resize: none}

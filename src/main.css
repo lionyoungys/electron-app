@@ -364,6 +364,7 @@ body{background:#09b1b0;cursor:pointer;} */
     position: absolute;
     top: -10px;right: -10px;
     background: url(img/cancel-tag.png) no-repeat;
+    cursor: default;
 }
 
 /* img box */

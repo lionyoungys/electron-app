@@ -191,6 +191,18 @@
      * @return boolean
      */
     t.isSet = function (value) {return ('undefined' !== typeof value && null !== value)}
+    t.objToString = function(object) {
+        if (object.constructor === Object) {
+            len = object.options.length;
+            if (len < 1 && '' == object.content) return;
+            var retStr = '';
+            for (let i = 0;i < len;++i) {
+                retStr += (object.options[i] + ';');
+            }
+            return (retStr + object.content);
+        }
+        
+    }
 
     t.arrayMerge = function() {
         const count = arguments.length;

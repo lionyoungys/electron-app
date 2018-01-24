@@ -3,13 +3,13 @@
  * @author yangyunlong
  */
 import React from 'react';
-import {color, question} from './Data';
+import {color, problem, forecast} from './Data';
 import './App.css';
-// title:标题文字    onCloseRequest:关闭弹窗    展示数据 type:color/question/null  onConfirmRequest(value,options);
+// title:标题文字    onCloseRequest:关闭弹窗    展示数据 type:color/problem/null  onConfirmRequest(value,options);
 export default class extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {color:[], question:[], colorVal:'', questionVal:''}
+        this.state = {color:[], problem:[], forecast:[], colorVal:'', problemVal:'', forecastVal:''}
         this.handleClick = this.handleClick.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleConfirm = this.handleConfirm.bind(this);
@@ -20,13 +20,13 @@ export default class extends React.Component {
             options = this.state[this.props.type];
         if ('' !== value || options.length > 0) {
             this.props.onConfirmRequest(value, options);
-            this.setState({color:[],question:[],colorVal:'',questionVal:''});
+            this.setState({color:[],problem:[],colorVal:'',problemVal:''});
         }
         
     }
 
     handleClose() {
-        this.setState({color:[],question:[],colorVal:'',questionVal:''});
+        this.setState({color:[],problem:[],colorVal:'',problemVal:''});
         this.props.onCloseRequest();
     }
     handleCancel(e) {
@@ -49,9 +49,12 @@ export default class extends React.Component {
         if ('color' === this.props.type) {
             options = color.map(obj => <div key={obj.key} onClick={this.handleClick}>{obj.value}</div>);
             title = '颜色';
-        } else if ('question' === this.props.type) {
-            options = question.map(obj => <div key={obj.key} onClick={this.handleClick}>{obj.value}</div>);
+        } else if ('problem' === this.props.type) {
+            options = problem.map(obj => <div key={obj.key} onClick={this.handleClick}>{obj.value}</div>);
             title = '瑕疵';
+        } else if ('forecast' === this.props.type) {
+            options = forecast.map(obj => <div key={obj.key} onClick={this.handleClick}>{obj.value}</div>);
+            title = '洗后预估';
         } else {
             return null;
         }
@@ -64,7 +67,7 @@ export default class extends React.Component {
                 </span>
             );
         return (
-            <div className='question'>
+            <div className='problem'>
                 <div>{title}<i className="fa fa-times" onClick={this.handleClose}></i></div>
                 <div>{options}</div>
                 <div>

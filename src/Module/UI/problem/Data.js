@@ -501,7 +501,7 @@ export const color = [
   }
 ]
 
-export const question = [
+export const problem = [
   {
     key: 0,
     value: "蛋糕"
@@ -1042,4 +1042,15 @@ export const question = [
     key: 134,
     value: "露底"
   }
+]
+export const forecast = [
+  {key:0,value:'洗后发白'},
+  {key:1,value:'织后有印'},
+  {key:2,value:'洗后结块'},
+  {key:3,value:'缩水里衬长'},
+  {key:4,value:'易断线'},
+  {key:5,value:'洗后皮易开线'},
+  {key:6,value:'洗后可能掉色'},
+  {key:7,value:'装饰物易掉'},
+  {key:8,value:'注意洗涤'}
 ]
