@@ -117,7 +117,6 @@
 
     Array.prototype.filtration = function(value) {
         let retArr = this;
-        console.log(retArr);
         if ('string' === typeof value) {
             let index = value.inArray(retArr);
             if (-1 !== index) retArr.splice(index,1);
@@ -128,7 +127,6 @@
                 if (-1 !== index) retArr.splice(index,1);
             }
         }
-        console.log(retArr);
         return retArr;
     }
 
@@ -206,7 +204,18 @@
      * 判断值是否存在
      * @return boolean
      */
-    t.isSet = function (value) {return ('undefined' !== typeof value && null !== value)}
+    t.isSet = function (value) {return ('undefined' !== typeof value && null !== value && '' !== value)}
+
+    t.getObjectByValue = function(obj) {
+        let retObj = {};
+        if (obj.constructor === Object) {
+            for (let k in obj) {
+                retObj[k] = obj[k];
+            }
+        }
+        return retObj;
+    }
+
     t.objToString = function(object) {
         if (object.constructor === Object) {
             const len = object.options.length;

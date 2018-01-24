@@ -12,7 +12,7 @@ export default class extends React.Component {
         super(props);
         this.state = {id:'',name:'',mobile:'',time:'',orders:[],platform:{cbalance:'',cname:''},merchant:{cbalance:'',cname:''}};
         this.search = this.search.bind(this);
-        this.next = this.next.bind(this);
+        this.nextStep = this.nextStep.bind(this);
     }
     search(value) {
         if (value.match(/^1\d{10}$/) !== null) {
@@ -35,17 +35,7 @@ export default class extends React.Component {
             });
         }        
     }
-   next() {
-    //  if ('' == this.state.id) return;
-    //  axios.post(api.U('createOrder'),api.data({token:this.props.token}))
-    //  .then((response) => {
-    //  	console.log(response)
-    //      let orderId = response.data.data.order_id;
-         
-    //  });
-    //    // this.props.changeView({element:'item',param:'id=' + orderId + '&from=offline'});
-    //     props.changeView({element:'item'})
-    }
+   nextStep() {'' !== this.state.id && this.props.changeView({view:'offline_add_item', param:this.state.id})}
 
     render () {
         let props = this.props,
@@ -81,13 +71,8 @@ export default class extends React.Component {
                         <div>会员卡余额：{'' == state.merchant.cbalance ? '' : <span>&yen;{state.merchant.cbalance}</span>}</div>
                     </div>
                 </div>
-                <div style={{textAlign:'center'}}>
-                    <input 
-                        type='button' 
-                        value='收衣下单' 
-                        className='m-btn confirm large'
-                        onClick={this.next}
-                    />
+                <div className='m-text-c'>
+                    <input type='button' value='收衣下单' className='m-btn confirm large' onClick={this.nextStep}/>
                 </div>
             </div>
         );

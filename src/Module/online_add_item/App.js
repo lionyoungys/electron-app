@@ -10,7 +10,6 @@ import Item from '../UI/item/App';
 import ItemInfo from '../UI/item_info/App';
 import ItemCost from '../UI/item_cost/App';
 import './App.css';
-import { toUnicode } from 'punycode';
 
 export default class extends React.Component {
     constructor(props) {
@@ -24,13 +23,18 @@ export default class extends React.Component {
             type:null,
             data:[],
             amount:0,
-            handleIndex:null
+            handleIndex:null,
+            trace:null
         };
         this.handleTabClick = this.handleTabClick.bind(this);
         this.handleClothesClick = this.handleClothesClick.bind(this);
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
         this.handleSnChange = this.handleSnChange.bind(this);
         this.handleProblemSubmit = this.handleProblemSubmit.bind(this);
+        this.handleCraftDes = this.handleCraftDes.bind(this);
+        this.handleCraftPrice = this.handleCraftPrice.bind(this);
+        this.handleKeepPrice = this.handleKeepPrice.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentDidMount() {
         axios.post(api.U('take_piece'),api.D({token:this.props.token,oid:this.props.param}))
@@ -51,7 +55,7 @@ export default class extends React.Component {
                         if (itemCount > 0) {
                             for (let c = 0;c < itemCount;++c) {
                                 amount = tool.sum(amount, result[i].items[j].item_real_price);
-                                this.state.data.push(result[i].items[j]);
+                                this.state.data.push( tool.getObjectByValue(result[i].items[j]) );
                             }
                         }
                     }
@@ -71,38 +75,91 @@ export default class extends React.Component {
     }
     handleTabClick(e) {this.setState({index:e.target.dataset.key,clothesShow:true})}
     handleClothesClick(index) {
-        let item = this.state.item[this.state.index][index];
+        let item = tool.getObjectByValue(this.state.item[this.state.index][index]);
         this.state.data.push(item);
-        this.setState({data:this.state.data,clothesShow:false,amount:( tool.sum(this.state.amount,item.item_real_price) )});
+        this.setState({
+            data:this.state.data,
+            clothesShow:false,
+            trace:'color',
+            type:'color',
+            handleIndex:(this.state.data.length - 1),
+            amount:( tool.sum(this.state.amount,item.item_real_price) )
+        });
     }
     handleSnChange(e) {
         if (null !== this.state.handleIndex) {
-            console.log(this.state.handleIndex);
-            console.log(this.state.data[this.state.handleIndex]);
             this.state.data[this.state.handleIndex].clean_sn = e.target.value;
+            this.setState({data:this.state.data});
+        }
+    }
+    handleCraftDes(e) {
+        if (null !== this.state.handleIndex) {
+            this.state.data[this.state.handleIndex].craft_des = e.target.value;
+            this.setState({data:this.state.data});
+        }
+    }
+    handleCraftPrice(e) {
+        if (null !== this.state.handleIndex) {
+            let value = e.target.value;
+            if (isNaN(value)) return;
+            this.state.data[this.state.handleIndex].craft_price = value;
+            this.setState({data:this.state.data});
+        }
+    }
+    handleKeepPrice(e) {
+        if (null !== this.state.handleIndex) {
+            let value = e.target.value;
+            if (isNaN(value)) return;
+            this.state.data[this.state.handleIndex].keep_price = value;
             this.setState({data:this.state.data});
         }
     }
     handleProblemSubmit(value, options) {
         if (null !== this.state.handleIndex) {
             this.state.data[this.state.handleIndex][this.state.type] = {options:options,content:value};
-            this.setState({data:this.state.data,type:null});
+            let type = null;
+            if ('color' == this.state.trace && 'color' == this.state.type) type = 'problem';
+            this.setState({data:this.state.data,type:type,trace:type});
         }
+    }
+    handleSubmit() {
+        let data = this.state.data,
+            len = data.length;
+        if (len < 1) return;
+        let request = [],
+            temp = {};
+        for (let i = 0;i < len;++i) {
+            if (!tool.isSet(data[i].clean_sn)) return alert('尚有项目未填写衣物编码!');
+            if (!tool.isSet(data[i].color)) return alert('尚有项目未选择颜色!');
+            if (!tool.isSet(data[i].problem)) return alert('尚有项目未选择问题!');
+            temp = {
+                item_id:data[i].id,
+                clean_sn:data[i].clean_sn,
+                color:JSON.stringify(data[i].color),
+                problem:JSON.stringify(data[i].problem),
+                forecast:( tool.isSet(data[i].forecast) ? JSON.stringify(data[i].forecast) : JSON.stringify({options:[],content:''}) ),
+                keep_price:( tool.isSet(data[i].keep_price) ? data[i].keep_price : 0),
+                craft_price:( tool.isSet(data[i].craft_price) ? data[i].craft_price : 0 ),
+                craft_des:( tool.isSet(data[i].craft_des) ? data[i].craft_des : '' )
+            };
+            request.push(temp);
+        }
+        axios.post(api.U('item_submit'), api.D({token:this.props.token,oid:this.props.param,items:JSON.stringify(request)}))
+        .then(response => {
+            api.V(response.data) && this.props.changeView({view:'online',param:{checked:'to_take'}});
+        });
     }
 
     render() {
-        let state = this.state,
-            title = (state.category.length > 0 ? state.category[state.index].value : null),
-            data = (state.item.length > 0 ? state.item[state.index] : []),
-            tabs = this.state.category.map(obj => 
+        let tabs = this.state.category.map(obj => 
                 <span
                     key={obj.key}
                     data-key={obj.key}
                     className='m-tab checked'
                     onClick={this.handleTabClick}
                 >{obj.value}</span>
-            ),
-            html = this.state.data.map((obj, index) => 
+            );
+        let html = this.state.data.map((obj, index) => 
                 <tr
                     key={index}
                     className={'m-text-c m-pointer' + ( this.state.handleIndex == index ? ' oai-checked' : '' )}
@@ -119,7 +176,6 @@ export default class extends React.Component {
                             className='m-btn editor'
                             ref={dom => this.handleDeleteClick(dom, index)}
                             data-index={index} 
-                            data-id={obj.id}
                         >删除</button>
                     </td>
                 </tr>
@@ -151,7 +207,14 @@ export default class extends React.Component {
                             handleProblem={() => ( null !== this.state.handleIndex && this.setState({type:'problem'}) )}
                             handleForecast={() => ( null !== this.state.handleIndex && this.setState({type:'forecast'}) )}
                         />
-                        <ItemCost/>
+                        <ItemCost
+                            keep_price={keep_price}
+                            craft_price={craft_price}
+                            craft_des={craft_des}
+                            handleKeepPrice={this.handleKeepPrice}
+                            handleCraftPrice={this.handleCraftPrice}
+                            handleCraftDes={this.handleCraftDes}
+                        />
                     </div>
                     <div className='m-box'>
                         <table className='m-table tr-b'>
@@ -167,16 +230,13 @@ export default class extends React.Component {
                         总价：<span className='m-red'>{this.state.amount}</span>
                     </div>
                     <div className='m-box'>
-                        <button type='button' className='m-btn confirm large'>确认收件</button>
+                        <button type='button' className='m-btn confirm middle' onClick={this.handleSubmit}>确认收件</button>
                     </div>
-                    <div className='m-box' onClick={() => this.setState({type:'problem'})}>problem</div>
-                    <div className='m-box' onClick={() => this.setState({type:'color'})}>color</div>
-                    <div className='m-box' onClick={() => this.setState({type:'forecast'})}>forecast</div>
                 </div>
                 <Clothes
-                    show={state.clothesShow}
-                    title={title}
-                    data={data}
+                    show={this.state.clothesShow}
+                    title={(this.state.category.length > 0 ? this.state.category[this.state.index].value : null)}
+                    data={(this.state.item.length > 0 ? this.state.item[this.state.index] : [])}
                     onClick={this.handleClothesClick}
                     onCloseRequest={() => this.setState({clothesShow:false})}
                 />
