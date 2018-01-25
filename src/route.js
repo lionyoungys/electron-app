@@ -24,7 +24,7 @@ import MemberAddUser from './Module/member_add_user/App';
 import MemberAddCompany from './Module/member_add_company/App';
 import Recharge from './Module/recharge/App';
 import OfflineAddItem from './Module/offline_add_item/App';
-import Pay from './Module/pay/App';
+import OrderPay from './Module/order_pay/App';
 
 
 import InfoEditor from './manage/info_editor';
@@ -81,7 +81,7 @@ export default {
     member_add_company:MemberAddCompany,    //新增企业会员
     recharge:Recharge,                  //会员充值
     offline_add_item:OfflineAddItem,    //线下添加项目
-    pay:Pay,                            //订单支付
+    order_pay:OrderPay,                            //订单支付
     
     
     info_editor:InfoEditor,    //信息编辑

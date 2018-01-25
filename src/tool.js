@@ -182,12 +182,22 @@
     t.sum = function() {
         const count = arguments.length;
         if (0 === count) return 0;
-        if (1 === count) return Number(arguments[0]);
+        if (1 === count) return (arguments[0] * 1);
         var sum = 0;
         for (var i = 0;i < count;++i) {
-            sum += Math.floor(Number(arguments[i]) * 100);
+            sum += Math.floor(arguments[i] * 100);
         }
         return (sum / 100);
+    }
+    t.mul = function() {
+        const count = arguments.length;
+        if (0 === count) return 0;
+        if (1 === count) return (arguments[0] * 1);
+        var mul = 1;
+        for (var i = 0;i < count;++i) {
+            mul = ( ( Math.floor(mul * 100) * Math.floor(arguments[i] * 100) ) / 10000 );
+        }
+        return mul;
     }
 
     /**
@@ -199,11 +209,22 @@
         const count = arguments.length;
         if (0 === count) return 0;
         if (1 === count) return (arguments[0] * 1);
-        var difference = arguments[0] * 100;
+        var difference = Math.floor(arguments[0] * 100);
         for (var i = 1;i < count;++i) {
-            difference -= arguments[i] * 100;
+            difference -= Math.floor(arguments[i] * 100);
         }
         return (difference / 100);
+    }
+
+    t.safeDIC = function() {
+        const count = arguments.length;
+        if (0 === count) return 0;
+        if (1 === count) return (arguments[0] * 1);
+        var difference = Math.floor(arguments[0] * 100);
+        for (var i = 1;i < count;++i) {
+            difference -= Math.floor(arguments[i] * 100);
+        }
+        return (difference < 0) ? 0 : (difference / 100);
     }
 
     /**

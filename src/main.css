@@ -202,6 +202,7 @@ body{background:#09b1b0;cursor:pointer;} */
 .m-red{color: #fb3f06}
 .m-green{color: #43a84a}
 .m-blue{color: #09b1b0}
+.m-small{font-size: 14px;color: #999;}
 .m-blue-h:hover{color: #09b1b0;cursor: pointer}
 .m-bd-lightgrey{border:1px solid lightgrey}
 .m-bg-linear{background: linear-gradient(#abdcf2, #d4ecfa)}
@@ -287,6 +288,8 @@ body{background:#09b1b0;cursor:pointer;} */
 .m-icon.cash{background-image: url(img/cash.png)}
 .m-icon.wechat{background-image: url(img/wechat.png)}
 .m-icon.alipay{background-image: url(img/alipay.png)}
+.m-icon.vip{background-image: url(img/vip.png)}
+.m-icon.merchant{background-image: url(img/merchant.png)}
 /* input text style */
 .m-input{
     width: 240px;

@@ -1,0 +1,46 @@
+.pay-toast{
+    width: 400px;
+    height: 300px;
+    border: 1px solid #aec9d6;
+    border-radius: 10px;
+    background-color: #fff;
+    position: fixed;
+    top: 50%;left: 50%;
+    margin: -150px 0 0 -200px;
+    overflow: hidden;
+}
+.pay-toast>.m-close{position: absolute;top: 10px;right: 10px;}
+.pay-toast>div:first-of-type{
+    height: 50px;
+    line-height: 50px;
+    padding: 0 10px;
+    color: #537185;
+    font-size: 18px;
+    background: linear-gradient(#abdcf2, #d4ecfa);
+}
+
+
+
+
+
+
+.goods-layer>div{margin-bottom: 12px}
+.goods-layer>:first-child{margin-bottom: 0}
+
+.goods-layer>.row{
+    display: -webkit-flex;display: flex;
+    min-height: 36px;
+    line-height: 36px;
+}
+.goods-layer>.row>div{
+    width: 230px;
+    height: 90px;
+    position: relative;
+}
+.goods-layer>.row>.label{line-height: 90px}
+.goods-layer>.row>div>textarea{width: 100%;height: 100%;resize: none}
+.goods-layer>.row>:first-child{
+    width: 150px;
+    margin-right: 10px;
+    text-align: right;
+}

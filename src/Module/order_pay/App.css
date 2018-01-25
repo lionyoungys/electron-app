@@ -1,0 +1,55 @@
+.order-pay-box{
+    display: -webkit-flex;display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+}
+.order-pay-box>:first-child>div>span{
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+}
+.order-pay-row{
+    min-height: 40px;
+    line-height: 40px;
+    border-bottom: 1px dashed #ccc;
+    font-size: 16px;
+    padding-left: 20px;
+}
+.order-pay-row>span>.fa-check-circle{
+    font-size: 30px;
+    vertical-align: middle;
+}
+.order-pay-row>span>.fa-check-circle-o{
+    font-size: 30px;
+    vertical-align: middle;
+}
+
+.ui-pay-prefix{font-size: 18px;color: #333333}
+.ui-pay-row{padding: 30px 0 30px 110px;}
+.ui-pay-payment{
+    padding-left:15px;padding-right: 32px;
+    font-size: 22px;font-weight: bold;color: #333333;
+}
+.ui-pay-postfix{font-size: 16px;color: #999999;}
+.ui-pay-radio-container{
+    display: flex;display: -webkit-flex;flex-wrap: wrap;
+    padding: 30px 0 0 100px;
+}
+.ui-pay-radio-container>.ui-radio{margin-right: 60px;}
+/* 支付icon图标样式 */
+.ui-pay-icon-vip{background-image: url(images/ui-vip.png)}
+.ui-pay-icon-merchant{background-image: url(images/ui-merchant.png)}
+.ui-pay-icon-cash{background-image: url(images/ui-cash.png)}
+.ui-pay-icon-wechat{background-image: url(images/ui-wechat.png)}
+.ui-pay-icon-alipay{background-image: url(images/ui-alipay.png)}
+.ui-pay-icon-vip,.ui-pay-icon-merchant,
+.ui-pay-icon-cash,.ui-pay-icon-wechat,
+.ui-pay-icon-alipay
+{
+    display: inline-block;height: 34px;padding-left: 35px;
+    line-height: 34px;font-style: normal;
+    background-position: center left;background-repeat: no-repeat;
+}
