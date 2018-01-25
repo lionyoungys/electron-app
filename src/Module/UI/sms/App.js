@@ -16,7 +16,7 @@ export default class extends React.Component {
     }
     handleClick() {
         '' !== this.state.value && this.props.callback(this.state.value);
-     }
+    }
      handleSend() {
          if (isNaN(this.state.text)) {
             this.setState({text:60});

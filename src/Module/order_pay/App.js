@@ -8,7 +8,7 @@ import Crumb from '../UI/crumb/App';
 import Search2 from '../UI/search2/App';
 import Radio from '../UI/radio/App';
 import Pay from '../UI/pay/App';
-import {CardVerify} from '../UI/pay-toast/App';
+import {CardVerify, SpecialVerify, FreeVerify} from '../UI/pay-toast/App';
 import './App.css';
 
 export default class extends Component {
@@ -27,6 +27,7 @@ export default class extends Component {
             totalAmount:0,
             uid:null,
             umobile:'',
+            phone:'',
             hasPlatform:0,
             hasMerchant:0,
             platform:{},
@@ -41,6 +42,10 @@ export default class extends Component {
             show:false,
             status:'pay',
             cardVerifyShow:false,
+            specialVerifyShow:false,
+            freeVerifyShow:false,
+            smsCode:'',
+            specialAmount:0,
 
 
             realAmount:0,payment:'',
@@ -55,6 +60,10 @@ export default class extends Component {
         this.handleChecked = this.handleChecked.bind(this);    //切换支付方式
         this.handleReduceChecked = this.handleReduceChecked.bind(this);    //切换优惠方式
         this.getPayRealAmount = this.getPayRealAmount.bind(this);    //获取实际支付金额
+        this.sendUserSmS = this.sendUserSmS.bind(this);    //发送用户验证码
+        this.handleSmsCode = this.handleSmsCode.bind(this);    //验证码回调
+        this.submit = this.submit.bind(this);
+        this.onPayRequest = this.onPayRequest.bind(this);
     }
 
     componentDidMount() {
@@ -78,6 +87,7 @@ export default class extends Component {
                     hasPlatform:result.has_platform,
                     hasMerchant:result.has_merchant,
                     umobile:result.umobile,
+                    phone:result.master_phone,
                     items:result.items
                 });
             }
@@ -162,7 +172,6 @@ export default class extends Component {
         if (this.state.checked === checked) return;
         this.calculate({checked:checked});
     }
-
     handleReduceChecked(key, value) {
         this.state[key] == value ? this.calculate({[key]:null}) : this.calculate({[key]:value});
     }
@@ -181,6 +190,75 @@ export default class extends Component {
             }
         }
         return sum;
+    }
+
+    sendUserSmS() {
+        let type = (0 == this.state.checked ? 'platform' : 'merchant');
+        axios.post(api.U('card_sms'), api.D({token:this.props.token,type:type,uid:this.state.uid}))
+        .then(response => {
+            if (!api.V(response.data)) alert(response.data.msg);
+        });
+    }
+
+    handleSmsCode(smsCode, specialAmount) {
+        let setObj = {smsCode:smsCode,cardVerifyShow:false,specialVerifyShow:false,freeVerifyShow:false};
+        setObj.specialAmount = tool.isSet(specialAmount) ? specialAmount : 0;
+        if (3 == this.state.checked || 4 == this.state.checked) setObj.show = true;
+        this.setState(setObj);
+    }
+    onPayRequest() {
+        if (null === this.state.checked) return alert('请选择支付方式');
+        switch(Number(this.state.checked))
+        {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
+    }
+
+    submit(authCode) {
+        authCode = tool.isSet(authCode) ? authCode : '1';
+        let reduce = '';
+        if (2 == this.state.checked) {
+            reduce = this.state.cashReduce;
+        } else if (3 == this.state.checked) {
+            reduce = this.state.wechatReduce;
+            this.setState({status:'loading'});
+        } else if (4 == this.state.checked) {
+            reduce = this.state.alipayReduce;
+            this.setState({status:'loading'});
+        }
+        axios.post(
+            api.U('pay_request'), 
+            api.D({
+                token:this.props.token,
+                sn:this.state.sn,
+                sms_code:this.state.smsCode,
+                oid:this.id,
+                gateway:this.gateway[this.state.checked],
+                reduce:reduce,
+                auth_code:authCode,
+                amount:this.state.specialAmount,
+            })
+        )
+        .then(response => {
+            if (api.V(response.data)) {
+                //支付成功
+            } else {
+                if (3 == this.state.checked || 4 == this.state.checked) {
+                    this.setState({status:'fail'});
+                } else {
+                    alert(response.data.msg);
+                }
+            }
+        });
     }
 
     render() {
@@ -212,7 +290,7 @@ export default class extends Component {
                         onReduceChecked={this.handleReduceChecked}
                     />
                     <div className='m-box m-text-r'>
-                        <button type='button' className='m-btn confirm middle' onClick={() => this.setState({cardVerifyShow:true})}>确认支付</button>
+                        <button type='button' className='m-btn confirm middle' onClick={this.onPayRequest}>确认支付</button>
                     </div>
                 </div>
                 <Pay
@@ -220,9 +298,27 @@ export default class extends Component {
                     amount={this.state.payRealAmount}
                     status={this.state.status}
                     onClose={() => this.setState({show:false,status:'pay'})}
-                    onConfirm={this.onConfirm}
+                    onConfirm={this.submit}
                 />
-                <CardVerify show={this.state.cardVerifyShow} onClose={() => this.setState({cardVerifyShow:false})}/>
+                <CardVerify 
+                    show={this.state.cardVerifyShow} 
+                    phone={this.state.umobile}
+                    onClose={() => this.setState({cardVerifyShow:false})}
+                    callback={this.handleSmsCode}
+                    onSend={this.sendUserSmS}
+                />
+                <SpecialVerify 
+                    show={this.state.specialVerifyShow}
+                    phone={this.state.phone}
+                    callback={this.handleSmsCode}
+                    onClose={() => this.setState({specialVerifyShow:false})}
+                />
+                <FreeVerify
+                    show={this.state.freeVerifyShow}
+                    phone={this.state.phone}
+                    callback={this.handleSmsCode}
+                    onClose={() => this.setState({freeVerifyShow:false})}
+                />
             </div>
         );
     }
