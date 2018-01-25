@@ -24,14 +24,9 @@ import MemberAddUser from './Module/member_add_user/App';
 import MemberAddCompany from './Module/member_add_company/App';
 import Recharge from './Module/recharge/App';
 import OfflineAddItem from './Module/offline_add_item/App';
+import Pay from './Module/pay/App';
 
 
-import Item from './order/item';
-import Craft from './order/craft';
-import Check from './order/check';
-import Color from './order/color';
-import Question from './order/question';
-import Pay from './offline/pay';
 import InfoEditor from './manage/info_editor';
 import Message from './manage/message';
 import Finance from './manage/finance';
@@ -86,14 +81,9 @@ export default {
     member_add_company:MemberAddCompany,    //新增企业会员
     recharge:Recharge,                  //会员充值
     offline_add_item:OfflineAddItem,    //线下添加项目
+    pay:Pay,                            //订单支付
     
     
-    item:Item,    //添加项目
-    craft:Craft,    //工艺加价
-    check:Check,    //衣物检查
-    color:Color,    //颜色设置
-    question:Question,    //问题描述
-    pay:Pay,    //订单支付
     info_editor:InfoEditor,    //信息编辑
     message:Message,    //消息通知
     comment:Comment,    //用户评价

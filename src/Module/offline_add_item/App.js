@@ -10,6 +10,7 @@ import Item from '../UI/item/App';
 import ItemInfo from '../UI/item_info/App';
 import ItemCost from '../UI/item_cost/App';
 import UploadToast from '../UI/upload-toast/App';
+import Loading from '../UI/loading/App';
 import './App.css';
 
 export default class extends React.Component {
@@ -27,7 +28,8 @@ export default class extends React.Component {
             images:[],
             amount:0,
             handleIndex:null,
-            trace:null
+            trace:null,
+            loadingShow:false
         };
         this.handleTabClick = this.handleTabClick.bind(this);
         this.handleClothesClick = this.handleClothesClick.bind(this);
@@ -175,10 +177,19 @@ export default class extends React.Component {
             }
             request.push(temp);
         }
+        this.setState({loadingShow:true});
         requestData.items = JSON.stringify(request);
         axios.post(api.U('item_submit'), api.D(requestData))
         .then(response => {
-            api.V(response.data) && this.props.changeView({view:'index'});
+            if (api.V(response.data)) {
+                if ('take_pay' == type) {
+                    this.props.changeView({view:'index'});
+                } else {
+                    this.props.changeView({view:'index',param:response.data.result});
+                    console.log(response.data.result);
+                }
+            }
+            this.setState({loadingShow:false});
         });
     }
 
@@ -294,6 +305,7 @@ export default class extends React.Component {
                     onChoose={this.handleImageChoose}
                     onClose={() => this.setState({uploadShow:false})}
                 />
+                <Loading show={this.state.loadingShow} notice='图片上传中......'/>
             </div>
         );
     }

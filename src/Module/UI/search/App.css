@@ -10,7 +10,7 @@
 .search>input[type=text]{
     width: 240px;
     font-size: 16px;
-    padding-left: 15px;
+    padding: 0 10px;
 }
 .search>button{
     width: 46px;

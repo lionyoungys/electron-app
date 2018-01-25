@@ -14,8 +14,8 @@ export default class extends React.Component {
     render() {
         if (!this.props.show) return null;
         return (
-            <div className='m-layer-bg'>
-            
+            <div className='loading-bg'>
+                <div className='loading'>{this.props.notice}</div>
             </div>
         );
     }
