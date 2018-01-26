@@ -10,21 +10,29 @@ export default class extends React.Component {
     constructor(props) {
         super(props);
         this.state = {value:''};
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
         this.input.onkeydown = ( e => {'Enter' === e.code && this.props.callback(this.state.value)} );
     }
+    handleChange(e) {
+        let value = e.target.value;
+        this.setState({value:value});
+        tool.isSet(this.props.onChange) && this.props.onChange(value);   
+    }
     
     render() {
+        let value = this.props.value;
+        if ('undefined' === typeof value || null === value) value = this.state.value;
         return (
             <div className='search'>
                 <input 
                     type='text' 
                     placeholder={this.props.placeholder} 
-                    value={this.state.value}
+                    value={value}
                     ref={input => this.input = input}
-                    onChange={e => this.setState({value:e.target.value})}
+                    onChange={this.handleChange}
                 />
                 <button type='button' onClick={() => this.props.callback(this.state.value)}>
                     <i className="fa fa-search"></i>

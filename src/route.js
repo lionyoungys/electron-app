@@ -25,6 +25,8 @@ import MemberAddCompany from './Module/member_add_company/App';
 import Recharge from './Module/recharge/App';
 import OfflineAddItem from './Module/offline_add_item/App';
 import OrderPay from './Module/order_pay/App';
+import InFactory from './Module/in_factory/App';
+import Clean from './Module/clean/App';
 
 
 import InfoEditor from './manage/info_editor';
@@ -40,7 +42,6 @@ import OfflineDrying from './offline/offline_drying'
 import OfflineIroning from './offline/offline_ironing'
 import OfflineCheck from './offline/offline_check'
 import Registration from './offline/registration';
-import InFactory from './offline/infactory';
 import OutFactory from './offline/outfactory';
 import OfflineTake from './offline/offline_take';
 import MemberDetail from './member/member_detail';
@@ -82,6 +83,8 @@ export default {
     recharge:Recharge,                  //会员充值
     offline_add_item:OfflineAddItem,    //线下添加项目
     order_pay:OrderPay,                            //订单支付
+    in_factory:InFactory,                  //入厂
+    clean:Clean,               //清洗
     
     
     info_editor:InfoEditor,    //信息编辑
@@ -96,7 +99,6 @@ export default {
     offline_ironing:OfflineIroning,    //熨烫
     offline_check:OfflineCheck,    //质检
     registration:Registration,    //上挂
-    infactory:InFactory,    //入厂
     outfactory:OutFactory,    //出厂
     offline_take:OfflineTake,    //取衣
     member_detail:MemberDetail,    //会员详情

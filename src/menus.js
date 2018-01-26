@@ -15,8 +15,8 @@ export default [
         text:'线下收银',
         options:[
             {text:'收件',key:'take'},
-            {text:'入厂',key:null},    //infactory
-            {text:'清洗',key:null},    //offline_clean
+            {text:'入厂',key:'in_factory'},    //infactory
+            {text:'清洗',key:'clean'},    //offline_clean
             {text:'烘干',key:null},    //offline_clean
             {text:'熨烫',key:null},    //offline_ironing
             {text:'质检',key:null},    //offline_check

@@ -7,8 +7,8 @@ import React from 'react';
 import './App.css';
 const list = [
     {value:'收件',view:'take'},
-    {value:'入厂',view:'infactory'},
-    {value:'清洗',view:'offline_clean'},
+    {value:'入厂',view:'in_factory'},
+    {value:'清洗',view:'clean'},
     {value:'烘干',view:'offline_drying'},
     {value:'熨烫',view:'offline_ironing'},
     {value:'质检',view:'offline_check'},
@@ -16,8 +16,8 @@ const list = [
     {value:'出厂',view:'outfactory'},
     {value:'取衣',view:'offline_take'},
     {value:'返流审核',view:'back'},
-    {value:'新建会员',view:'member_manage'},
-    {value:'会员充值',view:'member_recharge'},
+    {value:'新建会员',view:'member'},
+    {value:'会员充值',view:'member2'},
 ];
 
 
