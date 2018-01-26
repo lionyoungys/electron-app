@@ -14,7 +14,6 @@ import './App.css';
 export default class extends Component {
     constructor(props) {
         super(props);
-        this.id = '838';
         this.state = {
             payAmount:0,
             payRealAmount:0,
@@ -64,10 +63,11 @@ export default class extends Component {
         this.handleSmsCode = this.handleSmsCode.bind(this);    //验证码回调
         this.submit = this.submit.bind(this);
         this.onPayRequest = this.onPayRequest.bind(this);
+        this.sendMasterSmS = this.sendMasterSmS.bind(this);
     }
 
     componentDidMount() {
-        axios.post(api.U('pay_order'),api.D({token:this.props.token,oid:this.id}))
+        axios.post(api.U('pay_order'),api.D({token:this.props.token,oid:this.props.param}))
         .then(response => {
             if (api.V(response.data)) {
                 let result = response.data.result;
@@ -126,6 +126,7 @@ export default class extends Component {
                 case 0:
                     let platform = this.state.platform;
                     obj.payRealAmount = this.getPayRealAmount(platform.cdiscount);
+                    obj.payRealAmount = tool.sum(obj.payRealAmount, this.state.freightPrice,this.state.keepPrice,this.state.craftPrice);
                     obj.payRealAmount = tool.safeDIC(obj.payRealAmount, obj.coupon);
                     if (obj.payRealAmount == 0) return alert('支付价格为0时只能使用现金!');
                     if (obj.payRealAmount > platform.cbalance) return alert('余额不足');
@@ -133,6 +134,7 @@ export default class extends Component {
                 case 1:
                     let merchant = this.state.merchant;
                     obj.payRealAmount = this.getPayRealAmount(merchant.cdiscount);
+                    obj.payRealAmount = tool.sum(obj.payRealAmount, this.state.freightPrice,this.state.keepPrice,this.state.craftPrice);
                     obj.payRealAmount = tool.safeDIC(obj.payRealAmount, obj.coupon);
                     if (obj.payRealAmount == 0) return alert('支付价格为0时只能使用现金!');
                     if (obj.payRealAmount > merchant.cbalance) return alert('余额不足');
@@ -200,31 +202,67 @@ export default class extends Component {
         });
     }
 
+    sendMasterSmS() {
+        axios.post(api.U('master_sms'),api.D({token:this.props.token}))
+        .then(response => {
+            if (!api.V(response.data)) alert(response.data.msg);
+        });
+    }
+
     handleSmsCode(smsCode, specialAmount) {
         let setObj = {smsCode:smsCode,cardVerifyShow:false,specialVerifyShow:false,freeVerifyShow:false};
-        setObj.specialAmount = tool.isSet(specialAmount) ? specialAmount : 0;
-        if (3 == this.state.checked || 4 == this.state.checked) setObj.show = true;
-        this.setState(setObj);
+        if (tool.isSet(specialAmount)) {
+            setObj.specialAmount = specialAmount;
+            setObj.payRealAmount = specialAmount;
+        }
+        if (3 == this.state.checked || 4 == this.state.checked) {
+            setObj.show = true;
+            this.setState(setObj);
+        } else {
+            this.submit('1', smsCode, specialAmount);
+        }
+        
     }
     onPayRequest() {
         if (null === this.state.checked) return alert('请选择支付方式');
         switch(Number(this.state.checked))
         {
             case 0:
+                this.setState({cardVerifyShow:true})
                 break;
             case 1:
+                this.setState({cardVerifyShow:true});
                 break;
             case 2:
+                if ('special' == this.state.cashReduce) {
+                    this.setState({specialVerifyShow:true});
+                } else if ('free' == this.state.cashReduce) {
+                    this.setState({freeVerifyShow:true});
+                } else {
+                    this.submit();
+                }
                 break;
             case 3:
+                if ('special' == this.state.wechatReduce) {
+                    this.setState({specialVerifyShow:true});
+                } else {
+                    this.setState({show:true});
+                }
                 break;
             case 4:
+                if ('special' == this.state.alipayReduce) {
+                    this.setState({specialVerifyShow:true});
+                } else {
+                    this.setState({show:true});
+                }
                 break;
         }
     }
 
-    submit(authCode) {
+    submit(authCode, smsCode, specialAmount) {
         authCode = tool.isSet(authCode) ? authCode : '1';
+        smsCode = tool.isSet(smsCode) ? smsCode : this.state.smsCode;
+        specialAmount = tool.isSet(specialAmount) ? specialAmount : this.state.specialAmount;
         let reduce = '';
         if (2 == this.state.checked) {
             reduce = this.state.cashReduce;
@@ -240,16 +278,22 @@ export default class extends Component {
             api.D({
                 token:this.props.token,
                 sn:this.state.sn,
-                sms_code:this.state.smsCode,
-                oid:this.id,
+                sms_code:smsCode,
+                oid:this.props.param,
                 gateway:this.gateway[this.state.checked],
                 reduce:reduce,
                 auth_code:authCode,
-                amount:this.state.specialAmount,
+                amount:specialAmount,
             })
         )
         .then(response => {
             if (api.V(response.data)) {
+                ipcRenderer.send(
+                    'print-silent',
+                    'public/prints/index.html',
+                    {token:this.props.token,oid:this.props.param,url:api.U('order_print')}
+                );
+                this.props.changeView({view:'index'});
                 //支付成功
             } else {
                 if (3 == this.state.checked || 4 == this.state.checked) {
@@ -312,12 +356,14 @@ export default class extends Component {
                     phone={this.state.phone}
                     callback={this.handleSmsCode}
                     onClose={() => this.setState({specialVerifyShow:false})}
+                    onSend={this.sendMasterSmS}
                 />
                 <FreeVerify
                     show={this.state.freeVerifyShow}
                     phone={this.state.phone}
                     callback={this.handleSmsCode}
                     onClose={() => this.setState({freeVerifyShow:false})}
+                    onSend={this.sendMasterSmS}
                 />
             </div>
         );

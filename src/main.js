@@ -29,7 +29,7 @@ class Main extends Component {
         this.state = {
             name:null,status:null,logo:null,amount:null,count:null,    //数据状态
             option:null,  //菜单栏样式状态
-            view:'order_pay',param:null    //右侧展示样式状态 附带参数
+            view:'index',param:null    //右侧展示样式状态 附带参数
         };
         this.interval = null;
         this.changeView = this.changeView.bind(this);

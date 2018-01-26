@@ -2,6 +2,7 @@
  * 线上订单添加项目组件
  * @author yangyunlong
  */
+const {ipcRenderer} = window.require('electron');
 import React from 'react';
 import Crumb from '../UI/crumb/App';
 import Clothes from '../UI/clothes/App';
@@ -183,13 +184,19 @@ export default class extends React.Component {
         .then(response => {
             if (api.V(response.data)) {
                 if ('take_pay' == type) {
+                    ipcRenderer.send(
+                        'print-silent',
+                        'public/prints/index.html',
+                        {token:this.props.token,oid:response.data.result,url:api.U('order_print')}
+                    );
                     this.props.changeView({view:'index'});
                 } else {
-                    this.props.changeView({view:'index',param:response.data.result});
-                    console.log(response.data.result);
+                    this.props.changeView({view:'order_pay',param:response.data.result});
                 }
+            } else {
+                this.setState({loadingShow:false});
+                alert(response.data.msg);
             }
-            this.setState({loadingShow:false});
         });
     }
 

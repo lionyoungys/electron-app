@@ -34,3 +34,18 @@
     width: 80px;
     text-align: left;
 }
+
+.pay-toast>.special-verify{
+    margin: 20px 0;text-align: center;
+}
+.pay-toast>.special-amount{text-align: center;margin-bottom: 20px}
+.pay-toast>.special-amount>input[type=text]{
+    height: 36px;
+    line-height: 36px;
+    width: 140px;
+}
+.pay-toast>.special-amount>span{
+    display: inline-block;
+    width: 80px;
+    text-align: left;
+}

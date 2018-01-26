@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <style>
     body,span,img,p,div{margin: 0;padding: 0;}
-    body{width: 5.8cm;font-size: 14pt;font-weight: bold;word-break: break-all;}
+    body{width: 5.8cm;font-size: 14pt;word-break: break-all;}
     .center{text-align: center;}.right{text-align: right;}
     .f30{font-size: 30pt;}
     .f24{font-size: 24pt;}
@@ -26,7 +26,7 @@
 <p class="center" onclick="window.print();">(全国连锁)</p>
 <p class="center f24">速洗达洗衣</p>
 <p class="border"></p>
-<p class="center" style="padding-bottom:5pt;">美国GEP干洗</p>
+<p class="center" style="padding-bottom:5pt;" id="mname"></p>
 <p class="center">洗&emsp;衣&emsp;凭&emsp;据</p>
 <p class="line">交易单号：<span id='ordersn'>2323323222232</span></p>
 <p class="line">顾客电话：<span id='mobile'>1883434232</span></p>
@@ -78,60 +78,44 @@
     const {ipcRenderer} = require('electron'),
           axios = require('axios');
     window.onload = function() {
-        const params = ipcRenderer.sendSync('get-params');
-        //const params = {token:'9f04XUc2V8VLs1PU12esgTsnamiP0lFyk9MWUgdmi3yEoTdcAiQh0P4',order_id:'1967',uid:'84'}
+        const param = ipcRenderer.sendSync('get-param');
+        console.log(param);
         const fd = new FormData();
         const date = new Date(),
               datetime = date.getFullYear()+'-'+(date.getMonth()*1+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
-        fd.append('token', params.token);
-        fd.append('order_id', params.order_id);
-        fd.append('clerk_id', params.uid);
-        axios.post('http://xiyi.wzj.dev.shuxier.com/app.php/Offline/PrintInfo/o_p', fd)
+        fd.append('token', param.token);
+        //fd.append('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIzNCIsIm1pZCI6IjEwOCIsImlzUm9vdCI6IjEiLCJhdXRoIjoiW1wiMVwiLFwiMlwiLFwiM1wiLFwiNFwiXSIsInRpbWUiOjE1MTY2ODg0MTB9.Px13bbKjYxRdhm7kZiVOP9lGyjkwBc0hq96WZBJyhdg');
+        fd.append('oid', param.oid);
+        //fd.append('oid', '838');  'http://xiyi.wzj.dev.shuxier.com/mapi/print/recharge'
+        axios.post(param.url, fd)
         .then(response => {
-            let result = response.data.data,
-                order = result.orderInfo,
-                items = result.items;
+            console.log(response.data);
+            let result = response.data.result;
             console.log(result);
-            document.getElementById('qrcode').src = order.qrcode;
-            insert('ordersn', order.ordersn);
-            insert('mobile', order.mobile);
-            insert('num', order.piece_num);
-            insert('amount', order.amount);
-            insert('other_amount', order.slave_amount);
-            insert('pay_amount', order.pay_amount);
-            insert('reduce_price', order.reduce_price);
-            insert('address', order.address);
-            insert('phone', order.phone);
-            insert('clerk', order.clerkname);
-            insert('id',order.mid);
+            document.getElementById('qrcode').src = result.qrcode;
+            insert('ordersn', result.ordersn);
+            insert('mobile', result.umobile);
+            insert('num', result.count);
+            insert('amount', result.total_amount);
+            insert('other_amount', result.append);
+            insert('pay_amount', result.pay_amount);
+            insert('reduce_price', result.reduce_price);
+            insert('address', result.maddress);
+            insert('phone', result.phone_number);
+            insert('clerk', result.employee);
+            insert('id',result.mid);
             insert('date',datetime);
-            if (1 == order.pay_state) {
+            if (1 == result.pay_state) {
                 document.getElementById('pay_state1').style.display = 'block';
-                switch(order.pay_channel){
-                    case '1':
-                    insert('pay_channel','现金支付');
-                    break;
-                    case '2':
-                    insert('pay_channel','平台会员卡');
-                    break;
-                    case '3':
-                    insert('pay_channel','专店会员卡');
-                    break;
-                    case '4':
-                    insert('pay_channel','微信支付');
-                    break;
-                    case '5':
-                    insert('pay_channel','支付宝支付');
-                    break;
-                }
+                insert('pay_channel', gateway(result.pay_gateway))
             } else {
                 document.getElementById('pay_state0').style.display = 'block';
             }
-            let len = items.length,
+            let len = result.items.length,
                 content = '';
             for (let i = 0;i < len;++i) {
-                content += '<p class="line"><span>'+items[i].name+'</span>&emsp;<span>' + items[i].price +
-                    '</span>&emsp;<span>'+items[i].color+items[i].color_text+'</span>&emsp;<span>'+items[i].item_note+items[i].note_text+'</span></p>';
+                content += '<p class="line"><span>'+result.items[i].item_name+'</span>&emsp;<span>' + result.items[i].item_real_price +
+                    '</span>&emsp;<span>'+result.items[i].color+'</span>&emsp;<span>'+result.items[i].problem+'</span></p>';
             }
             insert('items',content);
             document.getElementById('qrcode').onload = function() {
@@ -142,6 +126,34 @@
         function insert(id, value) {
             if ('undefined' === typeof value || null == value) value = '';
             document.getElementById(id).innerHTML = value;
+        }
+        function gateway(code) {
+            code = Number(code);
+            switch (code)
+            {
+                case 0:
+                    return '现金支付';
+                case 1:
+                    return '零钱支付';
+                case 2:
+                    return '免洗';
+                case 3:
+                    return '平台会员卡';
+                case 4:
+                    return '商家会员卡';
+                case 5:
+                    return '企业会员卡';
+                case 10:
+                    return '微信公众号';
+                case 11:
+                    return '微信app支付';
+                case 12:
+                    return '微信刷卡支付';
+                case 20:
+                    return '支付宝app支付';
+                case 21:
+                    return '支付宝面对面付';
+            }
         }
     }
 </script>
