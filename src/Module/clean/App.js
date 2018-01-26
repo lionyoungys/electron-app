@@ -1,5 +1,5 @@
 /**
- * 商品添加界面组件
+ * 送洗界面组件
  * @author yangyunlong
  */
 

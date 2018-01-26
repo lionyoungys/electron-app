@@ -17,9 +17,9 @@ export default [
             {text:'收件',key:'take'},
             {text:'入厂',key:'in_factory'},    //infactory
             {text:'清洗',key:'clean'},    //offline_clean
-            {text:'烘干',key:null},    //offline_clean
-            {text:'熨烫',key:null},    //offline_ironing
-            {text:'质检',key:null},    //offline_check
+            {text:'烘干',key:'dry'},    //offline_clean
+            {text:'熨烫',key:'ironing'},    //offline_ironing
+            {text:'质检',key:'check'},    //offline_check
             {text:'上挂',key:null},    //registration
             {text:'出厂',key:null},    //outfactory
             {text:'取衣',key:null},    //offline_take

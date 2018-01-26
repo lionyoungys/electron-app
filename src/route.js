@@ -27,6 +27,10 @@ import OfflineAddItem from './Module/offline_add_item/App';
 import OrderPay from './Module/order_pay/App';
 import InFactory from './Module/in_factory/App';
 import Clean from './Module/clean/App';
+import Dry from './Module/dry/App';
+import Ironing from './Module/ironing/App';
+import Check from './Module/check/App';
+import GoBack from './Module/go_back/App';
 
 
 import InfoEditor from './manage/info_editor';
@@ -85,6 +89,10 @@ export default {
     order_pay:OrderPay,                            //订单支付
     in_factory:InFactory,                  //入厂
     clean:Clean,               //清洗
+    dry:Dry,               //烘干
+    ironing:Ironing,    //熨烫
+    check:Check,         //质检
+    go_back:GoBack,    //返流
     
     
     info_editor:InfoEditor,    //信息编辑
