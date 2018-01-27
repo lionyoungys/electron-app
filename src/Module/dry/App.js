@@ -7,8 +7,7 @@ import React from 'react';
 import Crumb from '../UI/crumb/App';
 import Search from '../UI/search/App';
 import Checkbox from '../UI/checkbox/App';
-const state = 50,
-      word = '烘干';
+const state = 50, word = '烘干';
 export default class extends React.Component {
     constructor(props) {
         super(props);
@@ -62,7 +61,7 @@ export default class extends React.Component {
     }
     handleCleaned() {
         if (this.state.checked.length < 1) return;
-        axios.post(api.U('item_cleaned'),api.D({token:this.props.token,itemids:this.state.checked.toString(),moduleid:3}))
+        axios.post(api.U('handle_done'),api.D({token:this.props.token,itemids:this.state.checked.toString(),moduleid:state}))
         .then(response => {
             if (api.V(response.data)) {
                 this.setState({checked:[],all:false});

@@ -31,6 +31,8 @@ import Dry from './Module/dry/App';
 import Ironing from './Module/ironing/App';
 import Check from './Module/check/App';
 import GoBack from './Module/go_back/App';
+import PutOn from './Module/put_on/App';
+
 
 
 import InfoEditor from './manage/info_editor';
@@ -93,6 +95,7 @@ export default {
     ironing:Ironing,    //熨烫
     check:Check,         //质检
     go_back:GoBack,    //返流
+    put_on:PutOn,    //上挂
     
     
     info_editor:InfoEditor,    //信息编辑

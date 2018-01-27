@@ -20,7 +20,7 @@ export default [
             {text:'烘干',key:'dry'},    //offline_clean
             {text:'熨烫',key:'ironing'},    //offline_ironing
             {text:'质检',key:'check'},    //offline_check
-            {text:'上挂',key:null},    //registration
+            {text:'上挂',key:'put_on'},    //registration
             {text:'出厂',key:null},    //outfactory
             {text:'取衣',key:null},    //offline_take
             {text:'返流审核',key:null},    //offline_take2
