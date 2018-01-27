@@ -26,13 +26,13 @@ export default class extends React.Component {
         axios.post(api.U('team_merchant'),api.D({token:this.props.token}))
         .then(response => {
             api.V(response.data) && this.setState({team:response.data.result});
-            console.log(response.data);
         });
     }
     query() {
         axios.post(api.U('clean'),api.D({token:this.props.token}))
         .then(response => {
             api.V(response.data) && this.setState({data:response.data.result,value:'',show:false});
+            console.log(response.data);
         });
     }
     onSearch() {

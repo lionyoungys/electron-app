@@ -279,7 +279,7 @@
      */
     t.currentDate = function (format, timestamp) {
 
-        let currentDate = this.isSet(timestamp) ? new Date(timestamp) : new Date();
+        let currentDate = this.isSet(timestamp) ? new Date( Number(timestamp) ) : new Date();
         if ('undefined' !== typeof format) {
             let year = currentDate.getFullYear(),
                 month = (currentDate.getMonth() + 1),
@@ -339,6 +339,27 @@
                 return '店铺取消';
             default:
                 return null;
+        }
+    }
+    t.itemStatus = function(code) {
+        switch(Number(code))
+        {
+            case 0:
+                return '已收件';
+            case 3:
+                return '清洗中';
+            case 50:
+                return '烘干中';
+            case 51:
+                return '熨烫中';
+            case 52:
+                return '质检中';
+            case 90:
+                return '洗护完成';
+            case 91:
+                return '已上挂';
+            case 100:
+                return '已取走';
         }
     }
     window.tool = t;

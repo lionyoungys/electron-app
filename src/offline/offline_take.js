@@ -18,7 +18,7 @@ export default class OfflineTake extends Component{
     }
 
     onSearchRequest(word) {
-        axios.post(api.U('offlineTake'), api.data({token:this.props.token, number:word}))
+        axios.post(api.U('offlineTake'), api.D({token:this.props.token, number:word}))
         .then(response => {
             this.setState({data:response.data.data,history:word});
             console.log(response.data.data);
@@ -28,7 +28,7 @@ export default class OfflineTake extends Component{
     onTakePayRequest(e) {
         let dataset = e.target.dataset;
         if (1 != dataset.state) {
-            axios.post(api.U('takePay'),api.data({token:this.props.token,order_id:dataset.id}))
+            axios.post(api.U('takePay'),api.D({token:this.props.token,order_id:dataset.id}))
             .then(response => {
                 console.log(response.data);
                 this.props.changeView({element:'pay',param:'from=take&id='+dataset.id});
@@ -63,7 +63,7 @@ export default class OfflineTake extends Component{
             }
             axios.post(
                 api.U('offlineTakeRequest'),
-                api.data({
+                api.D({
                     token:this.props.token,
                     order_id:this.state.tempId,
                     type:'one',
@@ -72,7 +72,7 @@ export default class OfflineTake extends Component{
             )
             .then(response => {
                 if (api.verify(response.data)) {
-                    axios.post(api.U('offlineTake'), api.data({token:this.props.token, number:this.state.history}))
+                    axios.post(api.U('offlineTake'), api.D({token:this.props.token, number:this.state.history}))
                     .then(response => {
                         this.setState({data:response.data.data,isShow:false,showData:[]});
                         console.log(response.data.data);

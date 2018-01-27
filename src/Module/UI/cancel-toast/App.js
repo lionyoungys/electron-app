@@ -11,37 +11,40 @@ import './App.css';
 export default class extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {checked:[]};
+        this.state = {checked:[],details:[]};
         this.onCloseRequest = this.onCloseRequest.bind(this);
         this.onConfirmRequest = this.onConfirmRequest.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
     onCloseRequest() {
-        this.setState({checked:[]});
+        this.setState({checked:[],details:[]});
         this.props.onCloseRequest();
     }
     onConfirmRequest() {
         if (this.state.checked.length > 0) {
-            this.props.onConfirmRequest(this.state.checked);
-            this.setState({checked:[]});
+            this.props.onConfirmRequest(this.state.checked, this.state.details);
+            this.setState({checked:[],details:[]});
         }
     }
-    handleClick(value, isChecked) {
-        let checked = this.state.checked;
+    handleClick(object, isChecked) {
+        let checked = this.state.checked,
+            details = this.state.details;
         if (isChecked) {    //判断是否选中状态
-            let index = value.inArray(checked);
+            let index = object.value.inArray(checked);
             checked.splice(index,1);    //清除选中
-            this.setState({checked:checked});
+            details.splice(index,1);
+            
         } else {
-            checked.push(value);    //添加选中
-            this.setState({checked:checked});
+            checked.push(object.value);    //添加选中
+            details.push(object);
         }
+        this.setState({checked:checked,details:details});
     }
     render() {
         if (!this.props.show) return null;
         let options = this.props.data.map((obj) => 
             <div key={obj.key}>
-                <Checkbox onClick={this.handleClick} checked={-1 !== obj.value.inArray(this.state.checked)}>{obj.value}</Checkbox>
+                <Checkbox value={obj} onClick={this.handleClick} checked={-1 !== obj.value.inArray(this.state.checked)}>{obj.value}</Checkbox>
             </div>
         );
         return (

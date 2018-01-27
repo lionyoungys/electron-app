@@ -14,7 +14,7 @@ const list = [
     {value:'质检',view:'check'},
     {value:'上挂',view:'put_on'},
     {value:'出厂',view:'out_of_factory'},
-    {value:'取衣',view:null},
+    {value:'取衣',view:'take_off'},
     {value:'返流审核',view:null},
     {value:'新建会员',view:'member'},
     {value:'会员充值',view:null},

@@ -33,7 +33,7 @@ import Check from './Module/check/App';
 import GoBack from './Module/go_back/App';
 import PutOn from './Module/put_on/App';
 import OutOfFactory from './Module/out_of_factory/App';
-
+import TakeOff from './Module/take_off/App';
 
 
 import InfoEditor from './manage/info_editor';
@@ -98,6 +98,8 @@ export default {
     go_back:GoBack,    //返流
     put_on:PutOn,    //上挂
     out_of_factory:OutOfFactory,    //出厂
+    take_off:TakeOff,       //取衣
+
     
     info_editor:InfoEditor,    //信息编辑
     message:Message,    //消息通知
