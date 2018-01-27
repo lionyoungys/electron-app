@@ -1,5 +1,5 @@
 /**
- * 商品添加界面组件
+ * 入厂界面组件
  * @author yangyunlong
  */
 

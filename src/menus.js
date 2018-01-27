@@ -21,7 +21,7 @@ export default [
             {text:'熨烫',key:'ironing'},    //offline_ironing
             {text:'质检',key:'check'},    //offline_check
             {text:'上挂',key:'put_on'},    //registration
-            {text:'出厂',key:null},    //outfactory
+            {text:'出厂',key:'out_of_factory'},    //outfactory
             {text:'取衣',key:null},    //offline_take
             {text:'返流审核',key:null},    //offline_take2
             {text:'会员管理',key:'member'},

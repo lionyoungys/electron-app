@@ -5,7 +5,7 @@ html,body,#root{height:100%;width:100%;min-width:900px;min-height:600px;}
 #root{background:#09b1b0;position: relative;}
 /* 共用元素样式 */
 i{font-style: normal}
-input,textarea,button{outline-color: #09b1b0;-webkit-box-sizing: border-box;box-sizing: border-box;}
+input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-box;box-sizing: border-box;}
 /* 滚动条样式 */
 ::-webkit-scrollbar{width: 5px;height: 5px;}
 ::-webkit-scrollbar-thumb{border-radius: 10px;background: #c6c6c7;}

@@ -13,7 +13,7 @@ const list = [
     {value:'熨烫',view:'ironing'},
     {value:'质检',view:'check'},
     {value:'上挂',view:'put_on'},
-    {value:'出厂',view:null},
+    {value:'出厂',view:'out_of_factory'},
     {value:'取衣',view:null},
     {value:'返流审核',view:null},
     {value:'新建会员',view:'member'},
