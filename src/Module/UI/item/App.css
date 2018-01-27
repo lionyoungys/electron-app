@@ -14,7 +14,7 @@
     line-height: 30px;
     font-size: 16px;
 }
-.item>:nth-child(2),.item>:last-child{
+.item>:nth-child(2),.item>:nth-child(3),.item>:last-child{
     margin-top: 10px;
     display: -webkit-flex;display: flex;
     height: 26px;
@@ -22,7 +22,9 @@
     font-size: 14px;
 }
 .item>:nth-child(2)>:first-child,
+.item>:nth-child(3)>:first-child,
 .item>:last-child>:first-child{
+    display: inline-block;
     width: 60px;
     text-align: right;
     margin-right: 6px;

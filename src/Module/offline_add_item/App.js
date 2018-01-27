@@ -12,6 +12,7 @@ import ItemInfo from '../UI/item_info/App';
 import ItemCost from '../UI/item_cost/App';
 import UploadToast from '../UI/upload-toast/App';
 import Loading from '../UI/loading/App';
+import TakeTime from '../UI/take-time/App';
 import './App.css';
 
 export default class extends React.Component {
@@ -30,7 +31,8 @@ export default class extends React.Component {
             amount:0,
             handleIndex:null,
             trace:null,
-            loadingShow:false
+            loadingShow:false,
+            takeTimeShow:false
         };
         this.handleTabClick = this.handleTabClick.bind(this);
         this.handleClothesClick = this.handleClothesClick.bind(this);
@@ -43,6 +45,7 @@ export default class extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleImageDelete = this.handleImageDelete.bind(this);
         this.handleImageChoose = this.handleImageChoose.bind(this);
+        this.handleTakeTime = this.handleTakeTime.bind(this);
         console.log(this.props.param);
     }
     componentDidMount() {
@@ -99,6 +102,14 @@ export default class extends React.Component {
         if (null !== this.state.handleIndex) {
             this.state.data[this.state.handleIndex].clean_sn = e.target.value;
             this.setState({data:this.state.data});
+        }
+    }
+    handleTakeTime(date, time) {
+        console.log(date);
+        console.log(time);
+        if (null !== this.state.handleIndex) {
+            this.state.data[this.state.handleIndex].take_time = date + ' ' + time;
+            this.setState({data:this.state.data, takeTimeShow:false});
         }
     }
     handleCraftDes(e) {
@@ -158,6 +169,7 @@ export default class extends React.Component {
             tempLen,tempArr;
         for (let i = 0;i < len;++i) {
             if (!tool.isSet(data[i].clean_sn)) return alert('尚有项目未填写衣物编码!');
+            if (!tool.isSet(data[i].take_time)) return alert('尚有项目选择取衣时间');
             if (!tool.isSet(this.state.images[i]) || this.state.images[i].length < 1) return alert('尚有项目未上传图片');
             if (!tool.isSet(data[i].color)) return alert('尚有项目未选择颜色!');
             if (!tool.isSet(data[i].problem)) return alert('尚有项目未选择问题!');
@@ -237,7 +249,7 @@ export default class extends React.Component {
                     </td>
                 </tr>
             );
-        let name = '',sn = '', color = '', problem = '', forecast = '',keep_price = '',craft_price = '',craft_des = '',images = [];
+        let name = '',sn = '', color = '', problem = '', forecast = '',keep_price = '',craft_price = '',craft_des = '',take_time = '',images = [];
         if (null !== this.state.handleIndex) {
             let item = this.state.data[this.state.handleIndex];
             name = item.item_name;
@@ -248,6 +260,7 @@ export default class extends React.Component {
             keep_price = tool.isSet(item.keep_price) ? item.keep_price : '';
             craft_price = tool.isSet(item.craft_price) ? item.craft_price : '';
             craft_des = tool.isSet(item.craft_des) ? item.craft_des : '';
+            take_time = tool.isSet(item.take_time) ? item.take_time : '';
             images = tool.isSet(this.state.images[this.state.handleIndex]) ? this.state.images[this.state.handleIndex] : [];
         }
         return (
@@ -256,7 +269,13 @@ export default class extends React.Component {
                 <div className='m-container'>
                     <div>{tabs}</div>
                     <div className='m-box oai-tab-box'>
-                        <Item name={name} sn={sn} onChange={this.handleSnChange}/>
+                        <Item
+                            name={name}
+                            sn={sn}
+                            take_time={take_time}
+                            onChange={this.handleSnChange}
+                            onClick={() => {null !== this.state.handleIndex && this.setState({takeTimeShow:true})}}
+                        />
                         <ItemInfo
                             color={color}
                             problem={problem}
@@ -313,6 +332,11 @@ export default class extends React.Component {
                     onClose={() => this.setState({uploadShow:false})}
                 />
                 <Loading show={this.state.loadingShow} notice='图片上传中......'/>
+                <TakeTime
+                    show={this.state.takeTimeShow}
+                    onClose={() => this.setState({takeTimeShow:false})}
+                    onClick={this.handleTakeTime}
+                />
             </div>
         );
     }

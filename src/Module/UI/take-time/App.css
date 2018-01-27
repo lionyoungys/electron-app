@@ -1,0 +1,70 @@
+.take-time{
+    width: 600px;
+    height: 280px;
+    background-color: #fff;
+    position: fixed;top: 50%;left: 50%;
+    margin: -140px 0 0 -300px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.take-time>:first-child{
+    height: 40px;
+    line-height: 40px;
+    padding: 0 14px;
+    background-color: #09b1b0;
+    color: #fff;
+    font-size: 18px;
+}
+.take-time>:first-child>.fa-times{
+    position: absolute;
+    top: 6px;right: 14px;
+    font-size: 26px;
+    color: #fff;
+    cursor: default;
+}
+.take-time>:first-child>.fa-times:hover{background: #2cd3d2}
+.take-time>:nth-child(2){
+    height: 200px;
+    padding: 0 14px;
+    margin-top: 20px;
+}
+
+.take-time table{
+    width: 100%;
+    font-size: 14px;
+    text-align: center;
+    border-collapse: collapse;
+}
+.take-time table td{
+    border: 1px solid #e0e0e0;
+}
+.take-time table tr{
+    height: 30px;
+    line-height: 30px;
+}
+.take-time table tr:first-of-type{
+    height: 40px;
+    line-height: 40px;
+}
+.take-time .take-time-option>td{
+    color: #ff9363;
+    cursor: pointer;
+}
+.take-time .take-time-option>td:hover{
+    background-color: #ff9363;
+    color: #fff;
+}
+.take-time .take-time-option>.disabled{
+    color: #999;
+}
+.take-time .take-time-option>.disabled:hover{
+    color: #999;
+    background-color: #fff;
+}
+.take-time .take-time-option>.aside{
+    color: #666;
+}
+.take-time .take-time-option>.aside{
+    color: #666;
+    background-color: #fff;
+}

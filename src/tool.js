@@ -5,6 +5,10 @@
 (window => {
     //去除字符串中的空字符；
     String.prototype.trim = function () {return this.replace(/(^\s*)|(\s*$)/g,'')};
+    String.prototype.toSimpleMonth = function () {
+        let splitArr = this.split('年')[1].split('月');
+        return splitArr[0] + '-' + splitArr[1].replace('日', '');
+    }
     /**
      * 判断字符串是否在指定数组里
      * @param array 数组

@@ -28,6 +28,17 @@ export default class extends React.Component {
                         onChange={this.props.onChange}
                     />
                 </div>
+                <div style={{display:('undefined' === typeof this.props.take_time ? 'none' : 'block')}}>
+                    <label htmlFor='take_time'>取衣时间</label>
+                    <input
+                        className='m-input-small postfix'
+                        type='text'
+                        id='take_time'
+                        readOnly
+                        value={this.props.take_time}
+                        onClick={this.props.onClick}
+                    />
+                </div>
             </div>
         );
     }

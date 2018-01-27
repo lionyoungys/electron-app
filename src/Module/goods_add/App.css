@@ -1,0 +1,17 @@
+.goods-add-cate{
+    font-size: 18px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #eef8ff;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+}
+.goods-add-box{
+    padding: 10px 0;
+    line-height: 30px;
+}
+.goods-add-box>span{
+    margin-right: 10px;
+    display: inline-block;
+    widows: 160px;
+}
