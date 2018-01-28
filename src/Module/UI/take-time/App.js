@@ -35,13 +35,13 @@ export default class extends React.Component {
             html = segment.map( (obj, index) => 
                 <tr key={obj} className='take-time-option'>
                     <td>{obj}</td>
-                    {-1 !== obj.inArray(time[0]) ? <td data-date={date[index]} data-time={obj} onClick={this.handleClick}>可选</td> : <td className='disabled'>不可选</td>}
-                    {-1 !== obj.inArray(time[1]) ? <td data-date={date[index]} data-time={obj} onClick={this.handleClick}>可选</td> : <td className='disabled'>不可选</td>}
-                    {-1 !== obj.inArray(time[2]) ? <td data-date={date[index]} data-time={obj} onClick={this.handleClick}>可选</td> : <td className='disabled'>不可选</td>}
-                    {-1 !== obj.inArray(time[3]) ? <td data-date={date[index]} data-time={obj} onClick={this.handleClick}>可选</td> : <td className='disabled'>不可选</td>}
-                    {-1 !== obj.inArray(time[4]) ? <td data-date={date[index]} data-time={obj} onClick={this.handleClick}>可选</td> : <td className='disabled'>不可选</td>}
-                    {-1 !== obj.inArray(time[5]) ? <td data-date={date[index]} data-time={obj} onClick={this.handleClick}>可选</td> : <td className='disabled'>不可选</td>}
-                    {-1 !== obj.inArray(time[6]) ? <td data-date={date[index]} data-time={obj} onClick={this.handleClick}>可选</td> : <td className='disabled'>不可选</td>}
+                    {-1 !== obj.inArray(time[0]) ? <td data-date={date[0]} data-time={obj} onClick={this.handleClick}>可选</td> : <td className='disabled'>不可选</td>}
+                    {-1 !== obj.inArray(time[1]) ? <td data-date={date[1]} data-time={obj} onClick={this.handleClick}>可选</td> : <td className='disabled'>不可选</td>}
+                    {-1 !== obj.inArray(time[2]) ? <td data-date={date[2]} data-time={obj} onClick={this.handleClick}>可选</td> : <td className='disabled'>不可选</td>}
+                    {-1 !== obj.inArray(time[3]) ? <td data-date={date[3]} data-time={obj} onClick={this.handleClick}>可选</td> : <td className='disabled'>不可选</td>}
+                    {-1 !== obj.inArray(time[4]) ? <td data-date={date[4]} data-time={obj} onClick={this.handleClick}>可选</td> : <td className='disabled'>不可选</td>}
+                    {-1 !== obj.inArray(time[5]) ? <td data-date={date[5]} data-time={obj} onClick={this.handleClick}>可选</td> : <td className='disabled'>不可选</td>}
+                    {-1 !== obj.inArray(time[6]) ? <td data-date={date[6]} data-time={obj} onClick={this.handleClick}>可选</td> : <td className='disabled'>不可选</td>}
                 </tr>
             );
         return (

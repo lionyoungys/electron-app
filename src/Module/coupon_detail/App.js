@@ -23,9 +23,9 @@ export default class extends React.Component {
 
     render() {
         let type = 1 == this.props.param.type ? '充值卡' : '优惠券',
-            html = this.state.data.map(obj => 
+            html = this.state.data.map( (obj, index) => 
             <tr className='m-text-c bd-lightgrey' key={obj.id}>
-                <td>{obj.id}</td>
+                <td>{index + 1}</td>
                 <td>{type}</td>
                 <td>{obj.end_time}</td>
                 <td>{obj.sn}</td>

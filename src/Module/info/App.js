@@ -118,7 +118,7 @@ export default class extends React.Component {
         data.module = module.length > 0 ? module.toString() : <span>&emsp;</span>;
         if (this.state.isEditor) {
             data.number = (<input type='text' value={this.state.merchant.phone_number} data-key='phone_number' onChange={this.handleChange}/>);
-            data.range = (<input type='text' value={this.state.merchant.mrange} data-key='mrange' onChange={this.handleChange}/>);
+            data.range = (<span><input type='text' value={this.state.merchant.mrange} data-key='mrange' onChange={this.handleChange}/>&nbsp;km</span>);
             data.freight = (<input type='text' value={this.state.merchant.freight_price} data-key='freight_price' onChange={this.handleChange}/>);
             data.freeNum = (<input type='text' value={this.state.merchant.freight_free_num} data-key='freight_free_num' onChange={this.handleChange}/>);
             data.freeAmount = (<input type='text' value={this.state.merchant.freight_free_amount} data-key='freight_free_amount' onChange={this.handleChange}/>);

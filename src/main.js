@@ -186,7 +186,8 @@ class Menu extends Component {
         let props = this.props,
             isUp = this.state.isUp,
             isShowOrders = 'order' == props.id && props.orders > 0,
-            tag = ('order' == props.id ? <i className='tag'>0</i> : null),
+            //tag = ('order' == props.id ? <i className='tag'>0</i> : null),
+            tag = null,
             status = isUp ? 'main-shrink' : 'main-spread',    //判断当前大选项是否为选中状态
             optStatus = {display:isUp ? 'none' : 'block'},
             options = props.options.map((obj, index) => 

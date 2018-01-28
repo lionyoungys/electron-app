@@ -71,6 +71,7 @@ export default class extends React.Component {
             <tr className='m-text-c bd-lightgrey' key={obj.id}>
                 <td>{obj.make_time}</td>
                 <td>{1 == obj.type ? '充值卡' : '优惠券'}</td>
+                <td>{obj.make_value}</td>
                 <td>{obj.used_count}/{obj.make_count}</td>
                 <td>
                     <button
@@ -96,7 +97,7 @@ export default class extends React.Component {
                         <span ref={input => this.input = input} className='m-select-postfix'>{this.state.date}&emsp;&emsp;</span>
                     </div>
                     <table className='m-table'>
-                        <thead><tr className='m-text-c bd-lightgrey m-bg-white'><th>制作日期</th><th>类型</th><th>张数</th><th>操作</th></tr></thead>
+                        <thead><tr className='m-text-c bd-lightgrey m-bg-white'><th>制作日期</th><th>类型</th><th>面值</th><th>张数</th><th>操作</th></tr></thead>
                         <tbody>{html}</tbody>
                     </table>
                 </div>
