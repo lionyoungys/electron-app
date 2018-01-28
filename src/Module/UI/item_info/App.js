@@ -21,15 +21,8 @@ export default class extends React.Component {
                     <input className='m-input-small long postfix' type='text' readOnly value={this.props.problem}  onClick={this.props.handleProblem}/>
                 </div>
                 <div>
-                    <label htmlFor='item_forecast'>洗后预估</label>
-                    <input
-                        className='m-input-small long'
-                        type='text'
-                        id='item_forecast'
-                        readOnly
-                        value={this.props.forecast}
-                        onClick={this.props.handleForecast}
-                    />
+                    <label>洗后预估</label>
+                    <input className='m-input-small long postfix' type='text' readOnly value={this.props.forecast} onClick={this.props.handleForecast}/>
                 </div>
             </div>
         );
