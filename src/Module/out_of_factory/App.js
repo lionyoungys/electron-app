@@ -107,7 +107,7 @@ export default class extends React.Component {
         );
         return (
             <div>
-                <Crumb data={[{key:0,value:'入厂'}]} callback={this.props.changeView}/>
+                <Crumb data={[{key:0,value:'出厂'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div className='clean-box'>
                         <div>选择门店：<select onChange={this.handleChange} value={this.state.teamId}>{options}</select></div>
