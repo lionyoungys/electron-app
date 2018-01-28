@@ -278,8 +278,7 @@
      * @return currentDate
      */
     t.currentDate = function (format, timestamp) {
-
-        let currentDate = this.isSet(timestamp) ? new Date( Number(timestamp) ) : new Date();
+        let currentDate = this.isSet(timestamp) ? new Date( Number(timestamp) * 1000 ) : new Date();
         if ('undefined' !== typeof format) {
             let year = currentDate.getFullYear(),
                 month = (currentDate.getMonth() + 1),

@@ -18,13 +18,16 @@ export default class extends React.Component {
             category:[],
             item:[],
             index:0,
+            itemAmount:0,
             clothesShow:false,
             clothes:[],
             type:null,
             data:[],
             amount:0,
             handleIndex:null,
-            trace:null
+            trace:null,
+            freightData:{},
+            freightPrice:0
         };
         this.handleTabClick = this.handleTabClick.bind(this);
         this.handleClothesClick = this.handleClothesClick.bind(this);
@@ -35,17 +38,17 @@ export default class extends React.Component {
         this.handleCraftPrice = this.handleCraftPrice.bind(this);
         this.handleKeepPrice = this.handleKeepPrice.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.reloadAmount = this.reloadAmount.bind(this);
     }
     componentDidMount() {
         axios.post(api.U('take_piece'),api.D({token:this.props.token,oid:this.props.param}))
         .then(response => {
             if (api.V(response.data)) {
+                console.log(response.data);
                 let result = response.data.result,
                     len = result.length,
                     tempLen = 0,
-                    itemCount = 0,
-                    amount = 0;
-                console.log(result);
+                    itemCount = 0;
                 for (let i = 0;i < len;++i) {
                     this.state.category.push({key:i,value:result[i].cate_name});
                     this.state.item.push(result[i].items);
@@ -54,21 +57,48 @@ export default class extends React.Component {
                         itemCount = result[i].items[j].item_count;
                         if (itemCount > 0) {
                             for (let c = 0;c < itemCount;++c) {
-                                amount = tool.sum(amount, result[i].items[j].item_real_price);
                                 this.state.data.push( tool.getObjectByValue(result[i].items[j]) );
                             }
                         }
                     }
                 }
-                this.setState({category:this.state.category,item:this.state.item,data:this.state.data,amount:amount});
+                this.setState({
+                    category:this.state.category,
+                    item:this.state.item,
+                    data:this.state.data,
+                    freightData:response.data.freight
+                });
+                this.reloadAmount();
             }
         });
+    }
+    reloadAmount() {
+        let data = this.state.data,
+            len = data.length, 
+            freightData = this.state.freightData,
+            freightPrice = 0,
+            itemAmount = 0,
+            amount = 0;
+        for (let i = 0;i < len;++i) {
+            amount = tool.sum(
+                amount,
+                data[i].item_real_price,
+                (tool.isSet(data[i].keep_price) ? data[i].keep_price : 0),
+                (tool.isSet(data[i].craft_price) ? data[i].craft_price: 0)
+            );
+            itemAmount = tool.sum(itemAmount, data[i].item_real_price);
+        }
+        let validation = (0 != freightData.freight_free_num && 0 != freightData.freight_free_amount),
+            validation2 = (len < freightData.freight_free_num && itemAmount < freightData.freight_free_amount);
+        if (validation && validation2) freightPrice = freightData.freight_price;
+        this.setState({amount:tool.sum(amount, freightPrice), itemAmount:itemAmount, freightPrice:freightPrice});
     }
     handleDeleteClick(dom, index) {
         if (tool.isSet(dom)) {
             dom.onclick = (e => {
                 this.state.data.splice(index, 1);
                 this.setState({data:this.state.data,handleIndex:null});
+                this.reloadAmount();
                 e.stopPropagation()
             });
         }
@@ -82,9 +112,9 @@ export default class extends React.Component {
             clothesShow:false,
             trace:'color',
             type:'color',
-            handleIndex:(this.state.data.length - 1),
-            amount:( tool.sum(this.state.amount,item.item_real_price) )
+            handleIndex:(this.state.data.length - 1)
         });
+        this.reloadAmount();
     }
     handleSnChange(e) {
         if (null !== this.state.handleIndex) {
@@ -104,14 +134,17 @@ export default class extends React.Component {
             if (isNaN(value)) return;
             this.state.data[this.state.handleIndex].craft_price = value;
             this.setState({data:this.state.data});
+            this.reloadAmount();
         }
     }
     handleKeepPrice(e) {
         if (null !== this.state.handleIndex) {
             let value = e.target.value;
             if (isNaN(value)) return;
-            this.state.data[this.state.handleIndex].keep_price = value;
+            this.state.data[this.state.handleIndex].keep_amount = value;
+            this.state.data[this.state.handleIndex].keep_price = ( Math.floor(value * 100 / 200) / 100 );
             this.setState({data:this.state.data});
+            this.reloadAmount();
         }
     }
     handleProblemSubmit(value, options) {
@@ -180,7 +213,7 @@ export default class extends React.Component {
                     </td>
                 </tr>
             );
-        let name = '',sn = '', color = '', problem = '', forecast = '',keep_price = '',craft_price = '',craft_des = '';
+        let name = '',sn = '', color = '', problem = '', forecast = '',keep_price = '',keep_amount = '',craft_price = '',craft_des = '';
         if (null !== this.state.handleIndex) {
             let item = this.state.data[this.state.handleIndex];
             name = item.item_name;
@@ -189,6 +222,7 @@ export default class extends React.Component {
             problem = tool.isSet(item.problem) ? tool.objToString(item.problem): '';
             forecast = tool.isSet(item.forecast) ? tool.objToString(item.forecast): '';
             keep_price = tool.isSet(item.keep_price) ? item.keep_price : '';
+            keep_amount = tool.isSet(item.keep_amount) ? item.keep_amount : '';
             craft_price = tool.isSet(item.craft_price) ? item.craft_price : '';
             craft_des = tool.isSet(item.craft_des) ? item.craft_des : '';
         }
@@ -208,7 +242,7 @@ export default class extends React.Component {
                             handleForecast={() => ( null !== this.state.handleIndex && this.setState({type:'forecast'}) )}
                         />
                         <ItemCost
-                            keep_price={keep_price}
+                            keep_price={keep_amount}
                             craft_price={craft_price}
                             craft_des={craft_des}
                             handleKeepPrice={this.handleKeepPrice}
@@ -226,6 +260,10 @@ export default class extends React.Component {
                     </div>
                     <div className='m-box'>
                         共&nbsp;<span className='m-red'>{this.state.data.length}</span>&nbsp;件
+                        &emsp;
+                        运费：<span className='m-red'>{this.state.freightPrice}</span>
+                        &emsp;
+                        项目价格：<span className='m-red'>{this.state.itemAmount}</span>
                         &emsp;
                         总价：<span className='m-red'>{this.state.amount}</span>
                     </div>
