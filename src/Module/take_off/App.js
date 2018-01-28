@@ -48,17 +48,17 @@ export default class extends React.Component{
 
     onTakePayRequest(e) {
         let id = e.target.dataset.id,
-            payState = e.target.dataset.pay_state;
+            payState = e.target.dataset.state;
         if (1 != payState) {
+            this.props.changeView({view:'order_pay',param:{oid:id,value:'取衣',view:'take_off'}});
+        } else {
             axios.post(api.U('take_it_off'),api.D({token:this.props.token,orderid:id,moduleid:100,type:2}))
             .then(response => {
-                console.log(response.data);
                 if (api.V(response.data)) {
-                    this.props.changeView({view:'order_pay',param:id});
+                    this.query();
                 } else {
-                    confirm(response.data.msg) && this.props.changeView({view:'order_pay',param:id});
+                    alert(response.data.msg);
                 }
-                
             });
         }
     }
@@ -130,7 +130,7 @@ export default class extends React.Component{
                             data-state={obj.pay_state}
                             data-id={obj.id}
                             onClick={this.onTakePayRequest}
-                        >取衣付款</button>
+                        >{1 == obj.pay_state ? '取衣结单' : '立即付款'}</button>
                     </td>
                 </tr> 
             

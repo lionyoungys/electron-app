@@ -44,15 +44,11 @@ export default class extends Component {
             specialVerifyShow:false,
             freeVerifyShow:false,
             smsCode:'',
-            specialAmount:0,
-
-
-            realAmount:0,payment:'',
-            reduce:10,reduceAmount:0,voucher:0,voucher_id:null,
-            vipBalance:0,merchantBalance:0,
-            vipDiscount:10,merchantDiscount:10,vip_id:null,
-            isShow:false,paymentStatus:'payment',user_id:null,
+            specialAmount:0
         };
+        this.oid = this.props.param.oid;
+        this.value = this.props.param.value;
+        this.view = this.props.param.view;
         this.gateway = ['PLATFORM','MERCHANT','CASH','WechatPay_Pos','Alipay_AopF2F'];
         this.useCoupon = this.useCoupon.bind(this);    //使用优惠券
         this.calculate = this.calculate.bind(this);    //计算价格方法
@@ -67,7 +63,7 @@ export default class extends Component {
     }
 
     componentDidMount() {
-        axios.post(api.U('pay_order'),api.D({token:this.props.token,oid:this.props.param}))
+        axios.post(api.U('pay_order'),api.D({token:this.props.token,oid:this.oid}))
         .then(response => {
             if (api.V(response.data)) {
                 let result = response.data.result;
@@ -279,7 +275,7 @@ export default class extends Component {
                 token:this.props.token,
                 sn:this.state.sn,
                 sms_code:smsCode,
-                oid:this.props.param,
+                oid:this.oid,
                 gateway:this.gateway[this.state.checked],
                 reduce:reduce,
                 auth_code:authCode,
@@ -291,7 +287,7 @@ export default class extends Component {
                 ipcRenderer.send(
                     'print-silent',
                     'public/prints/index.html',
-                    {token:this.props.token,oid:this.props.param,url:api.U('order_print')}
+                    {token:this.props.token,oid:this.oid,url:api.U('order_print')}
                 );
                 this.props.changeView({view:'index'});
                 //支付成功
@@ -309,7 +305,7 @@ export default class extends Component {
         let state = this.state;
         return (
             <div>
-                <Crumb data={[{key:0,value:'添加项目'},{key:1,value:'订单支付'}]} callback={this.props.changeView}/>
+                <Crumb data={[{key:0,value:this.value,view:this.view},{key:1,value:'订单支付'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div className='order-pay-box'>
                         <div>
