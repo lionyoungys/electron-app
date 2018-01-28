@@ -41,7 +41,7 @@ export default class extends React.Component{
         laydate.render({
             elem:this.input,
             value:'1980-01-01',
-            min:'1980-01-01',max:0,
+            min:'1950-01-01',max:0,
             btns: ['now', 'confirm'],
             theme:'#ff6e42',
             done:(value => this.setState({birthday:value}))

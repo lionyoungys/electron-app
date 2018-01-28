@@ -44,7 +44,7 @@ export default class extends React.Component {
         if (!this.props.show) return null;
         let options = this.props.data.map((obj) => 
             <div key={obj.key}>
-                <Checkbox value={obj} onClick={this.handleClick} checked={-1 !== obj.value.inArray(this.state.checked)}>{obj.value}</Checkbox>
+                <Checkbox value={obj} onClick={this.handleClick} checked={-1 !== obj.key.inObjectArray(this.state.details, 'key')}>{obj.value}</Checkbox>
             </div>
         );
         return (

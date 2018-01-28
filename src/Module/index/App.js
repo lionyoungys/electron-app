@@ -6,18 +6,18 @@
 import React from 'react';
 import './App.css';
 const list = [
-    {value:'收件',view:'take'},
-    {value:'入厂',view:'in_factory'},
-    {value:'清洗',view:'clean'},
-    {value:'烘干',view:'dry'},
-    {value:'熨烫',view:'ironing'},
-    {value:'质检',view:'check'},
-    {value:'上挂',view:'put_on'},
-    {value:'出厂',view:'out_of_factory'},
-    {value:'取衣',view:'take_off'},
-    {value:'返流审核',view:null},
-    {value:'新建会员',view:'member'},
-    {value:'会员充值',view:null},
+    {key:0,value:'收件',view:'take'},
+    {key:1,value:'入厂',view:'in_factory'},
+    {key:2,value:'清洗',view:'clean'},
+    {key:3,value:'烘干',view:'dry'},
+    {key:4,value:'熨烫',view:'ironing'},
+    {key:5,value:'质检',view:'check'},
+    {key:6,value:'上挂',view:'put_on'},
+    {key:7,value:'出厂',view:'out_of_factory'},
+    {key:8,value:'取衣',view:'take_off'},
+    {key:9,value:'返流审核',view:null},
+    {key:10,value:'新建会员',view:null},
+    {key:11,value:'会员充值',view:null},
 ];
 
 
@@ -34,7 +34,7 @@ export default class extends React.Component {
             top.push(
                 <div 
                     onClick={this.props.changeView}
-                    key={list[i].view}
+                    key={list[i].key}
                     data-view={list[i].view}
                 >{list[i].value}</div>
             );
@@ -44,8 +44,8 @@ export default class extends React.Component {
             bottom.push(
                 <div 
                     onClick={this.props.changeView}
-                    key={list[i].view}
-                    // className='disabled'
+                    key={list[i].key}
+                    data-key={list[i].key}
                     data-view={list[i].view}
                 >{list[i].value}</div>
             );
