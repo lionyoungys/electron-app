@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import {AddMember, UpdateOrCharge} from '../UI/member-toast/App';
 import './App.css';
 const list = [
     {key:0,value:'收件',view:'take'},
@@ -16,8 +17,8 @@ const list = [
     {key:7,value:'出厂',view:'out_of_factory'},
     {key:8,value:'取衣',view:'take_off'},
     {key:9,value:'返流审核',view:null},
-    {key:10,value:'新建会员',view:null},
-    {key:11,value:'会员充值',view:null},
+    {key:10,value:'新建会员'},
+    {key:11,value:'会员充值'},
 ];
 
 
@@ -25,7 +26,16 @@ const list = [
 export default class extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {currentData:[],previousData:[]};
+        this.state = {currentData:[],previousData:[],otherShow:false,addMemberShow:false};
+        this.handleToast = this.handleToast.bind(this);
+    }
+
+    handleToast(e) {
+        if (10 == e.target.dataset.key) {
+            this.setState({addMemberShow:true});
+        } else {
+            this.setState({otherShow:true});
+        }
     }
 
     render() {
@@ -43,10 +53,9 @@ export default class extends React.Component {
         for (let i = topLen;i < len;++i) {
             bottom.push(
                 <div 
-                    onClick={this.props.changeView}
                     key={list[i].key}
                     data-key={list[i].key}
-                    data-view={list[i].view}
+                    onClick={this.handleToast}
                 >{list[i].value}</div>
             );
         }
@@ -56,6 +65,19 @@ export default class extends React.Component {
                 <div className='index'>{top}</div>
                 <div className='index'></div>
 	    		<div className='index'>{bottom}</div>
+                <AddMember 
+                    show={this.state.addMemberShow} 
+                    token={this.props.token}
+                    onClose={() => this.setState({addMemberShow:false})}
+                    changeView={this.props.changeView}
+                />
+                <UpdateOrCharge 
+                    show={this.state.otherShow} 
+                    token={this.props.token}
+                    onCancelRequest={() => this.setState({otherShow:false})}
+                    type='1'
+                    changeView={this.props.changeView}
+                />
 	        </div>
     	)
    }

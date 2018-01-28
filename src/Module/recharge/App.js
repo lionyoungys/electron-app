@@ -147,7 +147,7 @@ export default class extends React.Component{
         let cards = this.state.data.cards;
         return (
             <div>
-                <Crumb data={[{key:0,value:'会员管理',view:'member'},{key:1,text:'会员充值'}]} callback={this.props.changeView}/>
+                <Crumb data={[{key:0,value:'会员管理',view:'member'},{key:1,value:'会员充值'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div style={style}>核对会员信息</div>
                     <table className='m-table' style={{marginBottom:'20px'}}>
