@@ -44,10 +44,6 @@ import Award from './manage/award';
 import Operate from './manage/operate';
 import OrderDetail from './order/order_detail';
 import Teamwork from './manage/teamwork';
-import OfflineClean from './offline/offline_clean'
-import OfflineDrying from './offline/offline_drying'
-import OfflineIroning from './offline/offline_ironing'
-import OfflineCheck from './offline/offline_check'
 import Registration from './offline/registration';
 import OutFactory from './offline/outfactory';
 import OfflineTake from './offline/offline_take';
@@ -108,10 +104,6 @@ export default {
     operate:Operate,    //经营分析
     order_detail:OrderDetail,    //订单详情
     teamwork:Teamwork,    //合作门店
-    offline_clean:OfflineClean,    //送洗
-    offline_drying:OfflineDrying,    //烘干
-    offline_ironing:OfflineIroning,    //熨烫
-    offline_check:OfflineCheck,    //质检
     registration:Registration,    //上挂
     outfactory:OutFactory,    //出厂
     offline_take:OfflineTake,    //取衣
