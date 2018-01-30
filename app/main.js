@@ -122,7 +122,7 @@ function createWindow(name, windowStyle, uri) {
         slashes: true
     }));
     //打开开发者工具
-    //win[name].webContents.openDevTools();
+    win[name].webContents.openDevTools();
     //当window关闭时取消引用
     win[name].on('closed', () => {
         win[name] = null;
