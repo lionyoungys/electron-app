@@ -1,5 +1,5 @@
 /**
- * 商品管理界面组件
+ * 返流界面组件
  * @author yangyunlong
  */
 
