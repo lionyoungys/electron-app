@@ -16,7 +16,7 @@ const list = [
     {key:6,value:'上挂',view:'put_on'},
     {key:7,value:'出厂',view:'out_of_factory'},
     {key:8,value:'取衣',view:'take_off'},
-    {key:9,value:'返流审核',view:null},
+    {key:9,value:'返流审核',view:'go_back_check'},
     {key:10,value:'新建会员'},
     {key:11,value:'会员充值'},
 ];
