@@ -35,6 +35,7 @@ import PutOn from './Module/put_on/App';
 import OutOfFactory from './Module/out_of_factory/App';
 import TakeOff from './Module/take_off/App';
 import GoBackCheck from './Module/go_back_check/App';
+import Teamwork from './Module/teamwork/App';
 
 
 import InfoEditor from './manage/info_editor';
@@ -44,7 +45,6 @@ import Comment from './manage/comment';
 import Award from './manage/award';
 import Operate from './manage/operate';
 import OrderDetail from './order/order_detail';
-import Teamwork from './manage/teamwork';
 import Registration from './offline/registration';
 import OutFactory from './offline/outfactory';
 import OfflineTake from './offline/offline_take';
@@ -97,7 +97,7 @@ export default {
     out_of_factory:OutOfFactory,    //出厂
     take_off:TakeOff,       //取衣
     go_back_check:GoBackCheck,    //返流审核
-    
+    teamwork:Teamwork,    //合作门店
 
 
     
@@ -107,7 +107,6 @@ export default {
     award:Award,    //返现记录
     operate:Operate,    //经营分析
     order_detail:OrderDetail,    //订单详情
-    teamwork:Teamwork,    //合作门店
     registration:Registration,    //上挂
     outfactory:OutFactory,    //出厂
     offline_take:OfflineTake,    //取衣

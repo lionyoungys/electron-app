@@ -1,0 +1,46 @@
+.teamwork-logo{
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+}
+.teamwork-query{
+    position: absolute;
+    right: 0;bottom: -310px;
+    background-color: #fff;
+    width: 282px;
+    height: 300px;
+    border: 1px solid #09b1b0;
+}
+.teamwork-query>i.fa-times{
+    position: absolute;
+    top: 2px;right: 10px;
+    font-size: 22px;
+    color: #fff;
+}
+.teamwork-query>i.fa-times:hover{background: #2cd3d2;cursor: default}
+.teamwork-query>div:first-of-type{
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    color: #fff;
+    background-color: #09b1b0;
+    text-align: left;
+}
+.teamwork-query>.body{
+    height: 250px;
+    padding: 10px;
+}
+.teamwork-query>.body>div{position: relative}
+.teamwork-query>.body>div>:first-child{
+    margin-right: 10px;
+    height: 27px;
+    vertical-align: middle;
+}
+.teamwork-query>.body .query-result{
+    width: 197px;
+    height: 220px;
+    position: absolute;
+    left: 1px;bottom: -220px;
+    border: 1px solid #ccc;
+    border-top: 0;
+}
