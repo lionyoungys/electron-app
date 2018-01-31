@@ -1,0 +1,35 @@
+.go-back-title{
+    display: -webkit-flex;display: flex;
+    justify-content: space-between;
+    background-color: #eef8ff;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+.go-back-box{
+    display: -webkit-flex;display: flex;
+    flex-wrap: wrap;
+    line-height: 30px;
+    margin-bottom: 10px;
+}
+.go-back-box>:first-child{
+    width: 120px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.go-back-box>.m-img-box{
+    margin-right: 10px;
+}
+.go-back-box>.m-img-box:last-child{
+    margin-right: 0;
+}
+.go-back-box>.textarea{width: 400px;height: 100px;position: relative;}
+.go-back-box>.textarea>textarea{
+    width: 100%;
+    height: 100%;
+    border: 1px solid #ccc;
+    resize: none;
+}

@@ -1,0 +1,35 @@
+.go-back-check{
+    margin-bottom: 20px;
+}
+.go-back-check>div{
+    line-height: 30px;
+}
+.go-back-check>:first-child{
+    display: -webkit-flex;display: flex;
+    justify-content: space-between;
+    background-color: #eef8ff;
+    height: 30px;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+.go-back-check>:nth-child(2){
+    display: -webkit-flex;display: flex;
+    flex-wrap: wrap;
+}
+.go-back-check>:nth-child(2)>:first-child,
+.go-back-check>:nth-child(3)>:first-child,
+.go-back-check>:nth-child(4)>:first-child,
+.go-back-check>:nth-child(5)>:first-child
+{
+    display: inline-block;
+    width: 120px;
+    text-align: right;
+    margin-right: 10px;
+}
+.go-back-check>:nth-child(2)>img{
+    width: 80px;
+    height: 80px;
+    margin: 0 10px 10px 0;
+}
+.go-back-check>:nth-child(2)>img:last-child{margin-right: 0;}
