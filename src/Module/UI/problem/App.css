@@ -1,6 +1,7 @@
 .problem{
     width: 700px;
     height: 580px;
+    background-color: #fff;
     position: fixed;
     top: 50%;left: 50%;
     margin: -290px 0 0 -350px;
@@ -27,7 +28,6 @@
 .problem>div:nth-child(2){
     height: 390px;
     padding: 10px;
-    background: #fff;
     overflow-y: auto;
     display:-webkit-flex;display: flex;
     flex-wrap: wrap;

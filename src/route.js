@@ -36,6 +36,7 @@ import OutOfFactory from './Module/out_of_factory/App';
 import TakeOff from './Module/take_off/App';
 import GoBackCheck from './Module/go_back_check/App';
 import Teamwork from './Module/teamwork/App';
+import Link from './Module/link/App';
 
 
 import InfoEditor from './manage/info_editor';
@@ -98,6 +99,7 @@ export default {
     take_off:TakeOff,       //取衣
     go_back_check:GoBackCheck,    //返流审核
     teamwork:Teamwork,    //合作门店
+    link:Link,         //连锁门店
 
 
     

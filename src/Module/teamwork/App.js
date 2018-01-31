@@ -13,6 +13,7 @@ export default class extends Component {
         super(props);
         this.state = {data:[],show:false};
         this.query = this.query.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -24,6 +25,16 @@ export default class extends Component {
             api.V(response.data) && this.setState({data:response.data.result,show:false});
         });
     }
+    handleClick(e) {
+        axios.post(api.U('teamwork_del'), api.D({token:this.props.token,ids:e.target.dataset.id}))
+        .then(response => {
+            if (api.V(response.data)) {
+                this.query();
+            } else {
+                alert(response.data.msg);
+            }
+        });
+    }
 
     render() {
         let html = this.state.data.map(obj => 
@@ -32,6 +43,7 @@ export default class extends Component {
                 <td>{obj.accept_id}</td>
                 <td>{obj.phone_number}</td>
                 <td>{obj.maddress}</td>
+                <td><button type='button' className='m-btn editor' data-id={obj.accept_id} onClick={this.handleClick}>删除</button></td>
             </tr>
         );
         return (
@@ -44,7 +56,7 @@ export default class extends Component {
                     </div>
                     <div className='m-box'>
                         <table className='m-table m-text-c'>
-                            <thead><tr className='bd-lightgrey m-bg-white'><th>名称</th><th>编号</th><th>手机号</th><th>地址</th></tr></thead>
+                            <thead><tr className='bd-lightgrey m-bg-white'><th>名称</th><th>编号</th><th>手机号</th><th>地址</th><th>编辑</th></tr></thead>
                             <tbody>{html}</tbody>
                         </table>
                     </div>
