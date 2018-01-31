@@ -37,6 +37,7 @@ import TakeOff from './Module/take_off/App';
 import GoBackCheck from './Module/go_back_check/App';
 import Teamwork from './Module/teamwork/App';
 import Link from './Module/link/App';
+import Chart from './Module/chart/App';
 
 
 import InfoEditor from './manage/info_editor';
@@ -44,7 +45,6 @@ import Message from './manage/message';
 import Finance from './manage/finance';
 import Comment from './manage/comment';
 import Award from './manage/award';
-import Operate from './manage/operate';
 import OrderDetail from './order/order_detail';
 import Registration from './offline/registration';
 import OutFactory from './offline/outfactory';
@@ -54,12 +54,8 @@ import MemberRechargeRecord from './member/member_recharge_record';
 import OfflineStatistic from './offline/offline_statistic';
 import OfflineAddMember from './member/offline_add_member';
 import OfflineAddCompany from './member/offline_add_company';
-//import MemberRecharge from './member/member_recharge';
 import OfflineOrderDetail from './offline/offline_order_detail';
-import OfflineCraft from './offline/offline_craft';
 import OfflineEditor from './offline/offline_editor';
-import After from './order/after';
-import OnlineEditor from './order/online_editor';
 export default {
     index:Index,    //首页
     passwd:Passwd,    //修改密码
@@ -100,6 +96,7 @@ export default {
     go_back_check:GoBackCheck,    //返流审核
     teamwork:Teamwork,    //合作门店
     link:Link,         //连锁门店
+    chart:Chart,    //经营分析
 
 
     
@@ -107,7 +104,6 @@ export default {
     message:Message,    //消息通知
     comment:Comment,    //用户评价
     award:Award,    //返现记录
-    operate:Operate,    //经营分析
     order_detail:OrderDetail,    //订单详情
     registration:Registration,    //上挂
     outfactory:OutFactory,    //出厂
@@ -118,9 +114,6 @@ export default {
     offline_add_member:OfflineAddMember,    //新增个人会员
     offline_add_company:OfflineAddCompany,    //新增企业会员
     offline_order_detail:OfflineOrderDetail,    //线下订单详情
-    offline_craft:OfflineCraft,    //线下工艺加价界面
     offline_editor:OfflineEditor,    //线下工艺加价编辑界面
-    after:After,    //洗后预估界面
-    online_editor:OnlineEditor,    //线上编辑界面
     
 }

@@ -5,7 +5,6 @@
 
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {MyChart} from './static/UI';
 import menus from './menus';
 import route from './route';
 import './api';    //注册全局api对象
@@ -31,7 +30,7 @@ class Main extends Component {
             option:null,  //菜单栏样式状态
             view:'index',param:null    //右侧展示样式状态 附带参数
         };
-        this.interval = null;
+        // this.interval = null;
         this.changeView = this.changeView.bind(this);
         this.toggle = this.toggle.bind(this);
     }
@@ -48,13 +47,13 @@ class Main extends Component {
                 count:result.order_count    //有效订单
             });         
         });
-        setInterval(() => {
-            axios.post(api.U('index'),api.D({token:token}))
-            .then((response)=>{
-                let result = response.data.result;
-                this.setState({count:result.order_count});         
-            });
-        }, 60000);
+        // setInterval(() => {
+        //     axios.post(api.U('index'),api.D({token:token}))
+        //     .then((response)=>{
+        //         let result = response.data.result;
+        //         this.setState({count:result.order_count});         
+        //     });
+        // }, 60000);
     }
 
     componentWillUnmount() {
