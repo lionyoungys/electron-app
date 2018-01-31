@@ -34,13 +34,27 @@
 .teamwork-query>.body>div>:first-child{
     margin-right: 10px;
     height: 27px;
+    width: 200px;
+    font-size: 14px;
     vertical-align: middle;
 }
 .teamwork-query>.body .query-result{
-    width: 197px;
+    width: 198px;
     height: 220px;
     position: absolute;
-    left: 1px;bottom: -220px;
+    bottom: -220px;
     border: 1px solid #ccc;
     border-top: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.teamwork-query>.body .query-result>div{
+    font-size: 14px;
+    line-height: 30px;
+    text-align: left;
+    padding: 0 10px;
+}
+.teamwork-query>.body .query-result>div:hover{
+    background-color: #04ecec;
+    cursor: pointer;
 }
