@@ -55,6 +55,7 @@ export default class extends React.Component{
             axios.post(api.U('take_it_off'),api.D({token:this.props.token,orderid:id,moduleid:100,type:2}))
             .then(response => {
                 if (api.V(response.data)) {
+                    alert('操作成功');
                     this.query();
                 } else {
                     alert(response.data.msg);
