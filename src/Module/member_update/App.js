@@ -57,7 +57,6 @@ export default class extends Component{
         let data = this.state.data;
         if (data.umobile.match(/^1\d{10}$/) === null) return;
         if ('' == data.uname) return;
-        if ('' == data.birthday) return;
         if (isNaN(data.cdiscount) || data.cdiscount > 10 || data.cdiscount <= 0) return;
         this.setState({show:true});
     }

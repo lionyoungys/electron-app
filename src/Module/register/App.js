@@ -38,21 +38,12 @@ export default class extends React.Component {
             })
         )
         .then((response) => {
-        	console.log(response);
-            let result = response.data;
-            
-//          if (api.verify(result)) {
-//              let user = result.user;
-//              axios.post(api.U('createOrder'),api.data({token:props.token,uid:user}))
-//              .then((res) => {
-//                  let orderId = res.data.data.order_id;
-//                 
-//              });
-                //this.props.changeView({element:'item'})
-                //props.changeView({element:'item',param:'id=' + orderId + '&from=offline'})
+            if (api.V(response.data)) {
+                this.props.changeView({view:'offline_add_item', param:response.data.uid});
+            } else {
+                alert(response.data.msg);
             }
-        )
-
+        })
     }
 
     render() {
