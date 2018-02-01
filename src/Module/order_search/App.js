@@ -20,6 +20,7 @@ export default class extends React.Component {
         this.handleQuery = this.handleQuery.bind(this);
         this.itemsToHtml = this.itemsToHtml.bind(this);
         this.handlePage = this.handlePage.bind(this);
+        this.redirect = this.redirect.bind(this);
     }
 
     componentDidMount() {this.handleQuery();}
@@ -77,6 +78,10 @@ export default class extends React.Component {
         );
     }
 
+    redirect(e) {
+        this.props.changeView({view:'detail',param:{value:'订单查询',view:'order_search',id:e.target.dataset.id}});
+    }
+
     render() {
         let tabs = this.tab.map(obj => 
             <span
@@ -88,7 +93,7 @@ export default class extends React.Component {
         );
         let html = this.state.data.map(obj => 
             <tr className='bd-lightgrey' key={obj.id}>
-                <td className='m-blue-h'>{obj.ordersn}</td>
+                <td className='m-blue-h' data-id={obj.id} onClick={this.redirect}>{obj.ordersn}</td>
                 <td>{this.itemsToHtml(obj.items)}</td>
                 <td>
                     <div className='m-between-box online'><span>上门服务费</span><span>&yen;{obj.freight_price}</span></div>

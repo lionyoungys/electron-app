@@ -10,34 +10,57 @@ import {LightboxImage} from '../../static/UI';
 export default class extends Component {
     constructor(props) {
         super(props);
-        this.params = this.props.param.paramToObject();
         this.state = {
-            count:'0',freight:'0',total:'0',payAmount:'0',
-            ordersn:'',createTime:'',orderTime:'',address:'',comment:'',
-            items:[]
+            ordersn:'',
+            isOnline:1,
+            amount:'',
+            payAmount:'',
+            totalAmount:'',
+            freightPrice:'',
+            keepPrice:'',
+            craftPrice:'',
+            reducePrice:'',
+            payState:0,
+            otime:'',
+            ostatus:0,
+            count:0,
+            uname:'',
+            umobile:'',
+            uaddress:'',
+            remark:'',
+            time:'',
+            isCompany:0,
+            items:[],       
         };
     }
 
     componentDidMount() {
-        axios.post(
-            api.U('orderDetail'), 
-            api.data({token:this.props.token,id:this.params.id})
-        )
+        axios.post(api.U('order_detail'), api.D({token:this.props.token,oid:this.props.param.id}))
         .then((response) => {
-            let result = response.data.data;
+            if (!api.V(response.data)) return;
+            let result = response.data.result;
             this.setState({
-                count:result.item_sum,
-                freight:result.freight,
-                total:result.amount,
-                payAmount:result.pay_amount,
                 ordersn:result.ordersn,
-                createTime:result.create_time,
-                orderTime:result.time,
-                address:result.adr,
-                comment:result.content,
-                items:result.item
+                isOnline:result.is_online,
+                amount:result.amount,
+                payAmount:result.pay_amount,
+                totalAmount:result.total_amount,
+                freightPrice:result.freight_price,
+                keepPrice:result.keep_price,
+                craftPrice:result.craft_price,
+                reducePrice:result.reduce_price,
+                payState:result.pay_state,
+                otime:result.otime,
+                ostatus:result.ostatus,
+                count:result.item_count,
+                uname:result.uname,
+                umobile:result.umobile,
+                uaddress:response.uaddress,
+                remark:result.uremark,
+                time:result.time,
+                isCompany:result.is_company,
+                items:result.items
             });
-            console.log(result);
         });
     }
 
@@ -45,7 +68,7 @@ export default class extends Component {
         let props = this.props,
             state = this.state,
             html = state.items.map(obj =>
-                <Item key={obj.id} obj={obj}/>
+                <DataRender key={obj.id} obj={obj}/>
             );
         const style = {width:'170px',color:'grey',display:'inline-block'};
         return (
@@ -54,6 +77,9 @@ export default class extends Component {
                     data={[{key:0,value:this.props.param.value,view:this.props.param.view},{key:1,value:'订单详情'}]} 
                     callback={this.props.changeView}
                 />
+                <div className='m-container'>
+                    
+                </div>
                 <section className='ui-container'>
                     {html}
                     <div className='ui-content'>
@@ -83,7 +109,7 @@ export default class extends Component {
     }
 }
 
-class Item extends Component {
+class DataRender extends Component {
     constructor(props) {
         super(props);
     }
