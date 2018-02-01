@@ -74,23 +74,21 @@
 <p class="line center">请仔细阅读本单</p>
 <p class="border"></p>
 <p class="line center">门店联</p>
+<script src="request.js"></script>
 <script>
-    const {ipcRenderer} = require('electron'),
-          axios = require('axios');
     window.onload = function() {
+        const {ipcRenderer} = require('electron');
         const param = ipcRenderer.sendSync('get-param');
         console.log(param);
-        const fd = new FormData();
+        //const fd = new FormData();
         const date = new Date(),
               datetime = date.getFullYear()+'-'+(date.getMonth()*1+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
-        fd.append('token', param.token);
+        //fd.append('token', param.token);
         //fd.append('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIzNCIsIm1pZCI6IjEwOCIsImlzUm9vdCI6IjEiLCJhdXRoIjoiW1wiMVwiLFwiMlwiLFwiM1wiLFwiNFwiXSIsInRpbWUiOjE1MTY2ODg0MTB9.Px13bbKjYxRdhm7kZiVOP9lGyjkwBc0hq96WZBJyhdg');
-        fd.append('oid', param.oid);
+        //fd.append('oid', param.oid);
         //fd.append('oid', '838');  'http://xiyi.wzj.dev.shuxier.com/mapi/print/recharge'
-        axios.post(param.url, fd)
-        .then(response => {
-            console.log(response.data);
-            let result = response.data.result;
+        R.post(param.url, {token:param.token,oid:param.oid}, function (response) {
+            let result = response.result;
             console.log(result);
             document.getElementById('qrcode').src = result.qrcode;
             insert('ordersn', result.ordersn);
@@ -121,7 +119,6 @@
             document.getElementById('qrcode').onload = function() {
                 ipcRenderer.send('print');
             }
-            
         });
         function insert(id, value) {
             if ('undefined' === typeof value || null == value) value = '';

@@ -55,23 +55,18 @@
 <p class="border"></p>
 <p class="line center">门店联</p>
 <script>
-    const {ipcRenderer} = require('electron'),
-          axios = require('axios');
     window.onload = function() {
+        const {ipcRenderer} = require('electron');
         const param = ipcRenderer.sendSync('get-param');
-        console.log(param);
-        const fd = new FormData();
         const date = new Date();
         const datetime = date.getFullYear()+'-'+(date.getMonth()*1+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
-        fd.append('token', param.token);
+        //fd.append('token', param.token);
         //fd.append('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIzNCIsIm1pZCI6IjEwOCIsImlzUm9vdCI6IjEiLCJhdXRoIjoiW1wiMVwiLFwiMlwiLFwiM1wiLFwiNFwiXSIsInRpbWUiOjE1MTY2ODg0MTB9.Px13bbKjYxRdhm7kZiVOP9lGyjkwBc0hq96WZBJyhdg');
-        fd.append('record_id', param.record_id);
+        //fd.append('record_id', param.record_id);
         //fd.append('record_id', '1');  'http://xiyi.wzj.dev.shuxier.com/mapi/print/recharge'
-        axios.post(param.url, fd)
-        .then(response => {
-            console.log(response.data);
-            if (0 != response.data.code) return;
-            let result = response.data.result;
+        R.post(param.url, {token:param.token, record_id:param.record_id}, function(response) {
+            console.log(response);
+            let result = response.result;
             document.getElementById('qrcode').src = result.qrcode;
             insert('mname', result.mname);
             insert('trade_sn', result.trade_sn);
@@ -90,7 +85,6 @@
             document.getElementById('qrcode').onload = function() {
                 ipcRenderer.send('print');
             }
-            
         });
         function insert(id, value) {
             if ('undefined' === typeof value || null == value) value = '';
