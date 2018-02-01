@@ -102,7 +102,7 @@ ipcMain.on('print-silent', (e, arg, arg2) => {
         slashes: true
     }));
 });
-ipcMain.on('print', (event, arg) => {
+ipcMain.on('print', (e, arg) => {
     winprints.webContents.print({silent: true, printBackground: true});
 });
 ipcMain.on('get-param',(e, args) => {
@@ -122,7 +122,7 @@ function createWindow(name, windowStyle, uri) {
         slashes: true
     }));
     //打开开发者工具
-    win[name].webContents.openDevTools();
+    //win[name].webContents.openDevTools();
     //当window关闭时取消引用
     win[name].on('closed', () => {
         win[name] = null;
