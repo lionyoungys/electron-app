@@ -74,6 +74,8 @@ export class UpdateOrCharge extends Component{
                 } else {
                     this.props.changeView({view:'recharge',param:this.state.mobile});
                 }
+            } else {
+                alert('会员不存在!');
             }
         });
     }
