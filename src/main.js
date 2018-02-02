@@ -121,9 +121,16 @@ class Main extends Component {
 class Header extends Component {
     constructor(props) {
         super(props);
-        this.state = {feedbackShow:false,passwdShow:false};
+        this.state = {show:false,feedbackShow:false,passwdShow:false};
         this.toggleFeedbackShow = this.toggleFeedbackShow.bind(this);
         this.togglePasswdShow = this.togglePasswdShow.bind(this);
+    }
+    componentDidMount() {
+        document.onclick = () => {this.setState({show:false})}
+        this.dom.onclick = (e) => {
+            this.setState({show:true});
+            e.stopPropagation();
+        }
     }
     toggleFeedbackShow() {this.setState({feedbackShow:!this.state.feedbackShow});}
     togglePasswdShow() {this.setState({passwdShow:!this.state.passwdShow});}
@@ -138,6 +145,14 @@ class Header extends Component {
                     </span>
                     <span onClick={this.togglePasswdShow}>
                         <i className="fa fa-lock"></i>&nbsp;修改密码
+                    </span>
+                    <span className='main-bell-box'>
+                        <div className='main-bell' ref={dom => this.dom = dom}><i className='fa fa-bell'></i></div> 
+                        <div className='main-message' style={{display:(this.state.show ? 'block' : 'none')}}>
+                            <div className='triangle-bd'></div>
+                            <div className='triangle'></div>
+                            <div className='main-msg-content'></div>
+                        </div>
                     </span>
                 </div>
                 <Passwd

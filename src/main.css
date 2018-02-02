@@ -31,8 +31,54 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
 }
 #main>header>:first-child{margin-left: 28px;font-size: 28px;font-weight: bold;line-height: 77px;}
 #main>header>:nth-child(2){margin-right: 28px;font-size: 16px;line-height: 77px;}
-#main>header>:nth-child(2)>span{cursor: pointer;vertical-align: middle;}
-#main>header>:nth-child(2)>span:first-of-type{margin-right: 40px;}
+#main>header>:nth-child(2)>span{cursor: pointer;vertical-align: middle;margin-right: 30px;}
+#main>header>:nth-child(2)>span:last-of-type{margin-right: 0}
+/* 界面顶部消息提醒样式 */
+.main-bell-box{position: relative}
+.main-bell{
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, .36);
+}
+.main-bell:hover{background-color: rgb(0, 0, 0)}
+.main-bell.has-msg{background-color: #db4437}
+.main-bell-box>.main-message{
+    position: absolute;
+    right: -18px;top: 40px;
+    background-color: #eee;
+    height: 378px;
+    width: 378px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+.main-bell-box>.main-message>.triangle-bd, 
+.main-bell-box>.main-message>.triangle{
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: -9.5px;right: 21px;
+    border-left: 8.5px solid transparent;
+    border-right: 8.5px solid transparent;
+    border-bottom: 8.5px solid #ccc;
+}
+.main-bell-box>.main-message>.triangle{
+    top: -8px;
+    border-bottom: 8.5px solid #eee;
+}
+.main-msg-content{
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
 /* 界面左侧side bar 样式 */
 #main>aside{
     width: 181px;
