@@ -1,0 +1,40 @@
+.img-box{
+    display: inline-block;
+    height: 80px;
+    padding: 0 30px;
+    position: relative;
+}
+.img-box>.previous,.img-box>.next{
+    height: 80px;
+    width: 14px;
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+}
+.img-box>.previous{
+    left: 0;
+    background-image: url(img/img-box-1.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.img-box>.previous.disabled{
+    background-image: url(img/img-box-2.png);
+}
+.img-box>.next{
+    right: 0;
+    background-image: url(img/img-box-3.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.img-box>.next.disabled{
+    background-image: url(img/img-box-4.png);
+}
+.img-box>img{
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.img-box>img:last-of-type{
+    margin-right: 0;
+}

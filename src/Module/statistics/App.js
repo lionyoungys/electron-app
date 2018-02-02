@@ -109,7 +109,7 @@ export default class extends React.Component{
         }
     }
     handlePage(page) {this.query(null, page);}
-    redirect(e) {this.props.changeView({view:'offline_order_detail',param:e.target.dataset.id});}
+    redirect(e) {this.props.changeView({view:'detail',param:{value:'业务统计',view:'statistics',id:e.target.dataset.id}});}
 
     render() {
         let tab = this.tab.map(obj => 

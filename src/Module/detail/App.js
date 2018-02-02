@@ -5,110 +5,154 @@
 
 import React, {Component} from 'react';
 import Crumb from '../UI/crumb/App';
-import {LightboxImage} from '../../static/UI';
+import ImgBox from '../UI/img-box/App';
+import './App.css';
+
 
 export default class extends Component {
     constructor(props) {
         super(props);
-        this.params = this.props.param.paramToObject();
         this.state = {
-            count:'0',freight:'0',total:'0',payAmount:'0',
-            ordersn:'',createTime:'',orderTime:'',address:'',comment:'',
-            items:[]
+            ordersn:'',
+            isOnline:1,
+            amount:'',
+            payAmount:'',
+            totalAmount:'',
+            freightPrice:'',
+            keepPrice:'',
+            craftPrice:'',
+            reducePrice:'',
+            payState:0,
+            otime:'',
+            ostatus:0,
+            count:0,
+            uname:'',
+            umobile:'',
+            uaddress:'',
+            remark:'',
+            time:'',
+            isCompany:0,
+            items:[],       
         };
     }
 
     componentDidMount() {
-        axios.post(
-            api.U('orderDetail'), 
-            api.data({token:this.props.token,id:this.params.id})
-        )
+        axios.post(api.U('order_detail'), api.D({token:this.props.token,oid:this.props.param.id}))
         .then((response) => {
-            let result = response.data.data;
+            console.log(response.data);
+            if (!api.V(response.data)) return;
+            let result = response.data.result;
             this.setState({
-                count:result.item_sum,
-                freight:result.freight,
-                total:result.amount,
-                payAmount:result.pay_amount,
                 ordersn:result.ordersn,
-                createTime:result.create_time,
-                orderTime:result.time,
-                address:result.adr,
-                comment:result.content,
-                items:result.item
+                isOnline:result.is_online,
+                amount:result.amount,
+                payAmount:result.pay_amount,
+                totalAmount:result.total_amount,
+                freightPrice:result.freight_price,
+                keepPrice:result.keep_price,
+                craftPrice:result.craft_price,
+                reducePrice:result.reduce_price,
+                payState:result.pay_state,
+                otime:result.otime,
+                ostatus:result.ostatus,
+                count:result.item_count,
+                uname:result.uname,
+                umobile:result.umobile,
+                uaddress:response.uaddress,
+                remark:result.uremark,
+                time:result.time,
+                isCompany:result.is_company,
+                items:result.items
             });
-            console.log(result);
         });
     }
 
     render () {
-        let props = this.props,
-            state = this.state,
-            html = state.items.map(obj =>
-                <Item key={obj.id} obj={obj}/>
+        
+        let html = this.state.items.map(obj =>
+                <DataRender key={obj.id} data={obj} isOnline={this.state.isOnline}/>
             );
-        const style = {width:'170px',color:'grey',display:'inline-block'};
+        const display = {display:(1 == this.state.isOnline ? 'inline' : 'none')};
         return (
             <div>
                 <Crumb 
                     data={[{key:0,value:this.props.param.value,view:this.props.param.view},{key:1,value:'订单详情'}]} 
                     callback={this.props.changeView}
                 />
-                <section className='ui-container'>
-                    {html}
-                    <div className='ui-content'>
-                        共{state.count}件&emsp;&emsp;&emsp;
-                        上门服务费：&yen;{state.freight}&emsp;&emsp;&emsp;
-                        总计：&yen;{state.total}&emsp;&emsp;&emsp;
-                        <span className='ui-red'>实付：&yen;{state.payAmount}</span>
+                <div className='m-container'>
+                    <div className='detail-box'>{html}</div>
+                    <div className='m-box' style={{lineHeight:'30px'}}>
+                        共{this.state.count}件&emsp;&emsp;
+                        活动优惠:-&yen;{this.state.reducePrice}&emsp;&emsp;
+                        <span style={display}>
+                            上门服务费:&yen;{this.state.freightPrice}&emsp;&emsp;
+                        </span>
+                        总价:&yen;{this.state.totalAmount}&emsp;&emsp;
+                        {
+                            1 == this.state.payState
+                            ? 
+                            (<span className='m-red'>实付:{this.state.payAmount}</span>)
+                            :
+                            (<span className='m-red'>(未付款)</span>)}
                     </div>
-                    <div style={{paddingTop:'60px'}}>
-                        <span style={style}>订单号：</span>{state.ordersn}
+                    <div className='detail-row'>
+                        {1 == this.state.isCompany ? (<span>企业名称:</span>) : <span>姓名:</span>}{this.state.uname}
                     </div>
-                    <div style={{paddingTop:'18px'}}>
-                        <span style={style}>下单时间：</span>{state.createTime}
-                    </div>
-                    <div style={{paddingTop:'18px'}}>
-                        <span style={style}>预约上门时间：</span>{state.orderTime}
-                    </div>
-                    <div style={{paddingTop:'18px'}}>
-                        <span style={style}>订单地址：</span>{state.address}
-                    </div>
-                    <div style={{paddingTop:'18px'}}>
-                        <span style={style}>备注：</span>{state.comment}
-                    </div>
-                </section>
+                    <div className='detail-row' style={display}><span>预约时间:</span>{this.state.time}</div>
+                    <div className='detail-row'><span>手机号:</span>{this.state.umobile}</div>
+                    <div className='detail-row'><span>订单号:</span>{this.state.ordersn}</div>
+                    <div className='detail-row'><span>下单时间:</span>{this.state.otime}</div>
+                    <div className='detail-row'><span>订单地址:</span>{this.state.uaddress}</div>
+                    <div className='detail-row' style={display}><span>备注:</span>{this.state.remark}</div>
+                </div>
             </div>
         );
     }
 }
 
-class Item extends Component {
+class DataRender extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
-        let obj = this.props.obj,
-            images = obj.img.map((obj2,index) =>
-                <LightboxImage src={api.host + obj2.img} key={index}/>
-            );
-        console.log(obj);
+        let data = this.props.data;
         return (
-            <section className='ui-detail'>
-                <div className='ui-detail-logo'><img src={api.host + obj.url}/></div>
-                <div className='ui-detail-item'>
-                    <div>{obj.g_name}</div>
-                    <div>价格：{obj.price}</div>
-                    <div>数量：{obj.number}</div>
+            <div className='detail-item'>
+                <div>
+                    <img src={data.image}/>
+                    <div>
+                        <div>{data.item_name}</div>
+                        <div>价格：&yen;{data.item_real_price}</div>
+                    </div>
                 </div>
-                <div className='ui-detail-item2'>
-                    <div>特殊工艺加价：{obj.special}</div>
-                    <div>保值清洗费：{obj.hedging}</div>
-                    <div>保值金额：{obj.hedging * 200}</div>
+                <div className='row'><span>衣物编码：</span>{data.clean_sn}</div>
+                <div className='row' style={{display:(0 == this.props.isOnline ? 'block':'none')}}><span>取衣时间：</span>{data.take_time}</div>
+                <div className='row'><span>保值金额：</span>{(data.keep_price * 200).toFixed(2)}</div>
+                <div className='row'><span>保值清洗费：</span>{data.keep_price}</div>
+                <div className='row'><span>工艺加价：</span>{data.craft_price}</div>
+                <div className='row'><span>备注：</span>{data.craft_des}</div>
+                <div className='row'><span>颜色：</span>{data.color}</div>
+                <div className='row'><span>问题：</span>{data.problem}</div>
+                <div className='row'><span>洗后预估：</span>{data.forecast}</div>
+                <div>
+                    <ImgBox images={data.item_images}/>
                 </div>
-                <div className='ui-detail-images'>{images}</div>
-            </section>
+            </div>
+            // <section className='ui-detail'>
+            //     <div className='ui-detail-logo'><img src={api.host + obj.url}/></div>
+            //     <div className='ui-detail-item'>
+            //         <div>{obj.g_name}</div>
+            //         <div>价格：{obj.price}</div>
+            //         <div>数量：{obj.number}</div>
+            //     </div>
+            //     <div className='ui-detail-item2'>
+            //         <div>特殊工艺加价：{obj.special}</div>
+            //         <div>保值清洗费：{obj.hedging}</div>
+            //         <div>保值金额：{obj.hedging * 200}</div>
+            //     </div>
+            //     <div className='ui-detail-images'>{images}</div>
+            // </section>
         );
     }
 }
