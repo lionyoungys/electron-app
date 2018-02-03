@@ -50,15 +50,18 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
     background-color: rgba(0, 0, 0, .36);
 }
 .main-bell:hover{background-color: rgb(0, 0, 0)}
-.main-bell.has-msg{background-color: #db4437}
+.main-bell.has-msg{background-color: #db4437;font-size: 12px}
 .main-bell-box>.main-message{
     position: absolute;
     right: -18px;top: 40px;
-    background-color: #eee;
-    height: 378px;
-    width: 378px;
+    background-color: #fff;
+    color: #4d4d4d;
+    height: 420px;
+    line-height: 1.15;
+    width: 360px;
     border: 1px solid #ccc;
-    border-radius: 3px;
+    border-radius: 5px;
+    cursor: text;
 }
 .main-bell-box>.main-message>.triangle-bd, 
 .main-bell-box>.main-message>.triangle{
@@ -72,13 +75,96 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
 }
 .main-bell-box>.main-message>.triangle{
     top: -8px;
-    border-bottom: 8.5px solid #eee;
+    border-bottom: 8.5px solid #fff;
 }
-.main-msg-content{
-    height: 100%;
+.main-msg-head{padding: 0 10px;position: relative}
+.main-msg-head>.fa-arrow-left{
+    font-size: 18px;
+    position: absolute;
+    top: 11px;left: 20px;
+    cursor: pointer;
+}
+.main-msg-head>div{
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+    height: 39px;
+    line-height: 40px;
+}
+.main-msg-loading{
+    height: 380px;
+    font-size: 50px;
+    text-align: center;
+    line-height: 300px;
+    color: #17a8eb;
+}
+.main-msg-body{
+    height: 380px;
+    padding: 0 10px;
     overflow-y: auto;
-    overflow-x: hidden;
 }
+.main-msg-body>.no-msg{
+    text-align: center;
+    line-height: 300px;
+    color: rgba(0, 0, 0, .5);
+}
+.main-msg-detail{
+    padding: 0 10px;
+    height: 380px;
+}
+.main-msg-detail>iframe{
+    display: block;
+    width: 100%;
+    height: 370px;
+    border: 0;
+    background-color: #eee;
+}
+.main-msg{
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+    padding: 10px 16px;
+}
+.main-msg>.main-msg-read{
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #fb3f06;
+    position: absolute;
+    top: 14px;left: 0;
+}
+.main-msg>div:first-of-type{
+    font-size: 14px;
+    margin-bottom: 4px;
+    line-height: 22px;
+    position: relative;
+    cursor: default;
+}
+.main-msg>div:first-of-type>div:hover{color: #09b1b0}
+.main-msg>div:first-of-type>span{
+    font-size: 12px;
+    position: absolute;
+    top: 0;right:0;
+    cursor: text;
+}
+.main-msg>div:nth-of-type(2){
+    font-size: 12px;
+    color: rgba(0, 0, 0, .45);
+    line-height: 22px;
+    word-break: break-all;
+}
+.main-msg>div:nth-of-type(3){
+    height: 14px;
+    position: relative;
+}
+.main-msg>div:nth-of-type(3)>.fa-trash-o{
+    position: absolute;
+    bottom: 0;right: 0;
+    font-size: 14px;
+    cursor: pointer;
+}
+.main-msg>div:nth-of-type(3)>.fa-trash-o:hover{color:rgba(231, 14, 14, .8)}
+
 /* 界面左侧side bar 样式 */
 #main>aside{
     width: 181px;

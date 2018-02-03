@@ -17,6 +17,7 @@ const Feedback = route.feedback;    //用户反馈
 const token = localStorage.getItem('token'),
       auth = localStorage.getItem('auth'),
       isRoot = localStorage.getItem('is_root'),
+      isFactory = 0,
       branch = 'master';    //当前项目分支
 
 console.log(token);
@@ -121,21 +122,87 @@ class Main extends Component {
 class Header extends Component {
     constructor(props) {
         super(props);
-        this.state = {show:false,feedbackShow:false,passwdShow:false};
+        this.state = {
+            feedbackShow:false,
+            passwdShow:false,
+            show:false,
+            loading:false,
+            detail:false,
+            count:0,
+            url:'',
+            data:[]
+        };
         this.toggleFeedbackShow = this.toggleFeedbackShow.bind(this);
         this.togglePasswdShow = this.togglePasswdShow.bind(this);
+        this.query = this.query.bind(this);
+        this.redirect = this.redirect.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.goBack = this.goBack.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
     }
     componentDidMount() {
         document.onclick = () => {this.setState({show:false})}
-        this.dom.onclick = (e) => {
-            this.setState({show:true});
-            e.stopPropagation();
-        }
+        this.interval = setInterval(this.query, 60000);
+        this.query();
     }
     toggleFeedbackShow() {this.setState({feedbackShow:!this.state.feedbackShow});}
     togglePasswdShow() {this.setState({passwdShow:!this.state.passwdShow});}
+    componentWillUnmount() {clearInterval(this.interval)}
+    handleClick(e) {
+        if (!this.state.show) {
+            this.setState({show:true,loading:true});
+            axios.post(api.U('msg_list'), api.D({token:token}))
+            .then(response => {
+                console.log(response.data);
+                api.V(response.data) && this.setState({data:response.data.result,loading:false});
+            });
+        } else {
+            this.setState({show:false})
+        }
+        e.nativeEvent.stopImmediatePropagation();
+    }
+    query() {
+        axios.post(api.U('msg_count'), api.D({token:token,type:isFactory}))
+        .then(response => {
+            console.log(response.data);
+            api.V(response.data) && this.setState({count:response.data.result.message_count});
+        });
+    }
+    redirect(e) {
+        this.state.data[e.target.dataset.index].state = 1;
+        this.setState({data:this.state.data,detail:true,url:e.target.dataset.url,count:(this.state.count - 1)});
+    }
+    goBack(e) {
+        this.setState({detail:false});
+    }
+    handleDelete(e) {
+        let index = e.target.dataset.index;
+        axios.post(api.U('msg_delete'), api.D({token:token,id:e.target.dataset.id}))
+        .then(response => {
+            if (api.V(response.data)) {
+                let obj = {};
+                if (0 == this.state.data[index].state && this.state.count > 0) obj.count = (this.state.count - 1);
+                this.state.data.splice(index, 1);
+                obj.data = this.state.data;
+                this.setState(obj);
+            }
+        });
+    }
     render() {
-        let state = this.state;
+        let html = null;
+        if (!this.state.detail && !this.state.loading) {
+            html = this.state.data.map( (obj, index) => 
+                <div className='main-msg' key={obj.id}>
+                    {0 == obj.state && (<i className='main-msg-read'></i>)}
+                    <div>
+                        <div data-index={index} data-url={obj.url} onClick={this.redirect}>{obj.title}</div>
+                        <span>{tool.currentDate('datetime', obj.time)}</span>
+                    </div>
+                    <div>{obj.content}</div>
+                    <div><i className='fa fa-trash-o' data-id={obj.id} data-index={index} onClick={this.handleDelete}></i></div>
+                </div>
+            );
+        }
         return (
             <header>
                 <div>速洗达商家管理系统</div>
@@ -147,21 +214,45 @@ class Header extends Component {
                         <i className="fa fa-lock"></i>&nbsp;修改密码
                     </span>
                     <span className='main-bell-box'>
-                        <div className='main-bell' ref={dom => this.dom = dom}><i className='fa fa-bell'></i></div> 
-                        <div className='main-message' style={{display:(this.state.show ? 'block' : 'none')}}>
+                        <div
+                            className={'main-bell' + (this.state.count > 0 ? ' has-msg' : '')}
+                            onClick={this.handleClick}
+                            ref={dom => this.dom = dom}
+                        >{this.state.count > 0 ? this.state.count : (<i className='fa fa-bell'></i>)}</div> 
+                        <div
+                            className='main-message'
+                            style={{display:(this.state.show ? 'block' : 'none')}}
+                            onClick={e => e.nativeEvent.stopImmediatePropagation()}
+                        >
                             <div className='triangle-bd'></div>
                             <div className='triangle'></div>
-                            <div className='main-msg-content'></div>
+                            <div className='main-msg-head'>
+                                {this.state.detail && (<i className='fa fa-arrow-left' onClick={this.goBack}></i>)}
+                                <div>{this.state.detail ? '消息详情' : '消息列表'}</div>
+                            </div>
+                            <div className='main-msg-loading' style={{display:(this.state.loading ? 'block' : 'none')}}>
+                                <i className='fa fa-circle-o-notch fa-spin'></i>
+                            </div>
+                            <div
+                                className='main-msg-body'
+                                style={{display:( (this.state.loading || this.state.detail) ? 'none' : 'block' )}}
+                            >
+                                <div className='no-msg' style={{display:(this.state.data.length > 0 ? 'none' : 'block')}}>已看完所有通知!</div>
+                                {html}
+                            </div>
+                            <div className='main-msg-detail' style={{display:(this.state.detail ? 'block' : 'none')}}>
+                                <iframe src={this.state.url}></iframe>
+                            </div>
                         </div>
                     </span>
                 </div>
                 <Passwd
-                    show={state.passwdShow} 
+                    show={this.state.passwdShow} 
                     onCancelRequest={this.togglePasswdShow} 
                     token={token}
                 />
                 <Feedback
-                    show={state.feedbackShow} 
+                    show={this.state.feedbackShow} 
                     onCancelRequest={this.toggleFeedbackShow} 
                     token={token}
                 />
