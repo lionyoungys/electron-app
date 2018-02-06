@@ -31,8 +31,140 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
 }
 #main>header>:first-child{margin-left: 28px;font-size: 28px;font-weight: bold;line-height: 77px;}
 #main>header>:nth-child(2){margin-right: 28px;font-size: 16px;line-height: 77px;}
-#main>header>:nth-child(2)>span{cursor: pointer;vertical-align: middle;}
-#main>header>:nth-child(2)>span:first-of-type{margin-right: 40px;}
+#main>header>:nth-child(2)>span{cursor: pointer;vertical-align: middle;margin-right: 30px;}
+#main>header>:nth-child(2)>span:last-of-type{margin-right: 0}
+/* 界面顶部消息提醒样式 */
+.main-bell-box{position: relative}
+.main-bell{
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, .36);
+}
+.main-bell:hover{background-color: rgb(0, 0, 0)}
+.main-bell.has-msg{background-color: #db4437;font-size: 12px}
+.main-bell-box>.main-message{
+    position: absolute;
+    right: -18px;top: 40px;
+    background-color: #fff;
+    color: #4d4d4d;
+    height: 420px;
+    line-height: 1.15;
+    width: 360px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: text;
+}
+.main-bell-box>.main-message>.triangle-bd, 
+.main-bell-box>.main-message>.triangle{
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: -9.5px;right: 21px;
+    border-left: 8.5px solid transparent;
+    border-right: 8.5px solid transparent;
+    border-bottom: 8.5px solid #ccc;
+}
+.main-bell-box>.main-message>.triangle{
+    top: -8px;
+    border-bottom: 8.5px solid #fff;
+}
+.main-msg-head{padding: 0 10px;position: relative}
+.main-msg-head>.fa-arrow-left{
+    font-size: 18px;
+    position: absolute;
+    top: 11px;left: 20px;
+    cursor: pointer;
+}
+.main-msg-head>div{
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+    height: 39px;
+    line-height: 40px;
+}
+.main-msg-loading{
+    height: 380px;
+    font-size: 50px;
+    text-align: center;
+    line-height: 300px;
+    color: #17a8eb;
+}
+.main-msg-body{
+    height: 380px;
+    padding: 0 10px;
+    overflow-y: auto;
+}
+.main-msg-body>.no-msg{
+    text-align: center;
+    line-height: 300px;
+    color: rgba(0, 0, 0, .5);
+}
+.main-msg-detail{
+    padding: 0 10px;
+    height: 380px;
+}
+.main-msg-detail>iframe{
+    display: block;
+    width: 100%;
+    height: 370px;
+    border: 0;
+    background-color: #eee;
+}
+.main-msg{
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+    padding: 10px 16px;
+}
+.main-msg>.main-msg-read{
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #fb3f06;
+    position: absolute;
+    top: 14px;left: 0;
+}
+.main-msg>div:first-of-type{
+    font-size: 14px;
+    margin-bottom: 4px;
+    line-height: 22px;
+    position: relative;
+    cursor: default;
+}
+.main-msg>div:first-of-type>div:hover{color: #09b1b0}
+.main-msg>div:first-of-type>span{
+    font-size: 12px;
+    position: absolute;
+    top: 0;right:0;
+    cursor: text;
+}
+.main-msg>div:nth-of-type(2){
+    font-size: 12px;
+    color: rgba(0, 0, 0, .45);
+    line-height: 22px;
+    word-break: break-all;
+}
+.main-msg>div:nth-of-type(3){
+    height: 14px;
+    position: relative;
+}
+.main-msg>div:nth-of-type(3)>.fa-trash-o{
+    position: absolute;
+    bottom: 0;right: 0;
+    font-size: 14px;
+    cursor: pointer;
+}
+.main-msg>div:nth-of-type(3)>.fa-trash-o:hover{color:rgba(231, 14, 14, .8)}
+
 /* 界面左侧side bar 样式 */
 #main>aside{
     width: 181px;

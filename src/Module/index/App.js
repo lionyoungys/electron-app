@@ -8,13 +8,13 @@ import {AddMember, UpdateOrCharge} from '../UI/member-toast/App';
 import './App.css';
 const list = [
     {key:0,value:'收件',view:'take',style:'index-take'},
-    //{key:1,value:'入厂',view:'in_factory',style:'index-in_factory'},
+    {key:1,value:'入厂',view:'in_factory',style:'index-in_factory'},
     {key:2,value:'清洗',view:'clean',style:'index-clean'},
     {key:3,value:'烘干',view:'dry',style:'index-dry'},
     {key:4,value:'熨烫',view:'ironing',style:'index-ironing'},
     {key:5,value:'质检',view:'check',style:'index-check'},
     {key:6,value:'上挂',view:'put_on',style:'index-put_on'},
-    //{key:7,value:'出厂',view:'out_of_factory',style:'index-out_of_factory'},
+    {key:7,value:'出厂',view:'out_of_factory',style:'index-out_of_factory'},
     {key:8,value:'取衣',view:'take_off',style:'index-take_off'},
     {key:9,value:'返流审核',view:'go_back_check',style:'index-go_back_check'},
     {key:10,value:'新建会员',style:'index-add_member'},

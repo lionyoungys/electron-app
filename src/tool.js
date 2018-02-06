@@ -49,6 +49,7 @@
      * @param key 键 
      * @return ret 索引值/-1
      */
+    Number.prototype.inObjectArray = 
     String.prototype.inObjectArray = function(array, key) {
         let ret = -1,
             len = array.length;

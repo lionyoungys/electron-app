@@ -7,6 +7,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import './login.css';
 import './api';
+const isFactory = 1;
 String.prototype.trim = function () {return this.replace(/(^\s*)|(\s*$)/g,'')};    //去除字符串中的空字符；
 
 class Container extends Component {
@@ -70,7 +71,17 @@ class Login extends Component {
             && 
             !isNaN(state.mobile)
         ) {
-            axios.post(api.U('login'), api.D({mobile_number:state.mobile,passwd:state.password,code:state.code,captcha:state.captcha,unique:state.unique}))
+            axios.post(
+                api.U('login'),
+                api.D({
+                    mobile_number:state.mobile,
+                    passwd:state.password,
+                    code:state.code,
+                    captcha:state.captcha,
+                    unique:state.unique,
+                    is_factory:isFactory
+                })
+            )
             .then(response => {
                 let result = response.data;
                 console.log(result);
