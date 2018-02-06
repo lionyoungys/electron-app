@@ -8,13 +8,13 @@ import {AddMember, UpdateOrCharge} from '../UI/member-toast/App';
 import './App.css';
 const list = [
     {key:0,value:'收件',view:'take',style:'index-take',auth:1},
-    //{key:1,value:'入厂',view:'in_factory',style:'index-in_factory',auth:8},
+    {key:1,value:'入厂',view:'in_factory',style:'index-in_factory',auth:8},
     {key:2,value:'清洗',view:'clean',style:'index-clean',auth:2},
     {key:3,value:'烘干',view:'dry',style:'index-dry',auth:50},
     {key:4,value:'熨烫',view:'ironing',style:'index-ironing',auth:51},
     {key:5,value:'质检',view:'check',style:'index-check',auth:52},
     {key:6,value:'上挂',view:'put_on',style:'index-put_on',auth:3},
-    //{key:7,value:'出厂',view:'out_of_factory',style:'index-out_of_factory',auth:9},
+    {key:7,value:'出厂',view:'out_of_factory',style:'index-out_of_factory',auth:9},
     {key:8,value:'取衣',view:'take_off',style:'index-take_off',auth:4},
     {key:9,value:'返流审核',view:'go_back_check',style:'index-go_back_check',auth:7},
     {key:10,value:'新建会员',style:'index-add_member',auth:6},

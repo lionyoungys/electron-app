@@ -15,13 +15,13 @@ export default [
         text:'线下收银',
         options:[
             {text:'收件',key:'take',auth:1},
-            //{text:'入厂',key:'in_factory',auth:8},    //infactory
+            {text:'入厂',key:'in_factory',auth:8},    //infactory
             {text:'清洗',key:'clean',auth:2},    //offline_clean
             {text:'烘干',key:'dry',auth:50},    //offline_clean
             {text:'熨烫',key:'ironing',auth:51},    //offline_ironing
             {text:'质检',key:'check',auth:52},    //offline_check
             {text:'上挂',key:'put_on',auth:3},    //registration
-            //{text:'出厂',key:'out_of_factory',auth:9},    //outfactory
+            {text:'出厂',key:'out_of_factory',auth:9},    //outfactory
             {text:'取衣',key:'take_off',auth:4},    //offline_take
             {text:'返流审核',key:'go_back_check',auth:7},    //offline_take2
             {text:'会员管理',key:'member',auth:6},
