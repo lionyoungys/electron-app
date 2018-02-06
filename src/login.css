@@ -1,5 +1,5 @@
-html,body,div,section,label,input{padding: 0;margin: 0;}
-input,button{outline: none;border:none;}
+html,body,div,label,input{padding: 0;margin: 0;}
+input,button{outline-color: #4ca1f5;box-sizing: border-box;-webkit-box-sizing: border-box}
 body{font-size: 14px;}
 #root{-webkit-app-region: drag;}
 #close,input,.back,.forgot,.word,.word2,.protocol,img{-webkit-app-region: no-drag;}
@@ -10,11 +10,25 @@ html,body,#root,.container{width: 100%;height: 100%;position: relative;}
     position: fixed;top: 8px;right: 8px;
 }
 /* 登录界面容器 */
-.login-container{padding:95px 0 0 104px;background: url(images/login-bg.jpg) no-repeat 0 0;};
+.login-box{
+    padding:106px 104px 0;
+    background: url(img/login-bg.jpg) no-repeat 0 0;
+
+};
 /* 忘记密码界面容器 */
 .forgot-container{padding: 62px 0 0 92px;background: url(images/forgot-bg.jpg) no-repeat 0 0;}
-.login-container,.forgot-container{
-    width: 100%;height: 100%;box-sizing: border-box;-webkit-box-sizing: border-box;
+.login-box,.forgot-container{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.row{
+    display: -webkit-flex;
+    display: flex;
+    height: 30px;
+    position: relative;
+    margin-bottom: 10px;
 }
 /* 文本输入框样式 */
 .text{
@@ -22,23 +36,47 @@ html,body,#root,.container{width: 100%;height: 100%;position: relative;}
     box-shadow: -1px -1px 1px rgb(171, 201, 231);
     box-sizing: border-box;-webkit-box-sizing: border-box;
 }
-/* 标签绑定样式 */
-.label{font-size: 18px;vertical-align: middle;color:#002f69;width: 92px;display: inline-block;}
+.input{
+    font-size: 16px;
+    padding: 0 10px;
+    height: 30px;
+    width: 190px;
+    border: 1px solid rgb(167, 199, 230);
+    box-shadow: -1px -1px 1px rgb(171, 201, 231);
+}
+.input.short{width: 90px}
+
+
+/* label样式 */
+.label{display: inline-block;font-size: 18px;color:#002f69;width: 90px;height: 30px;line-height: 30px}
 .label2{
     width: 86px;display: inline-block;
     vertical-align: middle;color: #41638a;
     font-size: 16px;text-align: right;padding-right: 10px;
 }
+/* 图片样式 */
+.img{
+    width: 90px;
+    height: 30px;
+    margin-left: 10px;
+}
 /* 按钮样式 */
-.btn{font-size: 16px; color: #4f688e;width: 104px;height: 29px;background: url(images/login-btn.png);}
+.button{
+    font-size: 16px;
+    color: #4f688e;
+    width: 104px;
+    height: 29px;
+    background: url(img/login-btn.png);
+    border: 0;
+}
 /* 提示框样式 */
 .notice{
     color:#fff;background:black;border-radius:3px;font-size:16px;
     height:30px;line-height:30px;width:180px;text-align:center;
     overflow:hidden;position:fixed;left:156px;top:240px;
 }
-.forgot{padding-top: 16px;color: #002f69;text-align: right;padding-right: 90px;} 
-.protocol{color: #4f668e;padding-top: 10px;text-align: center;padding-right: 104px;}
+.forgot{padding-top: 16px;color: #002f69;text-align: right;} 
+.protocol{color: #4f668e;padding-top: 10px;text-align: center;}
 .word,.word2{font-size: 14px;color: #f83d18;display: inline-block;height: 26px;}
 .word2{color: #333cfa;margin-left: 8px;}
 .back{text-align: right;color: #002f69;padding: 3px 67px 0 0;}
@@ -50,11 +88,4 @@ html,body,#root,.container{width: 100%;height: 100%;position: relative;}
     box-shadow: -1px -1px 1px rgb(171, 201, 231);
     box-sizing: border-box;-webkit-box-sizing: border-box; 
     float:left;  
-}
-.img{
-	display:block;
-	float:left;
-	width:70px;
-	height:26px;
-	margin-left:4px;
 }

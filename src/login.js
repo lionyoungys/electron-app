@@ -100,8 +100,8 @@ class Login extends Component {
     render() {
         let state = this.state;
         return (
-            <div className='login-container'>
-                <div style={{marginBottom:'12px'}}>
+            <div className='login-box'>
+                <div className='row'>
                     <label className='label'>电&emsp;话：</label>
                     <input 
                         type="text" 
@@ -109,31 +109,31 @@ class Login extends Component {
                         autoFocus 
                         maxLength="11"
                         onChange={e => this.setState({mobile:e.target.value.trim()})}
-                        className='text'
+                        className='input'
                     />
                 </div>
-                <div style={{marginBottom:'14px'}}>
+                <div className='row'>
                     <label className='label'>密&emsp;码：</label>
                     <input 
                         type="password" 
                         value={state.password}
                         onChange={e => this.setState({password:e.target.value.trim()})}
-                        className='text'
+                        className='input'
                     />
                 </div>
-                <div style={{marginBottom:'14px'}}>
-                    <label className='label' style={{display:'block', float:'left'}}>验证码:</label>
+                <div className='row'>
+                    <label className='label'>验证码:</label>
                     <input 
                         type="text" 
                         value={state.code}
                         onChange={e => this.setState({code:e.target.value.trim()})}
-                        className='input3'
+                        className='input short'
                     />
                    <img src={state.image} onClick={this.captcha} className='img'/>
                 </div>
-                <div style={{clear:'both',marginTop:'5px'}}>
+                <div className='row'>
                     <label className='label'></label>
-                    <input type="button" value="登陆" className='btn' onClick={this.onLoginRequest} style={{marginTop:'12px'}}/>
+                    <button type="button" className='button' onClick={this.onLoginRequest}>登录</button>
                 </div>
                 <div className='forgot' onClick={() => {this.props.changeView(1)}}>忘记密码？</div>
                 <div className='protocol'>
@@ -279,7 +279,7 @@ class Forgot extends Component {
                 </div>
                 <div>
                     <label className='label2'></label>
-                    <input type="button" value="确认" className='btn' onClick={this.onConfirmRequest}/>
+                    <button type="button" className='button' onClick={this.onConfirmRequest}>确认</button>
                 </div>
                 <div className='back' onClick={() => {this.props.changeView(0)}}>返回登录</div>
             </div>
