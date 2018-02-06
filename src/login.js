@@ -29,17 +29,14 @@ class Container extends Component {
         let state = this.state,
             E = this.elements[state.current];
         return (
-            <section className='container'>
+            <div className='container'>
                 <div 
                     className='notice' 
                     style={{display:(state.isShow ? 'inline-block' : 'none')}}
                 >{state.text}</div>
                 <em id='close' onClick={() => ipcRenderer.send('login-msg','close')}></em>
-                <E 
-                    notice={this.notice}
-                    changeView={index => this.setState({current:index})}
-                />
-            </section>
+                <E notice={this.notice} changeView={index => this.setState({current:index})}/>
+            </div>
         );
     }
 }
@@ -79,14 +76,12 @@ class Login extends Component {
                 console.log(result);
                 if (!api.V(result)) {
                     //验证错误时，提示登录信息错误
-                    this.props.notice(result.msg);                   
+                    this.props.notice(result.msg);
+                    this.captcha();                 
                 } else {
-                	localStorage.setItem( 'auth', JSON.stringify(result.auth) );
-                	localStorage.setItem('code', result.code);
+                	localStorage.setItem('order', result.order);
                 	localStorage.setItem('is_root', result.is_root);
-                	localStorage.setItem('msg', result.msg);
                     localStorage.setItem('token', result.token);                    
-                    this.props.notice('登录成功');  
                     ipcRenderer.send('login-msg','SUCCESS');
                 }
             });

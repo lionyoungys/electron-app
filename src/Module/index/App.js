@@ -29,6 +29,12 @@ export default class extends React.Component {
         this.state = {currentData:[],previousData:[],otherShow:false,addMemberShow:false};
         this.handleToast = this.handleToast.bind(this);
     }
+    componentDidMount() {
+        axios.post(api.U('msg_count'),api.D({token:this.props.token,type:this.props.isFactory}))
+        .then(response => {
+            console.log(response.data);
+        });
+    }
 
     handleToast(e) {
         if (10 == e.target.dataset.key) {

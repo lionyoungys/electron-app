@@ -7,16 +7,17 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import menus from './menus';
 import route from './route';
+const Passwd = route.passwd;    //修改密码组件
+const Feedback = route.feedback;    //用户反馈
 import './api';    //注册全局api对象
 import './tool';    //注册全局tool对象
 import './main.css';
 import './media.css';    //媒体查询相应式处理css
-const Passwd = route.passwd;    //修改密码组件
-const Feedback = route.feedback;    //用户反馈
 
 const token = localStorage.getItem('token'),
-      auth = localStorage.getItem('auth'),
+      order = localStorage.getItem('order'),
       isRoot = localStorage.getItem('is_root'),
+      isFactory = 1,
       branch = 'master';    //当前项目分支
 
 console.log(token);
@@ -26,11 +27,15 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name:null,status:null,logo:null,amount:null,count:null,    //数据状态
+            name:null,
+            status:null,
+            logo:null,
+            amount:null,
+            count:null,    //数据状态
             option:null,  //菜单栏样式状态
-            view:'index',param:null    //右侧展示样式状态 附带参数
+            view:'index',    //视图索引
+            param:null    //附带参数
         };
-        // this.interval = null;
         this.changeView = this.changeView.bind(this);
         this.toggle = this.toggle.bind(this);
     }
@@ -47,6 +52,10 @@ class Main extends Component {
                 count:result.order_count    //有效订单
             });         
         });
+        axios.post(api.U('msg_count'),api.D({token:token,type:isFactory}))
+        .then(response => {
+            console.log(response.data);
+        });
         // setInterval(() => {
         //     axios.post(api.U('index'),api.D({token:token}))
         //     .then((response)=>{
@@ -56,9 +65,7 @@ class Main extends Component {
         // }, 60000);
     }
 
-    componentWillUnmount() {
-        null !== this.interval && clearInterval(this.interval);
-    }
+    componentWillUnmount() {}
     //营业状态切换
     toggle() {
         let status = (this.state.status ? 0 : 1);    //操作当前店铺状态时，获取当前店铺状态并取反
@@ -106,12 +113,7 @@ class Main extends Component {
                     </div>
                 </aside>
                 {/* 右侧视图容器 */}
-                    <E 
-                        token={token} 
-                        param={state.param}
-                        changeView={this.changeView}
-                        branch={branch}
-                    />
+                <E token={token} param={state.param} changeView={this.changeView} isFactory={isFactory} branch={branch}/>
             </div>
         );
     }
@@ -182,6 +184,11 @@ class Menu extends Component {
     }
 
     render() {
+        if (
+            (0 == isRoot && 0 == order && 'order' == this.props.id)    //判断员工是否有线上处理权限
+            ||
+            (0 == isRoot && 'manage' == this.props.id)                 //员工登录时没有商家管理权限
+        ) return null;
         let props = this.props,
             isUp = this.state.isUp,
             isShowOrders = 'order' == props.id && props.orders > 0,
