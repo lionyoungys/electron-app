@@ -19,8 +19,6 @@ const token = localStorage.getItem('token'),
       isRoot = localStorage.getItem('is_root'),
       branch = 'master';    //当前项目分支
 
-console.log(token);
-
 //界面主体容器组件
 class Main extends Component {
     constructor(props) {
@@ -50,10 +48,6 @@ class Main extends Component {
                 amount:result.amount,    //今日营业总额
                 count:result.order_count    //有效订单
             });         
-        });
-        axios.post(api.U('msg_count'),api.D({token:token,type:isFactory}))
-        .then(response => {
-            console.log(response.data);
         });
         // setInterval(() => {
         //     axios.post(api.U('index'),api.D({token:token}))
@@ -112,7 +106,7 @@ class Main extends Component {
                     </div>
                 </aside>
                 {/* 右侧视图容器 */}
-                <E token={token} param={state.param} changeView={this.changeView} isFactory={isFactory} branch={branch}/>
+                <E token={token} param={state.param} changeView={this.changeView} branch={branch}/>
             </div>
         );
     }
@@ -284,7 +278,20 @@ class Status extends Component {
 class Menu extends Component {
     constructor(props) {
         super(props);
-        this.state = {isUp:true}
+        this.state = {isUp:true, auth:[]}
+    }
+    componentDidMount() {
+        axios.post(api.U('msg_count'),api.D({token:token}))
+        .then(response => {
+            if (api.V(response.data)) {
+                let auth = response.data.result.might,
+                    len = auth.length;
+                for (let i =0;i < len;++i) {
+                    1 == auth[i].state && this.state.auth.push(auth[i].module);
+                }
+                this.setState({auth:this.state.auth});
+            }
+        });
     }
 
     render() {
@@ -293,21 +300,29 @@ class Menu extends Component {
             ||
             (0 == isRoot && 'manage' == this.props.id)                 //员工登录时没有商家管理权限
         ) return null;
+
         let props = this.props,
             isUp = this.state.isUp,
             isShowOrders = 'order' == props.id && props.orders > 0,
             //tag = ('order' == props.id ? <i className='tag'>0</i> : null),
             tag = null,
             status = isUp ? 'main-shrink' : 'main-spread',    //判断当前大选项是否为选中状态
-            optStatus = {display:isUp ? 'none' : 'block'},
             options = props.options.map((obj, index) => 
                 <dd
                     key={index}
+                    style={{
+                        display:( 
+                            ( ( 1 != isRoot && 'finance' == props.id && -1 === obj.auth.inArray(this.state.auth) ) || isUp )
+                            ?
+                            'none'
+                            :
+                            'block'
+                        )
+                    }}
                     data-option={obj.key}
                     data-view={obj.key}
                     className={props.option == obj.key ? 'option-choose' : null}
                     onClick={props.changeView}
-                    style={optStatus}
                 >
                     {obj.text}&emsp;&emsp;{tag}
                 </dd>
