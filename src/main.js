@@ -15,10 +15,9 @@ const Passwd = route.passwd;    //修改密码组件
 const Feedback = route.feedback;    //用户反馈
 
 const token = localStorage.getItem('token'),
-      auth = localStorage.getItem('auth'),
+      order = localStorage.getItem('order'),
       isRoot = localStorage.getItem('is_root'),
-      isFactory = 0,
-      branch = 'master';    //当前项目分支
+      branch = 'factory';    //当前项目分支
 
 console.log(token);
 
@@ -162,7 +161,7 @@ class Header extends Component {
         e.nativeEvent.stopImmediatePropagation();
     }
     query() {
-        axios.post(api.U('msg_count'), api.D({token:token,type:isFactory}))
+        axios.post(api.U('msg_count'), api.D({token:token}))
         .then(response => {
             console.log(response.data);
             api.V(response.data) && this.setState({count:response.data.result.message_count});
