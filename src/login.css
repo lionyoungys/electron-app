@@ -1,23 +1,30 @@
-html,body,div,label,input{padding: 0;margin: 0;}
+html,body,div,input{padding: 0;margin: 0;}
 input,button{outline-color: #4ca1f5;box-sizing: border-box;-webkit-box-sizing: border-box}
 body{font-size: 14px;}
-#root{-webkit-app-region: drag;}
-#close,input,.back,.forgot,.word,.word2,.protocol,img{-webkit-app-region: no-drag;}
+.fa-check-square{color: #fff;}
+.fa-check-square.checked{color: #002f69}
 html,body,#root,.container{width: 100%;height: 100%;position: relative;}
+.container{-webkit-app-region: drag;}
 /* 关闭窗口样式 */
 #close{
-    width: 39px;height: 38px;background: url(images/login-close.png);
-    position: fixed;top: 8px;right: 8px;
+    width: 38px;
+    height: 38px;
+    background: url(img/login-close.png);
+    position: fixed;
+    top: 8px;right: 8px;
+    -webkit-app-region: no-drag;
 }
 /* 登录界面容器 */
 .login-box{
     padding:106px 104px 0;
     background: url(img/login-bg.jpg) no-repeat 0 0;
-
 };
 /* 忘记密码界面容器 */
-.forgot-container{padding: 62px 0 0 92px;background: url(images/forgot-bg.jpg) no-repeat 0 0;}
-.login-box,.forgot-container{
+.forgot-box{
+    padding: 60px 104px 0;
+    background: url(images/forgot-bg.jpg) no-repeat 0 0;
+}
+.login-box,.forgot-box{
     width: 100%;
     height: 100%;
     box-sizing: border-box;
@@ -29,13 +36,13 @@ html,body,#root,.container{width: 100%;height: 100%;position: relative;}
     height: 30px;
     position: relative;
     margin-bottom: 10px;
+    -webkit-app-region: no-drag;
 }
+.row.between{justify-content: space-between}
+.row.auto{height: auto}
+.row.center{justify-content: center}
+.row.right{justify-content: flex-end}
 /* 文本输入框样式 */
-.text{
-    height: 26px;width: 186px;border: 1px solid rgb(167, 199, 230);
-    box-shadow: -1px -1px 1px rgb(171, 201, 231);
-    box-sizing: border-box;-webkit-box-sizing: border-box;
-}
 .input{
     font-size: 16px;
     padding: 0 10px;
@@ -45,20 +52,17 @@ html,body,#root,.container{width: 100%;height: 100%;position: relative;}
     box-shadow: -1px -1px 1px rgb(171, 201, 231);
 }
 .input.short{width: 90px}
-
-
 /* label样式 */
 .label{display: inline-block;font-size: 18px;color:#002f69;width: 90px;height: 30px;line-height: 30px}
-.label2{
-    width: 86px;display: inline-block;
-    vertical-align: middle;color: #41638a;
-    font-size: 16px;text-align: right;padding-right: 10px;
-}
-/* 图片样式 */
-.img{
+.label.auto{height: auto}
+/* 验证码样式 */
+.captcha{
     width: 90px;
     height: 30px;
     margin-left: 10px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 16px;
 }
 /* 按钮样式 */
 .button{
@@ -75,8 +79,11 @@ html,body,#root,.container{width: 100%;height: 100%;position: relative;}
     height:30px;line-height:30px;width:180px;text-align:center;
     overflow:hidden;position:fixed;left:156px;top:240px;
 }
-.forgot{padding-top: 16px;color: #002f69;text-align: right;} 
-.protocol{color: #4f668e;padding-top: 10px;text-align: center;}
+.blue{color: #002f69}
+.lightblue{color: #4f668e}
+.red{color: #fa2212}
+.pointer{cursor: pointer}
+.f12{font-size: 12px;}
 .word,.word2{font-size: 14px;color: #f83d18;display: inline-block;height: 26px;}
 .word2{color: #333cfa;margin-left: 8px;}
 .back{text-align: right;color: #002f69;padding: 3px 67px 0 0;}

@@ -5,9 +5,14 @@
 const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import './tool';
+import Checkbox from './Module/UI/checkbox/App';
 import './login.css';
 import './api';
-String.prototype.trim = function () {return this.replace(/(^\s*)|(\s*$)/g,'')};    //去除字符串中的空字符；
+String.prototype.trim = function () {return this.replace(/(^\s*)|(\s*$)/g,'')};    //去除字符串中的空字符
+const account = localStorage.getItem('account'),
+      password = localStorage.getItem('password'),
+      remember = localStorage.getItem('remember');
 
 class Container extends Component {
     constructor(props) {
@@ -44,7 +49,15 @@ class Container extends Component {
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {mobile:'',password:'',code:'',captcha:'',unique:'',image:''};
+        this.state = {
+            mobile:( tool.isSet(account) ? account : '' ),
+            password:( tool.isSet(password) ? password : '' ),
+            remember:( 1 == remember ? true : false ),
+            code:'',
+            captcha:'',
+            unique:'',
+            image:''
+        };
         this.captcha = this.captcha.bind(this);    //获取验证码
         this.onLoginRequest = this.onLoginRequest.bind(this);    //登录事件      
     }
@@ -88,6 +101,15 @@ class Login extends Component {
                     this.props.notice(result.msg);
                     this.captcha();                 
                 } else {
+                    if (this.state.remember) {
+                        localStorage.setItem('account', this.state.mobile);
+                        localStorage.setItem('password', this.state.password);
+                        localStorage.setItem('remember', 1);
+                    } else {
+                        localStorage.setItem('account', '');
+                        localStorage.setItem('password', '');
+                        localStorage.setItem('remember', 0);
+                    }
                 	localStorage.setItem('order', result.order);
                 	localStorage.setItem('is_root', result.is_root);
                     localStorage.setItem('token', result.token);                    
@@ -129,15 +151,21 @@ class Login extends Component {
                         onChange={e => this.setState({code:e.target.value.trim()})}
                         className='input short'
                     />
-                   <img src={state.image} onClick={this.captcha} className='img'/>
+                   <img src={state.image} onClick={this.captcha} className='captcha'/>
                 </div>
                 <div className='row'>
                     <label className='label'></label>
                     <button type="button" className='button' onClick={this.onLoginRequest}>登录</button>
                 </div>
-                <div className='forgot' onClick={() => {this.props.changeView(1)}}>忘记密码？</div>
-                <div className='protocol'>
-                    点击登录，即表示您同意<span style={{color:'#fa2212'}} onClick={() => ipcRenderer.send('protocol','show')}>用户协议</span>
+                <div className='row between blue pointer auto'>
+                    <Checkbox
+                        checked={this.state.remember}
+                        onClick={() => this.setState({remember:!this.state.remember})}
+                    >记住我</Checkbox>
+                    <span onClick={() => {this.props.changeView(1)}}>忘记密码？</span>
+                </div>
+                <div className='row lightblue center auto'>
+                    点击登录，即表示您同意<span className='red pointer' onClick={() => ipcRenderer.send('protocol','show')}>用户协议</span>
                 </div>
             </div>
         );
@@ -233,55 +261,54 @@ class Forgot extends Component {
         let state = this.state;
         const style = {paddingBottom:'22px'};
         return (
-            <div className='forgot-container'>
-                <div>
-                    <label className='label2'>新密码：</label>
+            <div className='forgot-box'>
+                <div className='row'>
+                    <label className='label'>新密码：</label>
                     <input 
                         type="password" 
                         value={state.newPassword} 
                         autoFocus 
                         onChange={this.changeNewPassword}
-                        className='text'
+                        className='input'
                     />
                 </div>
-                <div>
-                    <label className='label2'></label>
-                    <div className='word'>*密码为6～18位字母、数字组合</div>
+                <div className='row auto'>
+                    <label className='label auto'></label>
+                    <div className='red'>密码为6～18位字母、数字组合</div>
                 </div>
-                <div style={style}>
-                    <label className='label2'>确认密码：</label>
+                <div className='row'>
+                    <label className='label'>确认密码：</label>
                     <input 
                         type="password" 
                         value={state.confirmPassword} 
                         onChange={this.changeConfirmPassword}
-                        className='text'
+                        className='input'
                     />
                 </div>
-                <div style={style}>
-                    <label className='label2'>手机号：</label>
+                <div className='row'>
+                    <label className='label'>手机号：</label>
                     <input 
                         type="text" 
                         value={state.mobile_number} 
                         onChange={this.changeMobile}
-                        className='text'
+                        className='input'
                     />
                 </div>
-                <div style={style}>
-                    <label className='label2'>验证码：</label>
+                <div className='row'>
+                    <label className='label'>验证码：</label>
                     <input 
-                        style={{width:'105px'}}
                         type="text" 
                         value={state.captcha} 
                         onChange={this.changeCaptcha}
-                        className='text'
+                        className='input short'
                     />
-                    <span className='word2' onClick={this.getCaptcha}>{state.msg}</span>
+                    <span className='captcha blue pointer' onClick={this.getCaptcha}>{state.msg}</span>
                 </div>
-                <div>
-                    <label className='label2'></label>
+                <div className='row'>
+                    <label className='label'></label>
                     <button type="button" className='button' onClick={this.onConfirmRequest}>确认</button>
                 </div>
-                <div className='back' onClick={() => {this.props.changeView(0)}}>返回登录</div>
+                <div className='row blue right auto pointer' onClick={() => {this.props.changeView(0)}}>返回登录</div>
             </div>
         );
     }
