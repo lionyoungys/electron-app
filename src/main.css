@@ -11,6 +11,8 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
 ::-webkit-scrollbar-thumb{border-radius: 10px;background: #c6c6c7;}
 /* font-awesome颜色样式修改 */
 .fa-lock{color: #e8c036;font-size: 26px}
+.fa-circle-o-notch{color: #4e94dc;font-size: 26px}
+.fa-download{font-size: 22px;color: #FF3333}
 .fa-pencil-square{color: #b568f7;font-size: 26px}
 .fa-check-circle{color: #09b1b0;font-size: 22px}
 .fa-check-circle-o{color: #ccc;font-size: 22px}
@@ -99,6 +101,7 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
     line-height: 300px;
     color: #17a8eb;
 }
+.main-msg-loading>.fa-circle-o-notch{font-size: 50px;color: #17a8eb}
 .main-msg-body{
     height: 380px;
     padding: 0 10px;
@@ -164,7 +167,33 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
     cursor: pointer;
 }
 .main-msg>div:nth-of-type(3)>.fa-trash-o:hover{color:rgba(231, 14, 14, .8)}
-
+/* 软件更新下载样式 */
+.main-download-bg{
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
+    width: 28px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
+.main-download-bd{
+    position: absolute;
+    left: 0;top: 0;
+    color: #ccc;
+    left: 0;top: 0;
+    text-align: center;
+    font-size: 12px;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+}
+.main-download-progressing{
+    position: absolute;
+    bottom: 0;left: 0;
+    width: 100%;
+    background: #4e94dc;
+}
 /* 界面左侧side bar 样式 */
 #main>aside{
     width: 181px;

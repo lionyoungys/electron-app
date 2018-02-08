@@ -7,7 +7,10 @@ const electron = require('electron'),
     url = require('url');
 let win = {},    //声明窗口对象
     winprints = null,
-    param = {};
+    param = {},
+    timeID = null,
+    floder = '',
+    download = {total:0,received:0,state:null};
 
 const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
         // Someone tried to run a second instance, we should focus our window.
@@ -24,9 +27,9 @@ if (shouldQuit) {app.quit()}
 
 // 部分 API 在 ready 事件触发后才能使用。
 app.on('ready', () => {
-    createWindow('login', { width: 491, height: 351, frame: false, resizable: false,autoHideMenuBar:true }, 'public/login.html');
+    //createWindow('login', { width: 491, height: 351, frame: false, resizable: false,autoHideMenuBar:true }, 'public/login.html');
     //开发测试优先创建main窗口
-    /*let electronScreen = electron.screen,    //定义屏幕对象变量
+    let electronScreen = electron.screen,    //定义屏幕对象变量
         size = electronScreen.getPrimaryDisplay().workAreaSize;    //获取屏幕大小
     createWindow(
         'main', 
@@ -41,7 +44,32 @@ app.on('ready', () => {
         //'public/prints/recharge.html'
         //'public/prints/invoice.html'
         'public/main.html'
-    );*/
+    );
+    win.main.webContents.session.on('will-download', (event, item, webContents) => {
+        // Set the save path, making Electron not to prompt a save dialog.
+        //item.setSavePath(floder +'\\' + item.getFilename());
+        item.setSavePath(`${floder}\\${item.getFilename()}`);
+        item.on('updated', (event, state) => {
+          if (state === 'interrupted') {
+            //console.log('Download is interrupted but can be resumed')
+          } else if (state === 'progressing') {
+            if (item.isPaused()) {
+              //console.log('Download is paused')
+            } else {
+              //console.log(`Received bytes: ${item.getReceivedBytes()}`)
+              download = {total:item.getTotalBytes(),received:item.getReceivedBytes(),state:'progressing'};
+            }
+          }
+        })
+        item.once('done', (event, state) => {
+          if (state === 'completed') {
+            //console.log('Download successfully')
+            download = {total:item.getTotalBytes(),received:item.getReceivedBytes(),state:'completed'};
+          } else {
+            console.log(`Download failed: ${state}`)
+          }
+        })
+    })
 });
 
 app.on('window-all-closed', () => { app.quit() }); //当全部窗口关闭时退出。
@@ -108,6 +136,14 @@ ipcMain.on('print', (e, arg) => {
 ipcMain.on('get-param',(e, args) => {
     e.returnValue = param;
 });
+ipcMain.on('download', (e, arg) => {
+    floder = arg.floder;
+    win.main.webContents.downloadURL(arg.url);
+    timeID = setInterval(() => {
+        e.sender.send('download', download);
+    }, 500);
+});
+ipcMain.on('cleanInterval', () => {clearInterval(timeID)});
 //窗口创建函数
 function createWindow(name, windowStyle, uri) {
     //创建浏览器窗口。
