@@ -90,7 +90,8 @@ class Login extends Component {
                     passwd:state.password,
                     code:state.code,
                     captcha:state.captcha,
-                    unique:state.unique
+                    unique:state.unique,
+                    is_factory:1
                 })
             )
             .then(response => {
