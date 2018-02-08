@@ -3,6 +3,8 @@
  * @author yangyunlong
  */
 
+const {dialog} = window.require('electron').remote;
+const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import menus from './menus';
@@ -17,7 +19,8 @@ import './media.css';    //媒体查询相应式处理css
 const token = localStorage.getItem('token'),
       order = localStorage.getItem('order'),
       isRoot = localStorage.getItem('is_root'),
-      branch = 'master';    //当前项目分支
+      branch = 'master',    //当前项目分支
+      version = '1.0.1';
 
 //界面主体容器组件
 class Main extends Component {
@@ -124,7 +127,11 @@ class Header extends Component {
             detail:false,
             count:0,
             url:'',
-            data:[]
+            data:[],
+            hasUpdate:false,
+            download:'',
+            downloadState:0,    //下载状态:0-未下载,1-下载中,2-下载中且无法读取文件总大小
+            received:'0%',
         };
         this.toggleFeedbackShow = this.toggleFeedbackShow.bind(this);
         this.togglePasswdShow = this.togglePasswdShow.bind(this);
@@ -133,11 +140,32 @@ class Header extends Component {
         this.handleClick = this.handleClick.bind(this);
         this.goBack = this.goBack.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
     }
     componentDidMount() {
         document.onclick = () => {this.setState({show:false})}
         this.interval = setInterval(this.query, 60000);
         this.query();
+        axios.post(api.U('software_update'), api.D({token:token,version:version}))
+        .then(response => {
+            let data = response.data;
+            if (api.V(response.data)) {
+                this.setState({download:data.download,hasUpdate:1 == data.has_upd ? true : false});
+            }
+        })
+        ipcRenderer.on('download', (e, arg) => {
+            if ('completed' != arg.state) {
+                if (0 == arg.total) {
+                    2 != this.state.downloadState && this.setState({downloadState:2});
+                } else {
+                    let rate = Math.floor( (arg.received / arg.total) * 100);
+                    this.setState({received:`${rate}%`,downloadState:1});
+                }
+            } else {
+                ipcRenderer.send('cleanInterval', 'completed');
+                this.setState({downloadState:0,received:'0%'});
+            }
+        });
     }
     toggleFeedbackShow() {this.setState({feedbackShow:!this.state.feedbackShow});}
     togglePasswdShow() {this.setState({passwdShow:!this.state.passwdShow});}
@@ -182,6 +210,18 @@ class Header extends Component {
             }
         });
     }
+    handleUpdate() {
+        if (confirm('确认下载最新版本软件?')) {
+            dialog.showOpenDialog(
+                {properties: ['openDirectory']},
+                (path) => {
+                    if ('undefined' === typeof path) return;
+                    ipcRenderer.send('download', {url:this.state.download,floder:path[0]});
+                    this.setState({downloadState:2});
+                }
+            );
+        }
+    }
     render() {
         let html = null;
         if (!this.state.detail && !this.state.loading) {
@@ -207,6 +247,16 @@ class Header extends Component {
                     <span onClick={this.togglePasswdShow}>
                         <i className="fa fa-lock"></i>&nbsp;修改密码
                     </span>
+                    {this.state.hasUpdate && 0 == this.state.downloadState && (<span onClick={this.handleUpdate}><i className="fa fa-download"></i>&nbsp;版本更新</span>)}
+                    {1 == this.state.downloadState && (
+                        <span>
+                            <span className='main-download-bg'>
+                                <span className='main-download-bd'>{this.state.received}</span>
+                                <span className='main-download-progressing' style={{height:this.state.received}}></span>
+                            </span>&nbsp;下载中
+                        </span>
+                    )}
+                    {2 == this.state.downloadState && (<span><i className='fa fa-circle-o-notch fa-spin'></i>&nbsp;下载中</span>)}
                     <span className='main-bell-box'>
                         <div
                             className={'main-bell' + (this.state.count > 0 ? ' has-msg' : '')}
