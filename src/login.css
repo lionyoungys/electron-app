@@ -78,6 +78,7 @@ html,body,#root,.container{width: 100%;height: 100%;position: relative;}
     color:#fff;background:black;border-radius:3px;font-size:16px;
     height:30px;line-height:30px;width:180px;text-align:center;
     overflow:hidden;position:fixed;left:156px;top:240px;
+    z-index: 10;
 }
 .blue{color: #002f69}
 .lightblue{color: #4f668e}
