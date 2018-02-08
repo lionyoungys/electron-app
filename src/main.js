@@ -154,7 +154,6 @@ class Header extends Component {
             }
         })
         ipcRenderer.on('download', (e, arg) => {
-            console.log(arg);
             if ('completed' != arg.state) {
                 if (0 == arg.total) {
                     2 != this.state.downloadState && this.setState({downloadState:2});
