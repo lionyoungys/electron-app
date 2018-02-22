@@ -2,6 +2,8 @@
  * 财务对账组件
  * @author yangyunlong
  */
+const {dialog} = window.require('electron').remote;
+const {ipcRenderer} = window.require('electron');
 import React from 'react';
 import Crumb from '../UI/crumb/App';
 import './App.css';
@@ -13,6 +15,7 @@ export default class extends React.Component {
         this.state = {bank:'',account:'',balance:0,record:[],checked:'all'};
         this.tab = [{value:'全部',key:'all'},{value:'收入',key:'income'},{value:'支出',key:'expend'}];
         this.changeTab = this.changeTab.bind(this);
+        this.download = this.download.bind(this);
     }
 
 
@@ -25,6 +28,19 @@ export default class extends React.Component {
                 console.log(response.data);
             }
         });
+    }
+
+    download() {
+        dialog.showOpenDialog(
+            {properties: ['openDirectory']},
+            (path) => {
+                if ('undefined' === typeof path) return;
+                ipcRenderer.send('download', {
+                    url:`${api.U('download_record')}?token=${this.props.token}&type=${this.state.checked}`,
+                    floder:path[0]
+                });
+            }
+        );
     }
 
     changeTab(e) {
@@ -51,6 +67,8 @@ export default class extends React.Component {
                 return (<span className='detail'>明细：<span className='word'>平台打款</span>{obj.real_amount}</span>);
         }
     }
+
+    
 
     render() {
         let props = this.props,
@@ -83,7 +101,7 @@ export default class extends React.Component {
                     <div className='m-box balance'>
                         <div><div>{tabs}</div><div>账户余额：<span>&yen;{state.balance}</span></div></div>
                         {html}
-                        <div className='m-blue'>下载</div>
+                        <div className='m-blue' onClick={this.download}>下载</div>
                     </div>
                 </div>
             </div>

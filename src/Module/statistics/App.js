@@ -2,6 +2,8 @@
  * 线下业务统计组件
  * @author yangyunlong
  */
+const {dialog} = window.require('electron').remote;
+const {ipcRenderer} = window.require('electron');
 import React from 'react';
 import Crumb from '../UI/crumb/App';
 import Page from '../UI/page/App';
@@ -25,6 +27,7 @@ export default class extends React.Component{
         this.handlePage = this.handlePage.bind(this);
         this.redirect = this.redirect.bind(this);
         this.handleTab = this.handleTab.bind(this);
+        this.download = this.download.bind(this);
     }
 
     componentDidMount() {
@@ -110,6 +113,18 @@ export default class extends React.Component{
     }
     handlePage(page) {this.query(null, page);}
     redirect(e) {this.props.changeView({view:'detail',param:{value:'业务统计',view:'statistics',id:e.target.dataset.id}});}
+    download() {
+        dialog.showOpenDialog(
+            {properties: ['openDirectory']},
+            (path) => {
+                if ('undefined' === typeof path) return;
+                ipcRenderer.send('download', {
+                    url:`${api.U( ('download_' + this.tab[this.state.checked].api) )}?token=${this.props.token}&start=${this.state.start}&end=${this.state.end}`,
+                    floder:path[0]
+                });
+            }
+        );
+    }
 
     render() {
         let tab = this.tab.map(obj => 
@@ -133,7 +148,7 @@ export default class extends React.Component{
                                 0 == this.state.checked ? 
                                 (<span>总收入：<span style={{fontSize:'22px',color:'#333'}}>&yen;{this.state.sum}</span></span>) 
                                 : 
-                                (<span className='m-blue m-pointer'>下载</span>) 
+                                (<span className='m-blue m-pointer' onClick={this.download}>下载</span>) 
                             }
                         </div>
                         <div className='m-text-r'>
@@ -172,7 +187,7 @@ export default class extends React.Component{
                             <tbody>{html}</tbody>
                         </table>
                     </div>
-                    {0 == this.state.checked ? <div className='m-blue m-pointer' style={{textAlign:'right',marginTop:'20px'}}>下载</div> : null}
+                    {0 == this.state.checked ? <div className='m-blue m-pointer' style={{textAlign:'right',marginTop:'20px'}} onClick={this.download}>下载</div> : null}
                 </div>
                 <Page 
                     count={this.state.pageCount}

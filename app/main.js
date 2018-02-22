@@ -44,30 +44,8 @@ app.on('ready', () => {
         //'public/prints/recharge.html'
         //'public/prints/invoice.html'
         'public/main.html'
-    );
-    win.main.webContents.session.on('will-download', (event, item, webContents) => {
-        item.setSavePath(`${floder}\\${item.getFilename()}`);
-        item.on('updated', (event, state) => {
-          if (state === 'interrupted') {
-            //console.log('Download is interrupted but can be resumed')
-          } else if (state === 'progressing') {
-            if (item.isPaused()) {
-              //console.log('Download is paused')
-            } else {
-              //console.log(`Received bytes: ${item.getReceivedBytes()}`)
-              download = {total:item.getTotalBytes(),received:item.getReceivedBytes(),state:'progressing'};
-            }
-          }
-        })
-        item.once('done', (event, state) => {
-          if (state === 'completed') {
-            //console.log('Download successfully')
-            download = {total:item.getTotalBytes(),received:item.getReceivedBytes(),state:'completed'};
-          } else {
-            console.log(`Download failed: ${state}`)
-          }
-        })
-    })*/
+    );*/
+    
 });
 
 app.on('window-all-closed', () => { app.quit() }); //当全部窗口关闭时退出。
