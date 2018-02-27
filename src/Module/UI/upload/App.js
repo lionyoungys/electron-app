@@ -20,7 +20,7 @@ export default class extends React.Component {
     chooseImage() {
         if (this.props.img.length >= 12) return;
         dialog.showOpenDialog({
-            filters: [{name: 'Images', extensions: ['jpg','png','jpeg','JPG','PNG','JPEG']}],
+            filters: [{name: 'Images', extensions: ['jpg','png','jpeg','bmp','JPG','PNG','JPEG','BMP']}],
             properties: ['openFile']
         },(filePaths) => {
             if (tool.isSet(filePaths)) {
