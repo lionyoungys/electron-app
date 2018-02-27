@@ -504,27 +504,79 @@ export const color = [
 export const problem = [
   {
     key: 0,
-    value: "蛋糕"
+    value: "磨损"
+  },
+  {
+    key:'append-0',
+    value:"破洞"
   },
   {
     key: 1,
-    value: "果汁"
+    value: "发白"
   },
   {
     key: 2,
-    value: "咖啡渍"
+    value: "色差"
+  },
+  {
+    key:'append-1',
+    value:'有油'
+  },
+  {
+    key:'append-2',
+    value:'顽渍'
+  },
+  {
+    key:'append-3',
+    value:'发明'
+  },
+  {
+    key:'append-4',
+    value:'挂伤'
+  },
+  {
+    key:'append-5',
+    value:'染色'
+  },
+  {
+    key:'append-6',
+    value:'变形'
+  },
+  {
+    key:'append-7',
+    value:'划伤'
+  },
+  {
+    key:'append-8',
+    value:'折印'
   },
   {
     key: 3,
-    value: "红酒"
+    value: "起球"
+  },
+  {
+    key:'append-9',
+    value:'断带'
   },
   {
     key: 4,
-    value: "口香糖"
+    value: "皮板发硬"
+  },
+  {
+    key:'append-10',
+    value:'渗胶'
+  },
+  {
+    key:'append-11',
+    value:'里子大'
+  },
+  {
+    key:'append-12',
+    value:'脑油'
   },
   {
     key: 5,
-    value: "奶渍"
+    value: "开胶"
   },
   {
     key: 6,
@@ -688,11 +740,11 @@ export const problem = [
   },
   {
     key: 46,
-    value: "起球"
+    value: "红酒"
   },
   {
     key: 47,
-    value: "磨损"
+    value: "蛋糕"
   },
   {
     key: 48,
@@ -832,7 +884,7 @@ export const problem = [
   },
   {
     key: 82,
-    value: "开胶"
+    value: "奶渍"
   },
   {
     key: 83,
@@ -860,7 +912,7 @@ export const problem = [
   },
   {
     key: 89,
-    value: "皮板发硬"
+    value: "口香糖"
   },
   {
     key: 90,
@@ -884,11 +936,11 @@ export const problem = [
   },
   {
     key: 95,
-    value: "色差"
+    value: "咖啡渍"
   },
   {
     key: 96,
-    value: "发白"
+    value: "果汁"
   },
   {
     key: 97,
