@@ -159,12 +159,12 @@ export default class extends React.Component{
                         </tbody>
                     </table>
                     <div style={style}>会员充值</div>
-                    <div>
+                    <div style={{marginBottom:('企业会员卡' == this.state.data.cname ? '16px' : null)}}>
                         充值金额：<input type='text' value={this.state.amount} onChange={e => this.setState({amount:e.target.value})}/>&nbsp;&nbsp;元
                         &emsp;&emsp;
                         赠送金额：<input type='text' value={this.state.give} onChange={e => this.setState({give:e.target.value})}/>&nbsp;&nbsp;元
                     </div>
-                    <div className='m-box' style={{marginLeft:'60px',fontSize:'14px',lineHeight:'30px'}}>
+                    <div className='m-box' style={{marginLeft:'60px',fontSize:'14px',lineHeight:'30px',display:('企业会员卡' == this.state.data.cname ? 'none' : 'block')}}>
                         <p>温馨提示</p>
                         <p>
                             充值金额

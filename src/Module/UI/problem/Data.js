@@ -1,4 +1,61 @@
 export const color = [
+  // 黑 蓝 灰 白 红 绿 黄 卡其 焦糖  土黄 格 条 粉 玫红
+  {
+    key:'append-0',
+    value: '黑'
+  },
+  {
+    key:'append-1',
+    value: '蓝'
+  },
+  {
+    key:'append-2',
+    value: '灰'
+  },
+  {
+    key:'append-3',
+    value: '白'
+  },
+  {
+    key:'append-4',
+    value: '红'
+  },
+  {
+    key:'append-5',
+    value: '绿'
+  },
+  {
+    key:'append-6',
+    value: '黄'
+  },
+  {
+    key:'append-7',
+    value: '卡其'
+  },
+  {
+    key:'append-8',
+    value: '焦糖'
+  },
+  {
+    key:'append-9',
+    value: '土黄'
+  },
+  {
+    key:'append-10',
+    value: '格'
+  },
+  {
+    key:'append-11',
+    value: '条'
+  },
+  {
+    key:'append-12',
+    value: '粉'
+  },
+  {
+    key:'append-13',
+    value: '玫红'
+  },
   {
     key: 0,
     value: "白格"
