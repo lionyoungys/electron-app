@@ -20,7 +20,7 @@ const token = localStorage.getItem('token'),
       order = localStorage.getItem('order'),
       isRoot = localStorage.getItem('is_root'),
       branch = 'master',    //当前项目分支
-      version = '1.0.3';
+      version = '1.0.4';
 
 //界面主体容器组件
 class Main extends Component {
