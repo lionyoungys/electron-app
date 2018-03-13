@@ -107,50 +107,49 @@
     </div>
     <div class="box4">
         <!-- 店员名称 -->
-        <span id="clerk"></span>
+        <span id="employee"></span>
         <!-- 店铺联系方式 -->
         <span id="phone"></span>
     </div>
+    <script src="request.js"></script>
     <script>
-        const {ipcRenderer} = require('electron'),
-              axios = require('axios');
+        
         window.onload = function() {
-            const params = ipcRenderer.sendSync('get-params');
-            //const params = {token:'9f04XUc2V8VLs1PU12esgTsnamiP0lFyk9MWUgdmi3yEoTdcAiQh0P4',order_id:'1967',uid:'84'}
-            const fd = new FormData();
+            const {ipcRenderer} = require('electron');
+            const param = ipcRenderer.sendSync('get-param');
             const date = new Date(),
                   datetime = date.getFullYear()+'.'+(date.getMonth()*1+1)+'.'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
-            fd.append('token', params.token);
-            fd.append('order_id', params.order_id);
-            fd.append('clerk_id', params.uid);
-            axios.post('http://xiyi.wzj.dev.shuxier.com/app.php/Offline/PrintInfo/o_p', fd)
-            .then(response => {
-                let result = response.data.data,
-                    order = result.orderInfo,
-                    items = result.items;
-                console.log(result);
-                    insert('mname', order.mname);
-                    insert('mobile', order.mobile);
-                    insert('phone', order.phone);
+            //http://xiyi.wzj.dev.shuxier.com/mapi/print/order
+            //eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIzNCIsIm1pZCI6IjEwOCIsImlzUm9vdCI6IjEiLCJhdXRoIjoiW1wiMVwiLFwiMlwiLFwiM1wiLFwiNFwiXSIsInRpbWUiOjE1MTY2ODg0MTB9.Px13bbKjYxRdhm7kZiVOP9lGyjkwBc0hq96WZBJyhdg
+            //838
+            R.post(param.url, {token:param.token,oid:param.oid},function (response) {
+                    console.log(response);
+                    if (0 != response.code) return;
+                    let result = response.result;
+                    console.log(result);
+                    insert('mname', result.mname);
+                    insert('mobile', result.umobile);
+                    insert('phone', result.phone_number);
                     insert('date',datetime);
-                    insert('amount', order.amount);
-                    insert('clerk', order.clerkname);
-                    insert('pay_amount', order.pay_amount);
-                    let len = items.length,
+                    insert('amount', result.amount);
+                    insert('employee', result.employee);
+                    insert('pay_amount', result.pay_amount);
+                    let len = result.items.length,
                         content = '';
                     for (let i = 0;i < len;++i) {
-                        content += '<p class="row"><span></span><span>'+items[i].color+items[i].color_text+'</span>' + 
-                            '<span></span><span class="name">'+items[i].name+'</span><span></span><span>1</span>' + 
+                        content += '<p class="row"><span></span><span>'+result.items[i].color+'</span>' + 
+                            '<span></span><span class="name">'+result.items[i].item_name+'</span><span></span><span>1</span>' + 
                             '<span></span><span></span></p>';
                     }
                     insert('items',content);
                     ipcRenderer.send('print');
-                });
+                }
+            );
                 function insert(id, value) {
                     if ('undefined' === typeof value || null == value) value = '';
                     document.getElementById(id).innerHTML = value;
                 }
-            }
+        }
     </script>
 </body>
 </html>
