@@ -188,11 +188,12 @@ export default class extends React.Component {
         let request = [],
             requestData = {token:this.props.token,uid:this.props.param},
             temp = {},
-            tempLen,tempArr;
+            tempImage,tempLen,tempArr;
         for (let i = 0;i < len;++i) {
             if (!tool.isSet(data[i].clean_sn)) return alert('尚有项目未填写衣物编码!');
             if (!tool.isSet(data[i].take_time)) return alert('尚有项目选择取衣时间');
-            if (!tool.isSet(this.state.images[i]) || this.state.images[i].length < 1) return alert('尚有项目未上传图片');
+            //if (!tool.isSet(this.state.images[i]) || this.state.images[i].length < 1) return alert('尚有项目未上传图片');
+            tempImage = tool.isSet(this.state.images[i]) ? this.state.images[i] : [];
             if (!tool.isSet(data[i].color)) return alert('尚有项目未选择颜色!');
             if (!tool.isSet(data[i].problem)) return alert('尚有项目未选择问题!');
             temp = {
@@ -205,22 +206,22 @@ export default class extends React.Component {
                 craft_price:( tool.isSet(data[i].craft_price) ? data[i].craft_price : 0 ),
                 craft_des:( tool.isSet(data[i].craft_des) ? data[i].craft_des : '' )
             };
-            tempLen = this.state.images[i].length;
+            tempLen = tempImage.length;
             for (let j = 0;j < tempLen;++j) {
-                tempArr = this.state.images[i][j].toBase64();
+                tempArr = tempImage[j].toBase64();
                 requestData[i + '_' + j] = tempArr[1].base64toBlob(tempArr[0]);
             }
             request.push(temp);
         }
         this.setState({loadingShow:true});
         requestData.items = JSON.stringify(request);
-        axios.post(api.U('item_submit'), api.D(requestData))
+        axios.post(api.U('item_submit1_0_5'), api.D(requestData))
         .then(response => {
             if (api.V(response.data)) {
                 if ('take_pay' == type) {
                     ipcRenderer.send(
                         'print-silent',
-                        'public/prints/index.html',
+                        this.props.special ? 'public/prints/invoice.html' : 'public/prints/index.html',
                         {token:this.props.token,oid:response.data.result,url:api.U('order_print')}
                     );
                     this.props.changeView({view:'index'});

@@ -20,7 +20,8 @@ const token = localStorage.getItem('token'),
       order = localStorage.getItem('order'),
       isRoot = localStorage.getItem('is_root'),
       branch = 'master',    //当前项目分支
-      version = '1.0.5';
+      special = true,        //是否为正章打印机
+      version = '1.0.6';
 
 //界面主体容器组件
 class Main extends Component {
@@ -109,7 +110,7 @@ class Main extends Component {
                     </div>
                 </aside>
                 {/* 右侧视图容器 */}
-                <E token={token} param={state.param} changeView={this.changeView} branch={branch}/>
+                <E token={token} param={state.param} changeView={this.changeView} branch={branch} special={special}/>
             </div>
         );
     }

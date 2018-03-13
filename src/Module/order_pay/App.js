@@ -286,7 +286,7 @@ export default class extends Component {
             if (api.V(response.data)) {
                 ipcRenderer.send(
                     'print-silent',
-                    'public/prints/index.html',
+                    this.props.special ? 'public/prints/invoice.html' : 'public/prints/index.html',
                     {token:this.props.token,oid:this.oid,url:api.U('order_print')}
                 );
                 this.props.changeView({view:'index'});
