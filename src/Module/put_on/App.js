@@ -32,7 +32,20 @@ export default class extends React.Component {
     onSearch() {
         axios.post(api.U('operate_search'),api.D({token:this.props.token,status:state,clean_sn:this.state.value}))
         .then(response => {
-            api.V(response.data) && this.query();
+            //api.V(response.data) && this.query();
+            if (api.V(response.data)) {
+                this.query();
+            } else {
+                let index = this.state.value.inObjectArray(this.state.data, 'clean_sn');
+                if (-1 != index) {
+                    if (this.state.data[index].assist == 1) return;
+                    let index2 = this.state.data[index].id.inArray(this.state.checked);
+                    if (-1 === index2) {
+                        this.state.checked.push(this.state.data[index].id);
+                        this.setState({checked:this.state.checked});
+                    }
+                }
+            }
         });
     }
 
