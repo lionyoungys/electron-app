@@ -38,7 +38,7 @@ export default [
             {text:'订单查询',key:'order_search'},
             {text:'员工管理',key:'employee'},
             {text:'返现记录',key:'award'},
-            {text:'用户评价',key:'comment'},
+            // {text:'用户评价',key:'comment'},
             {text:'连锁门店',key:'link'},
             {text:'门店信息',key:'info'},
             {text:'合作门店',key:'teamwork'},

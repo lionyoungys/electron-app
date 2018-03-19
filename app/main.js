@@ -27,9 +27,9 @@ if (shouldQuit) {app.quit()}
 
 // 部分 API 在 ready 事件触发后才能使用。
 app.on('ready', () => {
-    createWindow('login', { width: 491, height: 351, frame: false, resizable: false,autoHideMenuBar:true }, 'public/login.html');
+    //createWindow('login', { width: 491, height: 351, frame: false, resizable: false,autoHideMenuBar:true }, 'public/login.html');
     //开发测试优先创建main窗口
-    /*let electronScreen = electron.screen,    //定义屏幕对象变量
+    let electronScreen = electron.screen,    //定义屏幕对象变量
         size = electronScreen.getPrimaryDisplay().workAreaSize;    //获取屏幕大小
     createWindow(
         'main', 
@@ -44,7 +44,7 @@ app.on('ready', () => {
         //'public/prints/recharge.html'
         //'public/prints/invoice.html'
         'public/main.html'
-    );*/
+    );
     
 });
 

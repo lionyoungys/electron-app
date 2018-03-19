@@ -72,7 +72,7 @@ export default class extends React.Component {
                 itemids:this.state.checked.toString(),
                 moduleid:state,
                 startnum:this.state.start,
-                endum:this.state.end
+                endnum:this.state.end
             })
         )
         .then(response => {
