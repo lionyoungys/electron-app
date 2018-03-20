@@ -17,6 +17,7 @@ export default class extends React.Component {
         this.handleAllChecked = this.handleAllChecked.bind(this);
         this.handleCleaned = this.handleCleaned.bind(this);
         this.handleChecked = this.handleChecked.bind(this);
+        this.handleGoback = this.handleGoback.bind(this);
         this.query = this.query.bind(this);
     }
 
@@ -41,7 +42,7 @@ export default class extends React.Component {
                     let index2 = this.state.data[index].id.inArray(this.state.checked);
                     if (-1 === index2) {
                         this.state.checked.push(this.state.data[index].id);
-                        this.setState({checked:this.state.checked});
+                        this.setState({checked:this.state.checked,value:''});
                     }
                 }
             }
@@ -86,6 +87,9 @@ export default class extends React.Component {
             }
         });
     }
+    handleGoback() {
+
+    }
     render() {
         let html = this.state.data.map(obj => 
             <tr key={obj.id} className={(obj.assist == 1 || obj.clean_state == 1) ? 'm-grey' : null}>
@@ -120,6 +124,8 @@ export default class extends React.Component {
                             已选择<span className='m-red'>{this.state.checked.length}</span>件
                             &emsp;
                             <Checkbox checked={this.state.all} onClick={this.handleAllChecked}>全选</Checkbox>
+                            &emsp;
+                            <button type='button' className='m-btn confirm middle' onClick={this.handleGoback}>退回门店</button>
                             &emsp;
                             <button type='button' className='m-btn confirm middle' onClick={this.handleCleaned}>已清洗</button>
                         </div>

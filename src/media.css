@@ -5,7 +5,8 @@
 	.index{width: 640px}
 	.index:first-child>:nth-child(3n+0){margin-right: 0}
 	/* 收件界面样式 */
-	.take{width: 980px}
+	/* .take{width: 980px} */
+	.take{width: 800px}
 	.take>div{width: 300px}
 }
 /* 小于1600 大于 1400 */

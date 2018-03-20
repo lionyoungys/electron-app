@@ -164,11 +164,11 @@ export default class extends React.Component {
                             </tr>
                             <tr><td className='last'>满减件数&emsp;：{data.freeNum} 件</td></tr>
                             <tr><td className='last'>满减金额&emsp;：{data.freeAmount} 元</td></tr>
-                            <tr>
+                            {/* <tr>
                                 <td className='first' rowSpan="2">专店会员卡</td>
                                 <td className='last'>{data.cards[0].card_name}：&nbsp;折扣：{data.cards[0].discount}折&emsp;充值：{data.cards[0].price}元</td>
                             </tr>
-                            <tr><td className='last'>{data.cards[1].card_name}：&nbsp;折扣：{data.cards[1].discount}折&emsp;充值：{data.cards[1].price}元</td></tr>
+                            <tr><td className='last'>{data.cards[1].card_name}：&nbsp;折扣：{data.cards[1].discount}折&emsp;充值：{data.cards[1].price}元</td></tr> */}
                         </tbody>
                     </table>
                     {

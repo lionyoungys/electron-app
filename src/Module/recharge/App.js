@@ -15,7 +15,7 @@ export default class extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            data:{cards:[{},{}]},
+            data:{cards:[{},{}],cdiscount:''},
             checked:0,
             amount:'',
             give:'',
@@ -55,13 +55,14 @@ export default class extends React.Component{
     submit(authCode) {
         authCode = tool.isSet(authCode) ? authCode : '1';
         axios.post(
-            api.U('recharge'),
+            api.U('recharge1_0_6'),
             api.D({
                 token:this.props.token,
                 uid:this.state.data.id,
                 amount:this.state.amount,
                 give:this.state.give,
                 auth_code:authCode,
+                discount:this.state.data.cdiscount,
                 gateway:this.gateway[this.state.checked]
             })
         )
@@ -81,68 +82,6 @@ export default class extends React.Component{
         });
     }
 
-    onPayRequest() {
-        let state = this.state,
-            member = state.memberInfo.member;
-        if (!isNaN(state.amount) && state.amount > 0) {
-            if (0 !== state.payment) {
-                this.setState({isShow:true});
-            } else {
-                this.setState({paymentStatus:'loading'})
-                axios.post(
-                    api.U('rechargeMerchantCard'),
-                    api.D({
-                        token:this.props.token,
-                        uid:member.id,
-                        card_name:member.card_name,
-                        balance:state.amount,
-                        auth_code:'',
-                        give:state.give,
-                        type:1,pay_type:'CASH'
-                    })
-                )
-                .then(response => {
-                    if (api.verify(response.data)) {
-                        console.log(response.data);
-                        this.printOrder(response.data.data.rechargeId);
-                        this.setState({paymentStatus:'success'});
-                        this.props.changeView({element:'index'});
-                    } else {
-                        this.setState({paymentStatus:'fail'});
-                    }
-                });
-            }
-        }
-        
-    }
-    onOnlinePayRequest(authcode, amount) {
-        let state = this.state,
-            member = state.memberInfo.member;
-        this.setState({paymentStatus:'loading'})
-        axios.post(
-            api.U('rechargeMerchantCard'),
-            api.D({
-                token:this.props.token,
-                uid:member.id,
-                card_name:member.card_name,
-                balance:amount,
-                auth_code:authcode,
-                give:state.give,
-                type:1,pay_type:(1 == state.payment ? 'WECHAT' : 'ALI')
-            })
-        )
-        .then(response => {
-            console.log(response.data);
-            if (api.verify(response.data)) {
-                this.printOrder(response.data.data.rechargeId);
-                this.setState({paymentStatus:'success'});
-                this.props.changeView({element:'index'});
-            } else {
-                this.setState({paymentStatus:'fail'});
-            }
-        });
-    }
-
     render() {
         let cards = this.state.data.cards;
         return (
@@ -154,17 +93,23 @@ export default class extends React.Component{
                         <tbody className='member-update'>
                             <tr className='bd-lightgrey'><td>姓名</td><td>{this.state.data.uname}</td></tr>
                             <tr className='bd-lightgrey'><td>手机号</td><td>{this.props.param}</td></tr>
-                            <tr className='bd-lightgrey'><td>会员类型</td><td>{this.state.data.cname}</td></tr>
+                            <tr className='bd-lightgrey'>
+                                <td>会员折扣</td>
+                                <td><input type='text' value={this.state.data.cdiscount} onChange={(e) => {
+                                    this.state.data.cdiscount = e.target.value;
+                                    this.setState({data:this.state.data});
+                                }}/>&nbsp;折</td>
+                            </tr>
                             <tr className='bd-lightgrey'><td>当前余额</td><td className='m-red'>{this.state.data.cbalance}</td></tr>
                         </tbody>
                     </table>
                     <div style={style}>会员充值</div>
-                    <div style={{marginBottom:('企业会员卡' == this.state.data.cname ? '16px' : null)}}>
+                    <div style={{marginBottom:'16px'}}>
                         充值金额：<input type='text' value={this.state.amount} onChange={e => this.setState({amount:e.target.value})}/>&nbsp;&nbsp;元
                         &emsp;&emsp;
                         赠送金额：<input type='text' value={this.state.give} onChange={e => this.setState({give:e.target.value})}/>&nbsp;&nbsp;元
                     </div>
-                    <div className='m-box' style={{marginLeft:'60px',fontSize:'14px',lineHeight:'30px',display:('企业会员卡' == this.state.data.cname ? 'none' : 'block')}}>
+                    {/* <div className='m-box' style={{marginLeft:'60px',fontSize:'14px',lineHeight:'30px',display:('企业会员卡' == this.state.data.cname ? 'none' : 'block')}}>
                         <p>温馨提示</p>
                         <p>
                             充值金额
@@ -181,7 +126,7 @@ export default class extends React.Component{
                             折优惠
                         </p>
                             <p>如果已经是{cards[1].card_name},无论充值多少,仍享受当前优惠</p>
-                    </div>
+                    </div> */}
                     <Gateway checked={this.state.checked} callback={value => this.setState({checked:value})}/>
                     <div style={{marginTop:'20px'}}>
                         <button type='button' className='m-btn confirm large' onClick={this.handleClick}>立即支付</button>

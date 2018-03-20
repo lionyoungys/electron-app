@@ -29,6 +29,9 @@ export default class extends React.Component {
                 <td>{type}</td>
                 <td>{obj.end_time}</td>
                 <td>{obj.sn}</td>
+                <td>{obj.uname}</td>
+                <td>{obj.umobile}</td>
+                <td>{1 == obj.is_used ? obj.use_time : null}</td>
             </tr>
         );
         return (
@@ -37,7 +40,7 @@ export default class extends React.Component {
                 <div className='m-container coupon-detail'>
                     <div>下载&emsp;&emsp;</div>
                     <table className='m-table'>
-                        <thead><tr className='m-text-c bd-lightgrey m-bg-white'><th>序号</th><th>类型</th><th>有效日期</th><th>卡号</th></tr></thead>
+                        <thead><tr className='m-text-c bd-lightgrey m-bg-white'><th>序号</th><th>类型</th><th>有效日期</th><th>卡号</th><th>使用人姓名</th><th>手机号</th><th>使用日期</th></tr></thead>
                         <tbody>{html}</tbody>
                     </table>
                 </div>
