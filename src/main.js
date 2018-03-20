@@ -111,6 +111,7 @@ class Main extends Component {
                 </aside>
                 {/* 右侧视图容器 */}
                 <E token={token} param={state.param} changeView={this.changeView} branch={branch} special={special}/>
+                <Notice changeView={this.changeView}/>
             </div>
         );
     }
@@ -390,4 +391,28 @@ class Menu extends Component {
     }
 }
 
+
+//右下角弹出层
+class Notice extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+        this.onClose = this.onClose.bind(this);
+    }
+    onClose() {
+
+    }
+    render() {
+        return (
+            <div id='main-notice'>
+                <div>新订单提醒<i className='fa fa-times' onClick={this.onClose}></i></div>
+                <div>
+                    <div>您有新的订单，请及时处理</div>
+                    <div>2018-02-25 12:00:06</div>
+                </div>
+                <div><span onClick={() => this.props.changeView({view:'online'})}>查看</span></div>
+            </div>
+        );
+    }
+}
 ReactDOM.render(<Main/>,document.getElementById('root'));
