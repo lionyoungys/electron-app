@@ -24,7 +24,8 @@ export default class extends React.Component{
             show:false,
             status:'pay',
             cards:[],
-            amount:0
+            amount:'',
+            discount:'',
         };
         this.gateway = [
             'CASH',             //现金支付
@@ -32,7 +33,7 @@ export default class extends React.Component{
             'Alipay_AopF2F'    //支付宝扫码付
         ];
         this.handleSex = this.handleSex.bind(this);
-        this.handleCardChecked = this.handleCardChecked.bind(this);
+        // this.handleCardChecked = this.handleCardChecked.bind(this);
         this.onConfirm = this.onConfirm.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
@@ -46,16 +47,16 @@ export default class extends React.Component{
             theme:'#ff6e42',
             done:(value => this.setState({birthday:value}))
         });
-        axios.post(api.U('merchant_cards'),api.D({token:this.props.token}))
-        .then(response => {
-            api.V(response.data) && this.setState({cards:response.data.result,amount:response.data.result[0].price});
-        });
+        // axios.post(api.U('merchant_cards'),api.D({token:this.props.token}))
+        // .then(response => {
+        //     api.V(response.data) && this.setState({cards:response.data.result,amount:response.data.result[0].price});
+        // });
     }
     handleSex(value, checked) {!checked && this.setState({sex:value})}
-    handleCardChecked(e) {
-        let index = e.target.dataset.index;
-        (this.state.cardChecked != index) && this.setState({cardChecked:index,amount:this.state.cards[index].price});
-    }
+    // handleCardChecked(e) {
+    //     let index = e.target.dataset.index;
+    //     (this.state.cardChecked != index) && this.setState({cardChecked:index,amount:this.state.cards[index].price});
+    // }
     handleClick() {
         if (
             '' == this.state.uname
@@ -73,7 +74,7 @@ export default class extends React.Component{
     submit(authCode) {
         authCode = tool.isSet(authCode) ? authCode : '1';
         axios.post(
-            api.U('member_add'),
+            api.U('member_add1_0_6'),
             api.D({
                 token:this.props.token,
                 umobile:this.props.param,
@@ -82,7 +83,9 @@ export default class extends React.Component{
                 birthday:this.state.birthday,
                 reg_from:4,
                 auth_code:authCode,
-                cid:this.state.cards[this.state.cardChecked].id,
+                // cid:this.state.cards[this.state.cardChecked].id,
+                discount:this.state.discount,
+                amount:this.state.amount,
                 remark:this.state.remark,
                 addr:this.state.addr,
                 gateway:this.gateway[this.state.checked]
@@ -126,7 +129,7 @@ export default class extends React.Component{
             <div>
                 <Crumb data={[{key:0,value:'会员管理',view:'member'},{key:1,value:'新增个人会员'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
-                    <div style={{marginBottom:'10px',fontSize:'18px'}}>企业会员信息</div>
+                    <div style={{marginBottom:'10px',fontSize:'18px'}}>个人会员信息</div>
                     <table className='m-table' style={{marginBottom:'20px'}}>
                         <tbody className='member-update'>
                             <tr className='bd-lightgrey'>
@@ -147,6 +150,14 @@ export default class extends React.Component{
                                 <td><input type='text' value={this.state.birthday} ref={input => this.input = input} readOnly/></td>
                             </tr>
                             <tr className='bd-lightgrey'>
+                                <td>折扣</td>
+                                <td><input type='text' value={this.state.discount} onChange={e => this.setState({discount:e.target.value})}/>&nbsp;折</td>
+                            </tr>
+                            <tr className='bd-lightgrey'>
+                                <td>充值金额</td>
+                                <td><input type='text' value={this.state.amount} onChange={e => this.setState({amount:e.target.value})}/>&nbsp;元</td>
+                            </tr>
+                            <tr className='bd-lightgrey'>
                                 <td>地址</td>
                                 <td><input style={{width:'100%'}} type='text' value={this.state.addr} onChange={e => this.setState({addr:e.target.value})}/></td>
                             </tr>
@@ -156,8 +167,8 @@ export default class extends React.Component{
                             </tr>
                         </tbody>
                     </table>
-                    <div style={{fontSize:'18px',marginBottom:'20px'}}>会员类型</div>
-                    <div className='mau-box'>{html}</div>
+                    {/* <div style={{fontSize:'18px',marginBottom:'20px'}}>会员类型</div> */}
+                    {/* <div className='mau-box'>{html}</div> */}
                     <Gateway checked={this.state.checked} callback={value => this.setState({checked:value})}/>
                     <div style={{marginTop:'20px'}}>
                         <input type='button' className='m-btn confirm large' value='立即支付' onClick={this.handleClick}/>

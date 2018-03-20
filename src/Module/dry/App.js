@@ -40,7 +40,7 @@ export default class extends React.Component {
                     let index2 = this.state.data[index].id.inArray(this.state.checked);
                     if (-1 === index2) {
                         this.state.checked.push(this.state.data[index].id);
-                        this.setState({checked:this.state.checked});
+                        this.setState({checked:this.state.checked,value:''});
                     }
                 }
             }

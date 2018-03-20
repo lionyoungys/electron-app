@@ -42,7 +42,7 @@ export default class extends React.Component {
                     let index2 = this.state.data[index].id.inArray(this.state.checked);
                     if (-1 === index2) {
                         this.state.checked.push(this.state.data[index].id);
-                        this.setState({checked:this.state.checked});
+                        this.setState({checked:this.state.checked,value:''});
                     }
                 }
             }
@@ -76,8 +76,9 @@ export default class extends React.Component {
     }
     handleCleaned() {
         if (this.state.checked.length < 1) return;
-        if (isNaN(this.state.start)) return alert('请输入开始单号');
-        if ('' !== this.state.end && isNaN(this.state.end)) return alert('结束单号不正确');
+        //if (isNaN(this.state.start)) return alert('请输入开始单号');
+        //if ('' !== this.state.end && isNaN(this.state.end)) return alert('结束单号不正确');
+        if ('' == this.state.start) return alert('请输入开始单号');
         axios.post(
             api.U('put_it_on'),
             api.D({

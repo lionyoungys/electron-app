@@ -60,11 +60,11 @@ export default class extends React.Component {
                             未取订单：<div>{orders}</div>
                         </div>
                     </div>
-                    <div>
+                    {/* <div>
                         <div>会员卡信息：</div>                        
                         <div>会员类型：{state.platform.cname}</div>
                         <div>会员卡余额：{'' == state.platform.cbalance ? '' : <span>&yen;{state.platform.cbalance}</span>}</div>
-                    </div>
+                    </div> */}
                     <div>
                         <div>专店会员卡信息：</div>                        
                         <div>会员类型：{state.merchant.cname}</div>
