@@ -39,6 +39,7 @@ import Teamwork from './Module/teamwork/App';
 import Link from './Module/link/App';
 import Chart from './Module/chart/App';
 import Detail from './Module/detail/App';
+import Performance from './Module/performance/App';
 
 
 import InfoEditor from './manage/info_editor';
@@ -99,6 +100,7 @@ export default {
     link:Link,         //连锁门店
     chart:Chart,    //经营分析
     detail:Detail,    //订单详情
+    performance:Performance,    //业绩统计
 
 
     
