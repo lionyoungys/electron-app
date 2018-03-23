@@ -301,7 +301,7 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
     border: 2px solid #6e9dbf;
     background: #fff;
     position: fixed;
-    bottom: 0;right: 0;
+    right: 0;bottom: 0;
 }
 #main-notice>div:first-child{
     height: 38px;

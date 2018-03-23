@@ -16,18 +16,18 @@ import './tool';    //注册全局tool对象
 import './main.css';
 import './media.css';    //媒体查询相应式处理css
 
-const token = localStorage.getItem('token'),
-      order = localStorage.getItem('order'),
+const order = localStorage.getItem('order'),
       isRoot = localStorage.getItem('is_root'),
       branch = 'master',    //当前项目分支
       special = false,        //是否为正章打印机
-      version = '1.0.6';
+      version = '1.0.7';
 
 //界面主体容器组件
 class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            token:localStorage.getItem('token'),
             name:null,
             status:null,
             logo:null,
@@ -35,14 +35,15 @@ class Main extends Component {
             count:null,    //数据状态
             option:null,  //菜单栏样式状态
             view:'index',    //视图索引
-            param:null    //附带参数
+            param:null,    //附带参数
+            bottom:0
         };
         this.changeView = this.changeView.bind(this);
         this.toggle = this.toggle.bind(this);
     }
     //获取店铺状态数据
     componentDidMount() {
-        axios.post(api.U('index'),api.D({token:token}))
+        axios.post(api.U('index'),api.D({token:this.state.token}))
         .then(response => {
             let result = response.data.result;
             this.setState({
@@ -53,20 +54,11 @@ class Main extends Component {
                 count:result.order_count    //有效订单
             });         
         });
-        // setInterval(() => {
-        //     axios.post(api.U('index'),api.D({token:token}))
-        //     .then((response)=>{
-        //         let result = response.data.result;
-        //         this.setState({count:result.order_count});         
-        //     });
-        // }, 60000);
     }
-
-    componentWillUnmount() {}
     //营业状态切换
     toggle() {
         let status = (this.state.status ? 0 : 1);    //操作当前店铺状态时，获取当前店铺状态并取反
-        axios.post(api.U('toggle'),api.D({token:token,open:status}))
+        axios.post(api.U('toggle'),api.D({token:this.state.token,open:status}))
         .then(response => {        	
             if (api.V(response.data)) this.setState({status:status});
         });
@@ -75,6 +67,7 @@ class Main extends Component {
     changeView(e) {
         if (!tool.isSet(e.target)) {
             tool.isSet(e.view) && this.setState({view:e.view,param:e.param});
+            tool.isSet(e.token) && this.setState({token:e.token});
         } else {
             let data = e.target.dataset;
             tool.isSet(data.view) && this.state.view != data.view && this.setState({view:data.view});
@@ -82,6 +75,7 @@ class Main extends Component {
             tool.isSet(data.param) && this.setState({param:data.param});
         }
     }
+
 
     render() {
         let state = this.state,
@@ -94,12 +88,13 @@ class Main extends Component {
                 options={obj.options} 
                 option={state.option}
                 changeView={this.changeView}
+                token={this.state.token}
             />
         );
         let E = route[state.view];   //展示指定视图组件
         return (
             <div id='main'>
-                <Header/>
+                <Header token={this.state.token}/>
                 {/* 左侧菜单栏容器 */}
                 <aside>
                     <div>
@@ -110,7 +105,13 @@ class Main extends Component {
                     </div>
                 </aside>
                 {/* 右侧视图容器 */}
-                <E token={token} param={state.param} changeView={this.changeView} branch={branch} special={special}/>
+                <E
+                    token={this.state.token}
+                    param={state.param}
+                    changeView={this.changeView}
+                    branch={branch}
+                    special={special}
+                />
                 <Notice changeView={this.changeView}/>
             </div>
         );
@@ -148,7 +149,7 @@ class Header extends Component {
         document.onclick = () => {this.setState({show:false})}
         this.interval = setInterval(this.query, 60000);
         this.query();
-        axios.post(api.U('software_update'), api.D({token:token,version:version}))
+        axios.post(api.U('software_update'), api.D({token:this.props.token,version:version}))
         .then(response => {
             let data = response.data;
             if (api.V(response.data)) {
@@ -175,7 +176,7 @@ class Header extends Component {
     handleClick(e) {
         if (!this.state.show) {
             this.setState({show:true,loading:true});
-            axios.post(api.U('msg_list'), api.D({token:token}))
+            axios.post(api.U('msg_list'), api.D({token:this.props.token}))
             .then(response => {
                 console.log(response.data);
                 api.V(response.data) && this.setState({data:response.data.result,loading:false});
@@ -186,7 +187,7 @@ class Header extends Component {
         e.nativeEvent.stopImmediatePropagation();
     }
     query() {
-        axios.post(api.U('msg_count'), api.D({token:token}))
+        axios.post(api.U('msg_count'), api.D({token:this.props.token}))
         .then(response => {
             console.log(response.data);
             api.V(response.data) && this.setState({count:response.data.result.message_count});
@@ -201,7 +202,7 @@ class Header extends Component {
     }
     handleDelete(e) {
         let index = e.target.dataset.index;
-        axios.post(api.U('msg_delete'), api.D({token:token,id:e.target.dataset.id}))
+        axios.post(api.U('msg_delete'), api.D({token:this.props.token,id:e.target.dataset.id}))
         .then(response => {
             if (api.V(response.data)) {
                 let obj = {};
@@ -241,7 +242,7 @@ class Header extends Component {
         }
         return (
             <header>
-                <div>速洗达商家管理系统</div>
+                <div onClick={() => ipcRenderer.send('notice', 'send')}>速洗达商家管理系统</div>
                 <div>      
                     <span onClick={this.toggleFeedbackShow}>
                         <i className="fa fa-pencil-square"></i>&nbsp;意见反馈
@@ -295,12 +296,12 @@ class Header extends Component {
                 <Passwd
                     show={this.state.passwdShow} 
                     onCancelRequest={this.togglePasswdShow} 
-                    token={token}
+                    token={this.props.token}
                 />
                 <Feedback
                     show={this.state.feedbackShow} 
                     onCancelRequest={this.toggleFeedbackShow} 
-                    token={token}
+                    token={this.props.token}
                 />
             </header>
         );
@@ -333,7 +334,7 @@ class Menu extends Component {
         this.state = {isUp:true, auth:[]}
     }
     componentDidMount() {
-        axios.post(api.U('msg_count'),api.D({token:token}))
+        axios.post(api.U('msg_count'),api.D({token:this.props.token}))
         .then(response => {
             if (api.V(response.data)) {
                 let auth = response.data.result.might,
@@ -396,21 +397,58 @@ class Menu extends Component {
 class Notice extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
-        this.onClose = this.onClose.bind(this);
+        this.state = {bottom:-194};
+        this.hidden = this.hidden.bind(this);
+        this.clearTimeID = this.clearTimeID.bind(this);
+        this.interval = null;
+        this.timeout = null;
+        this.toggleTime = 3;
     }
-    onClose() {
-
+    componentDidMount() {
+        ipcRenderer.on('notice', (e, arg) => {
+            if (null !== this.interval) return;
+            this.audio.play();
+            this.interval = setInterval(() => {
+                if (0 === this.state.bottom) {
+                    this.clearTimeID();
+                    this.timeout = setTimeout(() => this.hidden(), 5000);
+                } else {
+                    this.setState({bottom:(this.state.bottom + 1)});
+                }
+            }, this.toggleTime);
+        });
+    }
+    hidden() {
+        this.clearTimeID();
+        this.interval = setInterval(() => {
+            if (-194 === this.state.bottom) {
+                this.clearTimeID()
+            } else {
+                this.setState({bottom:(this.state.bottom - 1)});
+            }
+        }, this.toggleTime);
+    }
+    clearTimeID() {
+        if (null !== this.timeout) {
+            clearTimeout(this.timeout);
+            this.timeout = null;
+        }
+        if (null !== this.interval) {
+            clearTimeout(this.interval);
+            this.interval = null;
+        }
     }
     render() {
         return (
-            <div id='main-notice'>
-                <div>新订单提醒<i className='fa fa-times' onClick={this.onClose}></i></div>
+            <div id='main-notice' style={{bottom:this.state.bottom + 'px'}}>
+                <div>新订单提醒<i className='fa fa-times' onClick={this.hidden}></i></div>
                 <div>
                     <div>您有新的订单，请及时处理</div>
                     <div>2018-02-25 12:00:06</div>
                 </div>
                 <div><span onClick={() => this.props.changeView({view:'online'})}>查看</span></div>
+                <audio style={{display:'none'}} src="media/new_order.mp3" ref={audio => this.audio = audio}></audio>
+                
             </div>
         );
     }
