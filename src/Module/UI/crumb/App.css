@@ -6,8 +6,20 @@
     background-color: #eef8ff;
     display: block;
     padding-left:16px;
+    position: relative;
 }
 .ui-crumb>div{display:inline-block}
 .ui-crumb span,.ui-crumb i{display: inline-block;padding-left: 12px;}
 .ui-crumb span:hover{color: #01afae;cursor: pointer}
 .ui-crumb i{color: #999;}
+.ui-crumb>.ui-employee{
+    position: absolute;
+    top: 0;right: 16px;
+    font-size: 16px;
+}
+.ui-crumb>.ui-employee>.ui-toggle{
+    color: #fb4141;
+    margin-left: 10px;
+    cursor: pointer;
+    padding: 0;
+}

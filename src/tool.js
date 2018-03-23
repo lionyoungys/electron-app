@@ -305,6 +305,18 @@
         return currentDate;
     }
 
+    t.date = function (format, timestamp) {
+        let date = 'undefined' === typeof timestamp ? new Date() : new Date( Number(timestamp) * 1000 );
+        if ('string' === typeof format) {
+            let month = date.getMonth() + 1,
+                day = date.getDate();
+            return format.replace('Y', date.getFullYear() )
+                         .replace('m', ( 10 > month ? '0' + month : month ) )
+                         .replace('d', ( 10 > day ? '0' + day : day ) );
+        }
+        return date;
+    }
+
     // api相关
     t.orderStatus = function (status) {
         if (isNaN(status)) return null;

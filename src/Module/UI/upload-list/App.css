@@ -1,0 +1,20 @@
+.upload-list>:first-child{
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    display: -webkit-flex;display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;-webkit-box-sizing: border-box;
+    background: #eef8ff;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+.upload-list>:nth-child(2){
+    display: -webkit-flex;display: flex;
+    flex-wrap: wrap;
+}
+.upload-list>:nth-child(2)>div{margin: 0 10px 10px 0}
+.upload-list>:nth-child(3), .upload-list>:nth-child(4) {
+    line-height: 30px;
+}
