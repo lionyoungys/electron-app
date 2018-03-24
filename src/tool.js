@@ -273,6 +273,16 @@
         }
         return retArr;
     }
+    t.toUrlString = function(object) {
+        let str = '';
+        if ('object' === typeof object) {
+            for (var k in object) {
+                //使用encodeURIComponent将参数值中的特殊字符进行转义防止发送请求时缺省掉特殊字符
+                str += ( k + '=' + encodeURIComponent(object[k]) + '&' );
+            }
+        }
+        return str;
+    }
     /**
      * 获取当前日期时间
      * @param format 格式化方式
