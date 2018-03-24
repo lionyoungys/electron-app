@@ -5,7 +5,7 @@ const config = {
     entry: {
         login: buildPath + 'login.js',
         main: buildPath + 'main.js',
-        demo: buildPath + 'demo.js'
+        //demo: buildPath + 'demo.js'
     },
     output: {
         filename: '[name].js',
