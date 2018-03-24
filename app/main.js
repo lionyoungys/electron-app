@@ -80,7 +80,20 @@ ipcMain.on('login-msg', (e, args) => {    //登录界面ipc监听
         win.login.close();
     }
 });
-ipcMain.on('close-main', () => { win.main.close(); });
+/* 窗口控制 */
+ipcMain.on('minimize-window', (e, name) => {    //最小化
+    win[name].minimize();
+});
+ipcMain.on('maximize-window', (e, name) => {    //最大化
+    win[name].maximize();
+});
+ipcMain.on('unmaximize-window', (e, name) => {    //还原
+    win[name].unmaximize();
+});
+ipcMain.on('close-window', (e, name) => {    //关闭
+    win[name].close(); 
+});
+
 ipcMain.on('toggle-login', () => {
     createWindow('login', { width: 491, height: 351, frame: false, resizable: false }, 'public/login.html');
     win.main.close();
