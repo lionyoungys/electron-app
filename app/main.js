@@ -3,14 +3,17 @@ const electron = require('electron'),
     app = electron.app,
     BrowserWindow = electron.BrowserWindow,
     ipcMain = electron.ipcMain,
+    axios = require('axios'),
     path = require('path'),
     url = require('url');
+
 let win = {},    //声明窗口对象
     winprints = null,
     param = {},
     timeID = null,
     floder = '',
     download = {total:0,received:0,state:null};
+
 
 const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
         // Someone tried to run a second instance, we should focus our window.
@@ -27,9 +30,9 @@ if (shouldQuit) {app.quit()}
 
 // 部分 API 在 ready 事件触发后才能使用。
 app.on('ready', () => {
-    createWindow('login', { width: 491, height: 351, frame: false, resizable: false,autoHideMenuBar:true }, 'public/login.html');
+    //createWindow('login', { width: 491, height: 351, frame: false, resizable: false,autoHideMenuBar:true }, 'public/login.html');
     //开发测试优先创建main窗口
-    /*let electronScreen = electron.screen,    //定义屏幕对象变量
+    let electronScreen = electron.screen,    //定义屏幕对象变量
         size = electronScreen.getPrimaryDisplay().workAreaSize;    //获取屏幕大小
     createWindow(
         'main', 
@@ -44,7 +47,8 @@ app.on('ready', () => {
         //'public/prints/recharge.html'
         //'public/prints/invoice.html'
         'public/main.html'
-    );*/
+        //'public/demo.html'
+    );
     
 });
 
@@ -120,6 +124,24 @@ ipcMain.on('download', (e, arg) => {
     }, 500);
 });
 ipcMain.on('cleanInterval', () => {clearInterval(timeID)});
+ipcMain.on('notice', (e, url, params) => {
+    post(
+        url,
+        params,
+        response => {
+            e.sender.send('notice', {
+                state:'SUCCESS',
+                response:response
+            });
+        }, 
+        error => {
+            e.sender.send('notice', {
+                state:'FAIL',
+                error:error
+            });
+        }
+    );
+});
 //窗口创建函数
 function createWindow(name, windowStyle, uri) {
     //创建浏览器窗口。
@@ -134,7 +156,7 @@ function createWindow(name, windowStyle, uri) {
         slashes: true
     }));
     //打开开发者工具
-    //win[name].webContents.openDevTools();
+    win[name].webContents.openDevTools();
     //当window关闭时取消引用
     win[name].on('closed', () => {
         win[name] = null;
@@ -166,4 +188,11 @@ function createWindow(name, windowStyle, uri) {
             })
         })
     }
+}
+
+//数据请求
+function post(url, params, success, fail) {
+    axios.post( url, params, {headers: {'Content-Type':'application/x-www-form-urlencoded'}} )
+    .then(response => {'function' === typeof success && success(response)})
+    .catch(error => {'function' === typeof fail && fail(error)});
 }

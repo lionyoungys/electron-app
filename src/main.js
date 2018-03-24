@@ -112,7 +112,7 @@ class Main extends Component {
                     branch={branch}
                     special={special}
                 />
-                <Notice changeView={this.changeView}/>
+                <Notice changeView={this.changeView} token={this.state.token}/>
             </div>
         );
     }
@@ -242,7 +242,7 @@ class Header extends Component {
         }
         return (
             <header>
-                <div onClick={() => ipcRenderer.send('notice', 'send')}>速洗达商家管理系统</div>
+                <div>速洗达商家管理系统</div>
                 <div>      
                     <span onClick={this.toggleFeedbackShow}>
                         <i className="fa fa-pencil-square"></i>&nbsp;意见反馈
@@ -397,32 +397,44 @@ class Menu extends Component {
 class Notice extends Component {
     constructor(props) {
         super(props);
-        this.state = {bottom:-194};
+        this.state = {bottom:-194, time:''};
         this.hidden = this.hidden.bind(this);
         this.clearTimeID = this.clearTimeID.bind(this);
+        this.connect = this.connect.bind(this);
         this.interval = null;
         this.timeout = null;
         this.toggleTime = 3;
     }
     componentDidMount() {
+        this.connect();
         ipcRenderer.on('notice', (e, arg) => {
-            if (null !== this.interval) return;
-            this.audio.play();
-            this.interval = setInterval(() => {
-                if (0 === this.state.bottom) {
-                    this.clearTimeID();
-                    this.timeout = setTimeout(() => this.hidden(), 5000);
-                } else {
-                    this.setState({bottom:(this.state.bottom + 1)});
-                }
-            }, this.toggleTime);
+            console.log(arg);
+            if ('SUCCESS' === arg.state) {
+                if (null !== this.interval) return;
+                this.audio.play();
+                this.interval = setInterval(() => {
+                    if (0 === this.state.bottom) {
+                        this.clearTimeID();
+                        this.timeout = setTimeout(() => this.hidden(), 5000);
+                    } else {
+                        this.setState({bottom:(this.state.bottom + 1), time:arg.response.data});
+                    }
+                }, this.toggleTime);
+            } else {    //连接超时或失败后重新连接
+                this.connect();
+            }
         });
     }
+    connect() {
+        ipcRenderer.send('notice', api.U('connect'), tool.toUrlString({token:this.props.token}))
+    }
+
     hidden() {
         this.clearTimeID();
         this.interval = setInterval(() => {
             if (-194 === this.state.bottom) {
-                this.clearTimeID()
+                this.clearTimeID();
+                this.connect();    //推送成功后弹窗隐藏后再次发起连接
             } else {
                 this.setState({bottom:(this.state.bottom - 1)});
             }
@@ -444,7 +456,7 @@ class Notice extends Component {
                 <div>新订单提醒<i className='fa fa-times' onClick={this.hidden}></i></div>
                 <div>
                     <div>您有新的订单，请及时处理</div>
-                    <div>2018-02-25 12:00:06</div>
+                    <div>{this.state.time}</div>
                 </div>
                 <div><span onClick={() => this.props.changeView({view:'online'})}>查看</span></div>
                 <audio style={{display:'none'}} src="media/new_order.mp3" ref={audio => this.audio = audio}></audio>
