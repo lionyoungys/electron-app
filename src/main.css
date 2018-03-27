@@ -157,7 +157,7 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
     background-repeat: no-repeat;
     background-position: center 8px;
 }
-#option>div.checked{background-color: #ededed}
+#option>div:hover{background-color: #ededed}
 /* 选项列表下部标签栏样式 */
 #tab{
     position: absolute;
