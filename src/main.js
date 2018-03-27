@@ -1,5 +1,5 @@
 /**
- * demo界面组件
+ * 主界面组件
  * @author yangyunlong
  */
 
@@ -25,6 +25,7 @@ class Main extends Component {
             checkedTab:null,          //当前选中的tab
             windows:{},    //窗口列表 key:{title:'tab内容',param:'携带参数',view:'界面路由'}
             token:localStorage.getItem('token'),
+            merchant:{},    //商户信息
         };
         this.changeView = this.changeView.bind(this);
         this.changeMenu = this.changeMenu.bind(this);
@@ -32,41 +33,49 @@ class Main extends Component {
         this.tabClose = this.tabClose.bind(this);
     }
 
+    componentDidMount() {
+        api.post('index', {token:this.state.token}, (response, verify) => {
+            verify && this.setState({merchant:response.data.result});
+        });
+    }
+
     //界面动态转换事件方法
     changeView(e) {
-        let viewKey = null, option = this.state.checkedOption, param; 
+        let view = null,    //视图
+            option = this.state.checkedOption,    //选项
+            param;    //视图携带参数
         if (!tool.isSet(e.target)) {
             if (tool.isSet(e.view)) {
-                viewKey = e.view;
+                view = e.view;
                 param = e.param;
             }
             tool.isSet(e.token) && this.setState({token:e.token});
         } else {
             let data = e.target.dataset;
             if (tool.isSet(data.view)) {
-                viewKey = data.view;
+                view = data.view;
                 param = data.param;
             }
             if (tool.isSet(data.option)) option = data.option;
         }
         //窗口控制
-        if (null === viewKey) return;
-        if ('undefined' === typeof this.state.windows[viewKey]) {    //判断窗口列表中是否有该视图，若有则切换tab至该视图
-            let route = router[this.state.checkedMenu][option];
-            if (route.key !== viewKey) {    //当跳转界面不为当前路由所指向的key时,为窗口内部跳转,替换窗口内容,且不开启新tab
-                viewKey = route.key;
+        if (null === view) return;
+        if ('undefined' === typeof this.state.windows[view]) {    //判断窗口列表中是否有该视图，若有则切换tab至该视图
+            let checkedMenu = router[this.state.checkedMenu],
+                route = checkedMenu[option.inObjectArray(checkedMenu, 'key')];
+            if (route.key !== view) {    //当跳转界面不为当前路由所指向的key时,为窗口内部跳转,替换窗口内容,且不开启新tab
+                view = route.key;
             } else {
-                //限制最多8个窗口
-                if (tool.count(this.state.windows) >= 8) return alert('最多只能打开8个子窗口');
+                if (tool.count(this.state.windows) >= 8) return alert('最多只能打开8个子窗口');    //限制最多8个窗口
             }
             this.state.windows[route.key] = {
                 title:route.value,    //tab标题文字
                 param:param,          //窗口携带参数
-                view:viewKey          //视图key
+                view:view          //视图key
             };
-            this.setState({windows:this.state.windows, checkedOption:option, checkedTab:viewKey});
+            this.setState({windows:this.state.windows, checkedOption:option, checkedTab:view});
         } else {
-            this.setState({checkedTab:viewKey});
+            this.setState({checkedTab:view});
         }
     }
 
@@ -96,12 +105,12 @@ class Main extends Component {
                 >{menu[k]}</div>
             );
         }
-        let optionList = router[this.state.checkedMenu].map( (obj, index) =>
+        let optionList = router[this.state.checkedMenu].map(obj =>
             <div
                 key={obj.key}
-                data-option={index}
+                data-option={obj.key}
                 data-view={obj.key}
-                className={this.state.checkedOption == index ? 'checked' : null}
+                className={this.state.checkedOption == obj.key ? 'checked' : null}
                 onClick={this.changeView}
             >{obj.value}</div>
         );
@@ -132,10 +141,10 @@ class Main extends Component {
         }
         return (
             <div id='main'>
-                <Top/>
+                <Top name={this.state.merchant.mname} logo={this.state.merchant.mlogo}/>
                 <div id='menu'>
                     <div className='menu-list'>{menuList}</div>
-                    <div className='menu-employee'>操作员:test(111)</div>
+                    <div className='menu-employee'>操作员:{this.state.merchant.employee}({this.state.merchant.employeeID})</div>
                 </div>
                 <div id='option'>{optionList}</div>
                 <div id='tab'>{tabList}</div>
@@ -161,7 +170,10 @@ class Top extends Component {
     render() {
         return (
             <div id='top'>
-                <div className='top-left'>速洗达商家管理系统</div>
+                <div
+                    className='top-left' 
+                    style={tool.isSet(this.props.logo) ? {backgroundImage:`url(${this.props.logo})`} : null}
+                >{this.props.name}商家管理系统</div>
                 <div className='top-right'>
                     <div><div className='minimize' onClick={() => ipcRenderer.send('minimize-window', 'main')}></div></div>
                     <div><div className='maxmize' onClick={this.maxmize}></div></div>
