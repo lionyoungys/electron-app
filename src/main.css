@@ -79,10 +79,11 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
     -webkit-box-sizing: border-box;
     padding: 0 20px;
 }
+/* 左侧菜单选项列表 */
 #menu>.menu-list{
     float: left;
     height: 100%;
-    width: 562px;
+    width: 484px;
     padding-left: 24px;
     background: url(img/menu-bg.png) no-repeat center top;
 }
@@ -102,13 +103,42 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
     font-weight: bold;
 }
 #menu>.menu-list>div:last-child{margin-right: 0}
+/* 右侧员工信息 */
 #menu>.menu-employee{
     float: right;
     height: 100%;
+    min-width: 120px;
     line-height: 34px;
     padding-left: 20px;
     background: url(img/employee-icon.png) no-repeat left center;
+    position: relative;
 }
+.menu-employee>.employee-handle{
+    width: 100%;
+    padding-top: 34px;
+    cursor: default;
+    position: absolute;
+    top:0;right: 0;
+    z-index: 1;
+}
+.menu-employee>.employee-handle>div{
+    width: 120px;
+    position: absolute;
+    top: 34px;right: 0;
+    border: 1px solid #e1e4e5;
+    background: #fff;
+}
+.menu-employee>.employee-handle>div>div{
+    height: 28px;
+    line-height: 28px;
+    border-bottom: 1px solid #e1e4e5;
+    padding-left: 26px;
+    background-image: url(img/dot.png);
+    background-repeat: no-repeat;
+    background-position: 11px center;
+}
+.menu-employee>.employee-handle>div>div:hover{background-color: #e6f2fa}
+.menu-employee>.employee-handle>div>div:last-child{border-bottom: none}
 /* 菜单下部选项列表样式 */
 #option{
     position: absolute;

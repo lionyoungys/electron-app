@@ -7,6 +7,7 @@ const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {menu, router, view} from './router';
+const Passwd = view.passwd;    //修改密码组件
 import './tool';
 import './api';    //注册全局api对象
 import './main.css';
@@ -23,6 +24,8 @@ class Main extends Component {
             checkedMenu:'offline',    //当前选中的菜单
             checkedOption:null,       //当前选中的路由选项
             checkedTab:null,          //当前选中的tab
+            show:false,               //操作选项是否显示
+            passwdShow:false,         //是否展示修改密码
             windows:{},    //窗口列表 key:{title:'tab内容',param:'携带参数',view:'界面路由'}
             token:localStorage.getItem('token'),
             merchant:{},    //商户信息
@@ -145,12 +148,30 @@ class Main extends Component {
                 <Top name={this.state.merchant.mname} logo={this.state.merchant.mlogo}/>
                 <div id='menu'>
                     <div className='menu-list'>{menuList}</div>
-                    <div className='menu-employee'>操作员:{this.state.merchant.employee}({this.state.merchant.employeeID})</div>
+                    <div className='menu-employee'>
+                        操作员：{this.state.merchant.employee}({this.state.merchant.employeeID})
+                        <div
+                            className='employee-handle'
+                            onMouseOver={() => this.setState({show:true})}
+                            onMouseOut={() => this.setState({show:false})}
+                        >
+                            <div style={{display:this.state.show ? 'block' : 'none'}}>
+                                <div onClick={() => this.setState({passwdShow:true})}>密码修改</div>
+                                <div onClick={() => ipcRenderer.send('toggle-login')}>账号切换</div>
+                                <div onClick={() => ipcRenderer.send('close-window', 'main')}>退出系统</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div id='option'>{optionList}</div>
                 <div id='tab'>{tabList}</div>
                 {windowList}
                 {/* <div className='main-windows'></div> */}
+                <Passwd
+                    show={this.state.passwdShow} 
+                    onCancelRequest={() => this.setState({passwdShow:false})} 
+                    token={this.props.token}
+                />
             </div>
         );
     }

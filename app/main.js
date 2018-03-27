@@ -30,25 +30,9 @@ if (shouldQuit) {app.quit()}
 
 // 部分 API 在 ready 事件触发后才能使用。
 app.on('ready', () => {
-    //createWindow('login', { width: 491, height: 351, frame: false, resizable: false,autoHideMenuBar:true }, 'public/login.html');
+    //windowModel('login');
     //开发测试优先创建main窗口
-    createWindow(
-        'main', 
-        {
-            width:1024,
-            height:768,
-            minWidth:800,
-            minHeight:600,
-            frame: false,
-            autoHideMenuBar:true
-        },
-        //'public/prints/index.html'
-        //'public/prints/recharge.html'
-        //'public/prints/invoice.html'
-        'public/main.html'
-        //'public/demo.html'
-    );
-    
+    windowModel('main');
 });
 
 app.on('window-all-closed', () => { app.quit() }); //当全部窗口关闭时退出。
@@ -61,25 +45,6 @@ app.on('window-all-closed', () => { app.quit() }); //当全部窗口关闭时退
     }
 })*/
 
-ipcMain.on('login-msg', (e, args) => {    //登录界面ipc监听
-    if ('close' === args) win.login.close();    //用户关闭界面
-    if ('SUCCESS' === args) {    //登录成功打开主页面并销毁登录界面
-        let electronScreen = electron.screen,    //定义屏幕对象变量
-            size = electronScreen.getPrimaryDisplay().workAreaSize;    //获取屏幕大小
-        createWindow(
-            'main', 
-            {
-                width:size.width,
-                height:size.height,
-                minWidth:900,
-                minHeight:600,
-                autoHideMenuBar:true
-            },
-            'public/main.html'
-        );
-        win.login.close();
-    }
-});
 /* 窗口控制 */
 ipcMain.on('minimize-window', (e, name) => {    //最小化
     win[name].minimize();
@@ -94,18 +59,25 @@ ipcMain.on('close-window', (e, name) => {    //关闭
     win[name].close(); 
 });
 
-ipcMain.on('toggle-login', () => {
-    createWindow('login', { width: 491, height: 351, frame: false, resizable: false }, 'public/login.html');
+ipcMain.on('toggle-login', () => {    //切换至登录
+    windowModel('login');
     win.main.close();
+});
+ipcMain.on('login-msg', (e, args) => {    //登录界面ipc监听
+    if ('close' === args) win.login.close();    //用户关闭界面
+    if ('SUCCESS' === args) {    //登录成功打开主页面并销毁登录界面
+        let electronScreen = electron.screen,    //定义屏幕对象变量
+            size = electronScreen.getPrimaryDisplay().workAreaSize;    //获取屏幕大小
+        windowModel('main');
+        win.login.close();
+    }
 });
 //用户协议
 ipcMain.on('protocol', (e, args) => {
     if ('close' === args) {
         win.protocol.close();
     } else {
-        if ('undefined' === typeof win.protocol || null === win.protocol) {
-            createWindow('protocol', {width:840,height:556,frame:false,resizable:false}, 'public/protocol.html');
-        }
+        windowModel('protocol');
     }
 });
 ipcMain.on('print-silent', (e, arg, arg2) => {
@@ -199,6 +171,42 @@ function createWindow(name, windowStyle, uri) {
               }
             })
         })
+    }
+}
+
+function windowModel(name) {
+    switch (name)
+    {
+        case 'main':
+            ('undefined' === typeof win.main || null === win.main)
+            &&
+            createWindow(
+                'main', 
+                {
+                    width:1024,
+                    height:768,
+                    minWidth:800,
+                    minHeight:600,
+                    frame: false,
+                    autoHideMenuBar:true
+                },
+                //'public/prints/index.html'
+                //'public/prints/recharge.html'
+                //'public/prints/invoice.html'
+                'public/main.html'
+                //'public/demo.html'
+            );
+            break;
+        case 'login':
+            ('undefined' === typeof win.login || null === win.login)
+            &&
+            createWindow('login', {width: 491, height: 351, frame: false, resizable: false, autoHideMenuBar:true}, 'public/login.html');
+            break;
+        case 'protocol':
+            ('undefined' === typeof win.protocol || null === win.protocol)
+            &&
+            createWindow('protocol', {width:840,height:556,frame:false,resizable:false}, 'public/protocol.html');
+            break;
     }
 }
 
