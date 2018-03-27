@@ -98,9 +98,15 @@ export const router = {    //菜单路由选项
         {value:'合作门店',key:'teamwork'},
         {value:'卡券中心',key:'coupon'}
     ],
-    message:[],
-    setting:[],
-    help:[]
+    message:[
+        {value:'新订单',key:'msg_new_order'},
+        {value:'交期预警',key:'msg_delivery'},
+        {value:'到期未取',key:'msg_did_not_take'}
+    ],
+    help:[
+        {value:'检查更新',key:'update'},
+        {value:'意见反馈',key:'feedback'}
+    ]
 }
 
 export const view = {

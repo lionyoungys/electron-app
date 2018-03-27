@@ -110,6 +110,7 @@ class Main extends Component {
                 key={obj.key}
                 data-option={obj.key}
                 data-view={obj.key}
+                style={{backgroundImage:`url(img/${obj.key}.png)`}}
                 className={this.state.checkedOption == obj.key ? 'checked' : null}
                 onClick={this.changeView}
             >{obj.value}</div>
