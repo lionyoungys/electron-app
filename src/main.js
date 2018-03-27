@@ -22,11 +22,10 @@ class Main extends Component {
         super(props);
         this.state = {
             checkedMenu:'offline',    //当前选中的菜单
-            checkedOption:null,       //当前选中的路由选项
             checkedTab:null,          //当前选中的tab
             show:false,               //操作选项是否显示
             passwdShow:false,         //是否展示修改密码
-            windows:{},    //窗口列表 key:{title:'tab内容',param:'携带参数',view:'界面路由'}
+            windows:[],    //窗口列表 key:{title:'tab内容',param:'携带参数',view:'界面路由'}
             token:localStorage.getItem('token'),
             merchant:{},    //商户信息
         };
@@ -45,7 +44,7 @@ class Main extends Component {
     //界面动态转换事件方法
     changeView(e) {
         let view = null,    //视图
-            option = this.state.checkedOption,    //选项
+            checkedTab = this.state.checkedTab,    //当前选中的tab
             param;    //视图携带参数
         if (!tool.isSet(e.target)) {
             if (tool.isSet(e.view)) {
@@ -59,45 +58,51 @@ class Main extends Component {
                 view = data.view;
                 param = data.param;
             }
-            if (tool.isSet(data.option)) option = data.option;
         }
         //窗口控制
         if (null === view) return;
-        if ('undefined' === typeof this.state.windows[view]) {    //判断窗口列表中是否有该视图，若有则切换tab至该视图
-            let checkedMenu = router[this.state.checkedMenu],
-                route = checkedMenu[option.inObjectArray(checkedMenu, 'key')];
-            if (route.key !== view) {    //当跳转界面不为当前路由所指向的key时,为窗口内部跳转,替换窗口内容,且不开启新tab
-                view = route.key;
-            } else {
-                if (tool.count(this.state.windows) >= 8) return alert('最多只能打开8个子窗口');    //限制最多8个窗口
-            }
-            this.state.windows[route.key] = {
-                title:route.value,    //tab标题文字
-                param:param,          //窗口携带参数
-                view:view          //视图key
-            };
-            this.setState({windows:this.state.windows, checkedOption:option, checkedTab:view});
+        let checkedMenu = router[this.state.checkedMenu],    //当前选中的菜单列表
+            routeIndex = view.inObjectArray(checkedMenu, 'key');    //选择的路由索引
+        if (-1 === routeIndex) {    //判断当前菜单是否存在该路由
+            //当前菜单不存在该路由,窗口内界面跳转
+            if (this.state.windows[checkedTab].view === view) return;    //选中的窗口与窗口内界面跳转的视图相同时,停止动作
+            this.state.windows[checkedTab].view = view;
+            this.state.windows[checkedTab].param = param;
         } else {
-            this.setState({checkedTab:view});
+            //当前菜单存在该路由,新建窗口跳转
+            checkedTab = this.state.windows.length;                      //更新选中tab至最新tab
+            if (checkedTab >= 8) return alert('最多只能打开8个子窗口');    //限制最多8个窗口
+            this.state.windows.push({
+                title:checkedMenu[routeIndex].value,
+                tab:checkedTab,
+                view:view,
+                param:param
+            });
         }
+        this.setState({windows:this.state.windows, checkedTab:checkedTab});
     }
 
     changeMenu(e) {
         let menu = e.target.dataset.menu;
         this.state.checkedMenu !== menu && this.setState({checkedMenu:e.target.dataset.menu})
     }
-    changeTab(e) {
-        this.setState({checkedTab:e.target.dataset.view});
-    }
+    //tab改变事件
+    changeTab(e) {this.setState({checkedTab:Number(e.target.dataset.index)})}
     //tab关闭事件
     tabClose(e) {
-        delete this.state.windows[e.target.parentNode.dataset.view];
-        this.setState({checkedTab:tool.lastKey(this.state.windows), windows:this.state.windows});
+        this.state.windows.splice(e.target.parentNode.dataset.index, 1);
+        this.setState({checkedTab:(this.state.windows.length - 1), windows:this.state.windows});
         e.stopPropagation();
     }
 
     render() {
-        let menuList = [], tabList = [], windowList = [], View = null;
+        let menuList = [],
+            tabList = [], 
+            windowList = [], 
+            len = this.state.windows.length, 
+            View,
+            tempView;
+        
         for (let k in menu) {
             menuList.push(
                 <div
@@ -111,31 +116,30 @@ class Main extends Component {
         let optionList = router[this.state.checkedMenu].map(obj =>
             <div
                 key={obj.key}
-                data-option={obj.key}
                 data-view={obj.key}
                 style={{backgroundImage:`url(img/${obj.key}.png)`}}
-                className={this.state.checkedOption == obj.key ? 'checked' : null}
                 onClick={this.changeView}
             >{obj.value}</div>
         );
-        for (let k in this.state.windows) {
-            View = view[this.state.windows[k].view];
+        for (let i = 0;i < len;++i) {
+            tempView = this.state.windows[i].view;
+            View = view[tempView];
             tabList.push(
                 <div 
-                    key={k}
-                    data-view={k}
+                    key={tempView + i}
+                    data-index={i}
                     onClick={this.changeTab}
-                    className={this.state.checkedTab === k ? 'checked' : null}
-                >{this.state.windows[k].title}<i className='tab-close' onClick={this.tabClose}></i></div>
+                    className={this.state.checkedTab === i ? 'checked' : null}
+                >{this.state.windows[i].title}<i className='tab-close' onClick={this.tabClose}></i></div>
             );
             windowList.push(
                 <div 
-                    key={k} 
-                    className={`main-windows${this.state.checkedTab === k ? ' show' : ''}`}
+                    key={tempView + i} 
+                    className={`main-windows${this.state.checkedTab === i ? ' show' : ''}`}
                 >
                     <View 
                         token={this.state.token}
-                        param={this.state.windows[k].param}
+                        param={this.state.windows[i].param}
                         changeView={this.changeView}
                         branch={branch}
                         special={special}
