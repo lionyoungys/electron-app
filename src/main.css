@@ -107,7 +107,7 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
     height: 100%;
     line-height: 34px;
     padding-left: 20px;
-    background: url(img/employee.png) no-repeat left center;
+    background: url(img/employee-icon.png) no-repeat left center;
 }
 /* 菜单下部选项列表样式 */
 #option{
@@ -124,7 +124,6 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
     padding-top: 52px;
     text-align: center;
     cursor: pointer;
-    background-image: url(img/option.png);
     background-repeat: no-repeat;
     background-position: center 8px;
 }
@@ -136,6 +135,7 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
     height: 28px;
     width: 100%;
     border: 1px solid #e1e4e5;
+    overflow: hidden;
 }
 #tab>div{
     float: left;
