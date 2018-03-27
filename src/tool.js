@@ -273,6 +273,33 @@
         }
         return retArr;
     }
+    t.toUrlString = function(object) {
+        let str = '';
+        if ('object' === typeof object) {
+            for (let k in object) {
+                //使用encodeURIComponent将参数值中的特殊字符进行转义防止发送请求时缺省掉特殊字符
+                str += ( k + '=' + encodeURIComponent(object[k]) + '&' );
+            }
+        }
+        return str;
+    }
+    t.count = function(object) {
+        if ('object' !== typeof object) return 0;
+        let count = 0;
+        for (let k in object) {
+            ++count;
+        }
+        return count;
+    }
+    t.lastKey = function(object) {
+        if ('object' !== typeof object) return null;
+        let key = null;
+        for (let k in object) {
+            key = k;
+        }
+        return key;
+    }
+
     /**
      * 获取当前日期时间
      * @param format 格式化方式

@@ -32,15 +32,14 @@ if (shouldQuit) {app.quit()}
 app.on('ready', () => {
     //createWindow('login', { width: 491, height: 351, frame: false, resizable: false,autoHideMenuBar:true }, 'public/login.html');
     //开发测试优先创建main窗口
-    let electronScreen = electron.screen,    //定义屏幕对象变量
-        size = electronScreen.getPrimaryDisplay().workAreaSize;    //获取屏幕大小
     createWindow(
         'main', 
         {
-            width:size.width,
-            height:size.height,
-            minWidth:900,
+            width:1024,
+            height:768,
+            minWidth:800,
             minHeight:600,
+            frame: false,
             autoHideMenuBar:true
         },
         //'public/prints/index.html'
@@ -81,7 +80,20 @@ ipcMain.on('login-msg', (e, args) => {    //登录界面ipc监听
         win.login.close();
     }
 });
-ipcMain.on('close-main', () => { win.main.close(); });
+/* 窗口控制 */
+ipcMain.on('minimize-window', (e, name) => {    //最小化
+    win[name].minimize();
+});
+ipcMain.on('maximize-window', (e, name) => {    //最大化
+    win[name].maximize();
+});
+ipcMain.on('unmaximize-window', (e, name) => {    //还原
+    win[name].unmaximize();
+});
+ipcMain.on('close-window', (e, name) => {    //关闭
+    win[name].close(); 
+});
+
 ipcMain.on('toggle-login', () => {
     createWindow('login', { width: 491, height: 351, frame: false, resizable: false }, 'public/login.html');
     win.main.close();
