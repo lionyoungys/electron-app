@@ -30,9 +30,9 @@ if (shouldQuit) {app.quit()}
 
 // 部分 API 在 ready 事件触发后才能使用。
 app.on('ready', () => {
-    //windowModel('login');
+    windowModel('login');
     //开发测试优先创建main窗口
-    windowModel('main');
+    //windowModel('main');
 });
 
 app.on('window-all-closed', () => { app.quit() }); //当全部窗口关闭时退出。
@@ -140,7 +140,7 @@ function createWindow(name, windowStyle, uri) {
         slashes: true
     }));
     //打开开发者工具
-    win[name].webContents.openDevTools();
+    //win[name].webContents.openDevTools();
     //当window关闭时取消引用
     win[name].on('closed', () => {
         win[name] = null;

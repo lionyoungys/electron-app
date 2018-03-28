@@ -2,8 +2,8 @@
  * 收件组件
  * @author yangyunlong
  */
+
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import Search from '../UI/search/App';
 import './App.css';
 
@@ -42,36 +42,14 @@ export default class extends React.Component {
             state = this.state,
             orders = state.orders.map((obj) => <div key={obj}>{obj}</div>);
         return (
-            <div>
-                <Crumb data={[{key:0,value:'收件'}]} callback={props.changeView}/>
-                <div style={{textAlign:'center',margin:'30px 0'}}>
-                    <Search placeholder='请输入会员手机号' callback={this.search}/>
+            <div className='take'>
+                <div><Search placeholder='请输入会员手机号' callback={this.search}/></div>
+                <div>
+                    <table>
+                        
+                    </table>
                 </div>
-                <div style={{color:'#fd592d',fontSize:'18px',textAlign:'center'}}>
-                    请核对以下会员信息，确认无误后收衣下单
-                </div>
-                <div className='take'>
-                    <div>
-                        <div>客户信息：</div>
-                        <div>客户姓名：{state.name}</div>
-                        <div>手机号：{state.mobile}</div>
-                        <div>上次到店：{state.time}</div>
-                        <div>
-                            未取订单：<div>{orders}</div>
-                        </div>
-                    </div>
-                    {/* <div>
-                        <div>会员卡信息：</div>                        
-                        <div>会员类型：{state.platform.cname}</div>
-                        <div>会员卡余额：{'' == state.platform.cbalance ? '' : <span>&yen;{state.platform.cbalance}</span>}</div>
-                    </div> */}
-                    <div>
-                        <div>专店会员卡信息：</div>                        
-                        <div>会员类型：{state.merchant.cname}</div>
-                        <div>会员卡余额：{'' == state.merchant.cbalance ? '' : <span>&yen;{state.merchant.cbalance}</span>}</div>
-                    </div>
-                </div>
-                <div className='m-text-c'>
+                <div>
                     <input type='button' value='收衣下单' className='m-btn confirm large' onClick={this.nextStep}/>
                 </div>
             </div>
