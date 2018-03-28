@@ -103,9 +103,9 @@ ipcMain.on('get-param',(e, args) => {
 ipcMain.on('download', (e, arg) => {
     floder = arg.floder;
     win.main.webContents.downloadURL(arg.url);
-    timeID = setInterval(() => {
-        e.sender.send('download', download);
-    }, 500);
+    // timeID = setInterval(() => {
+    //     e.sender.send('download', download);
+    // }, 500);
 });
 ipcMain.on('cleanInterval', () => {clearInterval(timeID)});
 ipcMain.on('notice', (e, url, params) => {
@@ -158,14 +158,14 @@ function createWindow(name, windowStyle, uri) {
                   //console.log('Download is paused')
                 } else {
                   //console.log(`Received bytes: ${item.getReceivedBytes()}`)
-                  download = {total:item.getTotalBytes(),received:item.getReceivedBytes(),state:'progressing'};
+                  //download = {total:item.getTotalBytes(),received:item.getReceivedBytes(),state:'progressing'};
                 }
               }
             })
             item.once('done', (event, state) => {
               if (state === 'completed') {
                 //console.log('Download successfully')
-                download = {total:item.getTotalBytes(),received:item.getReceivedBytes(),state:'completed'};
+                //download = {total:item.getTotalBytes(),received:item.getReceivedBytes(),state:'completed'};
               } else {
                 console.log(`Download failed: ${state}`)
               }

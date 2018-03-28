@@ -11,9 +11,10 @@ import './tool';
 import './api';    //注册全局api对象
 import './main.css';
 import './media.css';    //媒体查询相应式处理css
+window.version = '1.0.7';
 const branch = 'master',    //当前项目分支
-      special = false,        //是否为正章打印机
-      version = '1.0.7';
+      special = false;        //是否为正章打印机
+
 
 
 class Main extends Component {
@@ -26,13 +27,15 @@ class Main extends Component {
             windows:[],    //窗口列表 key:{title:'tab内容',param:'携带参数',view:'界面路由'}
             token:localStorage.getItem('token'),
             merchant:{},    //商户信息
-            employees:[]    //职员列表
+            employees:[],    //职员列表
+            tempEmployee:''    //鼠标悬停临时展示的操作员名称
         };
         this.changeView = this.changeView.bind(this);
         this.changeMenu = this.changeMenu.bind(this);
         this.changeTab = this.changeTab.bind(this);
         this.tabClose = this.tabClose.bind(this);
         this.changeEmployee = this.changeEmployee.bind(this);
+        this.hoverEmployee = this.hoverEmployee.bind(this);
     }
 
     componentDidMount() {
@@ -55,7 +58,6 @@ class Main extends Component {
                 view = e.view;
                 param = e.param;
             }
-            tool.isSet(e.token) && this.setState({token:e.token});
         } else {
             let data = e.target.dataset;
             if (tool.isSet(data.view)) {
@@ -114,6 +116,7 @@ class Main extends Component {
             this.setState({merchant:this.state.merchant, token:employee.token, employees:this.state.employees});
         }
     }
+    hoverEmployee(e) {this.setState({tempEmployee:e.target.innerText})}
 
     render() {
         let menuList = [],
@@ -168,7 +171,13 @@ class Main extends Component {
             );
         }
         let employees = this.state.employees.map( (obj, index) => 
-            <div key={obj.id} data-index={index} className={obj.current ? 'checked' : null} onClick={this.changeEmployee}>{obj.aname}</div>
+            <div
+                key={obj.id}
+                data-index={index}
+                className={obj.current ? 'checked' : null}
+                onClick={this.changeEmployee}
+                onMouseOver={this.hoverEmployee}
+            >{obj.aname}</div>
         );
         return (
             <div id='main'>
@@ -180,9 +189,12 @@ class Main extends Component {
                         <div
                             className='employee-handle'
                             onMouseOver={() => this.setState({show:true})}
-                            onMouseOut={() => this.setState({show:false})}
+                            onMouseOut={() => this.setState({show:false,tempEmployee:''})}
                         >
-                            <div style={{display:this.state.show ? 'block' : 'none'}}>{employees}</div>
+                            <div style={{display:this.state.show ? 'block' : 'none'}}>
+                                <div className='employee-current'>操作员将切换为：{this.state.tempEmployee}</div>
+                                {employees}
+                            </div>
                         </div>
                     </div>
                 </div>
