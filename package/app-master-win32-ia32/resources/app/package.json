@@ -1,0 +1,29 @@
+{
+  "name": "app-master",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "webpack && electron .",
+    "packager": "electron-packager ./app --platform=win32 --arch=ia32  --out=./packager --overwrite --icon=./app/icon/icon.*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2425047228/electron.git"
+  },
+  "author": "yangyunlong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/2425047228/electron/issues"
+  },
+  "homepage": "https://github.com/2425047228/electron#readme",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "electron-squirrel-startup": "^1.0.0",
+    "highcharts": "^6.0.1",
+    "lowdb": "^1.0.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-image-lightbox": "^4.3.0"
+  }
+}

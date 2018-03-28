@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+    @page{margin: auto}
+    body,span,img,p,div{margin: 0;padding: 0;}
+    body{width: 5.8cm;font-size: 14pt;word-break: break-all;font-weight: 500;}
+    .center{text-align: center;}.right{text-align: right;}
+    .f30{font-size: 30pt;}
+    .f24{font-size: 24pt;}
+    .border{display: block;border-bottom: 2px dashed black;margin: 10pt 0;}
+    .line{line-height: 20pt;}
+    .tab{
+        display: flex;display: -webkit-flex;
+        align-items: center;
+        height: 30pt;border: 2px dashed black;
+        border-right: 0;border-left: 0;
+    }
+    .tab>span{width: 25%;text-align: center}
+    .empty{display: block;height: 20pt;}
+    .img-box{display: flex;display: -webkit-flex;justify-content: center;}
+    .img-box>img{width: 5.8cm;height: 5.8cm;}
+    </style>
+</head>
+<body>
+<p class="center" onclick="window.print();">(全国连锁)</p>
+<p class="center f24">速洗达洗衣</p>
+<p class="border"></p>
+<p class="center" style="padding-bottom:5pt;" id="mname">美国GEP干洗</p>
+<p class="center">会&nbsp;员&nbsp;充&nbsp;值&nbsp;凭&nbsp;据</p>
+<p class="line">交易单号：<span id='trade_sn'>2323323222232</span></p>
+<p class="line">顾客电话：<span id='mobile'>1883434232</span></p>
+<p class="line">顾客签字：</p>
+<p class="empty"></p>
+<p class="line">充值：<span id='amount'>154</span>元(赠送<span id='give'>0.00</span>元)</p>
+<p class="border"></p>
+<p class="f24">实收：<span id="pay_amount">218.00</span>元</p>
+<p class="empty"></p>
+<p class="line">付款方式：<span id="gateway">现金支付</span></p>
+<p class="line">卡号：<span id="number">121212</span></p>
+<p class="line">卡内余额：<span id="balance">100</span></p>
+<p class="empty"></p>
+<p class="line">本店地址：<span id="address">dfdfdfdfdfdfdfdfdfdffdfdfdfddffffdfd</span></p>
+<p class="line">服务热线：<span id="phone">18734343434</span></p>
+<p class="line">店&nbsp;&nbsp;员：<span id="employee">哈哈哈</span></p>
+<p class="line">店&nbsp;&nbsp;号：<span id="id">dfdfd</span></p>
+<p class="line">打印日期：<span id="date">2017-11-07 18:24</span></p>
+<p class="img-box"><img id="qrcode"/></p>
+<p class="line center">（速洗达洗衣洗护）</p>
+<p class="line center">（扫描关注公众号）</p>
+<p class="border"></p>
+<p class="line center">欢迎下次再来</p>
+<p class="line center">请仔细阅读本单</p>
+<p class="border"></p>
+<p class="line center">门店联</p>
+<script src="request.js"></script>
+<script>
+    window.onload = function() {
+        const {ipcRenderer} = require('electron');
+        const param = ipcRenderer.sendSync('get-param');
+        const date = new Date();
+        const datetime = date.getFullYear()+'-'+(date.getMonth()*1+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
+        //fd.append('token', param.token);
+        //fd.append('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIzNCIsIm1pZCI6IjEwOCIsImlzUm9vdCI6IjEiLCJhdXRoIjoiW1wiMVwiLFwiMlwiLFwiM1wiLFwiNFwiXSIsInRpbWUiOjE1MTY2ODg0MTB9.Px13bbKjYxRdhm7kZiVOP9lGyjkwBc0hq96WZBJyhdg');
+        //fd.append('record_id', param.record_id);
+        //fd.append('record_id', '1');  'http://xiyi.wzj.dev.shuxier.com/mapi/print/recharge'
+        R.post(param.url, {token:param.token, record_id:param.record_id}, function(response) {
+            console.log(response);
+            let result = response.result;
+            document.getElementById('qrcode').src = result.qrcode;
+            insert('mname', result.mname);
+            insert('trade_sn', result.trade_sn);
+            insert('mobile', result.umobile);
+            insert('amount', result.amount);
+            insert('give', result.give);
+            insert('pay_amount', result.amount);
+            insert('gateway', gateway(result.gateway));
+            insert('number', result.umobile);
+            insert('balance', result.cbalance);
+            insert('address', result.maddress);
+            insert('phone', result.phone_number);
+            insert('employee', result.employee);
+            insert('id',result.mid);
+            insert('date',datetime);
+            document.getElementById('qrcode').onload = function() {
+                ipcRenderer.send('print');
+            }
+        });
+        function insert(id, value) {
+            if ('undefined' === typeof value || null == value) value = '';
+            document.getElementById(id).innerHTML = value;
+        }
+
+        function gateway(code) {
+            code = Number(code);
+            switch (code)
+            {
+                case 0:
+                    return '现金支付';
+                case 1:
+                    return '零钱支付';
+                case 2:
+                    return '免洗';
+                case 3:
+                    return '平台会员卡';
+                case 4:
+                    return '商家会员卡';
+                case 5:
+                    return '企业会员卡';
+                case 10:
+                    return '微信公众号';
+                case 11:
+                    return '微信app支付';
+                case 12:
+                    return '微信刷卡支付';
+                case 20:
+                    return '支付宝app支付';
+                case 21:
+                    return '支付宝面对面付';
+            }
+        }
+    }
+</script>
+</body>
+</html>
