@@ -11,9 +11,10 @@ import './tool';
 import './api';    //注册全局api对象
 import './main.css';
 import './media.css';    //媒体查询相应式处理css
+window.version = '1.0.7';
 const branch = 'master',    //当前项目分支
-      special = false,        //是否为正章打印机
-      version = '1.0.7';
+      special = false;        //是否为正章打印机
+
 
 
 class Main extends Component {
@@ -113,6 +114,7 @@ class Main extends Component {
             }
             this.state.employees[index].current = true;
             this.setState({merchant:this.state.merchant, token:employee.token, employees:this.state.employees});
+            alert('操作员切换成功');
         }
     }
     hoverEmployee(e) {this.setState({tempEmployee:e.target.innerText})}
