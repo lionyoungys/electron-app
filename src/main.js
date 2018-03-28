@@ -114,6 +114,7 @@ class Main extends Component {
             }
             this.state.employees[index].current = true;
             this.setState({merchant:this.state.merchant, token:employee.token, employees:this.state.employees});
+            alert('操作员切换成功');
         }
     }
     hoverEmployee(e) {this.setState({tempEmployee:e.target.innerText})}

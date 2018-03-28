@@ -1,10 +1,24 @@
 .take>:first-child{
     text-align: center;
-    margin-top: 57px;
+    margin: 57px auto 0;
 }
 .take>:nth-child(2) {
     width: 420px;
     margin: 22px auto;
+}
+.take>:nth-child(2)>table tr{
+    border: 1px solid #e1e4e5;
+    height: 42px;
+    line-height: 42px;
+}
+.take>:nth-child(2)>table tr>td:first-child{
+    background: #f7f7f7;
+    width: 96px;
+    padding-left: 11px;
+}
+.take>:nth-child(2)>table tr>td:last-child{
+    width: 294px;
+    padding-left: 18px;
 }
 .take>:nth-child(3) {
     width: 420px;

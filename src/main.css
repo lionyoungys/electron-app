@@ -6,6 +6,7 @@ html, body, #root, #main{height:100%;width:100%;min-width:800px;min-height:600px
 /* 公共元素样式 */
 i{font-style: normal}
 input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-box;box-sizing: border-box;}
+table{border-collapse: collapse;}
 /* 滚动条样式 */
 ::-webkit-scrollbar{width: 5px;height: 5px;}
 ::-webkit-scrollbar-thumb{border-radius: 10px;background: #c6c6c7;}
@@ -253,7 +254,7 @@ body{background:#09b1b0;cursor:pointer;} */
     padding: 0 10px;height: 40px;line-height: 40px;
 } */
 /* table layout style */
-.m-table{border-collapse: collapse;width: 100%}
+.m-table{width: 100%}
 .m-table.tr-b tr{border:1px solid lightgrey}
 .m-table .bd-lightgrey>td,
 .m-table .bd-lightgrey>th{border:1px solid lightgrey}
@@ -482,9 +483,13 @@ body{background:#09b1b0;cursor:pointer;} */
 }
 /* 新版本样式 */
 .e-btn{
+    border: none;
+    outline: none;
+    border-radius: 3px;
     font-size: 12px;
     height: 26px;
     line-height: 26px;
     padding: 0 16px;
+    color: #fff;
 }
 .e-btn.confirm{background: #34a0f6}
