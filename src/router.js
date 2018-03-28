@@ -40,7 +40,7 @@ import Link from './Module/link/App';
 import Chart from './Module/chart/App';
 import Detail from './Module/detail/App';
 import Performance from './Module/performance/App';
-
+import Update from './Module/update/App';
 
 import InfoEditor from './manage/info_editor';
 import Message from './manage/message';
@@ -152,7 +152,7 @@ export const view = {
     chart:Chart,    //经营分析
     detail:Detail,    //订单详情
     performance:Performance,    //业绩统计
-
+    update:Update,        //软件更新
 
     
     info_editor:InfoEditor,    //信息编辑

@@ -44,7 +44,6 @@ export default class extends React.Component {
         let state = this.state;
         return (
                 <div className='passwd'>
-                    <em className='passwd-cancel' onClick={this.props.onCancelRequest}></em>
                     <div style={{paddingTop:'101px'}}>
                         <div style={{paddingBottom:'18px'}}>
                             <label className='passwd-label'>原密码：</label>

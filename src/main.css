@@ -77,7 +77,6 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
     left: 0;top: 40px;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
-    padding: 0 20px;
 }
 /* 左侧菜单选项列表 */
 #menu>.menu-list{
@@ -85,6 +84,7 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
     height: 100%;
     width: 484px;
     padding-left: 24px;
+    margin-left: 20px;
     background: url(img/menu-bg.png) no-repeat center top;
 }
 #menu>.menu-list>div{
@@ -107,7 +107,7 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
 #menu>.menu-employee{
     float: right;
     height: 100%;
-    min-width: 120px;
+    min-width: 170px;
     line-height: 34px;
     padding-left: 20px;
     background: url(img/employee-icon.png) no-repeat left center;
@@ -122,9 +122,9 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
     z-index: 1;
 }
 .menu-employee>.employee-handle>div{
-    width: 120px;
+    width: 188px;
     position: absolute;
-    top: 34px;right: 0;
+    top: 34px;left: 0;
     border: 1px solid #e1e4e5;
     background: #fff;
 }
@@ -140,6 +140,11 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
 .menu-employee>.employee-handle>div>div.checked{color: red}
 .menu-employee>.employee-handle>div>div:hover{background-color: #e6f2fa}
 .menu-employee>.employee-handle>div>div:last-child{border-bottom: none}
+.menu-employee>.employee-handle>div>div.employee-current{
+    color: #fff;
+    background: #5fb2ed;
+    padding-left: 11px;
+}
 /* 菜单下部选项列表样式 */
 #option{
     position: absolute;
@@ -475,3 +480,11 @@ body{background:#09b1b0;cursor:pointer;} */
     top: 0;right: 0;
     background: url(img/cancel-tag.png) no-repeat center;
 }
+/* 新版本样式 */
+.e-btn{
+    font-size: 12px;
+    height: 26px;
+    line-height: 26px;
+    padding: 0 16px;
+}
+.e-btn.confirm{background: #34a0f6}
