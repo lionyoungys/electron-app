@@ -64,7 +64,6 @@ export const menu = {    //菜单列表
     offline:'线下收银',
     manage:'商家管理',
     message:'消息预警',
-    setting:'设置',
     help:'帮助'
 };
 
@@ -72,13 +71,13 @@ export const router = {    //菜单路由选项
     online:[{value:'订单处理',key:'online'}],
     offline:[
         {value:'收件',key:'take',auth:1},
-        {value:'入厂',key:'in_factory',auth:8},    //infactory
+        //{value:'入厂',key:'in_factory',auth:8},    //infactory
         {value:'清洗',key:'clean',auth:2},    //offline_clean
         {value:'烘干',key:'dry',auth:50},    //offline_clean
         {value:'熨烫',key:'ironing',auth:51},    //offline_ironing
         {value:'质检',key:'check',auth:52},    //offline_check
         {value:'上挂',key:'put_on',auth:3},    //registration
-        {value:'出厂',key:'out_of_factory',auth:9},    //outfactory
+        //{value:'出厂',key:'out_of_factory',auth:9},    //outfactory
         {value:'取衣',key:'take_off',auth:4},    //offline_take
         {value:'返流审核',key:'go_back_check',auth:7},    //offline_take2
         {value:'会员管理',key:'member',auth:6},
@@ -92,7 +91,7 @@ export const router = {    //菜单路由选项
         {value:'员工管理',key:'employee'},
         {value:'返现记录',key:'award'},
         // {value:'用户评价',key:'comment'},
-        {value:'业绩统计',key:'performance'},
+        {value:'员工业绩',key:'performance'},
         {value:'连锁门店',key:'link'},
         {value:'门店信息',key:'info'},
         {value:'合作门店',key:'teamwork'},
@@ -105,7 +104,8 @@ export const router = {    //菜单路由选项
     ],
     help:[
         {value:'检查更新',key:'update'},
-        {value:'意见反馈',key:'feedback'}
+        {value:'意见反馈',key:'feedback'},
+        {value:'密码修改',key:'passwd'}
     ]
 }
 

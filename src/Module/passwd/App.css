@@ -1,6 +1,5 @@
 .passwd{
-    width: 447px;height: 373px;background: url(img/passwd.png);
-    position: fixed;top: 50%;left: 50%;margin: -186.5px 0 0 -223.5px;
+    width: 447px;height: 373px;background: url(img/passwd-bg.png);
     line-height: normal;color: #333333;
 }
 .passwd-cancel{

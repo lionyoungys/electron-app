@@ -7,7 +7,6 @@ const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {menu, router, view} from './router';
-const Passwd = view.passwd;    //修改密码组件
 import './tool';
 import './api';    //注册全局api对象
 import './main.css';
@@ -24,21 +23,26 @@ class Main extends Component {
             checkedMenu:'offline',    //当前选中的菜单
             checkedTab:null,          //当前选中的tab
             show:false,               //操作选项是否显示
-            passwdShow:false,         //是否展示修改密码
             windows:[],    //窗口列表 key:{title:'tab内容',param:'携带参数',view:'界面路由'}
             token:localStorage.getItem('token'),
             merchant:{},    //商户信息
+            employees:[]    //职员列表
         };
         this.changeView = this.changeView.bind(this);
         this.changeMenu = this.changeMenu.bind(this);
         this.changeTab = this.changeTab.bind(this);
         this.tabClose = this.tabClose.bind(this);
+        this.changeEmployee = this.changeEmployee.bind(this);
     }
 
     componentDidMount() {
         api.post('index', {token:this.state.token}, (response, verify) => {
             verify && this.setState({merchant:response.data.result});
         });
+        api.post('employees', {token:this.state.token}, (response, verify) => {
+            console.log(response.data.result);
+            verify && this.setState({employees:response.data.result});
+        })
     }
 
     //界面动态转换事件方法
@@ -95,6 +99,22 @@ class Main extends Component {
         e.stopPropagation();
     }
 
+    //切换员工
+    changeEmployee(e) {
+        let index = e.target.dataset.index,
+            employee = this.state.employees[index];
+        if (employee.id !== this.state.merchant.employeeID) {
+            this.state.merchant.employee = employee.aname;
+            this.state.merchant.employeeID = employee.id;
+            let len = this.state.employees.length;
+            for (let i = 0;i < len;++i) {
+                this.state.employees[i].current = false;
+            }
+            this.state.employees[index].current = true;
+            this.setState({merchant:this.state.merchant, token:employee.token, employees:this.state.employees});
+        }
+    }
+
     render() {
         let menuList = [],
             tabList = [], 
@@ -147,6 +167,9 @@ class Main extends Component {
                 </div>
             );
         }
+        let employees = this.state.employees.map( (obj, index) => 
+            <div key={obj.id} data-index={index} className={obj.current ? 'checked' : null} onClick={this.changeEmployee}>{obj.aname}</div>
+        );
         return (
             <div id='main'>
                 <Top name={this.state.merchant.mname} logo={this.state.merchant.mlogo}/>
@@ -159,11 +182,7 @@ class Main extends Component {
                             onMouseOver={() => this.setState({show:true})}
                             onMouseOut={() => this.setState({show:false})}
                         >
-                            <div style={{display:this.state.show ? 'block' : 'none'}}>
-                                <div onClick={() => this.setState({passwdShow:true})}>密码修改</div>
-                                <div onClick={() => ipcRenderer.send('toggle-login')}>账号切换</div>
-                                <div onClick={() => ipcRenderer.send('close-window', 'main')}>退出系统</div>
-                            </div>
+                            <div style={{display:this.state.show ? 'block' : 'none'}}>{employees}</div>
                         </div>
                     </div>
                 </div>
@@ -171,11 +190,6 @@ class Main extends Component {
                 <div id='tab'>{tabList}</div>
                 {windowList}
                 {/* <div className='main-windows'></div> */}
-                <Passwd
-                    show={this.state.passwdShow} 
-                    onCancelRequest={() => this.setState({passwdShow:false})} 
-                    token={this.props.token}
-                />
             </div>
         );
     }
