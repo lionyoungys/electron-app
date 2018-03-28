@@ -91,7 +91,7 @@ export const router = {    //菜单路由选项
         {value:'员工管理',key:'employee'},
         {value:'返现记录',key:'award'},
         // {value:'用户评价',key:'comment'},
-        {value:'业绩统计',key:'performance'},
+        {value:'员工业绩',key:'performance'},
         {value:'连锁门店',key:'link'},
         {value:'门店信息',key:'info'},
         {value:'合作门店',key:'teamwork'},
@@ -104,7 +104,8 @@ export const router = {    //菜单路由选项
     ],
     help:[
         {value:'检查更新',key:'update'},
-        {value:'意见反馈',key:'feedback'}
+        {value:'意见反馈',key:'feedback'},
+        {value:'密码修改',key:'passwd'}
     ]
 }
 

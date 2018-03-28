@@ -41,10 +41,8 @@ export default class extends React.Component {
     }
 
     render() {
-        if (!this.props.show) return null;
         let state = this.state;
         return (
-            <section className='m-layer-bg'>
                 <div className='passwd'>
                     <em className='passwd-cancel' onClick={this.props.onCancelRequest}></em>
                     <div style={{paddingTop:'101px'}}>
@@ -87,7 +85,6 @@ export default class extends React.Component {
                         </div>
                     </div>
                 </div>
-            </section>
         );
     }
 }

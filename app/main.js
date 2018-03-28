@@ -3,7 +3,7 @@ const electron = require('electron'),
     app = electron.app,
     BrowserWindow = electron.BrowserWindow,
     ipcMain = electron.ipcMain,
-    axios = require('axios'),
+    // axios = require('axios'),
     path = require('path'),
     url = require('url');
 
@@ -212,7 +212,7 @@ function windowModel(name) {
 
 //数据请求
 function post(url, params, success, fail) {
-    axios.post( url, params, {headers: {'Content-Type':'application/x-www-form-urlencoded'}} )
-    .then(response => {'function' === typeof success && success(response)})
-    .catch(error => {'function' === typeof fail && fail(error)});
+    // axios.post( url, params, {headers: {'Content-Type':'application/x-www-form-urlencoded'}} )
+    // .then(response => {'function' === typeof success && success(response)})
+    // .catch(error => {'function' === typeof fail && fail(error)});
 }
