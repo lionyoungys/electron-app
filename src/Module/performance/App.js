@@ -87,7 +87,7 @@ export default class extends React.Component {
         let html = this.state.data.map(obj => 
             <tr className='m-text-c bd-lightgrey' key={obj.module}>
                 <td>{obj.module_name}</td>
-                <td>{this.state.current.name}/{this.state.current.id}</td>
+                <td>{this.state.current.name}{'' == this.state.current.id ? null : `/${this.state.current.id}`}</td>
                 <td>{obj.num}</td>
                 <td>{obj.num_back}</td>
             </tr>

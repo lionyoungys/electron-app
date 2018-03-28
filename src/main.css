@@ -137,6 +137,7 @@ input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-b
     background-repeat: no-repeat;
     background-position: 11px center;
 }
+.menu-employee>.employee-handle>div>div.checked{color: red}
 .menu-employee>.employee-handle>div>div:hover{background-color: #e6f2fa}
 .menu-employee>.employee-handle>div>div:last-child{border-bottom: none}
 /* 菜单下部选项列表样式 */
