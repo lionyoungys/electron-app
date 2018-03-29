@@ -5,7 +5,6 @@
 const {dialog} = window.require('electron').remote;
 const {ipcRenderer} = window.require('electron');
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import Page from '../UI/page/App';
 import './App.css';
 
@@ -139,7 +138,6 @@ export default class extends React.Component{
 
         return (
             <div>
-                <Crumb data={[{key:0,value:'业务统计'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div className='statistics-tab'>{tab}</div>
                     <div className='m-box statistics-box'>

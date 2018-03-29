@@ -3,8 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs,{LightboxImage,BoxOfImages} from '../static/UI';
+import {LightboxImage,BoxOfImages} from '../static/UI';
 const {ipcRenderer} = window.require('electron');
 
 export default class OfflineOrderDetail extends Component{
@@ -62,10 +61,6 @@ export default class OfflineOrderDetail extends Component{
         const style = {width:'170px',color:'grey',display:'inline-block'};
         return (
             <div>
-                <Crumbs 
-                    crumbs={[{key:0,text:'业务统计',e:'offline_statistic'},{key:1,text:'订单详情'}]} 
-                    callback={props.changeView}
-                />
                 <section className='ui-container'>
                     {html}
                     <div className='ui-content'>

@@ -3,8 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs,{Search} from '../static/UI';
+import {Search} from '../static/UI';
 
 export default class OfflineClean extends Component{
     constructor(props) {
@@ -87,7 +86,6 @@ export default class OfflineClean extends Component{
             );
         return (
             <div>
-                <Crumbs crumbs={[{key:0,text:'送洗'}]} callback={props.changeView}/>
                 <section className='ui-container'>
                     <div className='ui-box-between' style={{paddingBottom:'16px'}}>
                         <div>

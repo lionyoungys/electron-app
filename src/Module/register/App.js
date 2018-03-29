@@ -3,7 +3,6 @@
  * @author yangyunlong
  */
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import Radio from '../UI/radio/App';
 import './App.css';
 
@@ -50,7 +49,6 @@ export default class extends React.Component {
         let state = this.state;
         return (
             <div>
-                <Crumb data={[{key:0,value:'收衣',view:'take'},{key:1,value:'散客信息'}]} callback={this.props.changeView}/>
                 <div className='register-title'>此用户不是会员，请填写以下信息</div>
                 <div className='register'>
                     <div>

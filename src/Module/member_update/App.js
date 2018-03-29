@@ -3,7 +3,6 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import Crumb from '../UI/crumb/App';
 import Radio from '../UI/radio/App';
 import Sms from '../UI/sms/App';
 import './App.css';
@@ -87,7 +86,6 @@ export default class extends Component{
     render() {
         return (
             <div>
-                <Crumb data={[{key:0,value:'会员管理',view:'member'},{key:1,value:'会员信息变更'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <table className='m-table'>
                         <tbody className='member-update'>

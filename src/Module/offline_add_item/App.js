@@ -4,7 +4,6 @@
  */
 const {ipcRenderer} = window.require('electron');
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import Clothes from '../UI/clothes/App';
 import Problem from '../UI/problem/App';
 import Item from '../UI/item/App';
@@ -289,7 +288,6 @@ export default class extends React.Component {
         }
         return (
             <div>
-                <Crumb data={[{key:0,value:'收件',view:'take'},{key:1,value:'添加项目'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div>{tabs}</div>
                     <div className='m-box oai-tab-box'>

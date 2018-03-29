@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import Checkbox from '../UI/checkbox/App';
 import './App.css';
 
@@ -147,7 +146,6 @@ export default class extends React.Component {
             let data = this.adapter();
         return (
             <div>
-                <Crumb data={[{key:0,value:'门店信息'}]} callback={this.props.callback}/>
                 <div className='m-container'>
                     <table className='info'>
                         <tbody>

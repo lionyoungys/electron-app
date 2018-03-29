@@ -3,7 +3,6 @@
  * @author yangyunlong
  */
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import Chart from '../UI/chart-default/App';
 import {Starts} from '../../static/UI';
 import './App.css';
@@ -74,7 +73,6 @@ export default class extends React.Component {
         );
         return (
             <div>
-                <Crumb data={[{key:0,value:'经营分析'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div className='m-text-c'>
                         <select className='chart-select' value={this.state.selected} onChange={this.handleChange}>

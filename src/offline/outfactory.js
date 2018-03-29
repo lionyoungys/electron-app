@@ -3,8 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs from '../static/UI';
+
 
 export default class OutFactory extends Component{
     constructor(props) {
@@ -96,7 +95,6 @@ export default class OutFactory extends Component{
             );
         return (
             <div>
-                <Crumbs crumbs={[{key:0,text:'出厂'}]} callback={props.changeView}/>
                 <section className='ui-container'>
                     <div className='ui-box-between' style={{paddingBottom:'16px'}}>
                         <div>选择门店：

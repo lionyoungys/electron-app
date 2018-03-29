@@ -4,7 +4,6 @@
  */
 const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
-import Crumb from '../UI/crumb/App';
 import Search2 from '../UI/search2/App';
 import Radio from '../UI/radio/App';
 import Pay from '../UI/pay/App';
@@ -305,7 +304,6 @@ export default class extends Component {
         let state = this.state;
         return (
             <div>
-                <Crumb data={[{key:0,value:this.value,view:this.view},{key:1,value:'订单支付'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div className='order-pay-box'>
                         <div>

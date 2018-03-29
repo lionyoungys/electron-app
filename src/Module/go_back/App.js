@@ -6,7 +6,6 @@
 const {dialog} = window.require('electron').remote;
 const fs = window.require('fs');
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import Radio from '../UI/radio/App';
 import './App.css';
 
@@ -111,7 +110,6 @@ export default class extends React.Component {
     
         return (
             <div>
-                <Crumb data={this.crumb} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div className='go-back-title'><span>{data.item_name}</span><span>衣物编码:{data.clean_sn}</span></div>
                     <div className='go-back-box'>

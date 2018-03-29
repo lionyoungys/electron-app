@@ -3,7 +3,6 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import Crumb from '../UI/crumb/App';
 import Search from '../UI/search/App';
 import {AddMember, UpdateOrCharge} from '../UI/member-toast/App';
 import './App.css';
@@ -32,7 +31,6 @@ export default class extends Component{
     render() {
         return (
             <div>
-                <Crumb data={[{key:0,value:'会员管理'}]} callback={this.props.changeView}/>
                 <div className='member'>
                     <div><Search placeholder='请输入客户手机号' callback={this.onSearchRequest}/></div>
                     <div>

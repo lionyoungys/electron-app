@@ -3,8 +3,6 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs from '../static/UI';
 
 export default class GoodsAdd extends Component {
     constructor(props) {

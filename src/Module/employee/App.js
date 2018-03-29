@@ -3,7 +3,6 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import Crumb from '../UI/crumb/App';
 import Checkbox from '../UI/checkbox/App';
 import './App.css';
 
@@ -154,7 +153,6 @@ export default class extends Component {
             );
         return (
             <div>
-                <Crumb data={[{key:0,value:'员工管理'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div style={{textAlign:'right'}}>
                         <button type='button' className='m-btn confirm middle' onClick={() => this.setState({show:true,isAdd:true})}>+添加员工</button>

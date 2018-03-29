@@ -3,8 +3,6 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs from '../static/UI';
 
 class InfoEditor extends Component {
     constructor(props) {
@@ -143,10 +141,6 @@ class InfoEditor extends Component {
             );
         return (
             <div>
-                <Crumbs 
-                    crumbs={[{text:'门店信息',key:0,e:'info'},{text:'修改信息',key:1}]} 
-                    callback={this.props.changeView}
-                />
                 <div className='ui-container'>
                     <div className='ui-info-row'>
                         <div>门店电话：</div>

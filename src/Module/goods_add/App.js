@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import Checkbox from '../UI/checkbox/App';
 import './App.css';
 
@@ -49,7 +48,6 @@ export default class extends React.Component {
         );
         return (
             <div>
-                <Crumb data={[{key:0,value:'商品管理',view:'goods'},{key:1,value:'商品添加'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div style={{textAlign:'right'}}>
                         <button type='button' className='m-btn middle confirm' onClick={this.submit}>确定</button>

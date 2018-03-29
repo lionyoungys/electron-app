@@ -3,8 +3,6 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs from '../static/UI';
 
 export default class InFactory extends Component{
     constructor(props) {
@@ -87,7 +85,6 @@ export default class InFactory extends Component{
             );
         return (
             <div>
-                <Crumbs crumbs={[{key:0,text:'入厂'}]} callback={props.changeView}/>
                 <section className='ui-container'>
                     <div className='ui-box-between' style={{paddingBottom:'16px'}}>
                         <div></div>

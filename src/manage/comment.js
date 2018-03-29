@@ -3,8 +3,6 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumb from '../Module/UI/crumb/App';
 import {Starts} from '../static/UI';
 
 export default class Comment extends Component {
@@ -28,7 +26,6 @@ export default class Comment extends Component {
             );
         return (
             <div>
-                <Crumb data={[{value:'用户评价',key:0}]} callback={props.changeView}/>
                 <section className='ui-container'>
                     {html}
                 </section>

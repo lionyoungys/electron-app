@@ -3,13 +3,10 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs from '../static/UI';
 
 class Message extends Component {
     constructor(props) {
         super(props);
-        this.crumbs = [{key:0,text:'消息通知'}];
         this.state = {data:[],isShow:false, choose:[]};
         this.onDeleteRequest = this.onDeleteRequest.bind(this);
         this.chooseAll = this.chooseAll.bind(this);
@@ -88,7 +85,6 @@ class Message extends Component {
             );
         return (
             <div>
-                <Crumbs crumbs={this.crumbs} callback={props.changeView}/>
                 <section className='ui-container'>
                     <div className='ui-box-between'>
                         <div></div>

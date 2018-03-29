@@ -3,8 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs,{Search,CheckboxAlert} from '../static/UI';
+import {Search,CheckboxAlert} from '../static/UI';
 
 export default class OfflineTake extends Component{
     constructor(props) {
@@ -163,7 +162,6 @@ export default class OfflineTake extends Component{
             
         return (
             <div>
-                <Crumbs crumbs={[{key:0,text:'取衣'}]} callback={props.changeView}/>
                 <section className='ui-container'>
                     <div className='ui-box-between' style={{paddingBottom:'16px'}}>
                         <div></div>

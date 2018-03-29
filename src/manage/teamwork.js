@@ -3,13 +3,11 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs,{Notification} from '../static/UI';
+import {Notification} from '../static/UI';
 
 export default class Teamwork extends Component {
     constructor(props) {
         super(props);
-        this.crumbs = [{key:0,text:'合作门店'}];
         this.state = {list:[],show:false,deleteShow:false,tempId:null};
         this.callback = this.callback.bind(this);    //弹窗回调函数
         this.deleteCallback = this.deleteCallback.bind(this);    //删除成员回调
@@ -77,7 +75,6 @@ export default class Teamwork extends Component {
             );
         return (
             <div>
-                <Crumbs crumbs={this.crumbs} callback={props.changeView}/>
                 <section className='ui-container'>
                     <div className='ui-box-right'>
                         <input 

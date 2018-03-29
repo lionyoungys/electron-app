@@ -4,7 +4,6 @@
  */
 const {ipcRenderer} = window.require('electron');
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import Radio from '../UI/radio/App';
 import Gateway from '../UI/gateway/App';
 import Pay from '../UI/pay/App';
@@ -127,7 +126,6 @@ export default class extends React.Component{
         );
         return (
             <div>
-                <Crumb data={[{key:0,value:'会员管理',view:'member'},{key:1,value:'新增个人会员'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div style={{marginBottom:'10px',fontSize:'18px'}}>个人会员信息</div>
                     <table className='m-table' style={{marginBottom:'20px'}}>

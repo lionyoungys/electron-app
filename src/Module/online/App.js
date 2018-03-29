@@ -3,7 +3,6 @@
  * @author yangyunlong
  */
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import CancelToast from '../UI/cancel-toast/App';
 import './App.css';
 
@@ -260,7 +259,6 @@ export default class extends React.Component {
         );
         return (
             <div>
-                <Crumb data={[{key:0,value:'订单处理'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div>{tabs}</div>
                     <div className='m-box'>
