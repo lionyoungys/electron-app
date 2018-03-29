@@ -41,6 +41,7 @@ import Chart from './Module/chart/App';
 import Detail from './Module/detail/App';
 import Performance from './Module/performance/App';
 import Update from './Module/update/App';
+import MsgPlatgorm from './Module/msg_platform/App';
 
 
 import InfoEditor from './manage/info_editor';
@@ -99,7 +100,7 @@ export const router = {    //菜单路由选项
         {value:'卡券中心',key:'coupon'}
     ],
     message:[
-        {value:'新订单',key:'msg_new_order'},
+        {value:'平台消息',key:'msg_platform'},
         {value:'交期预警',key:'msg_delivery'},
         {value:'到期未取',key:'msg_did_not_take'}
     ],
@@ -154,6 +155,7 @@ export const view = {
     detail:Detail,    //订单详情
     performance:Performance,    //业绩统计
     update:Update,        //软件更新
+    msg_platform:MsgPlatgorm,    //平台消息
 
 
     

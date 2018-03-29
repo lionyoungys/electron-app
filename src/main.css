@@ -482,6 +482,7 @@ body{background:#09b1b0;cursor:pointer;} */
     background: url(img/cancel-tag.png) no-repeat center;
 }
 /* 新版本样式 */
+/* 按钮样式 */
 .e-btn{
     border: none;
     outline: none;
@@ -490,6 +491,29 @@ body{background:#09b1b0;cursor:pointer;} */
     height: 26px;
     line-height: 26px;
     padding: 0 16px;
-    color: #fff;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
-.e-btn.confirm{background: #34a0f6}
+.e-btn.confirm{background: #34a0f6;color: #fff;}
+.e-btn.cancel{background: #f5f5f5;color: #8f8f8f;border: 1px solid #e0e0e0;}
+/* 单选多选框样式 */
+.e-checkbox{
+    display: inline-block;
+    min-height: 24px;
+    line-height: 24px;
+    padding-left: 32px;
+    background-image: url(img/checkbox.png);
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+.e-checkbox.checked{background-image: url(img/checkbox-checked.png)}
+.e-radio{
+    display: inline-block;
+    min-height: 20px;
+    line-height: 20px;
+    padding-left: 25px;
+    background-image: url(img/radio.png);
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+.e-radio.checked{background-image: url(img/radio-checked.png)}
