@@ -494,7 +494,11 @@ body{background:#09b1b0;cursor:pointer;} */
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
 }
-.e-btn.confirm{background: #34a0f6;color: #fff;}
+.e-btn.small{height: 22px;line-height: 22px;padding: 0 7px;}
+.e-btn.middle{height: 29px;line-height: 29px;padding: 0 20px;}
+.e-btn.large{height: 33px;line-height: 33px;padding: 0 28px;}
+.e-btn.confirm{background: #3596e3;color: #fff;}
+.e-btn.editor{background: #f56357;color: #fff;}
 .e-btn.cancel{background: #f5f5f5;color: #8f8f8f;border: 1px solid #e0e0e0;}
 /* 单选多选框样式 */
 .e-checkbox{

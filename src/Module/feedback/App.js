@@ -16,15 +16,12 @@ export default class extends React.Component {
         .then((response) => {
             if (api.V(response.data)) {
                 this.setState({content:'',len:0});
-                this.props.onCancelRequest();
             }
         });
     }
 
     render() {
-        if (!this.props.show) return null;
         return (
-            <section className='m-layer-bg'>
                 <div className='fb'>
                     <div>
                         <textarea 
@@ -36,11 +33,9 @@ export default class extends React.Component {
                         <i className='m-counter'>{this.state.content.length}/100</i>
                     </div>
                     <div>
-                        <input type='button' value='取消' className='m-btn cancel large'onClick={this.props.onCancelRequest}/>
                         <input type='button' value='确认' className='m-btn confirm large'onClick={this.onConfirm}/>
                     </div>
                 </div>
-            </section>
         );
     }
 }

@@ -44,6 +44,8 @@ export default class extends React.Component {
                         this.state.checked.push(this.state.data[index].id);
                         this.setState({checked:this.state.checked,value:''});
                     }
+                } else {
+                    alert(response.data.msg);
                 }
             }
         });

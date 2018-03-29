@@ -1,3 +1,52 @@
-.msg_platform{
+.msg-platform{
     margin: 15px;
+}
+.msg-platform-top{line-height: 26px;overflow: hidden}
+.msg-platform-top>div{float: right;margin-right: 20px;}
+.msg-platform-top>div:first-child{margin-right: 0;}
+.msg-platform-row{
+    border-bottom: 1px dashed #e1e4e5;
+    padding-bottom: 22px;
+    margin-top: 22px;
+    display: -webkit-flex;
+    display: flex;
+    align-items:center;
+}
+.msg-platform-row>.msg-platform-check{
+    margin-left: 3px;
+}
+.msg-platform-row>.msg-platform-date{
+    height: 50px;
+    width: 85px;
+    font-size: 18px;
+    line-height: 50px;
+    text-align: center;
+    background: #f5f5f5;
+    color: #999;
+    font-style: italic;
+    margin: 0 15px 0 11px;
+    cursor: pointer;
+}
+.msg-platform-row>.msg-platform-info{
+    min-height: 50px;
+}
+.msg-platform-row>.msg-platform-info>:first-child{
+    display: -webkit-flex;
+    display: flex;
+    margin-bottom: 15px;
+    align-items: flex-end;
+}
+.msg-platform-row>.msg-platform-info>:first-child>span{margin-right: 10px}
+.msg-platform-row>.msg-platform-info>:first-child>span:first-child{font-size: 16px;color: #000;cursor: pointer;}
+.msg-platform-row>.msg-platform-info>:first-child>span:nth-child(3){
+    height: 6px;
+    width: 6px;
+    background: red;
+    border-radius: 3px;
+    margin-bottom: 3px;
+}
+.msg-platform-row>.msg-platform-info>:first-child>span:last-child{margin-right: 0}
+.msg-platform-row>.msg-platform-info>:last-child{
+    color: #666;
+    cursor: pointer;
 }

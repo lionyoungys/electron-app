@@ -2,10 +2,7 @@
     height: 520px;
     width:808px;
     box-sizing: border-box;-webkit-box-sizing: border-box;
-    border:1px solid #cccccc;
-    position: fixed;
-    top: 50%;left: 50%;
-    margin: -260px 0 0 -404px;
+    border:1px solid #ccc;
     background-color: #fff;
     padding: 168px 24px 0;
     background-image: url(img/feedback-bg.png);
