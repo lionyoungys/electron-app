@@ -3,8 +3,6 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs from '../static/UI';
 
 export default class GoodsAdd extends Component {
     constructor(props) {
@@ -61,10 +59,6 @@ export default class GoodsAdd extends Component {
             );
         return (
             <div>
-                <Crumbs 
-                    crumbs={[{key:0,text:'商品管理',e:'goods'},{key:1,text:'添加商品'}]} 
-                    callback={props.changeView}
-                />
                 <section className='ui-container'>
                     <div className='ui-box-right' style={{paddingBottom:'12px'}}>
                         <input 

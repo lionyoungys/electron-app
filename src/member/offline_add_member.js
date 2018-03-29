@@ -4,7 +4,7 @@
  */
 const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
-import Crumbs, {Search, PayMent} from '../static/UI';
+import {Search, PayMent} from '../static/UI';
 
 export default class OfflineAddMember extends Component{
     constructor(props) {
@@ -134,10 +134,6 @@ export default class OfflineAddMember extends Component{
             state = this.state;
         return (
             <div>
-                <Crumbs 
-                    crumbs={[{key:0,text:'会员管理',e:'member_manage'},{key:1,text:'新增个人会员'}]} 
-                    callback={props.changeView}
-                />
                 <div className='ui-container'>
                     <div style={{marginBottom:'10px',fontSize:'18px'}}>个人会员信息</div>
                     <div className='ui-mcd-row'>

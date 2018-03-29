@@ -3,8 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs from '../static/UI';
+
 
 export default class MemberDetail extends Component{
     constructor(props) {
@@ -45,7 +44,6 @@ export default class MemberDetail extends Component{
             );
         return (
             <div>
-                <Crumbs crumbs={[{key:0,text:'会员管理',e:'member_manage'},{key:1,text:'会员详情'}]} callback={props.changeView}/>
                 <section className='ui-md-box'>
                     <div><span>卡号：</span><span>{user.ucode}</span></div>
                     <div><span>姓名：</span><span>{user.username}</span></div>

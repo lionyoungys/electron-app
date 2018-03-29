@@ -3,8 +3,6 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs from '../static/UI';
 
 class Finance extends Component {
     constructor(props) {
@@ -77,7 +75,6 @@ class Finance extends Component {
         );
         return (
             <div>
-                <Crumbs crumbs={[{text:'财务对账',key:0}]} callback={props.changeView}/>
                 <section className='ui-container'>
                     <header style={{textAlign:'center'}}>
                         <div style={style}>

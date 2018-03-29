@@ -3,8 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs,{Page} from '../static/UI';
+import {Page} from '../static/UI';
 
 
 export default class MemberRechargeRecord extends Component{
@@ -83,7 +82,6 @@ export default class MemberRechargeRecord extends Component{
         }
         return (
             <div>
-                <Crumbs crumbs={[{key:0,text:'会员管理',e:'member_manage'},{key:1,text:'会员充值报表'}]} callback={props.changeView}/>
                 <section className='ui-container'>
                     <div className='ui-box-between'>
                         <div></div>

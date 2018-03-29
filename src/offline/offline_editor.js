@@ -3,8 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs from '../static/UI';
+
 
 export default class OfflineEditor extends Component{
     constructor(props) {
@@ -14,12 +13,6 @@ export default class OfflineEditor extends Component{
         //console.log(this.params);
         
         this.redirectParam = 'id=' + this.params.order_id + '&from=offline'
-        this.crumbs = [
-            {key:0,text:'收衣',e:'take'},
-            {text:'添加项目',key:1,e:'item',param:this.redirectParam},
-            {text:'工艺加价',key:2,e:'offline_craft',param:this.redirectParam},
-            {text:'编辑',key:3}
-        ];
         this.state = {
             code:this.params.code,
             hedging:this.params.hedging,
@@ -73,7 +66,6 @@ export default class OfflineEditor extends Component{
             state = this.state;
         return (
             <div>
-                <Crumbs crumbs={this.crumbs} callback={props.changeView}/>
                 <section className='ui-container'>
                     <div className='ui-oe-row'>衣物编码</div>
                     <div>

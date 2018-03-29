@@ -3,7 +3,6 @@
  * @author yangyunlong
  */
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import Upload from '../Ui/upload/App';
 import './App.css';
 
@@ -61,7 +60,6 @@ export default class extends React.Component {
         );
         return (
             <div>
-                <Crumb data={[{key:0,value:'待清洗',view:'online',param:{checked:'to_clean'}},{key:1,value:'上传照片'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     {html}
                     <div className='upload-item'>

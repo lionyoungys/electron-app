@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import './App.css';
 
 export default class extends React.Component {
@@ -36,7 +35,6 @@ export default class extends React.Component {
         );
         return (
             <div>
-                <Crumb data={[{key:0,value:'卡券中心',view:'coupon'},{key:1,value:'卡券详情'}]} callback={this.props.changeView}/>
                 <div className='m-container coupon-detail'>
                     <div>下载&emsp;&emsp;</div>
                     <table className='m-table'>

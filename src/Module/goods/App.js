@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import Radio from '../UI/radio/App';
 import './App.css';
 
@@ -105,7 +104,6 @@ export default class extends React.Component {
         }
         return (
             <div>
-                <Crumb data={[{key:0,value:'商品管理'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div>{tab}</div>
                     <div className='m-box' style={{textAlign:'right'}}>

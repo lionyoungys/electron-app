@@ -3,7 +3,6 @@
  * @author yangyunlong
  */
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import Search from '../UI/search/App';
 import Toast from '../UI/cancel-toast/App';
 
@@ -139,7 +138,6 @@ export default class extends React.Component{
             
         return (
             <div>
-                <Crumb data={[{key:0,value:'取衣'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div className='m-text-r'><Search placeholder='请输入客户手机号' callback={this.onSearchRequest}/></div>
                     <div className='m-box'>

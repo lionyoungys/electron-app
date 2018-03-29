@@ -3,7 +3,6 @@
  * @author yangyunlong
  */
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import Page from '../UI/page/App';
 import './App.css';
 
@@ -73,7 +72,6 @@ export default class extends React.Component{
             );
         return (
             <div>
-                <Crumb data={[{key:0,value:'会员管理',view:'member'},{key:1,value:'会员消费报表'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div className='m-text-r'>
                         开始时间：<input type='text' value={this.state.start} ref={input => this.input = input} className='m-input-small m-select-postfix m-text-c' readOnly/>

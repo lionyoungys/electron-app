@@ -5,7 +5,6 @@
 const {dialog} = window.require('electron').remote;
 const {ipcRenderer} = window.require('electron');
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import './App.css';
 
 
@@ -91,7 +90,6 @@ export default class extends React.Component {
         );
         return (
             <div>
-                <Crumb data={[{key:0,value:'财务对账'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div className='balance-title'>
                         账户余额结算周期为T+7，平台将通过银行打款结算至

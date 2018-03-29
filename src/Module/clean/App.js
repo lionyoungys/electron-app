@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import Search from '../UI/search/App';
 import UploadList from '../UI/upload-list/App';
 import Checkbox from '../UI/checkbox/App';
@@ -154,7 +153,6 @@ export default class extends React.Component {
         );
         return (
             <div>
-                <Crumb data={[{key:0,value:'清洗'}]} callback={this.props.changeView} token={this.props.token} param={{moduleid:3}}/>
                 <div className='m-container'>
                     <div className='clean-box'>
                         <Search 

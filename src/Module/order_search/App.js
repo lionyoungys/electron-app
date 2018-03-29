@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import Search from '../UI/search/App';
 import Page from '../UI/page/App';
 import './App.css';
@@ -112,7 +111,6 @@ export default class extends React.Component {
         );
         return (
             <div>
-                <Crumb data={[{key:0,value:'订单查询'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div className='order-search-type'>
                         <span className={this.state.isOnline ? 'choose' : null} onClick={() => this.handleTab(1)}>线上订单</span>

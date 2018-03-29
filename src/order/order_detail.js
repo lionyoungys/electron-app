@@ -4,8 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import '../api';
-import Crumbs,{LightboxImage} from '../static/UI';
+import {LightboxImage} from '../static/UI';
 
 export default class OrderDetail extends Component {
     constructor(props) {
@@ -50,10 +49,6 @@ export default class OrderDetail extends Component {
         const style = {width:'170px',color:'grey',display:'inline-block'};
         return (
             <div>
-                <Crumbs 
-                    crumbs={[{key:0,text:'订单查询',e:'order_search'},{key:1,text:'订单详情'}]} 
-                    callback={props.changeView}
-                />
                 <section className='ui-container'>
                     {html}
                     <div className='ui-content'>

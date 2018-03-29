@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import Crumb from '../UI/crumb/App';
 import Checkbox from '../UI/checkbox/App';
 import './App.css';
 
@@ -84,7 +83,6 @@ export default class extends React.Component {
         );
         return (
             <div>
-                <Crumb data={[{key:0,value:'入厂'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div className='m-text-r'>
                         <span>已选择<span className='m-red'>{this.state.checked.length}</span>件</span>

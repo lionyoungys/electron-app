@@ -3,8 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs, {Tabs} from '../static/UI';
+import {Tabs} from '../static/UI';
 
 class Goods extends Component {
     constructor(props) {
@@ -99,7 +98,6 @@ class Goods extends Component {
         }
         return (
             <div>
-                <Crumbs crumbs={[{text:'商品管理',key:0}]} callback={props.changeView}/>
                 <div className='ui-container'>
                     <div className='ui-box-between'>
                         <Tabs tabs={state.tabs} choose={state.choose} callback={this.tabChange}/>

@@ -3,8 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs,{Page} from '../static/UI';
+import {Page} from '../static/UI';
 
 export default class MemberBalance extends Component{
     constructor(props) {
@@ -62,7 +61,6 @@ export default class MemberBalance extends Component{
             );
         return (
             <div>
-                <Crumbs crumbs={[{key:0,text:'会员管理',e:'member_manage'},{key:1,text:'会员余额'}]} callback={props.changeView}/>
                 <section className='ui-container'>
                 <div className='ui-box' style={{fontSize:'18px',padding:'20px 0'}}>
                     <div style={{paddingRight:'50px'}}>累计会员数：<span style={{fontSize:'24px'}}>{state.count}</span></div>

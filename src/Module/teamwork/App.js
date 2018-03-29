@@ -4,7 +4,6 @@
  */
 
 import React, {Component} from 'react';
-import Crumb from '../UI/crumb/App';
 import './App.css';
 
 
@@ -48,7 +47,6 @@ export default class extends Component {
         );
         return (
             <div>
-                <Crumb data={[{key:0,value:'合作门店'}]} callback={this.props.changeView}/>
                 <div className='m-container'>
                     <div className='m-text-r' style={{position:'relative'}}>
                         <button className='m-btn confirm middle' type='button' onClick={() => this.setState({show:true})}>+ 新增合作门店</button>

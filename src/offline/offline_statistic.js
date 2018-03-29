@@ -3,8 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs,{Page} from '../static/UI';
+import {Page} from '../static/UI';
 
 export default class OfflineStatistic extends Component{
     constructor(props) {
@@ -146,7 +145,6 @@ export default class OfflineStatistic extends Component{
         }
         return (
             <div>
-                <Crumbs crumbs={[{key:0,text:'业务统计'}]} callback={props.changeView}/>
                 <div className='ui-os-box'>
                     <div 
                         className={0 == choose ? 'choose' : ''}

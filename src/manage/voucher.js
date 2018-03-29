@@ -3,8 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs from '../static/UI';
+
 
 export default class Voucher extends Component {
     constructor(props) {
@@ -66,7 +65,6 @@ export default class Voucher extends Component {
             state = this.state;
         return (
             <div>
-                <Crumbs crumbs={[{key:0,text:'制作代金券'}]} callback={props.changeView}/>
                 <section className='ui-container'>
                     <div className='ui-voucher-row'>
                         <label className='label'>制作张数：</label>

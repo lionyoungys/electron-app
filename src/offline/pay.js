@@ -4,8 +4,7 @@
  */
 const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
-import '../api';
-import Crumbs,{Search2, PayMent} from '../static/UI';
+import {Search2, PayMent} from '../static/UI';
 
 class Pay extends Component {
     constructor(props) {
@@ -15,15 +14,6 @@ class Pay extends Component {
         //this.params = {id:'1596',from:'offline'};
         console.log(this.params);
         this.id = this.params.id;
-        this.crumbs = [
-            {text:'收衣',key:0,e:'take'},
-            {text:'添加项目',key:1,e:'item',param:this.props.param},
-            {text:'工艺加价',key:2,e:'offline_craft',param:this.props.param},
-            {text:'订单支付',key:4}
-        ];
-        if ('take' == this.params.from) {
-            this.crumbs = [{text:'取衣',key:0,e:'offline_take'},{text:'订单支付',key:1}];
-        }
         this.state = {
             amount:'0',discount:'0',realAmount:0,payment:'',
             reduce:10,reduceAmount:0,voucher:0,voucher_id:null,
@@ -336,7 +326,6 @@ class Pay extends Component {
         let state = this.state;
         return (
             <div>
-                <Crumbs crumbs={this.crumbs} callback={this.props.changeView}/>
                 <div style={{padding:'0 20px'}}>
                     <div className='ui-pay-amount'>
                         <div>

@@ -3,8 +3,7 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import '../api';
-import Crumbs,{Search} from '../static/UI';
+import {Search} from '../static/UI';
 
 export default class OfflineIroning extends Component{
     constructor(props) {
@@ -86,7 +85,6 @@ export default class OfflineIroning extends Component{
             );
         return (
             <div>
-                <Crumbs crumbs={[{key:0,text:'熨烫'}]} callback={props.changeView}/>
                 <section className='ui-container'>
                     <div className='ui-box-between' style={{paddingBottom:'16px'}}>
                         <div>

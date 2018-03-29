@@ -4,7 +4,6 @@
  */
 
 import React, {Component} from 'react';
-import Crumb from '../UI/crumb/App';
 import ImgBox from '../UI/img-box/App';
 import './App.css';
 
@@ -75,10 +74,6 @@ export default class extends Component {
         const display = {display:(1 == this.state.isOnline ? 'inline' : 'none')};
         return (
             <div>
-                <Crumb 
-                    data={[{key:0,value:this.props.param.value,view:this.props.param.view},{key:1,value:'订单详情'}]} 
-                    callback={this.props.changeView}
-                />
                 <div className='m-container'>
                     <div className='detail-box'>{html}</div>
                     <div className='m-box' style={{lineHeight:'30px'}}>

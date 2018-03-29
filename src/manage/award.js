@@ -3,7 +3,6 @@
  * @author yangyunlong
  */
 import React, {Component} from 'react';
-import Crumb from '../Module/UI/crumb/App';
 
 const style = {
     minHeight:'47px',lineHeight:'47px',fontSize:'16px',
@@ -38,7 +37,6 @@ class Award extends Component {
             );
         return (
             <div>
-                <Crumb data={[{value:'返现记录',key:0}]} callback={this.props.changeView}/>
                 <section className='ui-container'>
                     <header className='m-text-c'>
                         <div style={style}>
