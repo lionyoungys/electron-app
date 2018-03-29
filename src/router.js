@@ -98,7 +98,7 @@ export const router = {    //菜单路由选项
         {value:'卡券中心',key:'coupon'}
     ],
     message:[
-        {value:'新订单',key:'msg_new_order'},
+        {value:'平台消息',key:'msg_platform'},
         {value:'交期预警',key:'msg_delivery'},
         {value:'到期未取',key:'msg_did_not_take'}
     ],
