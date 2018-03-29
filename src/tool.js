@@ -336,10 +336,17 @@
         let date = 'undefined' === typeof timestamp ? new Date() : new Date( Number(timestamp) * 1000 );
         if ('string' === typeof format) {
             let month = date.getMonth() + 1,
-                day = date.getDate();
+                day = date.getDate(),
+                hour = date.getHours(),
+                minute = date.getMinutes(),
+                second = date.getSeconds();
             return format.replace('Y', date.getFullYear() )
                          .replace('m', ( 10 > month ? '0' + month : month ) )
-                         .replace('d', ( 10 > day ? '0' + day : day ) );
+                         .replace('d', ( 10 > day ? '0' + day : day ) )
+                         .replace('H', ( 10 > hour ? '0' + hour : hour ))
+                         .replace('i', ( 10 > minute ? '0' + minute : minute ))
+                         .replace('s', ( 10 > second ? '0' + second : second ));
+                
         }
         return date;
     }

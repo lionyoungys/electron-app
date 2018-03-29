@@ -42,6 +42,7 @@ import Detail from './Module/detail/App';
 import Performance from './Module/performance/App';
 import Update from './Module/update/App';
 import MsgPlatgorm from './Module/msg_platform/App';
+import MsgDetail from './Module/msg_detail/App';
 
 
 import InfoEditor from './manage/info_editor';
@@ -101,8 +102,8 @@ export const router = {    //菜单路由选项
     ],
     message:[
         {value:'平台消息',key:'msg_platform'},
-        {value:'交期预警',key:'msg_delivery'},
-        {value:'到期未取',key:'msg_did_not_take'}
+        {value:'交期预警',key:'msg_platform__2'},
+        {value:'到期未取',key:'msg_platform__3'}
     ],
     help:[
         {value:'检查更新',key:'update'},
@@ -156,9 +157,11 @@ export const view = {
     performance:Performance,    //业绩统计
     update:Update,        //软件更新
     msg_platform:MsgPlatgorm,    //平台消息
+    ['msg_platform__2']:MsgPlatgorm,    //交期预警
+    ['msg_platform__3']:MsgPlatgorm,    //到期未取
+    msg_detail:MsgDetail,             //平台消息详情
 
 
-    
     info_editor:InfoEditor,    //信息编辑
     message:Message,    //消息通知
     comment:Comment,    //用户评价

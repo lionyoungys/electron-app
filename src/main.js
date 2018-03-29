@@ -67,6 +67,9 @@ class Main extends Component {
         }
         //窗口控制
         if (null === view) return;
+        //检查视图是否携带参数
+        if (!tool.isSet(param) && -1 !== view.indexOf('__')) param = view.split('__', 2)[1];
+
         let checkedMenu = router[this.state.checkedMenu],    //当前选中的菜单列表
             routeIndex = view.inObjectArray(checkedMenu, 'key');    //选择的路由索引
         if (-1 === routeIndex) {    //判断当前菜单是否存在该路由
