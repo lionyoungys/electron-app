@@ -317,7 +317,7 @@ export default class extends Component {
                     <div className='m-box' style={{fontSize:'20px'}}>选择支付方式:</div>
                     <Gateway
                         checked={this.state.checked}
-                        hasVip={1 == this.state.hasPlatform}
+                        // hasVip={1 == this.state.hasPlatform}
                         vipBalance={this.state.platform.cbalance}
                         hasMerchant={1 == this.state.hasMerchant}
                         merchantBalance={this.state.merchant.cbalance}
