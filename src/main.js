@@ -10,6 +10,7 @@ import {menu, router, view} from './router';
 import './tool';
 import './api';    //注册全局api对象
 import './main.css';
+import './Elem/App.css';
 import './media.css';    //媒体查询相应式处理css
 window.version = '1.0.7';
 const branch = 'master',    //当前项目分支
