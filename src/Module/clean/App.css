@@ -1,19 +1,46 @@
-.clean-box{
-    display: -webkit-flex;display: flex;
-    justify-content: space-between;
+.clean{padding-top: 56px}
+.clean-top{
+    position: fixed;
+    left: 0;top: 178px;
+    z-index: 1;
+    height: 44px;
+    padding-top: 12px;
+    background: #fff;
+    width: 100%;
 }
+.clean-top>.left{margin-left: 28px;padding-top: 3px;line-height: 27px}
+.clean-top>.right{margin-right: 11px}
+.clean .e-table>tbody>tr>td:first-child{
+    width: 145px;
+    padding-left: 17px;
+    text-align: left;
+}
+.clean .e-table>tbody>tr>td:nth-child(2){width: 187px}
+.clean .e-table>tbody>tr>td:last-child{
+    width: 122px;
+    padding-left: 35px;
+}
+.clean .e-table>tbody>tr.disabled{
+    color: #808080;
+}
+.clean .e-table>tbody>tr.disabled>td:first-child{
+    width: 113px;
+    padding-left: 49px;
+}
+/* 合作商家样式 */
 .clean-team{
     position: absolute;
     top: 30px;
     right: 0;
     width: 240px;
     height: 300px;
-    border: 1px solid #09b1b0;
+    border: 1px solid #3596e3;
+    z-index: 10;
     background-color: #fff;
 }
 .clean-team>:first-child{
     height: 40px;
-    background-color: #09b1b0;
+    background-color: #3596e3;
     padding: 0 10px;
     line-height: 40px;
     color: #fff;

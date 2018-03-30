@@ -14,14 +14,15 @@ export default class extends React.Component {
     }
 
     chooseImage() {
-        if (this.props.images.length > 11) return;
+        if (this.props.images.length > 11 && !this.props.infinite) return;
         dialog.showOpenDialog({
             filters: [{name: 'Images', extensions: ['jpg','png','jpeg','bmp','JPG','PNG','JPEG','BMP']}],
             properties: ['openFile']
         },(filePaths) => {
             if (tool.isSet(filePaths)) {
-                let base64 = fs.readFileSync(filePaths[0]).toString('base64');
-                this.props.onChoose( base64.toDataBase64(filePaths[0].ext()) );
+                let base64 = fs.readFileSync(filePaths[0]).toString('base64'),
+                    mime = 'image/' + filePaths[0].ext();
+                this.props.onChoose( base64.toDataBase64(filePaths[0].ext()), base64.base64toBlob(mime) );
             }
         });
     }
@@ -38,12 +39,12 @@ export default class extends React.Component {
             <div className='upload-toast'>
                 <div>
                     上传照片
-                    <span>&nbsp;&nbsp;(最多不超过12张)</span>
+                    <span>&nbsp;&nbsp;{!this.props.infinite && '(最多不超过12张)'}</span>
                     <i className="fa fa-times" onClick={this.props.onClose}></i>
                 </div>
                 <div>
                     {images}
-                    {this.props.images.length > 11 ? null : (<div className='m-img-box upload' onClick={this.chooseImage}></div>)}
+                    {this.props.images.length > 11 && !this.props.infinite ? null : (<div className='m-img-box upload' onClick={this.chooseImage}></div>)}
                 </div>
             </div>
         );

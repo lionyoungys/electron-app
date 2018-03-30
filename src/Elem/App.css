@@ -1,0 +1,72 @@
+/* 头组件 */
+.elem-header{
+    height: 35px;
+    line-height: 35px;
+    background: #3596e3;
+}
+.elem-header>.left{
+    height: 100%;
+    margin-left: 14px;
+    font-size: 14px;
+    color: #fff;
+}
+.elem-header>.right{
+    height: 100%;
+    width: 17px;
+    margin-right: 12px;
+    background: url(img/toast-close.png) no-repeat center center;
+    cursor: default;
+}
+/* 图片光箱组件样式 */
+.image-light-box{
+    width: 680px;
+    height: 545px;
+    position: fixed;
+    left: 50%;top: 50%;
+    margin: -183.5px 0 0 -340px;
+    z-index: 999999;
+}
+
+.image-light-box-body{
+    height: 510px;
+    width: 680px;
+    position: relative;
+    background-color: #fff;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+.image-light-box-body>img{max-width: 680px;max-height: 510px;}
+.image-light-box-prev{
+    width: 340px;
+    height: 100%;
+    background: url(img/prev-piece.png) no-repeat center left;
+    position: absolute;
+    left: 0;top: 0;
+    cursor: pointer;
+}
+.image-light-box-next{
+    width: 340px;
+    height: 100%;
+    background: url(img/prev-piece.png) no-repeat center right;
+    position: absolute;
+    right: 0;top: 0;
+    cursor: pointer;
+}
+.image-light-box-bottom{
+    height: 34px;
+    line-height: 34px;
+    width: 100%;
+    color: #fff;
+    background: rgba(153,153,153,.4);
+    position: absolute;
+    left: 0;bottom: 0;
+}
+.image-light-box-bottom>.left{
+    height: 100%;
+    margin-left: 16px;
+}
+.image-light-box-bottom>.right{
+    height: 100%;
+    margin-right: 16px;
+}

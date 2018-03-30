@@ -10,6 +10,7 @@ import {menu, router, view} from './router';
 import './tool';
 import './api';    //注册全局api对象
 import './main.css';
+import './Elem/App.css';
 import './media.css';    //媒体查询相应式处理css
 window.version = '1.0.7';
 const branch = 'master',    //当前项目分支
@@ -69,7 +70,7 @@ class Main extends Component {
         if (null === view) return;
         //检查视图是否携带参数
         if (!tool.isSet(param) && -1 !== view.indexOf('__')) param = view.split('__', 2)[1];
-        
+
         let checkedMenu = router[this.state.checkedMenu],    //当前选中的菜单列表
             routeIndex = view.inObjectArray(checkedMenu, 'key');    //选择的路由索引
         if (-1 === routeIndex) {    //判断当前菜单是否存在该路由

@@ -21,6 +21,8 @@ table{border-collapse: collapse;}
 .fa-check-square.checked{color: #09b1b0}
 .fa-times-circle{color: #ccc;font-size: 36px}
 .fa-times-circle:hover{color: #e0e0e0}
+/* react image lightbox 触点取消拖动 */
+.ril__toolbar{-webkit-app-region: no-drag}
 /* 主界面容器样式 */
 #main{
     box-sizing: border-box;
@@ -204,8 +206,8 @@ table{border-collapse: collapse;}
 .main-windows{
     height: 100%;
     overflow: auto;
-    /* 默认隐藏窗口 */
-    display: none;
+    display: none;    /* 默认隐藏窗口 */
+    position: relative;
 }
 /* 窗口展示 */
 .main-windows.show{
@@ -482,6 +484,22 @@ body{background:#09b1b0;cursor:pointer;} */
     background: url(img/cancel-tag.png) no-repeat center;
 }
 /* 新版本样式 */
+/* 通用样式 */
+.left{float: left;}
+.right{float: right};
+/* 容器样式 */
+.e-box{padding: 0 11px}
+/* 弹窗遮罩层 */
+.e-shade,.e-window-shade{
+    background: rgba(153,153,153,.5);
+    position: fixed;
+    top: 0;left: 0;
+    z-index: 100;
+    width: 100%;
+    height:100%;
+}
+.e-window-shade{top: 178px}
+
 /* 按钮样式 */
 .e-btn{
     border: none;
@@ -521,3 +539,14 @@ body{background:#09b1b0;cursor:pointer;} */
     background-position: left center;
 }
 .e-radio.checked{background-image: url(img/radio-checked.png)}
+/* table表格布局样式 */
+.e-table{border-collapse: collapse;width: 100%;text-align: center}
+.e-table>thead>tr{height: 37px;line-height: 37px;background: #eef8ff}
+.e-table>tbody>tr{height: 45px;line-height: 45px}
+.e-table.border td, .e-table.border th{border: 1px solid #bfccd8}
+/* 文字颜色样式 */
+.e-orange{color: #f56357}
+/* 鼠标样式 */
+.e-pointer{cursor: pointer}
+.e-default{cursor: default}
+.e-wait{cursor: wait}
