@@ -23,9 +23,9 @@ class Main extends Component {
         super(props);
         this.state = {
             checkedMenu:'offline',    //当前选中的菜单
-            checkedTab:null,          //当前选中的tab
+            checkedTab:'take',          //当前选中的tab
             show:false,               //操作选项是否显示
-            windows:[],    //窗口列表 key:{title:'tab内容',param:'携带参数',view:'界面路由'}
+            windows:{take:{title:'收件', view:'take', param:null}},    //窗口列表 key:{title:'tab内容',view:'界面路由',param:'携带参数'}
             token:localStorage.getItem('token'),
             merchant:{},    //商户信息
             employees:[],    //职员列表
@@ -44,7 +44,6 @@ class Main extends Component {
             verify && this.setState({merchant:response.data.result});
         });
         api.post('employees', {token:this.state.token}, (response, verify) => {
-            console.log(response.data.result);
             verify && this.setState({employees:response.data.result});
         })
     }
@@ -52,44 +51,37 @@ class Main extends Component {
     //界面动态转换事件方法
     changeView(e) {
         let view = null,    //视图
-            checkedTab = this.state.checkedTab,    //当前选中的tab
-            param;    //视图携带参数
-        if (!tool.isSet(e.target)) {
-            if (tool.isSet(e.view)) {
-                view = e.view;
-                param = e.param;
-            }
-        } else {
-            let data = e.target.dataset;
-            if (tool.isSet(data.view)) {
-                view = data.view;
-                param = data.param;
-            }
-        }
-        //窗口控制
-        if (null === view) return;
-        //检查视图是否携带参数
-        if (!tool.isSet(param) && -1 !== view.indexOf('__')) param = view.split('__', 2)[1];
+            param = null,    //视图携带参数
+            checkedTab = this.state.checkedTab;    //当前选中的tab
 
-        let checkedMenu = router[this.state.checkedMenu],    //当前选中的菜单列表
-            routeIndex = view.inObjectArray(checkedMenu, 'key');    //选择的路由索引
-        if (-1 === routeIndex) {    //判断当前菜单是否存在该路由
-            //当前菜单不存在该路由,窗口内界面跳转
+        if ('object' === typeof e.target) {    //视图及参数赋值
+            let data = e.target.dataset;
+            if ('string' === typeof data.view) view = data.view;
+            if ('undefined' !== typeof data.param) param = data.param;
+        } else {
+            if ('string' === typeof e.view) view = e.view;
+            if ('undefined' !== typeof e.param) param = e.param;
+        }
+        if (null === view) return;    //视图为空时停止界面跳转
+        if (null === param && -1 !== view.indexOf('__')) param = view.split('__', 2)[1];    //检查视图名称中是否携带参数
+
+        let checkedMenu = router[this.state.checkedMenu],    //当前选中的菜单中的视图列表
+            routeIndex = view.inObjectArray(checkedMenu, 'key');    //判断跳转路由是否在当前视图列表中
+        if (-1 === routeIndex) {    //跳转路由不存在当前视图列表中为窗口内跳转
             if (this.state.windows[checkedTab].view === view) return;    //选中的窗口与窗口内界面跳转的视图相同时,停止动作
             this.state.windows[checkedTab].view = view;
             this.state.windows[checkedTab].param = param;
-        } else {
-            //当前菜单存在该路由,新建窗口跳转
-            checkedTab = this.state.windows.length;                      //更新选中tab至最新tab
-            if (checkedTab >= 8) return alert('最多只能打开8个子窗口');    //限制最多8个窗口
-            this.state.windows.push({
-                title:checkedMenu[routeIndex].value,
-                tab:checkedTab,
-                view:view,
-                param:param
-            });
+            this.setState({windows:this.state.windows});
+        } else {    //跳转路由存在当前视图列表中为新建tab跳转
+            if ('undefined' === typeof this.state.windows[view]) {    //若窗口列表中不存在该视图,新建tab创建视图窗口
+                if (tool.count( this.state.windows ) >= 8) return alert('最多只能打开8个子窗口');    //限制最多8个窗口
+                this.state.windows[view] = {title:checkedMenu[routeIndex].value, view:view, param:param};
+                this.setState({checkedTab:view, windows:this.state.windows});
+            } else {    //若窗口列表中存在该视图,定位tab至该视图
+                this.setState({checkedTab:view});
+            }
+            
         }
-        this.setState({windows:this.state.windows, checkedTab:checkedTab});
     }
 
     changeMenu(e) {
@@ -97,11 +89,11 @@ class Main extends Component {
         this.state.checkedMenu !== menu && this.setState({checkedMenu:e.target.dataset.menu})
     }
     //tab改变事件
-    changeTab(e) {this.setState({checkedTab:Number(e.target.dataset.index)})}
+    changeTab(e) {this.setState({checkedTab:e.target.dataset.key})}
     //tab关闭事件
     tabClose(e) {
-        this.state.windows.splice(e.target.parentNode.dataset.index, 1);
-        this.setState({checkedTab:(this.state.windows.length - 1), windows:this.state.windows});
+        delete this.state.windows[e.target.parentNode.dataset.key];
+        this.setState({checkedTab:tool.getObjectLastKey(this.state.windows), windows:this.state.windows});
         e.stopPropagation();
     }
 
@@ -127,9 +119,7 @@ class Main extends Component {
         let menuList = [],
             tabList = [], 
             windowList = [], 
-            len = this.state.windows.length, 
-            View,
-            tempView;
+            View;
         
         for (let k in menu) {
             menuList.push(
@@ -149,25 +139,24 @@ class Main extends Component {
                 onClick={this.changeView}
             >{obj.value}</div>
         );
-        for (let i = 0;i < len;++i) {
-            tempView = this.state.windows[i].view;
-            View = view[tempView];
+        for (let k in this.state.windows) {
+            View = view[this.state.windows[k].view];
             tabList.push(
-                <div 
-                    key={tempView + i}
-                    data-index={i}
+                <div
+                    key={k}
+                    data-key={k}
                     onClick={this.changeTab}
-                    className={this.state.checkedTab === i ? 'checked' : null}
-                >{this.state.windows[i].title}<i className='tab-close' onClick={this.tabClose}></i></div>
+                    className={this.state.checkedTab === k ? 'checked' : null}
+                >{this.state.windows[k].title}<i className='tab-close' onClick={this.tabClose}></i></div>
             );
             windowList.push(
                 <div 
-                    key={tempView + i} 
-                    className={`main-windows${this.state.checkedTab === i ? ' show' : ''}`}
+                    key={k} 
+                    className={`main-windows${this.state.checkedTab === k ? ' show' : ''}`}
                 >
                     <View 
                         token={this.state.token}
-                        param={this.state.windows[i].param}
+                        param={this.state.windows[k].param}
                         changeView={this.changeView}
                         branch={branch}
                         special={special}
