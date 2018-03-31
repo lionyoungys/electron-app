@@ -2,11 +2,13 @@
  * 线下取衣组件
  * @author yangyunlong
  */
-import React from 'react';
+import React, {Component} from 'react';
 import Search from '../UI/search/App';
+import SelectSearch from '../../Elem/SelectSearch';
 import Toast from '../UI/cancel-toast/App';
+import './App.css';
 
-export default class extends React.Component{
+export default class extends Component{
     constructor(props) {
         super(props);
         this.state = {data:[],user:{},show:false,toastData:[],oid:null,number:null};
@@ -17,7 +19,8 @@ export default class extends React.Component{
         this.onTakePayRequest = this.onTakePayRequest.bind(this);
     }
 
-    onSearchRequest(value) {
+    onSearchRequest(value, selected) {
+        console.log(selected);
         this.query(value);
     }
     query(value) {
@@ -104,7 +107,7 @@ export default class extends React.Component{
     render() {
         let props = this.props,
             state = this.state;
-        let html = this.state.data.map(obj =>
+        /*let html = this.state.data.map(obj =>
                 <tr className='bd-lightgrey' key={obj.id}>
                     <td>{obj.ordersn}</td>
                     <td style={{lineHeight:'24px'}}>
@@ -134,25 +137,26 @@ export default class extends React.Component{
                     </td>
                 </tr> 
             
-            );
-            
+            );*/
+        let html = this.state.data.map(obj => 
+            <Order key={obj.id} data={obj} onTakePayRequest={this.onTakePayRequest} onTakeRequest={this.onTakeRequest}/>
+        )
         return (
-            <div>
-                <div className='m-container'>
-                    <div className='m-text-r'><Search placeholder='请输入客户手机号' callback={this.onSearchRequest}/></div>
-                    <div className='m-box'>
-                        <table className='m-table'>
-                            <thead><tr className='bd-lightgrey m-bg-white'>
-                                <th>订单号</th>
-                                <th>信息</th>
-                                <th>项目/状态/编码</th>
-                                <th>时间</th>
-                                <th>操作</th>
-                            </tr></thead>
-                            <tbody>{html}</tbody>
-                        </table>
+            <div className='take-off'>
+                <div className='take-off-top'>
+                    <div className='left'>
+                        <span>姓名：{this.state.user.uname}</span>
+                        <span>手机号：{this.state.user.umobile}</span>
+                        <span>卡号：</span>
+                    </div>
+                    <div className='right'>
+                        <SelectSearch option={['手机号','订单号','衣物编码','会员卡号']} callback={this.onSearchRequest}/>
                     </div>
                 </div>
+                <div className='e-box'>
+                    <table className='e-table border'><thead><tr><th>衣物编码</th><th>衣物名称</th><th>颜色</th><th>状态</th><th>衣挂号</th><th>取衣时间</th><th>操作</th></tr></thead></table>
+                </div>
+                {html}
                 <Toast
                     show={this.state.show}
                     data={this.state.toastData}
@@ -161,6 +165,71 @@ export default class extends React.Component{
                     onCloseRequest={() => this.setState({show:false,toastData:[]})}
                     onConfirmRequest={this.onConfirmRequest}
                 />
+            </div>
+        );
+    }
+}
+
+class Order extends Component{
+    constructor(props) {super(props)}
+    render() {
+        let data = this.props.data;
+        /*let html = this.state.data.map(obj =>
+                <tr className='bd-lightgrey' key={obj.id}>
+                    <td>{obj.ordersn}</td>
+                    <td style={{lineHeight:'24px'}}>
+                        姓&emsp;名：{this.state.user.uname}<br/>
+                        手机号：{this.state.user.umobile}<br/>
+                        件&emsp;数：{obj.count}<br/>
+                        状&emsp;态：{1 == obj.pay_state ? '已支付' : '未支付'}<br/>
+                        总&emsp;额：<span className='m-red'>{obj.pay_amount}</span>
+                    </td>
+                    <td>{this.itemsToHtml(obj.items)}</td>
+                    <td>{tool.currentDate('datetime', obj.otime)}</td>
+                    <td>
+                        <button
+                            type='button'
+                            className='m-btn confirm'
+                            data-id={obj.id}
+                            onClick={this.onTakeRequest}
+                        >单件取衣</button>
+                        &emsp;
+                        <button
+                            type='button'
+                            className='m-btn confirm'
+                            data-state={obj.pay_state}
+                            data-id={obj.id}
+                            onClick={this.onTakePayRequest}
+                        >{1 == obj.pay_state ? '取衣结单' : '立即付款'}</button>
+                    </td>
+                </tr> 
+            
+            );*/
+        let html = data.items.map(obj => 
+            <tr key={obj.id}>
+                <td></td>
+                <td>{obj.item_name}</td>
+                <td></td>
+                <td>{tool.itemStatus(obj.status)}</td>
+                <td>{obj.put_sn}</td>
+                <td></td>
+                <td className={100 == obj.status ? 'e-grey' : 'e-blue e-pointer'}>单件取衣</td>
+            </tr>
+        );
+        return (
+            <div className='e-box'>
+                <div className='take-off-order'>
+                    <span>订单号：{data.ordersn}</span>
+                    <span>订单状态：{1 == data.pay_state ? '已支付' : '未支付'}</span>
+                    <button
+                        type='button'
+                        className='e-btn confirm small'
+                        data-id={data.id}
+                        data-state={data.pay_state}
+                        onClick={this.props.onTakePayRequest}
+                    >{1 == data.pay_state ? '取衣结单' : '立即付款'}</button>
+                </div>
+                <table className='e-table border'><tbody>{html}</tbody></table>
             </div>
         );
     }

@@ -70,3 +70,70 @@
     height: 100%;
     margin-right: 16px;
 }
+
+/* 下拉搜索框样式 */
+.select-search{
+    display: -webkit-inline-flex;
+    display: inline-flex;
+    height: 32px;
+}
+.select-search>div{
+    height: 100%;
+    line-height: 30px;
+    position: relative;
+    overflow: hidden;
+}
+.select-search>.select-search-option-show{overflow: inherit}
+.select-search>div>i{
+    height: 100%;
+    width: 14px;
+    background: url(img/elem-select.png) no-repeat center center;
+    position: absolute;
+    top: 0;right: 7px;
+    z-index: 1;
+    cursor: default;
+}
+.select-search-selected{
+    padding: 0 28px 0 10px;
+    border: 1px solid #ccc;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    cursor: default;
+}
+.select-search-option-show>.select-search-selected{border-bottom-left-radius: 0;}
+.select-search-option{
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: 0;
+    cursor: default;
+}
+.select-search-option>div{
+    padding: 0 28px 0 10px;
+    border-bottom: 1px solid #ccc;
+}
+.select-search-option>div:last-child{border: none}
+.select-search>input[type=text], 
+.select-search>button{
+    line-height: 30px;
+    height: 100%;
+    border: 0;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+}
+.select-search>input[type=text]{
+    width: 157px;
+    font-size: 12px;
+    padding: 0 10px;
+    color: #666;
+}
+.select-search>button{
+    width: 40px;
+    background: #ff6c43;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    border-right: 1px solid #ccc;
+    border-top-right-radius:5px;
+    border-bottom-right-radius:5px;
+}

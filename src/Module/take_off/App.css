@@ -1,0 +1,29 @@
+.take-off{
+    padding-top: 54px;
+}
+.take-off-top{
+    position: fixed;
+    top: 178px;left: 0;
+    height: 54px;
+    line-height: 54px;
+    width: 100%;
+    background: #fff;
+}
+.take-off-top>.left{
+    height: 100%;
+    margin-left: 14px;
+}
+.take-off-top>.left>span{margin-right: 52px}
+.take-off-top>.left>span:last-child{margin-right: 0}
+.take-off-top>.right{
+    height: 100%;
+    margin-right: 14px;
+}
+
+.take-off-order{
+    padding-left: 12px;
+    height: 40px;
+    line-height: 40px;
+}
+.take-off-order>:first-child{margin-right: 52px}
+.take-off-order>:nth-child(2){margin-right: 40px}

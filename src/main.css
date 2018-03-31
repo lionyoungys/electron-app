@@ -261,7 +261,7 @@ body{background:#3596e3;cursor:pointer;} */
 .m-table .bd-lightgrey>td,
 .m-table .bd-lightgrey>th{border:1px solid lightgrey}
 .m-table tr{height: 40px}
-.m-table th,.m-table td{padding: 0 8px;font-size: 16px;word-break: break-all}
+.m-table th,.m-table td{padding: 0 8px;font-size: 12px;word-break: break-all}
 
 /* .ui-table th,.ui-table td,.ui-table-b th,.ui-table-b td{padding: 0 10px;text-align: center;}
 .ui-table-b th,.ui-table-b td{border: 1px solid #b2b2b2;}
@@ -545,8 +545,10 @@ body{background:#3596e3;cursor:pointer;} */
 .e-table>tbody>tr{height: 45px;line-height: 45px}
 .e-table.border td, .e-table.border th{border: 1px solid #bfccd8}
 /* 文字颜色样式 */
+.e-bold{font-weight: bold}
 .e-orange{color: #f56357}
 .e-blue{color: #3596e3}
+.e-grey{color:#ccc}
 /* 鼠标样式 */
 .e-pointer{cursor: pointer}
 .e-default{cursor: default}
