@@ -15,17 +15,11 @@ export default class extends Component{
         this.onSearchRequest = this.onSearchRequest.bind(this);
     }
 
-    onSearchRequest(word) {
-        if (!isNaN(word) && word.length === 11) {
-            axios.post(
-                api.U('memberDetail'), 
-                api.D({token:this.props.token,number:word})
-            )
-            .then(response => {
-                if (api.V(response.data)) {
-                    this.props.changeView({element:'member_detail',param:'number=' + word});
-                }
-            });
+    onSearchRequest(value) {
+        if (!isNaN(value) && value.length === 11) {
+            api.post('member_detail', {token:this.props.token,umobile:value}, (response, verify) => {
+                verify && this.props.changeView({view:'member_detail',param:value});
+            })
         }
     }
     render() {

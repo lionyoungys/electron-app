@@ -81,7 +81,7 @@ export default class extends React.Component{
             return this.state.record.map((obj, index) =>
                 <tr className='bd-lightgrey' key={index}>
                     <td>{obj.eftime}</td>
-                    <td>{obj.platform}</td>
+                    <td>{obj.coupon}</td>
                     <td>{obj.wechat}</td>
                     <td>{obj.alipay}</td>
                     <td>{obj.merchant}</td>
@@ -164,7 +164,7 @@ export default class extends React.Component{
                                     0 == this.state.checked ?
                                     (<tr className='m-bg-white bd-lightgrey'>
                                         <th>时间</th>
-                                        <th>平台卡支付</th>
+                                        <th>优惠券支付</th>
                                         <th>微信支付</th>
                                         <th>支付宝支付</th>
                                         <th>专店卡支付</th>
