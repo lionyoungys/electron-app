@@ -1,13 +1,13 @@
 .item-cost{
     width: 260px;
     height: 150px;
-    border: 1px solid #09b1b0;
+    border: 1px solid #3596e3;
     display: inline-block;
     border-radius: 5px;
 }
 .item-cost>div{padding: 0 10px;}
 .item-cost>:first-child{
-    background: #09b1b0;
+    background: #3596e3;
     color: #fff;
     height: 30px;
     line-height: 30px;
