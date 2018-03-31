@@ -291,7 +291,7 @@
         }
         return count;
     }
-    t.lastKey = function(object) {
+    t.getObjectLastKey = function(object) {
         if ('object' !== typeof object) return null;
         let key = null;
         for (let k in object) {
