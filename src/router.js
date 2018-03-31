@@ -43,6 +43,7 @@ import Performance from './Module/performance/App';
 import Update from './Module/update/App';
 import MsgPlatgorm from './Module/msg_platform/App';
 import MsgDetail from './Module/msg_detail/App';
+import MemberDetail from './Module/member_detail/App';
 
 
 import InfoEditor from './manage/info_editor';
@@ -54,7 +55,6 @@ import OrderDetail from './order/order_detail';
 import Registration from './offline/registration';
 import OutFactory from './offline/outfactory';
 import OfflineTake from './offline/offline_take';
-import MemberDetail from './member/member_detail';
 import MemberRechargeRecord from './member/member_recharge_record';
 import OfflineStatistic from './offline/offline_statistic';
 import OfflineAddMember from './member/offline_add_member';
@@ -160,6 +160,7 @@ export const view = {
     ['msg_platform__2']:MsgPlatgorm,    //交期预警
     ['msg_platform__3']:MsgPlatgorm,    //到期未取
     msg_detail:MsgDetail,             //平台消息详情
+    member_detail:MemberDetail,    //会员详情
 
 
     info_editor:InfoEditor,    //信息编辑
@@ -170,7 +171,6 @@ export const view = {
     registration:Registration,    //上挂
     outfactory:OutFactory,    //出厂
     offline_take:OfflineTake,    //取衣
-    member_detail:MemberDetail,    //会员详情
     member_recharge_record:MemberRechargeRecord,    //会员充值报表
     offline_statistic:OfflineStatistic,    //业务统计
     offline_add_member:OfflineAddMember,    //新增个人会员

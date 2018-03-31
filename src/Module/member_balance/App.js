@@ -1,5 +1,5 @@
 /**
- * 会员消费报表组件
+ * 会员余额组件
  * @author yangyunlong
  */
 import React from 'react';
@@ -12,6 +12,7 @@ export default class extends React.Component{
         this.state = {count:0,sum:0,pageCount:1,page:1,data:[],limit:10};
         this.query = this.query.bind(this);
         this.handlePage = this.handlePage.bind(this);
+        this.redirect = this.redirect.bind(this);
     }
 
     componentDidMount() {this.query()}
@@ -32,6 +33,9 @@ export default class extends React.Component{
             this.setState({sum:result.sum,count:result.count,pageCount:result.page_count,data:result.record});
         });
     }
+    redirect(e) {
+        this.props.changeView({view:'member_detail', param:e.target.dataset.number});
+    }
 
     render () {
         let html = this.state.data.map(obj =>
@@ -41,7 +45,7 @@ export default class extends React.Component{
                     <td>{obj.cname}</td>
                     <td>{obj.cbalance}</td>
                     <td>{obj.ctime}</td>
-                    <td className='m-blue m-text-c'>查看详情</td>
+                    <td className='m-blue m-text-c e-pointer' data-number={obj.umobile} onClick={this.redirect}>查看详情</td>
                 </tr>
             );
         return (

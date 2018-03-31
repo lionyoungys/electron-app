@@ -48,7 +48,16 @@ export default class extends React.Component {
                             <tr><td>手机号</td><td>{this.state.mobile}</td></tr>
                             <tr><td>会员类型</td><td>{this.state.cname}</td></tr>
                             <tr><td>会员卡余额</td>{'' == this.state.id ? <td></td> : <td>&yen;{this.state.balance}</td>}</tr>
-                            <tr><td>未取订单</td>{'' == this.state.id ? <td></td> : <td style={{color:'#ff6e42'}}>{this.state.order}</td>}</tr>
+                            <tr>
+                                <td>未取订单</td>
+                                {
+                                    '' == this.state.id
+                                    ? 
+                                    <td></td> 
+                                    : 
+                                    <td className='e-orange e-pointer' onClick={() => this.props.changeView({view:'take_off'})}>{this.state.order}</td>
+                                }
+                            </tr>
                             <tr><td>上次到店时间</td><td>{this.state.time}</td></tr>
                         </tbody>
                     </table>
