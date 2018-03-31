@@ -4,13 +4,13 @@
     position: fixed;
     top: 50%;left: 50%;
     margin: -260px 0 0 -350px;
-    border: 1px solid #09b1b0;
+    border: 1px solid #3596e3;
     border-radius: 5px;
     background-color: #fff;
 }
 .clothes>div{-webkit-box-sizing: border-box;box-sizing: border-box;width: 100%}
 .clothes>div:first-child{
-    background: #09b1b0;
+    background: #3596e3;
     color: #fff;
     height: 40px;
     line-height: 40px;

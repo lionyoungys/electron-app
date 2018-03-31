@@ -95,9 +95,9 @@
 .ui-red{color: red;}
 .ui-grey{color: #b2b2b2;}
 .ui-orange{color: #f7bb03}
-.ui-default{color: #09b1b0;}
+.ui-default{color: #3596e3;}
 .ui-default2{color: #eb6304}
-.ui-mv-default:hover{color: #09b1b0}
+.ui-mv-default:hover{color: #3596e3}
 /* 按钮样式 */
 .ui-btn{
     font-size: 14px;height: 27px;padding: 0 12px;
@@ -107,10 +107,10 @@
 .ui-btn-large{height: 46px;padding: 0 64px;font-size: 20px;}    /* 大按钮样式 */
 .ui-btn-middle{height: 34px;font-size: 18px;padding: 0 20px;}    /* 中等按钮样式 */
 .ui-btn-cancel{border:1px solid #b2b2b2;}    /* 取消按钮 */
-.ui-btn-confirm{background: #09b1b0;color: #fff;}    /* 确认按钮 */
+.ui-btn-confirm{background: #3596e3;color: #fff;}    /* 确认按钮 */
 .ui-btn-grey{background: grey;color: #fff;}    /* 按钮至灰 */
 .ui-btn-editor{background: #ff6e42;color: #fff;}    /* 编辑按钮 */
-.ui-btn-tab{height: 42px;padding: 0 22px;font-size: 18px;background: #09b1b0;color: #fff;border-radius:0;}    /* tab样式的按钮 */
+.ui-btn-tab{height: 42px;padding: 0 22px;font-size: 18px;background: #3596e3;color: #fff;border-radius:0;}    /* tab样式的按钮 */
 /* 单行样式 */
 .ui-row{
     display: flex;display: -webkit-flex;justify-content: space-between;
@@ -270,7 +270,7 @@
 .ui-question-item-container{
     display: flex;display: -webkit-flex;flex-wrap: wrap;margin-top:20px;
 }
-.ui-question-item-title{width: 100%;font-size: 16px;color: #09b1b0;line-height: 24px;}
+.ui-question-item-title{width: 100%;font-size: 16px;color: #3596e3;line-height: 24px;}
 .ui-question-item{margin: 0 40px 20px 0;}
 /* 提示框样式 */
 .ui-notification{
@@ -403,7 +403,7 @@
     display: flex;display: -webkit-flex;align-items: flex-start;border-radius: 5px;
 }
 .ui-appraise-textarea>textarea{height: 100%;width: 90%;resize: none;font-size: 16px;}
-.ui-appraise-textarea>span{width: 10%;color: #09b1b0;}
+.ui-appraise-textarea>span{width: 10%;color: #3596e3;}
 /* 星星样式 */
 .ui-starts-box{display: inline-block;}
 .ui-starts-box>.ui-start-background{margin-right: 5px;}
@@ -687,7 +687,7 @@
     box-sizing: border-box;-webkit-box-sizing: border-box;
 }
 .ui-os-box>.choose{
-    color: #09b1b0;border-bottom: 2px solid #09b1b0;
+    color: #3596e3;border-bottom: 2px solid #3596e3;
 }
 .ui-os-box2{
     display: flex;display: -webkit-flex;padding:41px 20px 34px;
@@ -881,20 +881,20 @@
 /*添加衣物*/
 .addClotn{margin-top:30px;margin-left:30px}
 
-.cloth{width:15%;height:168px;border:1px solid #09b1b0;float:left;margin-left:30px;margin-top:10px;}
-.cloth span{width:100%;height:32px;line-height:32px;color:#FFFFFF;font-size:18px;background:#09b1b0;display:block; text-indent:24px;}
+.cloth{width:15%;height:168px;border:1px solid #3596e3;float:left;margin-left:30px;margin-top:10px;}
+.cloth span{width:100%;height:32px;line-height:32px;color:#FFFFFF;font-size:18px;background:#3596e3;display:block; text-indent:24px;}
 .cloth p{width:100%;font-size:16px;height:25px;line-height:25px;color:#333333;margin:8px 0;}
 .cloth p em{display:inline-block;width:75px;text-align:right;}
 .cloth p input{display:inline-block;outline:none;border:1px solid #cccccc;width: calc(100% - 90px);height:100%;margin:0 3px;}
-.space{width:25%;height:168px;border:1px solid #09b1b0;float:left;margin-top:10px;margin-bottom:25px;margin-left:20px;}
+.space{width:25%;height:168px;border:1px solid #3596e3;float:left;margin-top:10px;margin-bottom:25px;margin-left:20px;}
 .space p{width:100%;font-size:16px;height:25px;line-height:25px;color:#333333;margin:8px 0;}
 .space p em{display:inline-block;width:75px;text-align:right;}
 .space p input{display:inline-block;outline:none;border:1px solid #cccccc;width: calc(100% - 120px);height:100%;margin:0 3px;}
-.space span{width:100%;height:32px;line-height:32px;color:#FFFFFF;font-size:18px;background:#09b1b0;display:block; text-indent:24px;}
+.space span{width:100%;height:32px;line-height:32px;color:#FFFFFF;font-size:18px;background:#3596e3;display:block; text-indent:24px;}
 
 
 .list_odd{width:69%;height:auto;border:1px solid #bfccd8;margin-left:30px;clear:both;}
-.cothlist{width:100%;height:35px;background:#eef8ff;border-bottom:1px solid #09b1b0;}
+.cothlist{width:100%;height:35px;background:#eef8ff;border-bottom:1px solid #3596e3;}
 .cothlist span{display:inline-block;width:20%;line-height:35px;color:#333333;font-size:16px;text-align:center;}
 .cloth-name{width:100%;height:36px;display: flex;display: -webkit-flex;position: relative;}
 .cloth-name span{display:inline-block;width:20%;color:#333333;font-size:14px;line-height:36px;text-align:center;}
@@ -905,12 +905,12 @@
 .money span a{color:#fd5629;}
 .money a{color:#fd5629;}
 .result-money{width:66%;height:26px;text-align:right;margin-left:30px;}
-.result-money span{display:inline-block;width:114px;height:26px;text-align:center;background:#09b1b0;color:#FFFFFF;font-size:16px;line-height:26px;border-radius:3px;margin-left:8px;}
+.result-money span{display:inline-block;width:114px;height:26px;text-align:center;background:#3596e3;color:#FFFFFF;font-size:16px;line-height:26px;border-radius:3px;margin-left:8px;}
 
 
 /*固定弹框*/
-.fixed-cloth{width:729px;height:554px;overflow-y:scroll; position:fixed;top:300px;left:350px;border:1px solid #09b1b0; z-index:99;background:#FFFFFF;}
-.fixed-cloth span{display:block;width:731px;height:44px;color:#FFFFFF;line-height:44px;font-size:24px;text-indent:24px;background:#09b1b0;background-image:url(images/item-colY.png) right center;background-repeat:no-repeat;background-size:44px;                  }
+.fixed-cloth{width:729px;height:554px;overflow-y:scroll; position:fixed;top:300px;left:350px;border:1px solid #3596e3; z-index:99;background:#FFFFFF;}
+.fixed-cloth span{display:block;width:731px;height:44px;color:#FFFFFF;line-height:44px;font-size:24px;text-indent:24px;background:#3596e3;background-image:url(images/item-colY.png) right center;background-repeat:no-repeat;background-size:44px;                  }
 .fixed-cloth p{width:163px;height:76px;background:#fddecc;color:#333333;font-size:16px;float:left; display: block;text-align:center; line-height:38px;margin:8px 5px 5px 5px;position: relative;}
 .fixed-cloth p b{text-align:right;position:absolute;right:5px;bottom:0px;}
 .fixed-cloth .active-colth{background:#81d2fc;}

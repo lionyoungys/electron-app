@@ -5,7 +5,7 @@ html{font-size: 12px;font-family: 微软雅黑}
 html, body, #root, #main{height:100%;width:100%;min-width:800px;min-height:600px}
 /* 公共元素样式 */
 i{font-style: normal}
-input,textarea,button,select{outline-color: #09b1b0;-webkit-box-sizing: border-box;box-sizing: border-box;}
+input,textarea,button,select{outline-color: #3596e3;-webkit-box-sizing: border-box;box-sizing: border-box;}
 table{border-collapse: collapse;}
 /* 滚动条样式 */
 ::-webkit-scrollbar{width: 5px;height: 5px;}
@@ -15,10 +15,10 @@ table{border-collapse: collapse;}
 .fa-circle-o-notch{color: #4e94dc;font-size: 26px}
 .fa-download{font-size: 22px;color: #FF3333}
 .fa-pencil-square{color: #b568f7;font-size: 26px}
-.fa-check-circle{color: #09b1b0;font-size: 22px}
+.fa-check-circle{color: #3596e3;font-size: 22px}
 .fa-check-circle-o{color: #ccc;font-size: 22px}
 .fa-check-square{color: #ccc;font-size: 22px}
-.fa-check-square.checked{color: #09b1b0}
+.fa-check-square.checked{color: #3596e3}
 .fa-times-circle{color: #ccc;font-size: 36px}
 .fa-times-circle:hover{color: #e0e0e0}
 /* react image lightbox 触点取消拖动 */
@@ -220,7 +220,7 @@ table{border-collapse: collapse;}
 /* body,header,input,span,div,section,aside,dl,dt,dd,nav,table,tr,th,td,p,textarea{padding: 0;margin: 0}
 input,textarea,select{outline: none;border:none;}a{text-decoration: none;}em{font-style:normal;}
 table{border-collapse:collapse;border-spacing:0}
-body{background:#09b1b0;cursor:pointer;} */
+body{background:#3596e3;cursor:pointer;} */
 /* 浮动与清除浮动样式 */
 /* .right{float: right;}.left{float: left;}
 .clearfix::before, .clearfix::after{
@@ -276,9 +276,9 @@ body{background:#09b1b0;cursor:pointer;} */
 .ui-red{color: red;}
 .ui-grey{color: #b2b2b2;}
 .ui-orange{color: #f7bb03}
-.ui-default{color: #09b1b0;}
+.ui-default{color: #3596e3;}
 .ui-default2{color: #eb6304}
-.ui-mv-default:hover{color: #09b1b0} */
+.ui-mv-default:hover{color: #3596e3} */
 /* word,background,border style */
 .m-text-r{text-align: right}
 .m-text-c{text-align: center}
@@ -286,10 +286,10 @@ body{background:#09b1b0;cursor:pointer;} */
 .m-yellow{color: rgb(190, 190, 24)}
 .m-pink{color: rgb(194, 126, 137)}
 .m-green{color: #43a84a}
-.m-blue{color: #09b1b0}
+.m-blue{color: #3596e3}
 .m-grey{color: #999}
 .m-small{font-size: 14px;color: #999;}
-.m-blue-h:hover{color: #09b1b0;cursor: pointer}
+.m-blue-h:hover{color: #3596e3;cursor: pointer}
 .m-bd-lightgrey{border:1px solid lightgrey}
 .m-bg-yellow{background: #fbf7c7}
 .m-bg-pink{background: #fcc5c5}
@@ -330,8 +330,8 @@ body{background:#09b1b0;cursor:pointer;} */
 .m-btn-large{height: 46px;padding: 0 64px;font-size: 20px;}
 .m-btn-cancel{border:1px solid #b2b2b2;outline-color: #b2b2b2}    /* 取消按钮 */
 .m-btn.cancel{border:1px solid #b2b2b2;outline-color: #b2b2b2}
-.m-btn-confirm{background: #09b1b0;color: #fff}    /* 确认按钮 */
-.m-btn.confirm{background: #09b1b0;color: #fff}
+.m-btn-confirm{background: #3596e3;color: #fff}    /* 确认按钮 */
+.m-btn.confirm{background: #3596e3;color: #fff}
 .m-btn-editor{background: #ff6e42;color: #fff;outline-color: #ff6e42}    /* 编辑按钮 */
 .m-btn.editor{background: #ff6e42;color: #fff;outline-color: #ff6e42}
 .m-btn.disabled{background: #a8a8a8;color: #fff;outline: none}
@@ -438,7 +438,7 @@ body{background:#09b1b0;cursor:pointer;} */
 }
 .m-tab:last-child,.m-tab-group>.m-tab:last-child{margin-right: 0}
 /*选中样式*/
-.m-tab.checked{color: #fff;background: #09b1b0;}
+.m-tab.checked{color: #fff;background: #3596e3;}
 /* tag style */
 .m-tag-box{
     height: 26px;
@@ -546,6 +546,7 @@ body{background:#09b1b0;cursor:pointer;} */
 .e-table.border td, .e-table.border th{border: 1px solid #bfccd8}
 /* 文字颜色样式 */
 .e-orange{color: #f56357}
+.e-blue{color: #3596e3}
 /* 鼠标样式 */
 .e-pointer{cursor: pointer}
 .e-default{cursor: default}

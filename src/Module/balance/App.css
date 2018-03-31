@@ -5,7 +5,7 @@
     line-height: 30px;
     background-color: #f5f5f5;
 }
-.balance-title>span{color: #09b1b0;}
+.balance-title>span{color: #3596e3;}
 .balance>:first-child{
     display: -webkit-flex;display: flex;
     justify-content: space-between;

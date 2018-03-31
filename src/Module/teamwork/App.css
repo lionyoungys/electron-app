@@ -9,7 +9,7 @@
     background-color: #fff;
     width: 282px;
     height: 300px;
-    border: 1px solid #09b1b0;
+    border: 1px solid #3596e3;
 }
 .teamwork-query>i.fa-times{
     position: absolute;
@@ -23,7 +23,7 @@
     line-height: 30px;
     padding: 0 10px;
     color: #fff;
-    background-color: #09b1b0;
+    background-color: #3596e3;
     text-align: left;
 }
 .teamwork-query>.body{
