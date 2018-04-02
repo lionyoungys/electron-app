@@ -10,11 +10,19 @@ import './App.css';
 export default class extends Component{
     constructor(props) {
         super(props);
-        this.state = {data:[],user:{},number:null};
+        this.state = {
+            data:[],
+            user:{},
+            number:tool.isSet(this.props.param) ? this.props.param : null
+        };
         this.onSearchRequest = this.onSearchRequest.bind(this);
         this.query = this.query.bind(this);
         this.onTakePayRequest = this.onTakePayRequest.bind(this);
         this.takeOne = this.takeOne.bind(this);
+    }
+
+    componentDidMount() {
+        null !== this.state.number && this.query(this.state.number);
     }
 
     onSearchRequest(value, selected) {
@@ -83,7 +91,7 @@ export default class extends Component{
                         <span>卡号：</span>
                     </div>
                     <div className='right'>
-                        <SelectSearch option={['手机号','订单号','衣物编码','会员卡号']} callback={this.onSearchRequest}/>
+                        <SelectSearch value={this.state.number} option={['手机号','订单号','衣物编码','会员卡号']} callback={this.onSearchRequest}/>
                     </div>
                 </div>
                 <div className='e-box'>
