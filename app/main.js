@@ -3,7 +3,7 @@ const electron = require('electron'),
     app = electron.app,
     BrowserWindow = electron.BrowserWindow,
     ipcMain = electron.ipcMain,
-    axios = require('axios'),
+    // axios = require('axios'),
     path = require('path'),
     url = require('url');
 
@@ -30,9 +30,9 @@ if (shouldQuit) {app.quit()}
 
 // 部分 API 在 ready 事件触发后才能使用。
 app.on('ready', () => {
-    //windowModel('login');
+    windowModel('login');
     //开发测试优先创建main窗口
-    windowModel('main');
+    //windowModel('main');
 });
 
 app.on('window-all-closed', () => { app.quit() }); //当全部窗口关闭时退出。
@@ -103,9 +103,9 @@ ipcMain.on('get-param',(e, args) => {
 ipcMain.on('download', (e, arg) => {
     floder = arg.floder;
     win.main.webContents.downloadURL(arg.url);
-    timeID = setInterval(() => {
-        e.sender.send('download', download);
-    }, 500);
+    // timeID = setInterval(() => {
+    //     e.sender.send('download', download);
+    // }, 500);
 });
 ipcMain.on('cleanInterval', () => {clearInterval(timeID)});
 ipcMain.on('notice', (e, url, params) => {
@@ -140,7 +140,7 @@ function createWindow(name, windowStyle, uri) {
         slashes: true
     }));
     //打开开发者工具
-    win[name].webContents.openDevTools();
+    //win[name].webContents.openDevTools();
     //当window关闭时取消引用
     win[name].on('closed', () => {
         win[name] = null;
@@ -158,14 +158,14 @@ function createWindow(name, windowStyle, uri) {
                   //console.log('Download is paused')
                 } else {
                   //console.log(`Received bytes: ${item.getReceivedBytes()}`)
-                  download = {total:item.getTotalBytes(),received:item.getReceivedBytes(),state:'progressing'};
+                  //download = {total:item.getTotalBytes(),received:item.getReceivedBytes(),state:'progressing'};
                 }
               }
             })
             item.once('done', (event, state) => {
               if (state === 'completed') {
                 //console.log('Download successfully')
-                download = {total:item.getTotalBytes(),received:item.getReceivedBytes(),state:'completed'};
+                //download = {total:item.getTotalBytes(),received:item.getReceivedBytes(),state:'completed'};
               } else {
                 console.log(`Download failed: ${state}`)
               }
@@ -212,7 +212,7 @@ function windowModel(name) {
 
 //数据请求
 function post(url, params, success, fail) {
-    axios.post( url, params, {headers: {'Content-Type':'application/x-www-form-urlencoded'}} )
-    .then(response => {'function' === typeof success && success(response)})
-    .catch(error => {'function' === typeof fail && fail(error)});
+    // axios.post( url, params, {headers: {'Content-Type':'application/x-www-form-urlencoded'}} )
+    // .then(response => {'function' === typeof success && success(response)})
+    // .catch(error => {'function' === typeof fail && fail(error)});
 }

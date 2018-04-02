@@ -64,6 +64,13 @@ export default class extends React.Component {
             console.log(response.data);
         });
     }
+    getRowByItem(data, key) {
+        return data.map((obj, index) => 
+            <p key={index}>
+                {'status' === key ? tool.itemStatus(obj[key]) : ('item_price' === key ? <span>&yen;{obj[key]}</span> : obj[key])}
+            </p>
+        );
+    }
 
     adapter() {
         let adapter = {head:null,body:null},
@@ -89,6 +96,46 @@ export default class extends React.Component {
                     <td>{obj.uaddress}</td>
                     <td>{obj.otime}</td>
                     {this.btnAdapter(obj.id)}
+                </tr>
+            );
+        } else if ('to_clean' == checked || 'cleaning' == checked) {
+            adapter.head = (
+                <tr>
+                    <th>订单号</th>
+                    <th>衣物编码</th>
+                    <th>名称</th>
+                    <th>价格</th>
+                    <th>衣物状态</th>
+                    <th>工艺加价</th>
+                    <th>合计</th>
+                    <th>客户信息</th>
+                    <th>操作</th>
+                </tr>
+            );
+
+            adapter.body = this.state.data.map(obj =>
+                <tr key={obj.id} className='online-tr'>
+                    <td>{obj.ordersn}</td>
+                    <td>{this.getRowByItem(obj.items, 'clean_sn')}</td>
+                    <td>{this.getRowByItem(obj.items, 'item_name')}</td>
+                    <td>{this.getRowByItem(obj.items, 'item_price')}</td>
+                    <td>{this.getRowByItem(obj.items, 'status')}</td>
+                    <td>
+                        上门服务费：&yen;{obj.freight_price}<br/>
+                        特殊工艺加价：&yen;{obj.craft_price}<br/>
+                        保值清洗费：&yen;{obj.keep_price}<br/>
+                        优惠金额：&yen;{obj.reduce_price}<br/>
+                    </td>
+                    <td>
+                        {obj.items.length}件<br/>
+                        &yen;{obj.amount}
+                    </td>
+                    <td>
+                        姓名：{obj.uname}<br/>
+                        电话：{obj.umobile}<br/>
+                        地址：{obj.uaddress}<br/>
+                    </td>
+                    {this.btnAdapter(obj.id, obj.checked, obj)}
                 </tr>
             );
         } else {
@@ -129,7 +176,7 @@ export default class extends React.Component {
         return adapter;
     }
 
-    btnAdapter(id, checked) {
+    btnAdapter(id, checked, obj) {
         switch (this.state.checked)
         {
             case 'ordering':
@@ -149,19 +196,31 @@ export default class extends React.Component {
             case 'to_clean':
                 return (
                     <td>
-                        <p><button type='button' className='m-btn m-btn-confirm' data-id={id} onClick={this.upload}>上传照片</button></p>
-                        <p>
-                            <button 
-                                type='button'
-                                className={'m-btn m-btn-confirm' + (checked ? '' : ' disabled')}
-                                data-id={id}
-                                onClick={this.checkOff}
-                            >检查完成</button>
-                        </p>
+                        <div>{1 == obj.pay_state ? '已' : '待'}支付</div>
+                        <div><button type='button' className='e-btn confirm' data-id={id} onClick={this.upload}>上传照片</button></div>
+                        <div><button 
+                            type='button'
+                            className={`e-btn ${checked ? 'confirm' : 'cancel'}`}
+                            data-id={id}
+                            onClick={this.checkOff}
+                        >检查完成</button></div>
                     </td>
                 );
             case 'cleaning':
-                return (<td><button type='button' className='m-btn m-btn-confirm' data-id={id} onClick={this.isClean}>清洗完成</button></td>);
+                
+                return (
+                    <td>
+                        <div>{obj.all_put ? '已全部上挂' : '未上挂'}</div>
+                        <div>
+                            {
+                                obj.all_put ?
+                                <button type='button' className='e-btn confirm' data-id={id} onClick={this.isClean}>清洗完成</button>
+                                :
+                                <button type='button' className='e-btn cancel'>清洗完成</button>
+                            }
+                        </div>
+                    </td>
+                );
             case 'posting':
                 return (<td><button type='button' className='m-btn m-btn-confirm' data-id={id} onClick={this.isPost}>送件完成</button></td>);
         }
@@ -262,7 +321,7 @@ export default class extends React.Component {
                 <div className='m-container'>
                     <div>{tabs}</div>
                     <div className='m-box'>
-                        <table className='m-table'>
+                        <table className='e-table border'>
                             <thead>{adapter.head}</thead>
                             <tbody>{adapter.body}</tbody>
                         </table>
@@ -276,9 +335,6 @@ export default class extends React.Component {
                     btnValue='取消订单'
                     onConfirmRequest={this.onCancelRequest}
                 />
-                {/* <Notification show={this.state.showNotice} width='320'>
-                    {state.noticeMsg}
-                </Notification> */}
             </div>
         );
     }
