@@ -22,8 +22,7 @@
 
 .take-off-order{
     padding-left: 12px;
-    height: 40px;
-    line-height: 40px;
+    text-align: left;
 }
 .take-off-order>:first-child{margin-right: 52px}
 .take-off-order>:nth-child(2){margin-right: 40px}
