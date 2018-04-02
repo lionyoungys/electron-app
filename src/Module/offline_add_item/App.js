@@ -223,7 +223,7 @@ export default class extends React.Component {
                         this.props.special ? 'public/prints/invoice.html' : 'public/prints/index.html',
                         {token:this.props.token,oid:response.data.result,url:api.U('order_print')}
                     );
-                    this.props.changeView({view:'index'});
+                    this.props.changeView({view:'done', param:{msg:'收件', index:'take'}});
                 } else {
                     this.props.changeView({view:'order_pay',param:{oid:response.data.result,value:'添加项目',view:null}});
                 }

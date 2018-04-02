@@ -34,7 +34,7 @@ class Main extends Component {
         this.changeView = this.changeView.bind(this);
         this.changeMenu = this.changeMenu.bind(this);
         this.changeTab = this.changeTab.bind(this);
-        this.tabClose = this.tabClose.bind(this);
+        this.closeView = this.closeView.bind(this);
         this.changeEmployee = this.changeEmployee.bind(this);
         this.hoverEmployee = this.hoverEmployee.bind(this);
     }
@@ -95,8 +95,8 @@ class Main extends Component {
     //tab改变事件
     changeTab(e) {this.setState({checkedTab:e.target.dataset.key})}
     //tab关闭事件
-    tabClose(e) {
-        delete this.state.windows[e.target.parentNode.dataset.key];
+    closeView(e) {
+        delete this.state.windows[e.target.dataset.view];
         this.setState({checkedTab:tool.getObjectLastKey(this.state.windows), windows:this.state.windows});
         e.stopPropagation();
     }
@@ -151,7 +151,7 @@ class Main extends Component {
                     data-key={k}
                     onClick={this.changeTab}
                     className={this.state.checkedTab === k ? 'checked' : null}
-                >{this.state.windows[k].title}<i className='tab-close' onClick={this.tabClose}></i></div>
+                >{this.state.windows[k].title}<i className='tab-close' data-view={k} onClick={this.closeView}></i></div>
             );
             windowList.push(
                 <div 
@@ -162,6 +162,7 @@ class Main extends Component {
                         token={this.state.token}
                         param={this.state.windows[k].param}
                         changeView={this.changeView}
+                        closeView={this.closeView}
                         branch={branch}
                         special={special}
                     />

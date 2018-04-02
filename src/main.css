@@ -521,9 +521,9 @@ body{background:#3596e3;cursor:pointer;} */
 /* 单选多选框样式 */
 .e-checkbox{
     display: inline-block;
-    min-height: 24px;
-    line-height: 24px;
-    padding-left: 32px;
+    min-height: 17px;
+    line-height: 17px;
+    padding-left: 22px;
     background-image: url(img/checkbox.png);
     background-repeat: no-repeat;
     background-position: left center;
