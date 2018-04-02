@@ -1,0 +1,19 @@
+.member-balance-top{
+    height: 53px;
+}
+.member-balance-top>.left{
+    margin-left: 19px;
+    margin-top: 26px;
+}
+.member-balance-top>.left>span{
+    font-size: 14px;
+    margin-right: 45px;
+}
+.member-balance-top>.left>span:last-child{margin-right: 0}
+.member-balance-top>.right{
+    margin-top: 11px;
+    margin-right: 14px;
+}
+.member-balance>.e-box{
+    margin-bottom: 20px;
+}

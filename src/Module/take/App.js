@@ -55,7 +55,7 @@ export default class extends React.Component {
                                     ? 
                                     <td></td> 
                                     : 
-                                    <td className='e-orange e-pointer' onClick={() => this.props.changeView({view:'take_off'})}>{this.state.order}</td>
+                                    <td className='e-orange e-pointer' onClick={() => this.props.changeView({view:'take_off', param:this.state.mobile})}>{this.state.order}</td>
                                 }
                             </tr>
                             <tr><td>上次到店时间</td><td>{this.state.time}</td></tr>
