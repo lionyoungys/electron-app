@@ -87,10 +87,10 @@ export default class extends Component{
                     <div className='left'>
                         <span>姓名：{this.state.user.uname}</span>
                         <span>手机号：{this.state.user.umobile}</span>
-                        <span>卡号：</span>
+                        <span>卡号：{this.state.user.card_number}</span>
                     </div>
                     <div className='right'>
-                        <SelectSearch value={this.state.number} option={['手机号','订单号','衣物编码','会员卡号']} callback={this.onSearchRequest}/>
+                        <SelectSearch value={this.state.number} option={['手机号','订单号','会员卡号']} callback={this.onSearchRequest}/>
                     </div>
                 </div>
                 <div className='e-box'>

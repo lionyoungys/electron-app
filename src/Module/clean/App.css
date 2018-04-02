@@ -2,7 +2,6 @@
 .clean-top{
     position: fixed;
     left: 0;top: 178px;
-    z-index: 1;
     height: 44px;
     padding-top: 12px;
     background: #fff;

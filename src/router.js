@@ -44,6 +44,7 @@ import Update from './Module/update/App';
 import MsgPlatgorm from './Module/msg_platform/App';
 import MsgDetail from './Module/msg_detail/App';
 import MemberDetail from './Module/member_detail/App';
+import Done from './Module/done/App';
 
 
 import InfoEditor from './manage/info_editor';
@@ -161,6 +162,7 @@ export const view = {
     ['msg_platform__3']:MsgPlatgorm,    //到期未取
     msg_detail:MsgDetail,             //平台消息详情
     member_detail:MemberDetail,    //会员详情
+    done:Done,
 
 
     info_editor:InfoEditor,    //信息编辑
