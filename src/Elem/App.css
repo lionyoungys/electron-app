@@ -17,6 +17,20 @@
     background: url(img/toast-close.png) no-repeat center center;
     cursor: default;
 }
+/* 空数据组件样式 */
+.empty{
+    width: 160px;
+    height: 20px;
+    font-size: 14px;
+    color: #999;
+    text-align: center;
+    padding-top: 96px;
+    background: url(img/empty.png) no-repeat center top;
+    position: fixed;
+    top: 50%;left: 50%;
+    margin: -31px 0 0 -80px;   
+}
+
 /* 图片光箱组件样式 */
 .image-light-box{
     width: 680px;

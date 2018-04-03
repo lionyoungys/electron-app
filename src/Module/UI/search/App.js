@@ -9,7 +9,7 @@ import './App.css';
 export default class extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {value:''};
+        this.state = {value:tool.isSet(this.props.value) ? this.props.value : ''};
         this.handleChange = this.handleChange.bind(this);
     }
 
@@ -23,14 +23,12 @@ export default class extends React.Component {
     }
     
     render() {
-        let value = this.props.value;
-        if ('undefined' === typeof value || null === value) value = this.state.value;
         return (
             <div className='search'>
                 <input 
                     type='text' 
                     placeholder={this.props.placeholder} 
-                    value={value}
+                    value={this.state.value}
                     ref={input => this.input = input}
                     onChange={this.handleChange}
                 />

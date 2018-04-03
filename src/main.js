@@ -224,7 +224,7 @@ class Top extends Component {
                 <div
                     className='top-left' 
                     style={tool.isSet(this.props.logo) ? {backgroundImage:`url(${this.props.logo})`} : null}
-                >{this.props.name}商家管理系统</div>
+                >{this.props.name}（商家版）</div>
                 <div className='top-right'>
                     <div><div className='minimize' onClick={() => ipcRenderer.send('minimize-window', 'main')}></div></div>
                     <div><div className='maxmize' onClick={this.maxmize}></div></div>

@@ -8,7 +8,11 @@ import React from 'react';
 export default class extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {value:'', selected:this.props.option[0], show:false};
+        this.state = {
+            value:tool.isSet(this.props.value) ? this.props.value : '', 
+            selected:this.props.option[0], 
+            show:false
+        };
         this.handleChange = this.handleChange.bind(this);
         this.toggleShow = this.toggleShow.bind(this);
     }
@@ -20,8 +24,6 @@ export default class extends React.Component {
     toggleShow() {this.setState({show:!this.state.show})}
     
     render() {
-        let value = tool.isSet(this.props.value) ? this.props.value : this.state.value;    //判断是否传入默认值
-
         let len = this.props.option.length,
             option = [];
         for (let i = 0;i < len;++i) {
@@ -47,7 +49,7 @@ export default class extends React.Component {
                 <input 
                     type='text' 
                     placeholder={this.props.placeholder} 
-                    value={value}
+                    value={this.state.value}
                     ref={input => this.input = input}
                     onChange={e => this.setState({value:e.target.value})}
                 />
