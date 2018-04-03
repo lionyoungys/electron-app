@@ -114,7 +114,7 @@ class Login extends Component {
                 	localStorage.setItem('order', result.order);
                 	localStorage.setItem('is_root', result.is_root);
                     localStorage.setItem('token', result.token);                    
-                    ipcRenderer.send('login-msg','SUCCESS');
+                    ipcRenderer.send('toggle-main');
                 }
             });
         }

@@ -6,12 +6,13 @@
 import React from 'react';
 import Search from '../UI/search/App';
 import Page from '../UI/page/App';
+import Empty from '../../Elem/Empty';
 import './App.css';
 
 export default class extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {isOnline:1,checked:'today',number:'',onSearch:false,data:[],page:1,limit:10,pageCount:1};
+        this.state = {isOnline:1,checked:'today',number:'',onSearch:false,data:[],page:1,limit:10,pageCount:1,show:false};
         this.tab = [{value:'今天',key:'today'},{value:'昨天',key:'yesterday'},{value:'3日内',key:'3days'},{value:'7日内',key:'7days'},{value:'全部',key:'all'}];
         this.handleTab = this.handleTab.bind(this);
         this.handleClick = this.handleClick.bind(this);
@@ -39,11 +40,17 @@ export default class extends React.Component {
             if (tool.isSet(param.page)) body.page = param.page;
             if (tool.isSet(param.limit)) body.page = param.limit;
         }
-        axios.post(api.U('order_search'),api.D(body))
-        .then(response => {
-            console.log(response.data);
-            api.V(response.data) && this.setState({data:response.data.result,pageCount:response.data.page_count});
-        });
+        api.post('order_search', body, (response, verify) => {
+            if (verify) {
+                if (response.data.result.length > 0) {
+                    this.setState({data:response.data.result,pageCount:response.data.page_count,show:false});
+                } else {
+                    this.setState({data:[],pageCount:1,show:true});
+                }
+            } else {
+                this.setState({data:[],pageCount:1,show:true});
+            }
+        })
     }
 
     handleTab(isOnline) {
@@ -120,7 +127,7 @@ export default class extends React.Component {
                         <div>{tabs}</div>
                         <Search placeholder='请输入订单号' callback={this.handleSearch}/>
                     </div>
-                    <div className='m-box' style={{marginBottom:'20px'}}>
+                    <div className='m-box' style={{marginBottom:'20px', display:(this.state.show ? 'none' : 'block')}}>
                         <table className='m-table'>
                             <thead>
                                 <tr className='bd-lightgrey m-bg-white'>
@@ -140,6 +147,7 @@ export default class extends React.Component {
                         </table>
                     </div>
                     <Page count={this.state.pageCount} current={this.state.page} callback={this.handlePage}/>
+                    <Empty show={this.state.show}/>
                 </div>
             </div>
         );

@@ -18,7 +18,11 @@ export default class extends Component{
     onSearchRequest(value) {
         if (!isNaN(value) && value.length === 11) {
             api.post('member_detail', {token:this.props.token,umobile:value}, (response, verify) => {
-                verify && this.props.changeView({view:'member_detail',param:value});
+                if (verify) {
+                    this.props.changeView({view:'member_detail',param:value});
+                } else {
+                    alert(response.data.msg);
+                }
             })
         }
     }

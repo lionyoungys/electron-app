@@ -63,13 +63,9 @@ ipcMain.on('toggle-login', () => {    //切换至登录
     windowModel('login');
     win.main.close();
 });
-ipcMain.on('login-msg', (e, args) => {    //登录界面ipc监听
-    if ('SUCCESS' === args) {    //登录成功打开主页面并销毁登录界面
-        let electronScreen = electron.screen,    //定义屏幕对象变量
-            size = electronScreen.getPrimaryDisplay().workAreaSize;    //获取屏幕大小
-        windowModel('main');
-        win.login.close();
-    }
+ipcMain.on('toggle-main', () => {    //切换至主界面
+    windowModel('main');
+    win.login.close();
 });
 //用户协议
 ipcMain.on('protocol', (e, args) => {
@@ -139,7 +135,7 @@ function createWindow(name, windowStyle, uri) {
         slashes: true
     }));
     //打开开发者工具
-    //win[name].webContents.openDevTools();
+    win[name].webContents.openDevTools();
     //当window关闭时取消引用
     win[name].on('closed', () => {
         win[name] = null;
