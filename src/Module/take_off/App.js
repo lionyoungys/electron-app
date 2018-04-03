@@ -5,6 +5,7 @@
 import React, {Component} from 'react';
 import Search from '../UI/search/App';
 import SelectSearch from '../../Elem/SelectSearch';
+import Empty from '../../Elem/Empty';
 import './App.css';
 
 export default class extends Component{
@@ -13,14 +14,14 @@ export default class extends Component{
         this.state = {
             data:[],
             user:{},
-            number:tool.isSet(this.props.param) ? this.props.param : null
+            number:tool.isSet(this.props.param) ? this.props.param : null,
+            show:false
         };
         this.onSearchRequest = this.onSearchRequest.bind(this);
         this.query = this.query.bind(this);
         this.onTakePayRequest = this.onTakePayRequest.bind(this);
         this.takeOne = this.takeOne.bind(this);
     }
-
     componentDidMount() {
         null !== this.state.number && this.query(this.state.number);
     }
@@ -34,7 +35,13 @@ export default class extends Component{
         api.post('take_off', {token:this.props.token,number:value}, (response, verify) => {
             if (verify) {
                 let result = response.data.result;
-                this.setState({data:result.list,user:result.userinfo,number:value});
+                if (result.list.length > 0) {
+                    this.setState({data:result.list,user:result.userinfo,number:value, show:false});
+                } else {
+                    this.setState({data:[], show:true, user:{}, number:value});
+                }
+            } else {
+                this.setState({data:[], show:true, user:{}, number:value});
             }
         })
     }
@@ -94,12 +101,13 @@ export default class extends Component{
                         <SelectSearch value={this.state.number} option={['手机号','订单号','会员卡号']} callback={this.onSearchRequest}/>
                     </div>
                 </div>
-                <div className='e-box'>
+                <div className='e-box' style={this.state.show ?{display:'none'} : null}>
                     <table className='e-table border'>
                         <thead><tr><th>衣物编码</th><th>衣物名称</th><th>颜色</th><th>状态</th><th>衣挂号</th><th>取衣时间</th><th>操作</th></tr></thead>
                         {html}
                     </table>
                 </div>
+                <Empty show={this.state.show}/>
             </div>
         );
     }

@@ -64,7 +64,6 @@ ipcMain.on('toggle-login', () => {    //切换至登录
     win.main.close();
 });
 ipcMain.on('login-msg', (e, args) => {    //登录界面ipc监听
-    if ('close' === args) win.login.close();    //用户关闭界面
     if ('SUCCESS' === args) {    //登录成功打开主页面并销毁登录界面
         let electronScreen = electron.screen,    //定义屏幕对象变量
             size = electronScreen.getPrimaryDisplay().workAreaSize;    //获取屏幕大小

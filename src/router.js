@@ -75,13 +75,13 @@ export const router = {    //菜单路由选项
     online:[{value:'订单处理',key:'online'}],
     offline:[
         {value:'收件',key:'take',auth:1},
-        //{value:'入厂',key:'in_factory',auth:8},    //infactory
+        {value:'入厂',key:'in_factory',auth:8},    //infactory
         {value:'清洗',key:'clean',auth:2},    //offline_clean
         {value:'烘干',key:'dry',auth:50},    //offline_clean
         {value:'熨烫',key:'ironing',auth:51},    //offline_ironing
         {value:'质检',key:'check',auth:52},    //offline_check
         {value:'上挂',key:'put_on',auth:3},    //registration
-        //{value:'出厂',key:'out_of_factory',auth:9},    //outfactory
+        {value:'出厂',key:'out_of_factory',auth:9},    //outfactory
         {value:'取衣',key:'take_off',auth:4},    //offline_take
         {value:'返流审核',key:'go_back_check',auth:7},    //offline_take2
         {value:'会员管理',key:'member',auth:6},

@@ -39,7 +39,7 @@ class Container extends Component {
                     className='notice' 
                     style={{display:(state.isShow ? 'inline-block' : 'none')}}
                 >{state.text}</div>
-                <em id='close' onClick={() => ipcRenderer.send('login-msg','close')}></em>
+                <em id='close' onClick={() => ipcRenderer.send('close-window','login')}></em>
                 <E notice={this.notice} changeView={index => this.setState({current:index})}/>
             </div>
         );
