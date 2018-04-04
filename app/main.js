@@ -30,9 +30,9 @@ if (shouldQuit) {app.quit()}
 
 // 部分 API 在 ready 事件触发后才能使用。
 app.on('ready', () => {
-    windowModel('login');
+    //windowModel('login');
     //开发测试优先创建main窗口
-    //windowModel('main');
+    windowModel('main');
 });
 
 app.on('window-all-closed', () => { app.quit() }); //当全部窗口关闭时退出。

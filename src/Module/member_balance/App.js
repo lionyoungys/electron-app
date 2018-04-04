@@ -10,6 +10,7 @@ import './App.css';
 export default class extends React.Component{
     constructor(props) {
         super(props);
+        this.props.onRef(this);
         this.state = {count:0,sum:0,pageCount:1,page:1,data:[],limit:10,cardNumber:null,mobile:null};
         this.query = this.query.bind(this);
         this.handlePage = this.handlePage.bind(this);

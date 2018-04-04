@@ -9,6 +9,7 @@ import './App.css';
 export default class extends React.Component {
     constructor(props) {
         super(props);
+        this.props.onRef(this);
         let param = this.props.param;
         this.state = {
             checked: ( ( tool.isSet(param) && tool.isSet(param.checked) ) ? param.checked : 'ordering' ),    //选项卡选中
@@ -29,6 +30,7 @@ export default class extends React.Component {
         this.checkOff = this.checkOff.bind(this);    //检查完成方法
         this.isClean = this.isClean.bind(this);    //清洗完成方法
         this.isPost = this.isPost.bind(this);    //送件完成
+        this.query = this.query.bind(this);
         //选项卡列表 api 对应接口地址
         this.tabs = [
             {value:'待处理',api:'ordering'},
@@ -47,6 +49,9 @@ export default class extends React.Component {
         this.timerID = null;
     }
     componentDidMount() {
+        this.query();
+    }
+    query() {
         axios.post(api.U(this.state.checked),api.D({token:this.props.token}))
         .then(response => {
             api.V(response.data) && this.setState({data:response.data.result});

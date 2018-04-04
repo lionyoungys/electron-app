@@ -11,6 +11,7 @@ import './App.css';
 export default class extends React.Component{
     constructor(props) {
         super(props);
+        this.props.onRef(this);
         this.state = {
             checked:0,
             page:1,

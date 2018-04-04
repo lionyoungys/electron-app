@@ -12,6 +12,7 @@ import './App.css';
 export default class extends React.Component {
     constructor(props) {
         super(props);
+        this.props.onRef(this);
         this.id = this.props.param.id;
         this.from = this.props.param.state;
         this.state = {data:{back_img:[]},module:[],text:'',index:0,normal:1};
@@ -26,8 +27,12 @@ export default class extends React.Component {
         this.upload = this.upload.bind(this);
         this.del = this.del.bind(this);
         this.submit = this.submit.bind(this);
+        this.query = this.query.bind(this);
     }
     componentDidMount() {
+        this.query();
+    }
+    query() {
         axios.post(api.U('go_back'), api.D({token:this.props.token,itemid:this.props.param.id}))
         .then(response => {
             console.log(response.data);

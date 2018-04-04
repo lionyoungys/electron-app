@@ -9,6 +9,7 @@ import React, {Component} from 'react';
 export default class extends Component {
     constructor(props) {
         super(props);
+        this.props.onRef(this);
         this.state = {data:[],show:false};
         this.query = this.query.bind(this);
         this.handleClick = this.handleClick.bind(this);

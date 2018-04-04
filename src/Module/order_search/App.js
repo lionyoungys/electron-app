@@ -12,19 +12,20 @@ import './App.css';
 export default class extends React.Component {
     constructor(props) {
         super(props);
+        this.props.onRef(this);
         this.state = {isOnline:1,checked:'today',number:'',onSearch:false,data:[],page:1,limit:10,pageCount:1,show:false};
         this.tab = [{value:'今天',key:'today'},{value:'昨天',key:'yesterday'},{value:'3日内',key:'3days'},{value:'7日内',key:'7days'},{value:'全部',key:'all'}];
         this.handleTab = this.handleTab.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
-        this.handleQuery = this.handleQuery.bind(this);
+        this.query = this.query.bind(this);
         this.itemsToHtml = this.itemsToHtml.bind(this);
         this.handlePage = this.handlePage.bind(this);
         this.redirect = this.redirect.bind(this);
     }
 
-    componentDidMount() {this.handleQuery();}
-    handleQuery(param) {
+    componentDidMount() {this.query();}
+    query(param) {
         let body = {
             token:this.props.token,
             number:this.state.number,
@@ -55,25 +56,25 @@ export default class extends React.Component {
 
     handleTab(isOnline) {
         this.setState({isOnline:isOnline,page:1,onSearch:false});
-        this.handleQuery({is_online:isOnline,number:'',page:1});
+        this.query({is_online:isOnline,number:'',page:1});
     }
 
     handleClick(e) {
         let date = e.target.dataset.key;
         this.setState({checked:date,page:1,onSearch:false});
-        this.handleQuery({date:date,number:'',page:1});
+        this.query({date:date,number:'',page:1});
     }
     handleSearch(value) {
         if (!isNaN(value)) {
             this.setState({number:value,page:1,onSearch:true});
-            this.handleQuery({number:value,page:1});
+            this.query({number:value,page:1});
         }
     }
     handlePage(page) {
         this.setState({page:page});
         let param = {page:page};
         if (!this.state.onSearch) param.number = '';
-        this.handleQuery(param);
+        this.query(param);
     }
     itemsToHtml(items) {
         return items.map((obj, index) => 
