@@ -1,4 +1,10 @@
 .idea
 node_modules
+app/node_modules
 packager
+production
 src/api.js
+Staging
+nuget.*
+Package.*
+Squirrel.*

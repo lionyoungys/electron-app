@@ -31,12 +31,14 @@ class Main extends Component {
             employees:[],    //职员列表
             tempEmployee:''    //鼠标悬停临时展示的操作员名称
         };
+        this.children = {};     //子窗口对象列表
         this.changeView = this.changeView.bind(this);
         this.changeMenu = this.changeMenu.bind(this);
         this.changeTab = this.changeTab.bind(this);
         this.closeView = this.closeView.bind(this);
         this.changeEmployee = this.changeEmployee.bind(this);
         this.hoverEmployee = this.hoverEmployee.bind(this);
+        this.onRef = this.onRef.bind(this);
     }
 
     componentDidMount() {
@@ -93,7 +95,11 @@ class Main extends Component {
         this.state.checkedMenu !== menu && this.setState({checkedMenu:e.target.dataset.menu})
     }
     //tab改变事件
-    changeTab(e) {this.setState({checkedTab:e.target.dataset.key})}
+    changeTab(e) {
+        let key = e.target.dataset.key;
+        'undefined' !== typeof this.children[key] && 'function' === typeof this.children[key].query && this.children[key].query();
+        this.setState({checkedTab:key})
+    }
     //tab关闭事件
     closeView(e) {
         delete this.state.windows[e.target.dataset.view];
@@ -118,6 +124,8 @@ class Main extends Component {
         }
     }
     hoverEmployee(e) {this.setState({tempEmployee:e.target.innerText})}
+    // 获取子窗口对象
+    onRef(ref) {this.children[this.state.checkedTab] = ref}
 
     render() {
         let menuList = [],
@@ -161,6 +169,7 @@ class Main extends Component {
                     <View 
                         token={this.state.token}
                         param={this.state.windows[k].param}
+                        onRef={this.onRef}
                         changeView={this.changeView}
                         closeView={this.closeView}
                         branch={branch}
@@ -224,7 +233,7 @@ class Top extends Component {
                 <div
                     className='top-left' 
                     style={tool.isSet(this.props.logo) ? {backgroundImage:`url(${this.props.logo})`} : null}
-                >{this.props.name}（工厂版）</div>
+                >{this.props.name}（商家版）</div>
                 <div className='top-right'>
                     <div><div className='minimize' onClick={() => ipcRenderer.send('minimize-window', 'main')}></div></div>
                     <div><div className='maxmize' onClick={this.maxmize}></div></div>
