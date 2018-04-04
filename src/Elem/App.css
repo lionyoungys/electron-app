@@ -98,7 +98,7 @@
     overflow: hidden;
 }
 .select-search>.select-search-option-show{overflow: inherit}
-.select-search>div>i{
+.select-search>div>i, .select>i{
     height: 100%;
     width: 14px;
     background: url(img/elem-select.png) no-repeat center center;
@@ -151,3 +151,33 @@
     border-top-right-radius:5px;
     border-bottom-right-radius:5px;
 }
+/* 下拉框组件 */
+.select{
+    display: -webkit-inline-flex;
+    display: inline-flex;
+    height: 30px;
+    line-height: 30px;
+    position: relative;
+    border: 1px solid #e1e4e6;
+    overflow: hidden;
+}
+.select.select-show{overflow: inherit}
+.select-selected{
+    padding: 0 28px 0 10px;
+    border: 1px solid #ccc;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    cursor: default;
+}
+.select-search-option-show>.select-search-selected{border-bottom-left-radius: 0;}
+.select-search-option{
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: 0;
+    cursor: default;
+}
+.select-search-option>div{
+    padding: 0 28px 0 10px;
+    border-bottom: 1px solid #ccc;
+}
+.select-search-option>div:last-child{border: none}
