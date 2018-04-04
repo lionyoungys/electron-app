@@ -14,6 +14,7 @@ const state = 3, word = '清洗';
 export default class extends React.Component {
     constructor(props) {
         super(props);
+        this.props.onRef(this);
         this.state = {
             value:'',
             data:[],

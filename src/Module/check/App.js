@@ -14,6 +14,7 @@ const state = 52, word = '质检';
 export default class extends React.Component {
     constructor(props) {
         super(props);
+        this.props.onRef(this);
         this.state = {value:'',data:[],checked:[],all:false,loading:null,uploadShow:false,lightboxShow:false,index:null};
         this.onSearch = this.onSearch.bind(this);
         this.handleAllChecked = this.handleAllChecked.bind(this);

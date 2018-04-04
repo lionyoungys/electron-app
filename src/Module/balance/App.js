@@ -11,14 +11,20 @@ import './App.css';
 export default class extends React.Component {
     constructor(props) {
         super(props);
+        this.props.onRef(this);
         this.state = {bank:'',account:'',balance:0,record:[],checked:'all'};
         this.tab = [{value:'全部',key:'all'},{value:'收入',key:'income'},{value:'支出',key:'expend'}];
         this.changeTab = this.changeTab.bind(this);
         this.download = this.download.bind(this);
+        this.query = this.query.bind(this);
     }
 
 
     componentDidMount() {
+        this.query();
+    }
+
+    query() {
         axios.post(api.U('balance'),api.D({token:this.props.token}))
         .then(response => {
             if (api.V(response.data)) {

@@ -10,6 +10,7 @@ import './App.css';
 export default class extends React.Component {
     constructor(props) {
         super(props); 
+        this.props.onRef(this);
         this.state = {
             start:tool.date('Y-m-01'),
             end:tool.date('Y-m-d'),
