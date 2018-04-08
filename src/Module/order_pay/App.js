@@ -223,10 +223,12 @@ export default class extends Component {
         switch(Number(this.state.checked))
         {
             case 0:
-                this.setState({cardVerifyShow:true})
+                this.submit();
+                // this.setState({cardVerifyShow:true})
                 break;
             case 1:
-                this.setState({cardVerifyShow:true});
+                this.submit();
+                //this.setState({cardVerifyShow:true});
                 break;
             case 2:
                 if ('special' == this.state.cashReduce) {
@@ -338,13 +340,13 @@ export default class extends Component {
                     onClose={() => this.setState({show:false,status:'pay'})}
                     onConfirm={this.submit}
                 />
-                <CardVerify 
+                {/* <CardVerify 
                     show={this.state.cardVerifyShow} 
                     phone={this.state.umobile}
                     onClose={() => this.setState({cardVerifyShow:false})}
                     callback={this.handleSmsCode}
                     onSend={this.sendUserSmS}
-                />
+                /> */}
                 <SpecialVerify 
                     show={this.state.specialVerifyShow}
                     phone={this.state.phone}

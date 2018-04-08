@@ -57,7 +57,8 @@ export default class extends Component{
         if (data.umobile.match(/^1\d{10}$/) === null) return;
         if ('' == data.uname) return;
         if (isNaN(data.cdiscount) || data.cdiscount > 10 || data.cdiscount <= 0) return;
-        this.setState({show:true});
+        this.callback('0000');
+        //this.setState({show:true});
     }
     callback(smsCode) {
         let data = this.state.data,
@@ -76,9 +77,12 @@ export default class extends Component{
             obj.sex = data.sex;
             obj.birthday = data.birthday;
         }
-        axios.post(api.U('member_submit'),api.D(obj))
-        .then(response => {
-            console.log(response.data);
+        api.post('member_submit', obj, (response, verify) => {
+            if (verify) {
+                alert('修改成功');
+            } else {
+                alert(response.data.msg);
+            }
         });
         this.setState({show:false});
     }
