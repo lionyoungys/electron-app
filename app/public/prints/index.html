@@ -91,6 +91,7 @@
             let result = response.result;
             console.log(result);
             document.getElementById('qrcode').src = result.qrcode;
+            insert('mname', result.mname);
             insert('ordersn', result.ordersn);
             insert('mobile', result.umobile);
             insert('num', result.count);

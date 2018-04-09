@@ -136,7 +136,7 @@ class Order extends Component{
             </tr>
         );
         return (
-            <tbody>
+            <tbody title={data.remark}>
                 <tr><td colSpan='7' className='take-off-order'>
                     <span>订单号：{data.ordersn}</span>
                     <span>订单状态：{1 == data.pay_state ? '已支付' : '未支付'}</span>
