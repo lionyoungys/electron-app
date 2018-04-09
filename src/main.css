@@ -527,6 +527,7 @@ body{background:#3596e3;cursor:pointer;} */
     background-image: url(img/checkbox.png);
     background-repeat: no-repeat;
     background-position: left center;
+    cursor: pointer;
 }
 .e-checkbox.checked{background-image: url(img/checkbox-checked.png)}
 .e-radio{
@@ -537,6 +538,7 @@ body{background:#3596e3;cursor:pointer;} */
     background-image: url(img/radio.png);
     background-repeat: no-repeat;
     background-position: left center;
+    cursor: pointer;
 }
 .e-radio.checked{background-image: url(img/radio-checked.png)}
 /* table表格布局样式 */
