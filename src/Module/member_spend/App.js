@@ -77,7 +77,7 @@ export default class extends React.Component{
                     <div className='m-text-r'>
                         开始时间：<input type='text' value={this.state.start} ref={input => this.input = input} className='m-input-small m-select-postfix m-text-c' readOnly/>
                         &emsp;
-                        结束时间：<input type='text' value={this.state.start} ref={input => this.input2 = input} className='m-input-small m-select-postfix m-text-c' readOnly/>
+                        结束时间：<input type='text' value={this.state.end} ref={input => this.input2 = input} className='m-input-small m-select-postfix m-text-c' readOnly/>
                         &emsp;
                         <button type='button' className='m-btn confirm' onClick={this.handleQuery}>查询</button>
                         &emsp;&emsp;

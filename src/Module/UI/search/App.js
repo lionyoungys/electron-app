@@ -23,12 +23,13 @@ export default class extends React.Component {
     }
     
     render() {
+        let value = 'string' === typeof this.props.value ? this.props.value : this.state.value;
         return (
             <div className='search'>
                 <input 
                     type='text' 
                     placeholder={this.props.placeholder} 
-                    value={this.state.value}
+                    value={value}
                     ref={input => this.input = input}
                     onChange={this.handleChange}
                 />
