@@ -41,7 +41,7 @@ export default class extends React.Component {
                 {
                     this.state.hasUpdate 
                     && 
-                    <div><button type='button' className='e-btn confirm' onClick={this.handleUpdate}>立即升级</button></div>
+                    <div><button type='button' className='e-btn confirm' onClick={this.handleUpdate}>下载最新安装包</button></div>
                 }
             </div>
         );

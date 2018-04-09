@@ -26,9 +26,9 @@
     text-align: center;
     padding-top: 96px;
     background: url(img/empty.png) no-repeat center top;
-    position: fixed;
+    position: absolute;
     top: 50%;left: 50%;
-    margin: -31px 0 0 -80px;   
+    margin: -58px 0 0 -80px;   
 }
 
 /* 图片光箱组件样式 */
