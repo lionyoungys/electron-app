@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import Chart from '../UI/chart-default/App';
-import {Starts} from '../../static/UI';
+import Select from '../../Elem/Select';
 import './App.css';
 
 export default class extends React.Component {
@@ -62,8 +62,7 @@ export default class extends React.Component {
             }
         });
     }
-    handleChange(e) {
-        let value = e.target.value;
+    handleChange(value) {
         this.setState({selected:value});
         this.query(value);
     }
@@ -75,10 +74,8 @@ export default class extends React.Component {
         return (
             <div>
                 <div className='m-container'>
-                    <div className='m-text-c'>
-                        <select className='chart-select' value={this.state.selected} onChange={this.handleChange}>
-                            {options}
-                        </select>
+                    <div className='m-text-c' style={{height:'32px'}}>
+                        <Select option={this.state.date} selected={this.state.selected} onChange={this.handleChange}/>
                     </div>
                     <div className='m-box m-text-c'>
                         截至目前营业额：{this.state.currentAmount}&emsp;&emsp;上月同期营业额：{this.state.previousAmount}
