@@ -237,7 +237,7 @@ class Top extends Component {
                 >{this.props.name}（工厂版）</div>
                 <div className='top-right'>
                     <div><div className='minimize' onClick={() => ipcRenderer.send('minimize-window', 'main')}></div></div>
-                    <div><div className='maxmize' onClick={this.maxmize}></div></div>
+                    <div><div className={this.state.max ? 'unmaximize' : 'maximize'} onClick={this.maxmize}></div></div>
                     <div><div className='closed' onClick={() => ipcRenderer.send('close-window', 'main')}></div></div>
                 </div>
             </div>
