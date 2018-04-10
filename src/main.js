@@ -79,11 +79,12 @@ class Main extends Component {
                 if (tool.count( this.state.windows ) >= 8) return alert('最多只能打开8个子窗口');    //限制最多8个窗口
                 this.state.windows[view] = {title:checkedMenu[routeIndex].value, view:view, param:param};
                 this.setState({checkedTab:view, windows:this.state.windows});
-            } else if (this.state.windows[view].view !== view) {    //当窗口列表存在该视图,单视图内容不同不同时,为界面内返回跳转
+            } else if (this.state.windows[view].view !== view) {    //当窗口列表存在该视图,单视图内容不同时,为界面内返回跳转
                 this.state.windows[view].view = view;
                 this.state.windows[view].param = param;
                 this.setState({windows:this.state.windows});
             } else {    //若窗口列表中存在该视图,定位tab至该视图
+                'undefined' !== typeof this.children[view] && 'function' === typeof this.children[view].query && this.children[view].query();
                 this.setState({checkedTab:view});
             }
             

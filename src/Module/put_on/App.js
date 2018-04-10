@@ -16,7 +16,7 @@ export default class extends React.Component {
     constructor(props) {
         super(props);
         this.props.onRef(this);
-        this.state = {value:'',data:[],checked:[],all:false, start:'', end:'',loading:null,uploadShow:false,lightboxShow:false,index:null};
+        this.state = {value:'',data:[],checked:[],all:false, start:'', loading:null,uploadShow:false,lightboxShow:false,index:null};
         this.onSearch = this.onSearch.bind(this);
         this.handleAllChecked = this.handleAllChecked.bind(this);
         this.handleCleaned = this.handleCleaned.bind(this);
@@ -86,27 +86,25 @@ export default class extends React.Component {
     }
     handleCleaned() {
         if (this.state.checked.length < 1) return;
-        //if (isNaN(this.state.start)) return alert('请输入开始单号');
-        //if ('' !== this.state.end && isNaN(this.state.end)) return alert('结束单号不正确');
-        if ('' == this.state.start) return alert('请输入开始单号');
-        axios.post(
-            api.U('put_it_on'),
-            api.D({
+        if ('' == this.state.start) return alert('请输入衣挂号');
+        api.post(
+            'put_it_on', 
+            {
                 token:this.props.token,
                 itemids:this.state.checked.toString(),
                 moduleid:state,
                 startnum:this.state.start,
-                endnum:this.state.end
-            })
-        )
-        .then(response => {
-            if (api.V(response.data)) {
-                this.setState({checked:[],all:false});
-                this.query();
-            } else {
-                alert(response.data.msg);
+                endnum:this.state.start
+            },
+            (response, verify) => {
+                if (verify) {
+                    this.setState({checked:[],all:false});
+                    this.query();
+                } else {
+                    alert(response.data.msg);
+                }
             }
-        });
+        )
     }
     goBack() {
         if (this.state.checked.length != 1) return alert('返流项目需选中单个项目返流');
@@ -194,9 +192,7 @@ export default class extends React.Component {
                         &emsp;&emsp;
                         已选择<span className='e-orange'>&nbsp;{this.state.checked.length}&nbsp;</span>件
                         &emsp;&nbsp;
-                        <input type='text' className='put-on-input' value={this.state.start} onChange={e => this.setState({start:e.target.value})} placeholder='输入开始单号'/>
-                        --
-                        <input type='text' className='put-on-input' value={this.state.end} onChange={e => this.setState({end:e.target.value})} placeholder='输入结束单号'/>
+                        <input type='text' className='put-on-input' value={this.state.start} onChange={e => this.setState({start:e.target.value})} placeholder='输入衣挂号'/>
                         &emsp;
                         <button type='button' className='e-btn confirm' onClick={this.handleCleaned}>已{word}</button>
                         &emsp;
