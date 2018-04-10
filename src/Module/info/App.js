@@ -27,17 +27,17 @@ export default class extends React.Component {
         this.handleModuleChange = this.handleModuleChange.bind(this);
     }
     componentDidMount() {
-        axios.post(api.U('info'), api.D({token:this.props.token}))
-        .then(response => {
-            if (api.V(response.data)) {
+        api.post('info', {token:this.props.token}, (response, verify) => {
+            if (verify) {
+                let mcards = response.data.result.mcards;
+                if (mcards.length < 2) mcards = this.state.mcards;
                 this.setState({
                     allModule:response.data.all_module,
-                    mcards:response.data.result.mcards,
+                    mcards:mcards,
                     merchant:response.data.result.merchant,
                     module:response.data.result.module
                 });
             }
-            console.log(response.data);
         });
     }
 
