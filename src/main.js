@@ -38,6 +38,7 @@ class Main extends Component {
         this.closeView = this.closeView.bind(this);
         this.changeEmployee = this.changeEmployee.bind(this);
         this.hoverEmployee = this.hoverEmployee.bind(this);
+        this.getEmployeeList = this.getEmployeeList.bind(this);
         this.onRef = this.onRef.bind(this);
     }
 
@@ -45,9 +46,6 @@ class Main extends Component {
         api.post('index', {token:this.state.token}, (response, verify) => {
             verify && this.setState({merchant:response.data.result});
         });
-        api.post('employees', {token:this.state.token}, (response, verify) => {
-            verify && this.setState({employees:response.data.result});
-        })
     }
 
     //界面动态转换事件方法
@@ -125,6 +123,14 @@ class Main extends Component {
         }
     }
     hoverEmployee(e) {this.setState({tempEmployee:e.target.innerText})}
+    getEmployeeList(e) {
+        this.setState({show:true});
+        if ('employee-handle' === e.target.className) {
+            api.post('employees', {token:this.state.token}, (response, verify) => {
+                verify && this.setState({employees:response.data.result});
+            })
+        }
+    }
     // 获取子窗口对象
     onRef(ref) {this.children[this.state.checkedTab] = ref}
 
@@ -197,7 +203,7 @@ class Main extends Component {
                         操作员：{this.state.merchant.employee}({this.state.merchant.employeeID})
                         <div
                             className='employee-handle'
-                            onMouseOver={() => this.setState({show:true})}
+                            onMouseOver={this.getEmployeeList}
                             onMouseOut={() => this.setState({show:false,tempEmployee:''})}
                         >
                             <div style={{display:this.state.show ? 'block' : 'none'}}>
