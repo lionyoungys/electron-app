@@ -49,6 +49,7 @@ export default class extends React.Component {
                         this.setState({checked:this.state.checked,value:''});
                     }
                 } else {
+                    this.setState({value:''});
                     alert(response.data.msg);
                 }
             }
