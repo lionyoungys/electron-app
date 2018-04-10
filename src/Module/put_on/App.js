@@ -40,7 +40,6 @@ export default class extends React.Component {
     onSearch() {
         axios.post(api.U('operate_search'),api.D({token:this.props.token,status:state,clean_sn:this.state.value}))
         .then(response => {
-            //api.V(response.data) && this.query();
             if (api.V(response.data)) {
                 this.query();
             } else {
@@ -53,6 +52,7 @@ export default class extends React.Component {
                         this.setState({checked:this.state.checked,value:''});
                     }
                 } else {
+                    this.setState({value:''});
                     alert(response.data.msg);
                 }
             }
