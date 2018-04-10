@@ -19,7 +19,6 @@ export default class extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.query = this.query.bind(this);
-        this.itemsToHtml = this.itemsToHtml.bind(this);
         this.handlePage = this.handlePage.bind(this);
         this.redirect = this.redirect.bind(this);
     }
@@ -76,12 +75,12 @@ export default class extends React.Component {
         if (!this.state.onSearch) param.number = '';
         this.query(param);
     }
-    itemsToHtml(items) {
-        return items.map((obj, index) => 
-            <div key={index} className='m-between-box online'>
-                <span>{obj.item_name}</span>
-                <span>&yen;{obj.item_price}</span>
-            </div>
+
+    getRowByItem(data, key) {
+        return data.map((obj, index) => 
+            <p key={index}>
+                {'status' === key ? tool.itemStatus(obj[key]) : ('item_price' === key ? <span>&yen;{obj[key]}</span> : obj[key])}
+            </p>
         );
     }
 
@@ -99,57 +98,58 @@ export default class extends React.Component {
             >{obj.value}</span>
         );
         let html = this.state.data.map(obj => 
-            <tr className='bd-lightgrey' key={obj.id}>
-                <td className='m-blue-h' data-id={obj.id} onClick={this.redirect}>{obj.ordersn}</td>
-                <td>{this.itemsToHtml(obj.items)}</td>
-                <td>
-                    <div className='m-between-box online'><span>上门服务费</span><span>&yen;{obj.freight_price}</span></div>
-                    <div className='m-between-box online'><span>特殊工艺加价</span><span>&yen;{obj.craft_price}</span></div>
-                    <div className='m-between-box online'><span>保值清洗费</span><span>&yen;{obj.keep_price}</span></div>
-                    <div className='m-between-box online'><span>优惠金额</span><span>&yen;{obj.reduce_price}</span></div>
-                </td>
-                <td>{obj.items.length}件</td>
-                <td className='m-red'>&yen;{obj.pay_amount}</td>
-                <td>{obj.uname}</td>
-                <td>{obj.umobile}</td>
-                <td>{obj.uaddress}</td>
-                <td>{obj.otime}</td>
-                <td className='m-blue'>{tool.orderStatus(obj.ostatus)}</td>
+            <tr key={obj.id} className='online-tr'>
+                    <td>{obj.ordersn}</td>
+                    <td>{this.getRowByItem(obj.items, 'clean_sn')}</td>
+                    <td>{this.getRowByItem(obj.items, 'item_name')}</td>
+                    <td>{this.getRowByItem(obj.items, 'item_price')}</td>
+                    <td>{this.getRowByItem(obj.items, 'status')}</td>
+                    <td>
+                        上门服务费：&yen;{obj.freight_price}<br/>
+                        特殊工艺加价：&yen;{obj.craft_price}<br/>
+                        保值清洗费：&yen;{obj.keep_price}<br/>
+                        优惠金额：&yen;{obj.reduce_price}<br/>
+                    </td>
+                    <td>
+                        {obj.items.length}件<br/>
+                        &yen;{obj.amount}
+                    </td>
+                    <td>
+                        姓名：{obj.uname}<br/>
+                        电话：{obj.umobile}<br/>
+                        地址：{obj.uaddress}<br/>
+                    </td>
+                    <td className='e-blue'>{tool.orderStatus(obj.ostatus)}</td>
             </tr>
         );
         return (
-            <div>
-                <div className='m-container'>
+            <div className='e-box'>
                     <div className='order-search-type'>
                         <span className={this.state.isOnline ? 'choose' : null} onClick={() => this.handleTab(1)}>线上订单</span>
                         <span className={this.state.isOnline ? null : 'choose'} onClick={() => this.handleTab(0)}>线下订单</span>
                     </div>
-                    <div className='m-box order-search-tab'>
+                    <div className='order-search-tab'>
                         <div>{tabs}</div>
                         <Search placeholder='请输入订单号' callback={this.handleSearch}/>
                     </div>
-                    <div className='m-box' style={{marginBottom:'20px', display:(this.state.show ? 'none' : 'block')}}>
-                        <table className='m-table'>
+                        <table className='e-table border' style={{marginBottom:'20px', display:(this.state.show ? 'none' : null)}}>
                             <thead>
-                                <tr className='bd-lightgrey m-bg-white'>
+                                <tr>
                                     <th>订单号</th>
-                                    <th>项目</th>
+                                    <th>衣物编码</th>
+                                    <th>名称</th>
+                                    <th>价格</th>
+                                    <th>衣物状态</th>
                                     <th>工艺加价</th>
-                                    <th>件数</th>
-                                    <th>总价</th>
-                                    <th>姓名</th>
-                                    <th>电话</th>
-                                    <th>地址</th>
-                                    <th>时间</th>
+                                    <th>合计</th>
+                                    <th>客户信息</th>
                                     <th>状态</th>
                                 </tr>
                             </thead>
                             <tbody>{html}</tbody>
                         </table>
-                    </div>
                     <Page count={this.state.pageCount} current={this.state.page} callback={this.handlePage}/>
                     <Empty show={this.state.show}/>
-                </div>
             </div>
         );
     }
