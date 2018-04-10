@@ -1,15 +1,16 @@
 .order-search-type{
-    height: 32px;
-    font-size: 18px;
-    line-height: 32px;
+    height: 42px;
+    font-size: 14px;
+    line-height: 42px;
     border-bottom: 1px solid #ccc;
     display: -webkit-flex;display: flex;
 }
 .order-search-type>span{padding: 0 16px;cursor: pointer}
 .order-search-type>:first-child{margin-right: 40px}
 .order-search-type>.choose{border-bottom: 2px solid #3596e3;color: #3596e3}
-
-.m-box.order-search-tab{
+.order-search-tab{
+    height: 50px;
     display: -webkit-flex;display: flex;
     justify-content: space-between;
+    align-items: center;
 }
