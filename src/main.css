@@ -70,7 +70,8 @@ table{border-collapse: collapse;}
 }
 #top>.top-right>div>div{height: 100%}
 #top>.top-right>div>.minimize{background: url(img/minimize.png) no-repeat center}
-#top>.top-right>div>.maxmize{background: url(img/maxmize.png) no-repeat center}
+#top>.top-right>div>.unmaximize{background: url(img/unmaximize.png) no-repeat center}
+#top>.top-right>div>.maximize{background: url(img/maximize.png) no-repeat center}
 #top>.top-right>div>.closed{background: url(img/closed.png) no-repeat center}
 /* 界面顶部菜单样式 */
 #menu{
