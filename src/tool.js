@@ -3,6 +3,7 @@
  * @author yangyunlong
  */
 (window => {
+    const fs = window.require('fs');
     //去除字符串中的空字符；
     String.prototype.trim = function () {return this.replace(/(^\s*)|(\s*$)/g,'')};
     String.prototype.toSimpleMonth = function () {
@@ -95,6 +96,24 @@
         }
         return new Blob([buffer], {type: mime});    //返回原数据类型对象
     };
+    /**
+     * 获取mime类型
+     * @return string
+     */
+    String.prototype.mime = function () {
+        let result = /\.[^\.]+$/.exec(this);
+        if (null === result) return null;
+        let ext = result[0].replace('.', '').toLowerCase();
+        if ('jpg' === ext) ext = 'jpeg';
+        return 'image/' + ext;
+    }
+    /**
+     * 文件路径转二进制对象
+     * @return Blob
+     */
+    String.prototype.filePathToBlob = function () {
+        return new Blob([fs.readFileSync(this)], {type: this.mime()});
+    }
 
     /**
      * 数组／对象列表值变为数值型

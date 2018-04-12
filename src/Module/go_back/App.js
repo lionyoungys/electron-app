@@ -4,7 +4,6 @@
  */
 
 const {dialog} = window.require('electron').remote;
-const fs = window.require('fs');
 import React from 'react';
 import Radio from '../UI/radio/App';
 import './App.css';
@@ -12,6 +11,7 @@ import './App.css';
 export default class extends React.Component {
     constructor(props) {
         super(props);
+        this.props.onRef(this);
         this.id = this.props.param.id;
         this.from = this.props.param.state;
         this.state = {data:{back_img:[]},module:[],text:'',index:0,normal:1};
@@ -26,8 +26,12 @@ export default class extends React.Component {
         this.upload = this.upload.bind(this);
         this.del = this.del.bind(this);
         this.submit = this.submit.bind(this);
+        this.query = this.query.bind(this);
     }
     componentDidMount() {
+        this.query();
+    }
+    query() {
         axios.post(api.U('go_back'), api.D({token:this.props.token,itemid:this.props.param.id}))
         .then(response => {
             console.log(response.data);
@@ -38,26 +42,24 @@ export default class extends React.Component {
     upload() {
         if (this.state.data.back_img.length > 2) return;
         dialog.showOpenDialog({
-            filters: [{name: 'Images', extensions: ['jpg','png','jpeg','JPG','PNG','JPEG']}],
+            filters: [{name: 'Images', extensions: ['jpg','png','jpeg','bmp','JPG','PNG','JPEG','BMP']}],
             properties: ['openFile']
         },(filePaths) => {
-            if (tool.isSet(filePaths)) {
-                let base64 = fs.readFileSync(filePaths[0]).toString('base64'),
-                    mime = 'image/' + filePaths[0].ext();
-                axios.post(
-                    api.U('go_back_upload'), 
-                    api.D({
+            if (filePaths instanceof Array) {
+                api.post(
+                    'go_back_upload',
+                    {
                         token:this.props.token,
                         itemid:this.props.param.id,
-                        image:base64.base64toBlob(mime)
-                    })
-                )
-                .then(response => {
-                    if (api.V(response.data)) {
-                        this.state.data.back_img.push(response.data.result);
-                        this.setState({data:this.state.data});
+                        image:filePaths[0].filePathToBlob()
+                    },
+                    (response, verify) => {
+                        if (verify) {
+                            this.state.data.back_img.push(response.data.result);
+                            this.setState({data:this.state.data});
+                        }
                     }
-                });
+                );
             }
         });
     }

@@ -3,7 +3,6 @@
  * @author yangyunlong
  */
 const {dialog} = window.require('electron').remote;
-const fs = window.require('fs');
 import React from 'react';
 import Checkbox from '../checkbox/App';
 import './App.css';
@@ -24,11 +23,9 @@ export default class extends React.Component {
             filters: [{name: 'Images', extensions: ['jpg','png','jpeg','bmp','JPG','PNG','JPEG','BMP']}],
             properties: ['openFile']
         },(filePaths) => {
-            if (tool.isSet(filePaths)) {
-                let base64 = fs.readFileSync(filePaths[0]).toString('base64'),
-                    mime = 'image/' + filePaths[0].ext();
-                this.setState({image:( 'data:' + mime + ';base64,' + base64)});
-                this.props.onUploadRequest(this.props.id, base64.base64toBlob(mime));
+            if (filePaths instanceof Array) {
+                this.setState({image:filePaths[0]});
+                this.props.onUploadRequest(this.props.id, filePaths[0].filePathToBlob());
             }
         });
     }

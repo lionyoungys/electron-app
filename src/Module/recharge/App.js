@@ -1,5 +1,5 @@
 /**
- * 新增企业会员组件
+ * 会员充值组件
  * @author yangyunlong
  */
 const {ipcRenderer} = window.require('electron');
@@ -53,6 +53,8 @@ export default class extends React.Component{
 
     submit(authCode) {
         authCode = tool.isSet(authCode) ? authCode : '1';
+        let discount = this.state.data.cdiscount;
+        if (1 > discount || 10 < discount) return alert('折扣必须大于1且小于10');
         axios.post(
             api.U('recharge1_0_6'),
             api.D({
@@ -61,7 +63,7 @@ export default class extends React.Component{
                 amount:this.state.amount,
                 give:this.state.give,
                 auth_code:authCode,
-                discount:this.state.data.cdiscount,
+                discount:cdiscount,
                 gateway:this.gateway[this.state.checked]
             })
         )
@@ -93,10 +95,14 @@ export default class extends React.Component{
                             <tr className='bd-lightgrey'><td>手机号</td><td>{this.props.param}</td></tr>
                             <tr className='bd-lightgrey'>
                                 <td>会员折扣</td>
-                                <td><input type='text' value={this.state.data.cdiscount} onChange={(e) => {
-                                    this.state.data.cdiscount = e.target.value;
-                                    this.setState({data:this.state.data});
-                                }}/>&nbsp;折</td>
+                                <td>
+                                    <input type='text' value={this.state.data.cdiscount} onChange={e => {
+                                        let value = e.target.value;
+                                        if (isNaN(value) || value > 10 || value.toString().length > 4) return;
+                                        this.state.data.cdiscount = value;
+                                        this.setState({data:this.state.data});
+                                    }}/>&nbsp;折&emsp;&emsp;&emsp;<span className='e-orange'>打折后:原价&times;{Math.floor(this.state.data.cdiscount * 1000) / 100}%</span>
+                                </td>
                             </tr>
                             <tr className='bd-lightgrey'><td>当前余额</td><td className='m-red'>{this.state.data.cbalance}</td></tr>
                         </tbody>

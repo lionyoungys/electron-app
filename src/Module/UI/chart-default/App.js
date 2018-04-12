@@ -16,6 +16,7 @@ export default class extends React.Component{
         Highcharts.chart(container, {
                 title: {text: ''},
                 yAxis: {title: {text: ''}},
+                xAxis:{allowDecimals: false},
                 legend: {
                     layout: 'vertical',
                     align: 'right',

@@ -30,7 +30,6 @@ export default class extends React.Component{
         this.submit = this.submit.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.printOrder = this.printOrder.bind(this);
-        this.payRequest = this.payRequest.bind(this);
     }
     onConfirm(authCode) {
         this.setState({status:'loading'});
@@ -39,6 +38,8 @@ export default class extends React.Component{
 
     submit(authCode) {
         authCode = tool.isSet(authCode) ? authCode : '1';
+        let discount = this.state.cdiscount;
+        if (1 > discount || 10 < discount) return alert('折扣必须大于1且小于10');
         axios.post(
             api.U('company_add'),
             api.D({
@@ -47,7 +48,7 @@ export default class extends React.Component{
                 uname:this.state.uname,
                 reg_from:4,
                 auth_code:authCode,
-                cdiscount:this.state.cdiscount,
+                cdiscount:discount,
                 amount:this.state.amount,
                 remark:this.state.remark,
                 addr:this.state.addr,
@@ -91,34 +92,6 @@ export default class extends React.Component{
         }
     }
 
-    payRequest(authcode) {
-        let state = this.state,
-            param = this.props.param;
-        this.setState({paymentStatus:'loading'});
-        let pay_type = 'WECHAT';
-        if (2 == state.payment) pay_type = 'ALI';
-        axios.post(
-            api.U('rechargeMerchantCard'),
-            api.D({
-                uid:state.id,
-                token:this.props.token,
-                card_name:'企业会员',
-                balance:state.amount,
-                discount:state.discount,
-                pay_type:pay_type,
-                type:1,
-                auth_code:authcode,
-            })
-        )
-        .then(response => {
-            if (api.verify(response.data)) {
-                this.setState({paymentStatus:'success'});
-                this.printOrder(response.data.data.rechargeId);
-                this.props.changeView({element:'index'});
-            }
-        });
-        //rechargeMerchantCard
-    }
 
     printOrder(rechargeId) {
         let props = this.props;
@@ -145,7 +118,13 @@ export default class extends React.Component{
                             <tr className='bd-lightgrey'><td>手机号</td><td>{this.props.param}</td></tr>
                             <tr className='bd-lightgrey'>
                                 <td>折扣</td>
-                                <td><input type='text' value={this.state.cdiscount} onChange={e => this.setState({cdiscount:e.target.value})}/></td>
+                                <td>
+                                    <input type='text' value={this.state.cdiscount} onChange={e => {
+                                        let value = e.target.value;
+                                        if (isNaN(value) || value > 10 || value.toString().length > 4) return;
+                                        this.setState({cdiscount:value});
+                                    }}/>&nbsp;折&emsp;&emsp;&emsp;<span className='e-orange'>打折后:原价&times;{Math.floor(this.state.cdiscount * 1000) / 100}%</span>
+                                </td>
                             </tr>
                             <tr className='bd-lightgrey'>
                                 <td>充值金额</td>

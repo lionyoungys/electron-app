@@ -49,7 +49,6 @@ export default class extends React.Component {
     onSearch() {
         axios.post(api.U('operate_search'),api.D({token:this.props.token,status:state,clean_sn:this.state.value}))
         .then(response => {
-            //api.V(response.data) && this.query();
             if (api.V(response.data)) {
                 this.query();
             } else {
@@ -59,12 +58,12 @@ export default class extends React.Component {
                     let index2 = this.state.data[index].id.inArray(this.state.checked);
                     if (-1 === index2) {
                         this.state.checked.push(this.state.data[index].id);
-                        this.setState({checked:this.state.checked,value:''});
+                        this.setState({checked:this.state.checked});
                     }
                 } else {
-                    this.setState({value:''});
                     alert(response.data.msg);
                 }
+                this.setState({value:''});
             }
         });
     }
@@ -192,6 +191,7 @@ export default class extends React.Component {
                             placeholder='请输入或扫描衣物编码'
                             value={this.state.value}
                             onChange={value => this.setState({value:value})}
+                            autoFocus={true}
                             callback={this.onSearch}
                         />
                     </div>
