@@ -25,7 +25,9 @@ class Main extends Component {
             checkedMenu:'offline',    //当前选中的菜单
             checkedTab:'take',          //当前选中的tab
             show:false,               //操作选项是否显示
-            windows:{take:{title:'收件', view:'take', param:null}},    //窗口列表 key:{title:'tab内容',view:'界面路由',param:'携带参数'}
+            windows:{
+                take:{title:'收件', view:'take', param:null,history:[{view:'take', param:null}],forward:0}
+            },    //窗口列表 key:{title:'tab内容',view:'界面路由',param:'携带参数',history:[{view:历史视图,param:历史参数}],forward:当前历史索引}
             token:localStorage.getItem('token'),
             merchant:{},    //商户信息
             employees:[],    //职员列表
@@ -40,6 +42,7 @@ class Main extends Component {
         this.hoverEmployee = this.hoverEmployee.bind(this);
         this.getEmployeeList = this.getEmployeeList.bind(this);
         this.onRef = this.onRef.bind(this);
+        this.handleHistory = this.handleHistory.bind(this);
     }
 
     componentDidMount() {
@@ -52,12 +55,14 @@ class Main extends Component {
     changeView(e) {
         let view = null,    //视图
             param = null,    //视图携带参数
+            option = null,
             checkedTab = this.state.checkedTab;    //当前选中的tab
 
         if ('object' === typeof e.target) {    //视图及参数赋值
             let data = e.target.dataset;
             if ('string' === typeof data.view) view = data.view;
             if ('undefined' !== typeof data.param) param = data.param;
+            if ('string' === typeof data.option) option = data.option;
         } else {
             if ('string' === typeof e.view) view = e.view;
             if ('undefined' !== typeof e.param) param = e.param;
@@ -69,15 +74,39 @@ class Main extends Component {
             routeIndex = view.inObjectArray(checkedMenu, 'key');    //判断跳转路由是否在当前视图列表中
         if (-1 === routeIndex) {    //跳转路由不存在当前视图列表中为窗口内跳转
             if (this.state.windows[checkedTab].view === view) return;    //选中的窗口与窗口内界面跳转的视图相同时,停止动作
+            //判断跳转视图是否存在于历史缓存中，若不存在则追加进历史视图记录
+            let historyIndex = view.inObjectArray(this.state.windows[checkedTab].history, 'view');
+            if (-1 === historyIndex) {
+                this.state.windows[checkedTab].history.push({view:view, param:param});
+                ++this.state.windows[checkedTab].forward;
+            } else {    //已存在时定位当前视图的历史索引
+                this.state.windows[checkedTab].forward = historyIndex;
+                this.state.windows[checkedTab].history[historyIndex].param = param;
+            }
             this.state.windows[checkedTab].view = view;
             this.state.windows[checkedTab].param = param;
             this.setState({windows:this.state.windows});
         } else {    //跳转路由存在当前视图列表中为新建tab跳转
             if ('undefined' === typeof this.state.windows[view]) {    //若窗口列表中不存在该视图,新建tab创建视图窗口
                 if (tool.count( this.state.windows ) >= 8) return alert('最多只能打开8个子窗口');    //限制最多8个窗口
-                this.state.windows[view] = {title:checkedMenu[routeIndex].value, view:view, param:param};
+                this.state.windows[view] = {
+                    title:checkedMenu[routeIndex].value,
+                    view:view,
+                    param:param,
+                    history:[{view:view, param:param}],    //历史记录
+                    forward:0                              //视图索引
+                };
                 this.setState({checkedTab:view, windows:this.state.windows});
-            } else if (this.state.windows[view].view !== view) {    //当窗口列表存在该视图,单视图内容不同时,为界面内返回跳转
+            } else if (this.state.windows[view].view !== view && 1 != option) {    //当窗口列表存在该视图,单视图内容不同时,且来源不为菜单选项时,为界面内返回跳转
+                //历史记录迭代对象
+                let historyIndex = view.inObjectArray(this.state.windows[view].history, 'view');
+                if (-1 === historyIndex) {    //判断跳转视图是否存在于历史缓存中，若不存在则追加进历史视图记录
+                    this.state.windows[view].history.push({view:view,param:param});
+                    ++this.state.windows[view].forward;
+                } else {    //已存在时定位当前视图的历史索引
+                    this.state.windows[view].forward = historyIndex;
+                    this.state.windows[checkedTab].history[historyIndex].param = param;
+                }
                 this.state.windows[view].view = view;
                 this.state.windows[view].param = param;
                 this.setState({windows:this.state.windows});
@@ -133,6 +162,28 @@ class Main extends Component {
     }
     // 获取子窗口对象
     onRef(ref) {this.children[this.state.checkedTab] = ref}
+    //历史记录前进后退
+    handleHistory(e) {
+        let history = this.state.windows[this.state.checkedTab].history;
+        let forward = this.state.windows[this.state.checkedTab].forward;
+        if (1 == e.target.dataset.forward) {
+            if (forward < ( history.length - 1 )) {
+                ++forward;
+                this.state.windows[this.state.checkedTab].view = history[forward].view;
+                this.state.windows[this.state.checkedTab].param = history[forward].param;
+                this.state.windows[this.state.checkedTab].forward = forward;
+                this.setState({windows:this.state.windows});
+            }
+        } else {
+            if (forward > 0) {
+                --forward;
+                this.state.windows[this.state.checkedTab].view = history[forward].view;
+                this.state.windows[this.state.checkedTab].param = history[forward].param;
+                this.state.windows[this.state.checkedTab].forward = forward;
+                this.setState({windows:this.state.windows});
+            }
+        }
+    }
 
     render() {
         let menuList = [],
@@ -154,6 +205,7 @@ class Main extends Component {
             <div
                 key={obj.key}
                 data-view={obj.key}
+                data-option='1'
                 style={{backgroundImage:`url(img/${obj.key}.png)`}}
                 onClick={this.changeView}
             >{obj.value}</div>
@@ -211,6 +263,52 @@ class Main extends Component {
                                 {employees}
                             </div>
                         </div>
+                    </div>
+                    <div className='menu-control'>
+                        <i
+                            className={
+                                `menu-control-back
+                                ${
+                                    tool.isSet(this.state.checkedTab)
+                                    &&
+                                    this.state.windows[this.state.checkedTab].forward > 0
+                                    ? 
+                                    ''
+                                    :
+                                    ' disabled'
+                                }`
+                            }
+                            data-forward='0'
+                            onClick={this.handleHistory}
+                        ></i>
+                        <i
+                            className={
+                                `menu-control-forward
+                                ${
+                                    tool.isSet(this.state.checkedTab)
+                                    &&
+                                    this.state.windows[this.state.checkedTab].forward < (this.state.windows[this.state.checkedTab].history.length - 1)
+                                    ? 
+                                    ''
+                                    :
+                                    ' disabled'
+                                }`
+                            }
+                            data-forward='1'
+                            onClick={this.handleHistory}
+                        ></i>
+                        <i
+                            className='menu-control-refresh'
+                            onClick={() => {
+                                tool.isSet(this.state.checkedTab)
+                                &&
+                                'undefined' !== typeof this.children[this.state.checkedTab]
+                                &&
+                                'function' === typeof this.children[this.state.checkedTab].query
+                                &&
+                                this.children[this.state.checkedTab].query();
+                            }}
+                        ></i>
                     </div>
                 </div>
                 <div id='option'>{optionList}</div>

@@ -102,7 +102,7 @@ export default class extends React.Component {
                     <div className='m-box balance'>
                         <div><div>{tabs}</div><div>账户余额：<span>&yen;{state.balance}</span></div></div>
                         {html}
-                        <div className='m-blue' onClick={this.download}>下载</div>
+                        <div className='m-blue'><span onClick={this.download}>下载</span></div>
                     </div>
                 </div>
             </div>

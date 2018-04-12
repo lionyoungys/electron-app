@@ -107,11 +107,40 @@ table{border-collapse: collapse;}
     font-weight: bold;
 }
 #menu>.menu-list>div:last-child{margin-right: 0}
+/* 中间窗口内控制按钮 */
+#menu>.menu-control{
+    float: right;
+    height: 100%;
+    line-height: 34px;
+}
+.menu-control-back,
+.menu-control-forward,
+.menu-control-refresh{
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    margin-right: 16px;
+    vertical-align: middle;
+}
+.menu-control-refresh{margin-right: 27px;}
+.menu-control-back{background-image: url(img/back.png)}
+.menu-control-back:hover{background-image: url(img/back-light.png)}
+.menu-control-forward{background-image: url(img/forward.png)}
+.menu-control-forward:hover{background-image: url(img/forward-light.png)}
+.menu-control-refresh{background-image: url(img/refresh.png)}
+.menu-control-refresh:hover{background-image: url(img/refresh-light.png)}
+.menu-control-back.disabled{background-image: url(img/back-disabled.png)}
+.menu-control-back.disabled:hover{background-image: url(img/back-disabled.png)}
+.menu-control-forward.disabled{background-image: url(img/forward-disabled.png)}
+.menu-control-forward.disabled:hover{background-image: url(img/forward-disabled.png)}
 /* 右侧员工信息 */
 #menu>.menu-employee{
     float: right;
     height: 100%;
-    min-width: 170px;
+    margin-right: 12px;
     line-height: 34px;
     padding-left: 20px;
     background: url(img/employee-icon.png) no-repeat left center;
@@ -122,13 +151,13 @@ table{border-collapse: collapse;}
     padding-top: 34px;
     cursor: default;
     position: absolute;
-    top:0;right: 0;
+    top:0;left: 0;
     z-index: 10;
 }
 .menu-employee>.employee-handle>div{
-    width: 188px;
+    min-width: 170px;
     position: absolute;
-    top: 34px;left: 0;
+    top: 34px;right: 0;
     border: 1px solid #e1e4e5;
     background: #fff;
 }
