@@ -23,6 +23,12 @@
 .take-off-order{
     padding-left: 12px;
     text-align: left;
+    background-color: #f5f5f5;
 }
+.e-table>tbody>tr.take-off-margin{
+    height: 10px;
+}
+.e-table>tbody>tr.take-off-margin>td{border: none}
+.e-table>tbody:first-of-type>tr.take-off-margin{display: none}
 .take-off-order>:first-child{margin-right: 52px}
 .take-off-order>:nth-child(2){margin-right: 40px}

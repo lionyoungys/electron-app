@@ -11,6 +11,7 @@
 .member>:last-child>div:nth-child(4){background-color: #6394e4;background-image: url(img/member-4.png)}
 .member>:last-child>div:nth-child(5){background-color: #faa537;background-image: url(img/member-5.png)}
 .member>:last-child>div:nth-child(6){background-color: #40d355;background-image: url(img/member-6.png)}
+.member>:last-child>div:nth-child(7){background-color: #ccc}
 .member>:last-child>div{
     margin: 0 10px 10px 0;
     width: 200px;

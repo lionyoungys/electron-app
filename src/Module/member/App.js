@@ -38,6 +38,7 @@ export default class extends Component{
                         <div onClick={() => this.setState({addMemberShow:true})}>新增会员</div>
                         <div onClick={() => this.setState({otherShow:true,otherType:0})}>会员信息变更</div>
                         <div onClick={() => this.setState({otherShow:true,otherType:1})}>会员充值</div>
+                        <div onClick={this.props.changeView} data-view='change_card'>老用户换卡</div>
                     </div>
                 </div>
                 <AddMember 

@@ -32,7 +32,6 @@ export default class extends React.Component{
             'Alipay_AopF2F'    //支付宝扫码付
         ];
         this.handleSex = this.handleSex.bind(this);
-        // this.handleCardChecked = this.handleCardChecked.bind(this);
         this.onConfirm = this.onConfirm.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
@@ -46,16 +45,8 @@ export default class extends React.Component{
             theme:'#ff6e42',
             done:(value => this.setState({birthday:value}))
         });
-        // axios.post(api.U('merchant_cards'),api.D({token:this.props.token}))
-        // .then(response => {
-        //     api.V(response.data) && this.setState({cards:response.data.result,amount:response.data.result[0].price});
-        // });
     }
     handleSex(value, checked) {!checked && this.setState({sex:value})}
-    // handleCardChecked(e) {
-    //     let index = e.target.dataset.index;
-    //     (this.state.cardChecked != index) && this.setState({cardChecked:index,amount:this.state.cards[index].price});
-    // }
     handleClick() {
         if (
             '' == this.state.uname
@@ -72,6 +63,8 @@ export default class extends React.Component{
     }
     submit(authCode) {
         authCode = tool.isSet(authCode) ? authCode : '1';
+        let discount = this.state.discount;
+        if (1 > discount || 10 < discount) return alert('折扣必须大于1且小于10');
         axios.post(
             api.U('member_add1_0_6'),
             api.D({
@@ -82,8 +75,7 @@ export default class extends React.Component{
                 birthday:this.state.birthday,
                 reg_from:4,
                 auth_code:authCode,
-                // cid:this.state.cards[this.state.cardChecked].id,
-                discount:this.state.discount,
+                discount:discount,
                 amount:this.state.amount,
                 remark:this.state.remark,
                 addr:this.state.addr,
@@ -112,18 +104,6 @@ export default class extends React.Component{
     render() {
         let props = this.props,
             state = this.state;
-        let html = this.state.cards.map((obj, index) =>
-            <div
-                key={obj.id}
-                data-index={index}
-                className={'mau-option' + (this.state.cardChecked == index ? ' checked' : '')}
-                onClick={this.handleCardChecked}
-            >
-                <div data-index={index}>{obj.card_name}</div>
-                <div data-index={index}>{obj.price}<span>元</span></div>
-                <div data-index={index}>{obj.discount}折</div>
-            </div>
-        );
         return (
             <div>
                 <div className='m-container'>
@@ -149,7 +129,13 @@ export default class extends React.Component{
                             </tr>
                             <tr className='bd-lightgrey'>
                                 <td>折扣</td>
-                                <td><input type='text' value={this.state.discount} onChange={e => this.setState({discount:e.target.value})}/>&nbsp;折</td>
+                                <td>
+                                    <input type='text' value={this.state.discount} onChange={e => {
+                                        let value = e.target.value;
+                                        if (isNaN(value) || value > 10 || value.toString().length > 4) return;
+                                        this.setState({discount:value});
+                                    }}/>&nbsp;折&emsp;&emsp;&emsp;<span className='e-orange'>打折后:原价&times;{Math.floor(this.state.discount * 1000) / 100}%</span>
+                                </td>
                             </tr>
                             <tr className='bd-lightgrey'>
                                 <td>充值金额</td>
@@ -165,8 +151,6 @@ export default class extends React.Component{
                             </tr>
                         </tbody>
                     </table>
-                    {/* <div style={{fontSize:'18px',marginBottom:'20px'}}>会员类型</div> */}
-                    {/* <div className='mau-box'>{html}</div> */}
                     <Gateway checked={this.state.checked} callback={value => this.setState({checked:value})}/>
                     <div style={{marginTop:'20px'}}>
                         <input type='button' className='m-btn confirm large' value='立即支付' onClick={this.handleClick}/>

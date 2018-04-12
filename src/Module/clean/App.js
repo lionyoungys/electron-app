@@ -8,6 +8,7 @@ import Search from '../UI/search/App';
 import OptionBox from '../../Elem/OptionBox';        //新增
 import ImageLightbox from '../../Elem/ImageLightbox';   //新增
 import UploadToast from '../UI/upload-toast/App';    //新增
+import Empty from '../../Elem/Empty';
 import './App.css';
 const state = 3, word = '清洗';
 
@@ -69,12 +70,12 @@ export default class extends React.Component {
                     let index2 = this.state.data[index].id.inArray(this.state.checked);
                     if (-1 === index2) {
                         this.state.checked.push(this.state.data[index].id);
-                        this.setState({checked:this.state.checked, value:''});
+                        this.setState({checked:this.state.checked});
                     }
                 } else {
-                    this.setState({value:''});
                     alert(response.data.msg);
                 }
+                this.setState({value:''});
             }
         });
     }
@@ -232,6 +233,7 @@ export default class extends React.Component {
                             placeholder='请输入或扫描衣物编码'
                             value={this.state.value}
                             onChange={value => this.setState({value:value})}
+                            autoFocus={true}
                             callback={this.onSearch}
                         />
                     </div>
@@ -273,13 +275,18 @@ class Team extends React.Component {
 
     render() {
         if (!this.props.show) return null;
-        let html = this.props.data.map(obj =>
-            <div
-                key={obj.accept_id}
-                className={this.props.checked == obj.accept_id ? 'checked' : null}
-                onClick={() => this.props.onChecked(obj.accept_id)}
-            >{obj.mname}</div>
-        );
+        let html;
+        if (this.props.data.length < 1) {
+            html = <Empty show={true}/>
+        } else {
+            html = this.props.data.map(obj =>
+                <div
+                    key={obj.accept_id}
+                    className={'clean-team-row' + (this.props.checked == obj.accept_id ? ' checked' : '')}
+                    onClick={() => this.props.onChecked(obj.accept_id)}
+                >{obj.mname}</div>
+            );
+        }
         return (
             <div className='clean-team'>
                 <div>请选择合作商家</div>

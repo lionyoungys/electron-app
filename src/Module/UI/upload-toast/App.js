@@ -19,10 +19,8 @@ export default class extends React.Component {
             filters: [{name: 'Images', extensions: ['jpg','png','jpeg','bmp','JPG','PNG','JPEG','BMP']}],
             properties: ['openFile']
         },(filePaths) => {
-            if (tool.isSet(filePaths)) {
-                let base64 = fs.readFileSync(filePaths[0]).toString('base64'),
-                    mime = 'image/' + filePaths[0].ext();
-                this.props.onChoose( base64.toDataBase64(filePaths[0].ext()), base64.base64toBlob(mime) );
+            if (filePaths instanceof Array && 'function' === typeof this.props.onChoose) {
+                this.props.onChoose(filePaths[0], filePaths[0].filePathToBlob() );
             }
         });
     }

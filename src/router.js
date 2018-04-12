@@ -45,6 +45,7 @@ import MsgPlatgorm from './Module/msg_platform/App';
 import MsgDetail from './Module/msg_detail/App';
 import MemberDetail from './Module/member_detail/App';
 import Done from './Module/done/App';
+import ChangeCard from './Module/change_card/App';
 
 
 import InfoEditor from './manage/info_editor';
@@ -131,7 +132,7 @@ export const view = {
     balance:Balance,    //财务对账
     member:Member,    //会员管理
     member_spend:MemberSpend,    //用户消费
-    member_recharge:MemberRecharge,    //会员充值
+    member_recharge:MemberRecharge,    //会员充值报表
     member_balance:MemberBalance,    //会员余额
     statistics:Statistics,        //业务统计
     employee:Employee,       //员工管理
@@ -163,6 +164,7 @@ export const view = {
     msg_detail:MsgDetail,             //平台消息详情
     member_detail:MemberDetail,    //会员详情
     done:Done,
+    change_card:ChangeCard,    //换卡界面
 
 
     info_editor:InfoEditor,    //信息编辑

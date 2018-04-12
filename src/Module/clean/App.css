@@ -47,9 +47,10 @@
 .clean-team>:nth-child(2){
     height: 200px;
     overflow-y: auto;
+    position: relative;
     padding: 10px;
 }
-.clean-team>:nth-child(2)>div{
+.clean-team>:nth-child(2)>.clean-team-row{
     background-color: #eef8ff;
     margin-bottom: 10px;
     height: 30px;
@@ -58,7 +59,7 @@
     overflow: hidden;
     cursor: pointer;
 }
-.clean-team>:nth-child(2)>div.checked{
+.clean-team>:nth-child(2)>.clean-team-row.checked{
     color: red;
     background-color: #ffe9e9;
 

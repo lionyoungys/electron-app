@@ -4,7 +4,6 @@
  */
 
 const {dialog} = window.require('electron').remote;
-const fs = window.require('fs');
 import React from 'react';
 import Radio from '../UI/radio/App';
 import './App.css';
@@ -43,26 +42,24 @@ export default class extends React.Component {
     upload() {
         if (this.state.data.back_img.length > 2) return;
         dialog.showOpenDialog({
-            filters: [{name: 'Images', extensions: ['jpg','png','jpeg','JPG','PNG','JPEG']}],
+            filters: [{name: 'Images', extensions: ['jpg','png','jpeg','bmp','JPG','PNG','JPEG','BMP']}],
             properties: ['openFile']
         },(filePaths) => {
-            if (tool.isSet(filePaths)) {
-                let base64 = fs.readFileSync(filePaths[0]).toString('base64'),
-                    mime = 'image/' + filePaths[0].ext();
-                axios.post(
-                    api.U('go_back_upload'), 
-                    api.D({
+            if (filePaths instanceof Array) {
+                api.post(
+                    'go_back_upload',
+                    {
                         token:this.props.token,
                         itemid:this.props.param.id,
-                        image:base64.base64toBlob(mime)
-                    })
-                )
-                .then(response => {
-                    if (api.V(response.data)) {
-                        this.state.data.back_img.push(response.data.result);
-                        this.setState({data:this.state.data});
+                        image:filePaths[0].filePathToBlob()
+                    },
+                    (response, verify) => {
+                        if (verify) {
+                            this.state.data.back_img.push(response.data.result);
+                            this.setState({data:this.state.data});
+                        }
                     }
-                });
+                );
             }
         });
     }

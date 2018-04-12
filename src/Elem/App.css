@@ -19,7 +19,7 @@
 }
 /* 空数据组件样式 */
 .empty{
-    width: 160px;
+    width: 154px;
     height: 20px;
     font-size: 14px;
     color: #999;
@@ -28,7 +28,7 @@
     background: url(img/empty.png) no-repeat center top;
     position: absolute;
     top: 50%;left: 50%;
-    margin: -58px 0 0 -80px;   
+    margin: -58px 0 0 -77px;   
 }
 
 /* 图片光箱组件样式 */

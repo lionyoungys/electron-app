@@ -169,12 +169,12 @@ export default class extends React.Component {
             this.setState({images:this.state.images});
         }
     }
-    handleImageChoose(base64) {
+    handleImageChoose(path) {
         if (null !== this.state.handleIndex) {
             if (tool.isSet(this.state.images[this.state.handleIndex])) {
-                this.state.images[this.state.handleIndex].push(base64);
+                this.state.images[this.state.handleIndex].push(path);
             } else {
-                this.state.images[this.state.handleIndex] = [base64];
+                this.state.images[this.state.handleIndex] = [path];
             }
             this.setState({images:this.state.images});
         }
@@ -187,7 +187,7 @@ export default class extends React.Component {
         let request = [],
             requestData = {token:this.props.token,uid:this.props.param},
             temp = {},
-            tempImage,tempLen,tempArr;
+            tempImage,tempLen;
         for (let i = 0;i < len;++i) {
             if (!tool.isSet(data[i].clean_sn)) return alert('尚有项目未填写衣物编码!');
             if (!tool.isSet(data[i].take_time)) return alert('尚有项目选择取衣时间');
@@ -207,8 +207,7 @@ export default class extends React.Component {
             };
             tempLen = tempImage.length;
             for (let j = 0;j < tempLen;++j) {
-                tempArr = tempImage[j].toBase64();
-                requestData[i + '_' + j] = tempArr[1].base64toBlob(tempArr[0]);
+                requestData[i + '_' + j] = tempImage[j].filePathToBlob();
             }
             request.push(temp);
         }

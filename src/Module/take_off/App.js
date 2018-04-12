@@ -137,16 +137,17 @@ class Order extends Component{
         );
         return (
             <tbody title={data.remark}>
+                <tr className='take-off-margin'><td colSpan='7'></td></tr>
                 <tr><td colSpan='7' className='take-off-order'>
                     <span>订单号：{data.ordersn}</span>
                     <span>订单状态：{1 == data.pay_state ? '已支付' : '未支付'}</span>
                     <button
                         type='button'
-                        className='e-btn confirm small'
+                        className={`e-btn small ${1 == data.pay_state ? 'confirm' : 'editor'}`}
                         data-id={data.id}
                         data-state={data.pay_state}
                         onClick={this.props.onTakePayRequest}
-                    >{1 == data.pay_state ? '取衣结单' : '立即付款'}</button>
+                    >{1 == data.pay_state ? '取衣结单' : '立即支付'}</button>
                 </td></tr>
                 {html}
             </tbody>

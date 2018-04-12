@@ -5,7 +5,7 @@
 import React from 'react';
 import './App.css';
 
-//searchbar placeholder  [callback=回调操作]
+//searchbar placeholder  [callback=回调操作]    autoFocus
 export default class extends React.Component {
     constructor(props) {
         super(props);
@@ -32,6 +32,7 @@ export default class extends React.Component {
                     value={value}
                     ref={input => this.input = input}
                     onChange={this.handleChange}
+                    autoFocus={this.props.autoFocus}
                 />
                 <button type='button' onClick={() => this.props.callback(this.state.value)}>
                     <i className="fa fa-search"></i>
