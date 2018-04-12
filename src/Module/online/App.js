@@ -212,7 +212,6 @@ export default class extends React.Component {
                     </td>
                 );
             case 'cleaning':
-                
                 return (
                     <td>
                         <div>{obj.all_put ? '已全部上挂' : '未上挂'}</div>
