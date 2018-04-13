@@ -62,7 +62,12 @@ class Login extends Component {
         this.onLoginRequest = this.onLoginRequest.bind(this);    //登录事件      
     }
     //初始化获取验证码
-    componentDidMount() {this.captcha()}
+    componentDidMount() {
+        this.captcha();
+        this.input.onkeydown = ( e => {'Enter' === e.code && this.onLoginRequest()} );
+        this.input2.onkeydown = ( e => {'Enter' === e.code && this.onLoginRequest()} );
+        this.input3.onkeydown = ( e => {'Enter' === e.code && this.onLoginRequest()} );
+    }
 
     captcha() {
         axios.get(api.U('captcha'))
@@ -99,6 +104,10 @@ class Login extends Component {
                 console.log(result);
                 if (!api.V(result)) {
                     //验证错误时，提示登录信息错误
+                    if (101 == result.code) {
+                        this.setState({code:''});
+                        this.input3.focus();
+                    }
                     this.props.notice(result.msg);
                     this.captcha();                 
                 } else {
@@ -129,6 +138,7 @@ class Login extends Component {
                     <input 
                         type="text" 
                         value={state.mobile} 
+                        ref={input => this.input = input}
                         autoFocus 
                         maxLength="11"
                         onChange={e => this.setState({mobile:e.target.value.trim()})}
@@ -139,6 +149,7 @@ class Login extends Component {
                     <label className='label'>密&emsp;码：</label>
                     <input 
                         type="password" 
+                        ref={input => this.input2 = input}
                         value={state.password}
                         onChange={e => this.setState({password:e.target.value.trim()})}
                         className='input'
@@ -149,6 +160,7 @@ class Login extends Component {
                     <input 
                         type="text" 
                         value={state.code}
+                        ref={input => this.input3 = input}
                         onChange={e => this.setState({code:e.target.value.trim()})}
                         className='input short'
                     />

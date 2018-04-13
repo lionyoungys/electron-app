@@ -19,7 +19,7 @@ export default class extends React.Component {
     handleChange(e) {
         let value = e.target.value;
         this.setState({value:value});
-        tool.isSet(this.props.onChange) && this.props.onChange(value);   
+        'function' === typeof this.props.onChange && this.props.onChange(value);
     }
     
     render() {

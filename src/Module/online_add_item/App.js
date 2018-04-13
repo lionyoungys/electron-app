@@ -178,7 +178,11 @@ export default class extends React.Component {
         }
         axios.post(api.U('item_submit'), api.D({token:this.props.token,oid:this.props.param,items:JSON.stringify(request)}))
         .then(response => {
-            api.V(response.data) && this.props.changeView({view:'online',param:{checked:'to_take'}});
+            if (api.V(response.data)) {
+                this.props.changeView({view:'online',param:{checked:'to_take'}});
+            } else {
+                alert(response.data.msg);
+            }
         });
     }
 
