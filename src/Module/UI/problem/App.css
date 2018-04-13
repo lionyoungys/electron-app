@@ -1,76 +1,67 @@
 .problem{
-    width: 700px;
-    height: 580px;
+    width: 560px;
+    height: 472px;
     background-color: #fff;
     position: fixed;
     top: 50%;left: 50%;
-    margin: -290px 0 0 -350px;
-    border: 1px solid #3596e3;
+    margin: -236px 0 0 -280px;
+    border: 1px solid #82b6e3;
     border-radius: 5px;
 }
 .problem>div{-webkit-box-sizing: border-box;box-sizing: border-box;width: 100%}
 .problem>div:first-child{
-    background: #3596e3;
+    background: #82b6e3;
     color: #fff;
-    height: 40px;
-    line-height: 40px;
-    font-size: 18px;
+    height: 30px;
+    line-height: 30px;
     position: relative;
     padding: 0 10px;
 }
-.problem>div:first-child>i.fa-times{
-    position: absolute;
-    top: 6px;right: 10px;
-    font-size: 26px;
-    color: #fff;
-}
-.problem>div:first-child>i.fa-times:hover{background: #2cd3d2;cursor: default}
 .problem>div:nth-child(2){
-    height: 390px;
-    padding: 10px;
+    height: 290px;
+    padding: 7px;
     overflow-y: auto;
-    display:-webkit-flex;display: flex;
+    display: flex;
+    display:-webkit-flex;
     flex-wrap: wrap;
     align-content: flex-start;
 }
 .problem>div:nth-child(2)>div{
-    width: 164.2px;
-    height: 70px;
-    margin: 0 6px 6px 0;
-    -webkit-box-sizing: border-box;box-sizing: border-box;
-    background-color: #fc9;
-    padding: 6px;
+    width: 128px;
+    height: 52px;
+    line-height: 52px;
+    margin: 0 5px 5px 0;
+    background-color: #f1eeee;
     text-align: center;
-    line-height: 58px;
-    cursor: pointer;
+    cursor: default;
 }
-.problem>div:nth-child(2)>div:hover{background-color: #f93}
+.problem>div:nth-child(2)>div.checked{background-color: #54acf2}
+.problem>div:nth-child(2)>div:hover{background-color: #c4e3fc}
 .problem>div:nth-child(2)>div:nth-child(4n+0){margin-right: 0}
 
 .problem>div:nth-child(3){
-    margin: 16px 0;
-    height: 28px;
-    line-height: 28px;
-    display: -webkit-flex;display: flex;
+    margin: 9px 0;
+    height: 23px;
+    line-height: 23px;
+    display: -webkit-flex;
+    display: flex;
 }
-.problem>div:nth-child(3)>div{height: 100%;line-height: 28px}
-.problem>div:nth-child(3)>:first-child{width: 80px;text-align: center}
-.problem .m-tag-box{margin-right: 20px}
-.problem .m-tag-box:last-child{margin-right: 0}
-.problem>div:last-child{
-    height: 75px;
-    display: -webkit-flex;display: flex;
-}
-.problem>div:last-child>:first-child{width: 80px}
-.problem>div:last-child>:last-child{
-    display: -webkit-inline-flex;display: inline-flex;
-    align-items: flex-end;
-}
-.problem>div:last-child>:last-child>:first-child{
-    width: 466px;
-    height: 100%;
-    box-sizing: border-box;-webkit-box-sizing: border-box;
+.problem>div:nth-child(3)>div{height: 100%;line-height: 23px}
+.problem>div:nth-child(3)>:first-child{width: 60px;text-align: center}
+.problem .e-tag{margin-right: 14px}
+.problem .e-tag:last-child{margin-right: 0}
+.problem>div:nth-child(4){
+    height: 60px;
+    width: 532px;
+    margin: 0 auto 12px;
     position: relative;
-    margin-right: 30px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
-.problem>div:last-child>:last-child>:first-child>textarea{width: 100%;height: 100%;resize: none}
+.problem>div:nth-child(4)>textarea{width: 100%;height: 100%;resize: none;outline: none}
+.problem>div:last-child{
+    height: 39px;
+    line-height: 39px;
+    background: #f7fbfb;
+    text-align: center;
+}

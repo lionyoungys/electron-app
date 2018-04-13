@@ -123,8 +123,6 @@ export default class extends React.Component {
         this.setState({amount:amount, itemAmount:itemAmount});
     }
     handleTakeTime(date, time) {
-        console.log(date);
-        console.log(time);
         if (null !== this.state.handleIndex) {
             this.state.data[this.state.handleIndex].take_time = date + ' ' + time;
             this.setState({data:this.state.data, takeTimeShow:false});
@@ -332,7 +330,7 @@ export default class extends React.Component {
                     <div className='m-box'>
                         <button type='button' className='m-btn confirm middle' data-type='take_pay' onClick={this.handleSubmit}>取衣付款</button>
                         &emsp;
-                        <button type='button' className='m-btn confirm middle' data-type='pay' onClick={this.handleSubmit}>立即付款</button>
+                        <button type='button' className='m-btn editor middle' data-type='pay' onClick={this.handleSubmit}>立即付款</button>
                     </div>
                 </div>
                 <Clothes

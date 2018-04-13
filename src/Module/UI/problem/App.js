@@ -61,37 +61,32 @@ export default class extends React.Component {
         let placeholder = ( '也可输入具体' + title ),
             valKey = ( this.props.type + 'Val' ),
             checked = this.state[this.props.type].map( obj => 
-                <span className='m-tag-box' key={obj.key}>
+                <span className='e-tag' key={obj.key}>
                     {obj.value}
-                    <i className='m-cancel-tag' data-key={obj.key} onClick={this.handleCancel}></i>
+                    <i className='e-tag-del' data-key={obj.key} onClick={this.handleCancel}></i>
                 </span>
             );
         return (
             <div className='problem'>
-                <div>{title}<i className="fa fa-times" onClick={this.handleClose}></i></div>
+                <div>{title}</div>
                 <div>{options}</div>
                 <div>
                     <div>已选择:</div>
                     <div>{checked}</div>
                 </div>
                 <div>
-                    <div></div>
-                    <div>
-                        <div>
-                            <textarea
-                                placeholder={placeholder}
-                                value={this.state[valKey]}
-                                maxLength='20'
-                                onChange={e => this.setState({[valKey]:e.target.value})}
-                            ></textarea>
-                            <i className='m-counter'>{this.state[valKey].length}/20</i>
-                        </div>
-                        <button
-                            type='button'
-                            className='m-btn m-btn-confirm m-btn-middle'
-                            onClick={this.handleConfirm}
-                        >确定</button>
-                    </div>
+                    <textarea
+                        placeholder={placeholder}
+                        value={this.state[valKey]}
+                        maxLength='20'
+                        onChange={e => this.setState({[valKey]:e.target.value})}
+                    ></textarea>
+                    <i className='e-counter'>{this.state[valKey].length}/20</i>
+                </div>
+                <div>
+                    <button type='button' className='e-btn cancel' onClick={this.handleClose}>取消</button>
+                    &emsp;&emsp;&emsp;&emsp;
+                    <button type='button' className='e-btn confirm' onClick={this.handleConfirm}>确定</button>
                 </div>
             </div>
         );

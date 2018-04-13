@@ -1,48 +1,48 @@
 .clothes{
-    width: 700px;
-    height: 520px;
+    width: 560px;
+    height: 472px;
     position: fixed;
     top: 50%;left: 50%;
-    margin: -260px 0 0 -350px;
-    border: 1px solid #3596e3;
+    margin: -236px 0 0 -280px;
+    border: 1px solid #82b6e3;
     border-radius: 5px;
     background-color: #fff;
 }
 .clothes>div{-webkit-box-sizing: border-box;box-sizing: border-box;width: 100%}
 .clothes>div:first-child{
-    background: #3596e3;
+    background: #82b6e3;
     color: #fff;
-    height: 40px;
-    line-height: 40px;
-    font-size: 18px;
+    height: 30px;
+    line-height: 30px;
     position: relative;
     padding: 0 10px;
 }
-.clothes>div:first-child>i.fa-times{
+.clothes>div:first-child>.close13{
+    width: 13px;
+    height: 13px;
+    background: url(img/close13.png) no-repeat center center;
     position: absolute;
-    top: 6px;right: 10px;
-    font-size: 26px;
-    color: #fff;
+    top: 8px;right: 10px;
 }
-.clothes>div:first-child>i.fa-times:hover{background: #2cd3d2;cursor: default}
 .clothes>div:last-child{
-    height: 480px;
-    padding: 10px;
+    height: 442px;
+    padding: 7px;
     overflow-y: auto;
-    display:-webkit-flex;display: flex;
+    display: flex;
+    display:-webkit-flex;
     flex-wrap: wrap;
     align-content: flex-start;
 }
 .clothes>div:last-child>div{
-    width: 164.2px;
-    height: 70px;
-    margin: 0 6px 6px 0;
-    -webkit-box-sizing: border-box;box-sizing: border-box;
-    background-color: #fc9;
-    padding: 6px;
+    width: 108px;
+    height: 32px;
+    margin: 0 5px 5px 0;
+    background-color: #f1eeee;
+    padding: 10px;
     position: relative;
+    cursor: default;
 }
-.clothes>div:last-child>div:hover{background-color: #f93}
+.clothes>div:last-child>div:hover{background-color: #c4e3fc}
 .clothes>div:last-child>div:nth-child(4n+0){margin-right: 0}
 .clothes>div:last-child>div>:first-child{display:block;width: 100%;height: auto;word-break: break-all}
-.clothes>div:last-child>div>:last-child{position: absolute;bottom: 6px;right: 6px}
+.clothes>div:last-child>div>:last-child{position: absolute;bottom: 10px;right: 10px}

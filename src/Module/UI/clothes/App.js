@@ -23,7 +23,7 @@ export default class extends React.Component {
         );
         return (
             <div className='clothes'>
-                <div>{this.props.title}<i className="fa fa-times" onClick={this.props.onCloseRequest}></i></div>
+                <div>{this.props.title}<i className="close13" onClick={this.props.onCloseRequest}></i></div>
                 <div>{options}</div>
             </div>
         );
