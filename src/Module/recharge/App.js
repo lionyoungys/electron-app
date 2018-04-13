@@ -63,7 +63,7 @@ export default class extends React.Component{
                 amount:this.state.amount,
                 give:this.state.give,
                 auth_code:authCode,
-                discount:cdiscount,
+                discount:discount,
                 gateway:this.gateway[this.state.checked]
             })
         )

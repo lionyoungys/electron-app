@@ -37,7 +37,7 @@ export default class extends React.Component {
     render() {
         return (
             <div className='update'>
-                <div>{this.state.hasUpdate ? `发现新版本：${this.state.version}` : `当前版本号为${this.state.version}已经是最新版本`}</div>
+                <div>{this.state.hasUpdate ? `发现新版本：${this.state.version}` : `当前版本号为${version}已经是最新版本`}</div>
                 {
                     this.state.hasUpdate 
                     && 
