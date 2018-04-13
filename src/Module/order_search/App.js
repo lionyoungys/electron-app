@@ -112,7 +112,16 @@ export default class extends React.Component {
                     </td>
                     <td>
                         {obj.items.length}件<br/>
-                        &yen;{obj.amount}
+                        &yen;{
+                            (Math.floor(obj.amount * 100)
+                            +
+                            Math.floor(obj.freight_price * 100)
+                            +
+                            Math.floor(obj.craft_price * 100)
+                            +
+                            Math.floor(obj.keep_price * 100))
+                            / 100
+                        }
                     </td>
                     <td>
                         姓名：{obj.uname}<br/>
@@ -130,7 +139,7 @@ export default class extends React.Component {
                     </div>
                     <div className='order-search-tab'>
                         <div>{tabs}</div>
-                        <Search placeholder='请输入订单号' callback={this.handleSearch}/>
+                        <Search placeholder='请输入订单号' callback={this.handleSearch} onChange={value => !isNaN(value) && this.setState({number:value})}/>
                     </div>
                         <table className='e-table border' style={{marginBottom:'20px', display:(this.state.show ? 'none' : null)}}>
                             <thead>

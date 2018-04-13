@@ -37,6 +37,8 @@ export default class extends React.Component {
                     merchant:response.data.result.merchant,
                     module:response.data.result.module
                 });
+            } else {
+                alert(response.data.msg);
             }
         });
     }
@@ -173,7 +175,7 @@ export default class extends React.Component {
                         this.state.isEditor ?
                         <button className='m-btn middle confirm' onClick={this.handleClick}>确认修改</button>
                         :
-                        <button className='m-btn middle confirm' onClick={() => this.setState({isEditor:true})}>编辑</button>
+                        <button className='m-btn middle confirm' onClick={() => {'undefined' !== typeof this.state.merchant.mdesc && this.setState({isEditor:true})}}>编辑</button>
                     }
                     
                 </div>
