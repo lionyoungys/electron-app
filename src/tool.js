@@ -270,7 +270,7 @@
     t.objToString = function(object) {
         if (object.constructor === Object) {
             const len = object.options.length;
-            if (len < 1 && '' == object.content) return;
+            if (len < 1 && '' == object.content) return '';
             let retStr = '';
             for (let i = 0;i < len;++i) {
                 retStr += (object.options[i] + ';');

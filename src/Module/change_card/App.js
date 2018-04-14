@@ -32,8 +32,9 @@ export default class extends React.Component {
     }
     handleClick(e) {
         api.post('member_card_detail', {token:this.props.token,id:e.target.dataset.id}, (response, verify) => {
-            let result = response.data.result;
-            verify ? this.setState({show:true, tempData:result, postData:result}) : alert(response.data.msg);
+            let result = response.data.result,
+                postData = tool.getObjectByValue(result);
+            verify ? this.setState({show:true, tempData:result, postData:postData}) : alert(response.data.msg);
         })
     }
     onSearch(value, selected) {
