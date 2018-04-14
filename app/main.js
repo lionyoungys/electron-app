@@ -179,7 +179,7 @@ function windowModel(name) {
                 'main', 
                 {
                     width:1024,
-                    height:768,
+                    height:730,
                     minWidth:800,
                     minHeight:600,
                     frame: false,

@@ -43,10 +43,10 @@ export default class extends React.Component {
         axios.post(api.U('take_piece'),api.D({token:this.props.token,oid:this.props.param}))
         .then(response => {
             if (api.V(response.data)) {
-                console.log(response.data);
                 let result = response.data.result,
                     len = result.length,
                     tempLen = 0,
+                    tempItem = null,
                     itemCount = 0;
                 for (let i = 0;i < len;++i) {
                     this.state.category.push({key:i,value:result[i].cate_name});
@@ -56,7 +56,10 @@ export default class extends React.Component {
                         itemCount = result[i].items[j].item_count;
                         if (itemCount > 0) {
                             for (let c = 0;c < itemCount;++c) {
-                                this.state.data.push( tool.getObjectByValue(result[i].items[j]) );
+                                tempItem = tool.getObjectByValue(result[i].items[j]);
+                                tempItem.problem = {options:[],content:tempItem.item_flaw};
+                                tempItem.forecast = {options:[],content:tempItem.item_forecast};
+                                this.state.data.push( tempItem );
                             }
                         }
                     }
@@ -105,6 +108,10 @@ export default class extends React.Component {
     handleTabClick(e) {this.setState({index:e.target.dataset.key,clothesShow:true})}
     handleClothesClick(index) {
         let item = tool.getObjectByValue(this.state.item[this.state.index][index]);
+        item.problem = {options:[],content:item.item_flaw};
+        item.forecast = {options:[],content:item.item_forecast};
+        let takeTime = tool.date('Y年m月d日', Math.floor( ( (new Date()).valueOf() + (item.item_cycle * 1000 * 60 * 60 * 24) ) / 1000))
+        item.take_time = takeTime + '09:00~12:00';
         this.state.data.push(item);
         this.setState({
             data:this.state.data,

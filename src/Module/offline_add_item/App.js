@@ -90,6 +90,10 @@ export default class extends React.Component {
     handleTabClick(e) {this.setState({index:e.target.dataset.key,clothesShow:true})}
     handleClothesClick(index) {
         let item = tool.getObjectByValue(this.state.item[this.state.index][index]);
+        item.problem = {options:[],content:item.item_flaw};
+        item.forecast = {options:[],content:item.item_forecast};
+        let takeTime = tool.date('Y年m月d日', Math.floor( ( (new Date()).valueOf() + (item.item_cycle * 1000 * 60 * 60 * 24) ) / 1000))
+        item.take_time = takeTime + '09:00~12:00';
         this.state.data.push(item);
         this.setState({
             data:this.state.data,
