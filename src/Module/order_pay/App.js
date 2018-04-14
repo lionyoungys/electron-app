@@ -122,6 +122,7 @@ export default class extends Component {
                     let platform = this.state.platform;
                     obj.payRealAmount = this.getPayRealAmount(platform.cdiscount);
                     obj.payRealAmount = tool.sum(obj.payRealAmount, this.state.freightPrice,this.state.keepPrice,this.state.craftPrice);
+                    obj.reduceRealPrice = tool.safeDIC(this.state.totalAmount, obj.payRealAmount);
                     obj.payRealAmount = tool.safeDIC(obj.payRealAmount, obj.coupon);
                     if (obj.payRealAmount == 0) return alert('支付价格为0时只能使用现金!');
                     if (obj.payRealAmount > platform.cbalance) return alert('余额不足');
@@ -130,6 +131,7 @@ export default class extends Component {
                     let merchant = this.state.merchant;
                     obj.payRealAmount = this.getPayRealAmount(merchant.cdiscount);
                     obj.payRealAmount = tool.sum(obj.payRealAmount, this.state.freightPrice,this.state.keepPrice,this.state.craftPrice);
+                    obj.reduceRealPrice = tool.safeDIC(this.state.totalAmount, obj.payRealAmount);
                     obj.payRealAmount = tool.safeDIC(obj.payRealAmount, obj.coupon);
                     if (obj.payRealAmount == 0) return alert('支付价格为0时只能使用现金!');
                     if (obj.payRealAmount > merchant.cbalance) return alert('余额不足');
@@ -140,23 +142,29 @@ export default class extends Component {
                         obj.coupon = 0;
                         obj.sn = '';
                     } else if ('floor' == obj.cashReduce) {
+                        obj.reduceRealPrice = tool.safeDIC(this.state.totalAmount, payAmount);
                         obj.payRealAmount = Math.floor( tool.safeDIC(payAmount, obj.coupon) );
                     } else {
+                        obj.reduceRealPrice = tool.safeDIC(this.state.totalAmount, payAmount);
                         obj.payRealAmount = tool.safeDIC(payAmount, obj.coupon);
                     }
                     break;
                 case 3:
                     if ('floor' == obj.wechatReduce) {
+                        obj.reduceRealPrice = tool.safeDIC(this.state.totalAmount, payAmount);
                         obj.payRealAmount = Math.floor( tool.safeDIC(payAmount, obj.coupon) );
                     } else {
+                        obj.reduceRealPrice = tool.safeDIC(this.state.totalAmount, payAmount);
                         obj.payRealAmount = tool.safeDIC(payAmount, obj.coupon);
                         if (obj.payRealAmount == 0) return alert('支付价格为0时只能使用现金!');
                     }
                     break;
                 case 4:
                     if ('floor' == obj.alipayReduce) {
+                        obj.reduceRealPrice = tool.safeDIC(this.state.totalAmount, payAmount);
                         obj.payRealAmount = Math.floor( tool.safeDIC(payAmount, obj.coupon) );
                     } else {
+                        obj.reduceRealPrice = tool.safeDIC(this.state.totalAmount, payAmount);
                         obj.payRealAmount = tool.safeDIC(payAmount, obj.coupon);
                         if (obj.payRealAmount == 0) return alert('支付价格为0时只能使用现金!');
                     }
@@ -179,7 +187,7 @@ export default class extends Component {
             temp = null,
             sum = 0;
         for (let i = 0;i < len;++i) {
-            if (1 == items[i].has_discount && items[i].item_discount > discount) {
+            if (1 == items[i].has_discount && ( (items[i].item_discount * 100) > (discount * 100) )) {
                 temp = ( tool.mul(items[i].item_price, discount) / 10 );
                 sum = tool.sum( sum, temp);
             } else {

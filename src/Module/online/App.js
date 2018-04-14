@@ -297,6 +297,8 @@ export default class extends React.Component {
                     this.state.data.splice(index, 1);
                     this.setState({data:this.state.data});
                 }
+            } else {
+                alert(response.data.msg);
             }
             console.log(response.data);
         });
