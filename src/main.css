@@ -518,7 +518,7 @@ body{background:#3596e3;cursor:pointer;} */
 .left{float: left;}
 .right{float: right};
 /* 容器样式 */
-.e-box{padding: 0 11px}
+.e-box{padding: 0 10px}
 /* 弹窗遮罩层 */
 .e-shade,.e-window-shade{
     background: rgba(153,153,153,.5);
@@ -578,9 +578,11 @@ body{background:#3596e3;cursor:pointer;} */
 .e-table.border td, .e-table.border th{border: 1px solid #bfccd8}
 /* 文字颜色样式 */
 .e-bold{font-weight: bold}
+.e-red{color: red}
 .e-orange{color: #f56357}
 .e-blue{color: #3596e3}
-.e-grey{color:#ccc}
+.e-grey{color: #b2b2b2}
+.e-darkgrey{color: #4c4c4c}
 /* 鼠标样式 */
 .e-pointer{cursor: pointer}
 .e-default{cursor: default}
