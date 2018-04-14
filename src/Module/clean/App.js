@@ -30,6 +30,7 @@ export default class extends React.Component {
         this.handleAllChecked = this.handleAllChecked.bind(this);
         this.handleCleaned = this.handleCleaned.bind(this);
         this.handleChecked = this.handleChecked.bind(this);
+        this.handleClick = this.handleClick.bind(this);
         this.query = this.query.bind(this);
         this.upload = this.upload.bind(this);
         this.delete = this.delete.bind(this);
@@ -149,6 +150,21 @@ export default class extends React.Component {
     lightboxShow(e) {
         this.setState({lightboxShow:true, index:e.target.dataset.index});
     }
+    handleClick() {    //退回
+        if (this.state.checked.length < 1) return;
+        axios.post(
+            api.U('into_factory'),
+            api.D({token:this.props.token,itemids:this.state.checked.toString(),moduleid:22,type:2})
+        )
+        .then(response => {
+            if (api.V(response.data)) {
+                this.setState({checked:[],all:false});
+                this.query();
+            } else {
+                alert(response.data.msg);
+            }
+        });
+    }
     render() {
         let html = this.state.data.map( (obj, index) =>
             <tr key={obj.id} className={!(obj.assist == 1 || obj.clean_state == 1) ? null : 'disabled'}>
@@ -185,6 +201,8 @@ export default class extends React.Component {
                         已选择<span className='e-orange'>&nbsp;{this.state.checked.length}&nbsp;</span>件
                         &emsp;&nbsp;
                         <button type='button' className='e-btn confirm' onClick={this.handleCleaned}>已{word}</button>
+                        &emsp;
+                        <button className='e-btn confirm' onClick={this.handleClick}>退回</button>
                     </div>
                     <div className='right'>
                         <Search 
