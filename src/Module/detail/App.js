@@ -4,7 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import ImgBox from '../UI/img-box/App';
+import ImageLightbox from '../../Elem/ImageLightbox';
 import './App.css';
 
 
@@ -12,6 +12,8 @@ export default class extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            show:false,
+            index:0,
             ordersn:'',
             isOnline:1,
             amount:'',
@@ -24,7 +26,6 @@ export default class extends Component {
             payState:0,
             otime:'',
             ostatus:0,
-            count:0,
             uname:'',
             umobile:'',
             uaddress:'',
@@ -36,70 +37,81 @@ export default class extends Component {
     }
 
     componentDidMount() {
-        axios.post(api.U('order_detail'), api.D({token:this.props.token,oid:this.props.param.id}))
-        .then((response) => {
-            console.log(response.data);
-            if (!api.V(response.data)) return;
-            let result = response.data.result;
-            this.setState({
-                ordersn:result.ordersn,
-                isOnline:result.is_online,
-                amount:result.amount,
-                payAmount:result.pay_amount,
-                totalAmount:result.total_amount,
-                freightPrice:result.freight_price,
-                keepPrice:result.keep_price,
-                craftPrice:result.craft_price,
-                reducePrice:result.reduce_price,
-                payState:result.pay_state,
-                otime:result.otime,
-                ostatus:result.ostatus,
-                count:result.item_count,
-                uname:result.uname,
-                umobile:result.umobile,
-                uaddress:response.uaddress,
-                remark:result.uremark,
-                time:result.time,
-                isCompany:result.is_company,
-                items:result.items
-            });
-        });
+        api.post(
+            'order_detail',
+            {token:this.props.token,oid:this.props.param.id},
+            (response, verify) => {
+                if (!verify) return;
+                let result = response.data.result;
+                this.setState({
+                    ordersn:result.ordersn,
+                    isOnline:result.is_online,
+                    amount:result.amount,
+                    payAmount:result.pay_amount,
+                    totalAmount:result.total_amount,
+                    freightPrice:result.freight_price,
+                    keepPrice:result.keep_price,
+                    craftPrice:result.craft_price,
+                    reducePrice:result.reduce_price,
+                    payState:result.pay_state,
+                    otime:result.otime,
+                    ostatus:result.ostatus,
+                    uname:result.uname,
+                    umobile:result.umobile,
+                    uaddress:response.uaddress,
+                    remark:result.uremark,
+                    time:result.time,
+                    isCompany:result.is_company,
+                    items:result.items
+                });
+            }            
+        );
     }
 
     render () {
-        
-        let html = this.state.items.map(obj =>
-                <DataRender key={obj.id} data={obj} isOnline={this.state.isOnline}/>
-            );
-        const display = {display:(1 == this.state.isOnline ? 'inline' : 'none')};
+        let html = this.state.items.map( (obj, index) =>
+            <DataRender
+                key={obj.id}
+                data={obj}
+                isOnline={this.state.isOnline}
+                index={index}
+                onClick={e => this.setState({show:true,index:e.target.dataset.index})}
+            />
+        );
+        const display = 1 == this.state.isOnline ? null : {display:'none'};
         return (
-            <div>
-                <div className='m-container'>
-                    <div className='detail-box'>{html}</div>
-                    <div className='m-box' style={{lineHeight:'30px'}}>
-                        共{this.state.count}件&emsp;&emsp;
-                        活动优惠:-&yen;{this.state.reducePrice}&emsp;&emsp;
-                        <span style={display}>
-                            上门服务费:&yen;{this.state.freightPrice}&emsp;&emsp;
-                        </span>
-                        总价:&yen;{this.state.totalAmount}&emsp;&emsp;
-                        {
-                            1 == this.state.payState
-                            ? 
-                            (<span className='m-red'>实付:{this.state.payAmount}</span>)
-                            :
-                            (<span className='m-red'>(未付款)</span>)}
+            <div className='e-box' style={{marginTop:'13px'}}>
+                <div>
+                    <div className='detail-order'>
+                        <div>订&nbsp;单&nbsp;&nbsp;号：{this.state.ordersn}</div>
+                        <div>下单时间：{this.state.otime}</div>
+                        <div style={display}>预约时间：{this.state.time}</div>
                     </div>
-                    <div className='detail-row'>
-                        {1 == this.state.isCompany ? (<span>企业名称:</span>) : <span>姓名:</span>}{this.state.uname}
+                    <div className='detail-user'>
+                        <div>
+                            姓&emsp;&emsp;名：{this.state.uname}
+                            &emsp;&emsp;&emsp;
+                            手&nbsp;&nbsp;机&nbsp;&nbsp;号：{this.state.umobile}
+                        </div>
+                        <div>订单地址：{this.state.uaddress}</div>
+                        <div style={display}>备&emsp;&emsp;注：{this.state.remark}</div>
                     </div>
-                    <div className='detail-row' style={display}><span>预约时间:</span>{this.state.time}</div>
-                    <div className='detail-row'><span>手机号:</span>{this.state.umobile}</div>
-                    <div className='detail-row'><span>订单号:</span>{this.state.ordersn}</div>
-                    <div className='detail-row'><span>下单时间:</span>{this.state.otime}</div>
-                    <div className='detail-row'><span>订单地址:</span>{this.state.uaddress}</div>
-                    <div className='detail-row' style={display}><span>备注:</span>{this.state.remark}</div>
                 </div>
+                <div className='detail-amount'>
+                    <span>共{this.state.items.length}件</span>
+                    <span>活动优惠：-&yen;{this.state.reducePrice}</span>
+                    <span style={display}>上门服务费：&yen;{this.state.freightPrice}</span>
+                    <span>总价：<span className='e-red'>&yen;{this.state.totalAmount}</span></span>
+                    {1 == this.state.payState ? <span className='e-grey'>（已付款）</span> : <span className='e-red'>（未付款）</span>}
+                </div>
+                <table className='detail-items-table'>
+                    {html}
+                </table>
+                <ImageLightbox 
+                    show={this.state.show}
+                    images={this.state.items.length > 0 ? this.state.items[this.state.index].item_images : []}
+                    onClose={() => this.setState({show:false})}
+                />
             </div>
         );
     }
@@ -113,41 +125,39 @@ class DataRender extends Component {
     render() {
         let data = this.props.data;
         return (
-            <div className='detail-item'>
-                <div>
-                    <img src={data.image}/>
-                    <div>
-                        <div>{data.item_name}</div>
-                        <div>价格：&yen;{data.item_real_price}</div>
-                    </div>
-                </div>
-                <div className='row'><span>衣物编码：</span>{data.clean_sn}</div>
-                <div className='row' style={{display:(0 == this.props.isOnline ? 'block':'none')}}><span>取衣时间：</span>{data.take_time}</div>
-                <div className='row'><span>保值金额：</span>{(data.keep_price * 200).toFixed(2)}</div>
-                <div className='row'><span>保值清洗费：</span>{data.keep_price}</div>
-                <div className='row'><span>工艺加价：</span>{data.craft_price}</div>
-                <div className='row'><span>备注：</span>{data.craft_des}</div>
-                <div className='row'><span>颜色：</span>{data.color}</div>
-                <div className='row'><span>问题：</span>{data.problem}</div>
-                <div className='row'><span>洗后预估：</span>{data.forecast}</div>
-                <div>
-                    <ImgBox images={data.item_images}/>
-                </div>
-            </div>
-            // <section className='ui-detail'>
-            //     <div className='ui-detail-logo'><img src={api.host + obj.url}/></div>
-            //     <div className='ui-detail-item'>
-            //         <div>{obj.g_name}</div>
-            //         <div>价格：{obj.price}</div>
-            //         <div>数量：{obj.number}</div>
-            //     </div>
-            //     <div className='ui-detail-item2'>
-            //         <div>特殊工艺加价：{obj.special}</div>
-            //         <div>保值清洗费：{obj.hedging}</div>
-            //         <div>保值金额：{obj.hedging * 200}</div>
-            //     </div>
-            //     <div className='ui-detail-images'>{images}</div>
-            // </section>
+            <tbody>
+                <tr className='detail-item-first'>
+                    <td>衣物编码：{data.clean_sn}</td>
+                    <td>加价</td>
+                    <td>描述</td>
+                    <td>照片</td>
+                </tr>
+                <tr className='detail-item-second'>
+                    <td>
+                        <div>
+                            <img src={data.image} className='left'/>
+                            <div className='left'>
+                                <div>{data.item_name}</div>
+                                <div className='e-red'>&yen;{data.item_price}</div>
+                            </div>
+                        </div>
+                        <div>取衣时间：{data.take_time}</div>
+                        <div>备注：{data.craft_des}</div>
+                    </td>
+                    <td>
+                        <div>保值金额：&yen;{Math.floor(data.keep_price * 100) * 200 / 100}</div>
+                        <div>保值清洗费：&yen;{data.keep_price}</div>
+                        <div>工艺加价：&yen;{data.craft_price}</div>
+                    </td>
+                    <td>
+                        <div>颜色：{data.color}</div>
+                        <div>瑕疵：{data.problem}</div>
+                        <div>洗后预估：{data.forecast}</div>
+                    </td>
+                    <td className='e-red e-pointer' data-index={this.props.index} onClick={this.props.onClick}>{data.item_images.length}张</td>
+                </tr>
+                <tr className='detail-item-third'><td colSpan='4'></td></tr>
+            </tbody>
         );
     }
 }

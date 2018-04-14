@@ -139,7 +139,7 @@ export default class extends React.Component {
                     </div>
                     <div className='order-search-tab'>
                         <div>{tabs}</div>
-                        <Search placeholder='请输入订单号' callback={this.handleSearch} onChange={value => !isNaN(value) && this.setState({number:value})}/>
+                        <Search placeholder='请输入订单号/手机号' callback={this.handleSearch} onChange={value => !isNaN(value) && this.setState({number:value})}/>
                     </div>
                         <table className='e-table border' style={{marginBottom:'20px', display:(this.state.show ? 'none' : null)}}>
                             <thead>
