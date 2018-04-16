@@ -4,7 +4,8 @@
  */
 
 import React from 'react';
-import Checkbox from '../UI/checkbox/App';
+import OptionBox from '../../Elem/OptionBox';
+import Empty from '../../Elem/Empty';
 import './App.css';
 
 export default class extends React.Component {
@@ -74,7 +75,7 @@ export default class extends React.Component {
 
     render() {
         let html = this.state.data.map(obj => 
-            <div className='m-box' key={obj.date}>
+            <div className='e-box' key={obj.date}>
                 <div className='in-factory-date'>{obj.date}</div>
                     <table className='m-table m-text-c tr-b'>
                         <thead><tr className='m-bg-white'><th>衣物编码</th><th>名称</th></tr></thead>
@@ -83,17 +84,18 @@ export default class extends React.Component {
             </div>
         );
         return (
-            <div>
-                <div className='m-container'>
-                    <div className='m-text-r'>
-                        <span>已选择<span className='m-red'>{this.state.checked.length}</span>件</span>
-                        &emsp;
-                        <Checkbox checked={this.state.all} onClick={this.handleAllChecked}>全选</Checkbox>
-                        &emsp;
-                        <button className='m-btn confirm middle' onClick={this.handleClick}>退回</button>
+            <div style={{paddingTop:'56px'}}>
+                <div className='clean-top'>
+                    <div className='left'>
+                        <OptionBox type='checkbox' checked={this.state.all} onClick={this.handleAllChecked}>全选</OptionBox>
+                        &emsp;&emsp;
+                        已选择<span className='e-orange'>&nbsp;{this.state.checked.length}&nbsp;</span>件
+                        &emsp;&nbsp;
+                        <button className='e-btn confirm' onClick={this.handleClick}>打包退回</button>
                     </div>
-                    {html}
                 </div>
+                {html}
+                <Empty show={this.state.data.length < 1}/>
             </div>
         );
     }
@@ -108,11 +110,11 @@ class Tbody extends React.Component {
         let html = this.props.data.map(obj => 
             <tr key={obj.id}>
                 <td>
-                    <Checkbox
+                    <OptionBox
                         value={obj.id}
                         checked={-1 !== obj.id.inArray(this.props.checked)}
                         onClick={this.props.onChecked}
-                    >{obj.clean_sn}</Checkbox>
+                    >{obj.clean_sn}</OptionBox>
                 </td>
                 <td>{obj.item_name}</td>
             </tr>

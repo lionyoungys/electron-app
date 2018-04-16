@@ -53,8 +53,6 @@ class Main extends Component {
 
     //界面动态转换事件方法
     changeView(e) {
-        let str = '15874572954';
-        console.log(str.substring(4,7));
         let view = null,    //视图
             param = null,    //视图携带参数
             option = null,
