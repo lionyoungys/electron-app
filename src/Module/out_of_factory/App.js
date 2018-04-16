@@ -4,7 +4,9 @@
  */
 
 import React from 'react';
-import Checkbox from '../UI/checkbox/App';
+import OptionBox from '../../Elem/OptionBox';
+import Empty from '../../Elem/Empty';
+import Select from '../../Elem/Select';
 import './App.css';
 
 export default class extends React.Component {
@@ -67,8 +69,7 @@ export default class extends React.Component {
             this.setState({checked:this.state.checked});
         }
     }
-    handleChange(e) {
-        let value = e.target.value;
+    handleChange(value) {
         this.setState({teamId:value});
         this.query(value);
         console.log(value);
@@ -90,12 +91,9 @@ export default class extends React.Component {
     }
 
     render() {
-        let options = this.state.team.map(obj => 
-            <option
-                key={obj.accept_id}
-                value={obj.accept_id}
-            >{obj.mname}</option>
-        );
+        let option = this.state.team.map(obj => {
+            return {key:obj.accept_id, value:obj.mname};
+        });
         let html = this.state.data.map(obj => 
             <div className='m-box' key={obj.date}>
                 <div className='in-factory-date'>{obj.date}</div>
@@ -106,21 +104,21 @@ export default class extends React.Component {
             </div>
         );
         return (
-            <div>
-                <div className='m-container'>
-                    <div className='clean-box'>
-                        <div>选择门店：<select onChange={this.handleChange} value={this.state.teamId}>{options}</select></div>
-                        
-                        <div>
-                            <span>已选择<span className='m-red'>{this.state.checked.length}</span>件</span>
-                            &emsp;
-                            <Checkbox checked={this.state.all} onClick={this.handleAllChecked}>全选</Checkbox>
-                            &emsp;
-                            <button className='m-btn confirm middle' onClick={this.handleClick}>打包出厂</button>
-                            </div>
-                        </div>
-                    {html}
+            <div style={{paddingTop:'56px'}}>
+                <div className='clean-top'>
+                    <div className='left'>
+                        <OptionBox type='checkbox' checked={this.state.all} onClick={this.handleAllChecked}>全选</OptionBox>
+                        &emsp;&emsp;
+                        已选择<span className='e-orange'>&nbsp;{this.state.checked.length}&nbsp;</span>件
+                        &emsp;&nbsp;
+                        <button className='e-btn confirm' onClick={this.handleClick}>打包出厂</button>
+                    </div>
+                    <div className='right'>
+                        选择门店：<Select option={option} onChange={this.handleChange} selected={this.state.teamId}/>
+                    </div>
                 </div>
+                {html}
+                <Empty show={this.state.data.length < 1}/>
             </div>
         );
     }
@@ -140,11 +138,11 @@ class Tbody extends React.Component {
                         ?
                         obj.clean_sn
                         :
-                        <Checkbox
+                        <OptionBox
                             value={obj.id}
                             checked={-1 !== obj.id.inArray(this.props.checked)}
                             onClick={this.props.onChecked}
-                        >{obj.clean_sn}</Checkbox>
+                        >{obj.clean_sn}</OptionBox>
                     }
                 </td>
                 <td>{obj.item_name}</td>

@@ -168,6 +168,7 @@
     text-align: left;
     position: relative;
     overflow: hidden;
+    vertical-align: middle;
 }
 .select.select-show{overflow: visible}
 .select-selected{
