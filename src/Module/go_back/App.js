@@ -15,14 +15,17 @@ export default class extends React.Component {
         this.id = this.props.param.id;
         this.from = this.props.param.state;
         this.state = {data:{back_img:[]},module:[],text:'',index:0,normal:1};
-        this.crumb = [{key:1,value:'返流'}];
+        this.view = null;
         if (50 == this.from) {
-            this.crumb.unshift({key:0,value:'烘干',view:'dry'});
+            this.view = 'dry';
         } else if (51 == this.from) {
-            this.crumb.unshift({key:0,value:'熨烫',view:'ironing'});
+            this.view = 'ironing';
         } else if (52 == this.from) {
-            this.crumb.unshift({key:0,value:'质检',view:'check'});
+            this.view = 'check';
+        } else if (91 == this.from) {
+            this.view = 'put_on';
         }
+        console.log(this.from);
         this.upload = this.upload.bind(this);
         this.del = this.del.bind(this);
         this.submit = this.submit.bind(this);
@@ -87,7 +90,7 @@ export default class extends React.Component {
             })
         ).then(response => {
             console.log(response.data);
-            api.V(response.data) && this.props.changeView({view:this.crumb[0].view});
+            api.V(response.data) && this.props.changeView({view:this.view});
         });
     }
     render() {
@@ -138,7 +141,7 @@ export default class extends React.Component {
                         <span>返流步骤：</span>{step}
                     </div>
                     <div>
-                        <button className='m-btn confirm middle' type='button' data-view={this.crumb[0].view} onClick={this.props.changeView}>取消</button>
+                        <button className='m-btn confirm middle' type='button' data-view={this.view} onClick={this.props.changeView}>取消</button>
                         &emsp;
                         <button className='m-btn confirm middle' type='button' onClick={this.submit}>确认</button>
                     </div>

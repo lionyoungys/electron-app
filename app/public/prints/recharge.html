@@ -71,12 +71,12 @@
             document.getElementById('qrcode').src = result.qrcode;
             insert('mname', result.mname);
             insert('trade_sn', result.trade_sn);
-            insert('mobile', result.umobile);
+            insert('mobile', result.umobile.replace(result.umobile.substring(3, 7), '****'));
             insert('amount', result.amount);
             insert('give', result.give);
             insert('pay_amount', result.amount);
             insert('gateway', gateway(result.gateway));
-            insert('number', result.umobile);
+            insert('number', result.umobile.replace(result.umobile.substring(3, 7), '****'));
             insert('balance', result.cbalance);
             insert('address', result.maddress);
             insert('phone', result.phone_number);

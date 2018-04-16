@@ -93,7 +93,7 @@
             document.getElementById('qrcode').src = result.qrcode;
             insert('mname', result.mname);
             insert('ordersn', result.ordersn);
-            insert('mobile', result.umobile);
+            insert('mobile', result.umobile.replace(result.umobile.substring(3, 7), '****'));
             insert('num', result.count);
             insert('amount', result.total_amount);
             insert('other_amount', result.append);
