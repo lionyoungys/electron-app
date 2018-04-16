@@ -46,6 +46,7 @@ import MsgDetail from './Module/msg_detail/App';
 import MemberDetail from './Module/member_detail/App';
 import Done from './Module/done/App';
 import ChangeCard from './Module/change_card/App';
+import ChangeCardConfirm from './Module/change_card_confirm/App';
 
 
 import InfoEditor from './manage/info_editor';
@@ -165,6 +166,7 @@ export const view = {
     member_detail:MemberDetail,    //会员详情
     done:Done,
     change_card:ChangeCard,    //换卡界面
+    change_card_confirm:ChangeCardConfirm,    //换卡二次确认界面
 
 
     info_editor:InfoEditor,    //信息编辑
