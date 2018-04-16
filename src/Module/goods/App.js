@@ -5,6 +5,7 @@
 
 import React from 'react';
 import Radio from '../UI/radio/App';
+import OptionBox from '../../Elem/OptionBox';
 import './App.css';
 
 export default class extends React.Component {
@@ -154,63 +155,85 @@ class GoodsLayer extends React.Component {
         if (!this.props.show) return null;
         let data = this.props.data;
         return (
-            <div className='m-layer-bg'>
-                <div className='goods-layer'>
-                    <i className='m-close' onClick={this.props.onCloseRequest}></i>
-                    <div><span className='m-clothes'>编辑</span></div>
-                    <div className='row'>
-                        <label>名称:</label><span>{data.item_name}</span>
-                    </div>
-                    <div className='row'>
-                        <label>价格:</label>
-                        <input
-                            type='text'
-                            className='m-text-c'
-                            value={data.item_price}
-                            onChange={e => this.props.onChange(e.target.value,'item_price')}
-                        />&nbsp;&nbsp;元
-                    </div>
-                    <div className='row'>
-                        <label>洗护周期:</label>
-                        <input
-                            type='text'
-                            className='m-text-c'
-                            value={data.item_cycle}
-                            onChange={e => this.props.onChange(e.target.value,'item_cycle')}
-                        />&nbsp;&nbsp;天
-                    </div>
-                    <div className='row'>
-                        <label>普客折扣:</label>
-                        <input
-                            type='text'
-                            className='m-text-c'
-                            value={data.item_discount}
-                            onChange={e => this.props.onChange(e.target.value,'item_discount')}
-                        />&nbsp;&nbsp;折
-                    </div>
-                    <div className='row'>
-                        <label>会员是否打折:</label>
-                        <span>
-                            <Radio checked={1 == data.has_discount} onClick={this.handleClick}>是</Radio>
-                            &emsp;&emsp;
-                            <Radio checked={0 == data.has_discount} onClick={this.handleClick}>否</Radio>
-                        </span>
-                    </div>
-                    <div className='row'>
-                        <label className='label'>洗后预估:</label>
-                        <div>
-                            <textarea
-                                value={data.item_forecast}
-                                maxLength='10'
-                                onChange={e => this.props.onChange(e.target.value,'item_forecast')}
-                            ></textarea>
-                            <i className='m-counter'>{data.item_forecast.length}/10</i>
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <label></label>
-                        <button type='button' className='m-btn gradient lightblue middle' onClick={this.props.onConfirm}>确定</button>
-                    </div>
+            <div className='good-layer'>
+                <div>编辑商品</div>
+                <div className='good-row'><span>商品：</span>{data.item_name}</div>
+                <div className='good-row'>
+                    <span>*价格：</span>
+                    <input
+                        type='text'
+                        value={data.item_price}
+                        onChange={e => this.props.onChange(e.target.value,'item_price')}
+                    />&nbsp;&nbsp;元
+                </div>
+                <div className='good-row'>
+                    <span>*普客折扣：</span>
+                    <input
+                        type='text'
+                        value={data.item_discount}
+                        onChange={e => {
+                            let value = e.target.value;
+                            if (isNaN(value) || value > 10 || value.toString().length > 4) return;
+                            this.props.onChange(value,'item_discount')
+                        }}
+                    />&nbsp;&nbsp;折&emsp;&emsp;
+                    <span className='e-red'>打折后价格：&yen;{( Math.floor(data.item_price * 100) * Math.floor(data.item_discount * 100) ) / 100000}</span>
+                </div>
+                <div className='good-row'>
+                    <span>*会员是否打折：</span>
+                    <OptionBox type='radio' checked={1 == data.has_discount} onClick={this.handleClick}>是</OptionBox>
+                    &emsp;&emsp;
+                    <OptionBox type='radio' checked={0 == data.has_discount} onClick={this.handleClick}>否</OptionBox>
+                </div>
+                <div style={{height:'22px'}}></div>
+                <div style={{padding:'0 14px'}}>
+                    <div style={{fontWeight:'bold',borderBottom:'1px solid #ccc',fontSize:'14px',paddingBottom:'9px'}}>收衣界面自动填充设置</div>
+                </div>
+                <div className='good-row'>
+                    <span>洗护周期：</span>
+                    <input
+                        type='text'
+                        value={data.item_cycle}
+                        onChange={e => {
+                            let value = e.target.value;
+                            if (isNaN(value)) return;
+                            this.props.onChange(value,'item_cycle')
+                        }}
+                    />&nbsp;&nbsp;天&emsp;&emsp;&emsp;
+                    <span className='e-grey'>提示：设置后可自动填充取衣时间</span>
+                </div>
+                <div className='good-row'>
+                    <span>瑕疵：</span>
+                    <input
+                        type='text'
+                        className='good-row-long-input'
+                        value={data.item_flaw}
+                        onChange={e => {
+                            let value = e.target.value;
+                            if (value.length>20) return;
+                            this.props.onChange(value,'item_flaw')
+                        }}
+                    />
+                    <span className='e-counter'>{data.item_flaw.length}/20</span>
+                </div>
+                <div className='good-row'>
+                    <span>洗后预估：</span>
+                    <input
+                        type='text'
+                        className='good-row-long-input'
+                        value={data.item_forecast}
+                        onChange={e => {
+                            let value = e.target.value;
+                            if (value.length>20) return;
+                            this.props.onChange(value,'item_forecast')
+                        }}
+                    />
+                    <span className='e-counter'>{data.item_forecast.length}/20</span>
+                </div> 
+                <div className='good-button-area'>
+                    <button type='button' className='e-btn cancel' onClick={this.props.onCloseRequest}>取消</button>
+                    &emsp;&emsp;&emsp;&emsp;
+                    <button type='button' className='e-btn confirm' onClick={this.props.onConfirm}>确定</button>
                 </div>
             </div>
         );

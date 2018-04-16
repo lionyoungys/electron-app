@@ -53,6 +53,7 @@ export default class extends Component{
         if (1 != payState) {
             this.props.changeView({view:'order_pay',param:{oid:id,value:'取衣',view:'take_off'}});
         } else {
+            if (!confirm('您确定要取衣吗!')) return;
             axios.post(api.U('take_it_off'),api.D({token:this.props.token,orderid:id,moduleid:100,type:2}))
             .then(response => {
                 if (api.V(response.data)) {
@@ -66,6 +67,7 @@ export default class extends Component{
     }
 
     takeOne(e) {
+        if (!confirm('您确定要取衣吗!')) return;
         let data = e.target.dataset;
         api.post(
             'take_it_off', 
