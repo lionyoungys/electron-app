@@ -112,7 +112,12 @@ class Main extends Component {
                 this.setState({windows:this.state.windows});
             } else {    //若窗口列表中存在该视图,定位tab至该视图
                 'undefined' !== typeof this.children[view] && 'function' === typeof this.children[view].query && this.children[view].query();
-                this.setState({checkedTab:view});
+                if (checkedTab === view && 1 == option) {
+                    this.state.windows[view].view = view;
+                    this.setState({windows:this.state.windows})
+                } else {
+                    this.setState({checkedTab:view});
+                }
             }
             
         }
