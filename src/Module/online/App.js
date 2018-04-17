@@ -17,7 +17,8 @@ export default class extends React.Component {
             show:false,
             oid:null,
             showNotice:false,
-            noticeMsg:'用户尚未付款，您暂时不能做此操作'
+            noticeMsg:'用户尚未付款，您暂时不能做此操作',
+            orderCount:[0, 0, 0, 0, 0]
         };    //选项卡选择属性 当前数据 弹窗展示与否 当前订单
         this.handleClick = this.handleClick.bind(this);    //切换选项卡方法
         this.adapter = this.adapter.bind(this);    //数据适配处理方法
@@ -52,10 +53,17 @@ export default class extends React.Component {
         this.query();
     }
     query() {
-        axios.post(api.U(this.state.checked),api.D({token:this.props.token}))
-        .then(response => {
-            api.V(response.data) && this.setState({data:response.data.result});
-            console.log(response.data);
+        api.post(this.state.checked, {token:this.props.token}, (response, verify) => {
+            verify && this.setState({data:response.data.result});
+        });
+        api.post('order_count', {token:this.props.token}, (response, verify) => {
+            if (verify) {
+                let tempData = [];
+                for (let i in response.data.result) {
+                    tempData.push(response.data.result[i]);
+                }
+                this.setState({orderCount:tempData});
+            }
         });
     }
     componentWillUnmount() {
@@ -314,13 +322,16 @@ export default class extends React.Component {
 
     render() {
         let adapter = this.adapter();
-        let tabs = this.tabs.map(obj => 
+        let tabs = this.tabs.map( (obj, index) => 
             <span
                 key={obj.api}
                 data-api={obj.api}
                 className={'m-tab' + (this.state.checked == obj.api ? ' checked': '')}
                 onClick={this.handleClick}
-            >{obj.value}</span>
+            >
+                {obj.value}
+                {this.state.orderCount[index] > 0 && <span className='e-bubble' data-api={obj.api}>{this.state.orderCount[index]}</span>}
+            </span>
         );
         return (
             <div>
