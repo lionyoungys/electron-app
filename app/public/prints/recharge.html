@@ -84,7 +84,7 @@
             insert('id',result.mid);
             insert('date',datetime);
             document.getElementById('qrcode').onload = function() {
-                ipcRenderer.send('print');
+                ipcRenderer.send('print', localStorage.getItem('printer'));
             }
         });
         function insert(id, value) {

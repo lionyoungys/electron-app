@@ -3,7 +3,6 @@ const electron = require('electron'),
     app = electron.app,
     BrowserWindow = electron.BrowserWindow,
     ipcMain = electron.ipcMain,
-    // axios = require('axios'),
     path = require('path'),
     url = require('url');
 
@@ -67,6 +66,9 @@ ipcMain.on('toggle-main', () => {    //切换至主界面
     windowModel('main');
     win.login.close();
 });
+ipcMain.on('printers', (e, name) => {    //获取打印机列表
+    e.returnValue = win[name].webContents.getPrinters();
+});
 //用户协议
 ipcMain.on('protocol', (e, args) => {
     if ('close' === args) {
@@ -89,8 +91,11 @@ ipcMain.on('print-silent', (e, arg, arg2) => {
         slashes: true
     }));
 });
-ipcMain.on('print', (e, arg) => {
-    winprints.webContents.print({silent: true, printBackground: true});
+
+ipcMain.on('print', (e, deviceName) => {
+    let print = {silent: true, printBackground: true};
+    if ('string' === typeof deviceName && deviceName.length > 0) print.deviceName = deviceName;
+    winprints.webContents.print(print);
 });
 ipcMain.on('get-param',(e, args) => {
     e.returnValue = param;
@@ -207,7 +212,4 @@ function windowModel(name) {
 
 //数据请求
 function post(url, params, success, fail) {
-    // axios.post( url, params, {headers: {'Content-Type':'application/x-www-form-urlencoded'}} )
-    // .then(response => {'function' === typeof success && success(response)})
-    // .catch(error => {'function' === typeof fail && fail(error)});
 }
