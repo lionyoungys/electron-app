@@ -198,6 +198,7 @@
 
 
     var t = {};
+    var u = {};
     /**
      * 计算多数值之和,准确度为小数点后两位
      * @param (...) 数值
@@ -427,5 +428,15 @@
                 return '已取走';
         }
     }
+    u.msg = function(msg) {
+        let body = document.body,
+            div = document.createElement('div');
+        div.className = 'e-layer-msg';
+        div.innerText = msg;
+        body.appendChild(div);
+        div.style.marginLeft = ( Math.floor(div.offsetWidth * -100) / 200 ) + 'px';
+        window.setTimeout(() => {body.removeChild(div)},3000);
+    }
     window.tool = t;
+    window.ui = u;
 })(window);

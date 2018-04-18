@@ -22,6 +22,7 @@ export default class extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleModuleChange = this.handleModuleChange.bind(this);
+        this.turnStatus = this.turnStatus.bind(this);
     }
     componentDidMount() {
         api.post('info', {token:this.props.token}, (response, verify) => {
@@ -33,6 +34,17 @@ export default class extends React.Component {
                 });
             } else {
                 alert(response.data.msg);
+            }
+        });
+    }
+    turnStatus() {
+        let open = 10 == this.state.merchant.mstatus ? 0 : 1;
+        api.post('toggle', {token:this.props.token,open:open}, (response, verify) => {
+            if (verify) {
+                this.state.merchant.mstatus = open ? 10 : 11;
+                this.setState({merchant:this.state.merchant});
+            } else {
+                ui.msg(response.data.msg);
             }
         });
     }
@@ -118,7 +130,18 @@ export default class extends React.Component {
                 <div className='m-container'>
                     <table className='info'>
                         <tbody>
-                            <tr><td className='first'>营业状态</td><td className='last'><span className='e-open'>营业中</span></td></tr>
+                            <tr>
+                                <td className='first'>营业状态</td>
+                                <td className='last'>
+                                    {
+                                        10 == this.state.merchant.mstatus
+                                        ?
+                                        <span className='e-open' onClick={this.turnStatus}>营业中</span>
+                                        :
+                                        <span className='e-shut' onClick={this.turnStatus}>休息中</span>
+                                    }
+                                </td>
+                            </tr>
                             <tr><td className='first'>门店编号</td><td className='last'>{this.state.merchant.id}</td></tr>
                             <tr><td className='first'>门店名称</td><td className='last'>{this.state.merchant.mname}</td></tr>
                             <tr><td className='first'>门店地址</td><td className='last'>{this.state.merchant.maddress}</td></tr>

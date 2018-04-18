@@ -523,7 +523,7 @@ body{background:#3596e3;cursor:pointer;} */
 /* 弹窗遮罩层 */
 /* 弹窗遮罩层 */
 .e-shade{
-    background: rgba(153,153,153,.5);
+    background: rgba(0,0,0,.5);
     position: fixed;
     top: 0;left: 0;
     z-index: 100;
@@ -563,9 +563,8 @@ body{background:#3596e3;cursor:pointer;} */
 .e-checkbox.checked{background-image: url(img/checkbox-checked.png)}
 .e-radio{
     display: inline-block;
-    min-height: 20px;
-    line-height: 20px;
-    padding-left: 25px;
+    min-height: 16px;
+    padding-left: 20px;
     background-image: url(img/radio.png);
     background-repeat: no-repeat;
     background-position: left center;
@@ -642,4 +641,17 @@ body{background:#3596e3;cursor:pointer;} */
 .e-shut{
     background: url(img/shut.png) no-repeat left center;
     color: #b2b2b2;
+}
+/* 弹出层样式 */
+.e-layer-msg{
+    height: 29px;
+    line-height: 29px;
+    padding: 0 20px;
+    background: rgba(0, 0, 0, .8);
+    border-radius: 3px;
+    color: #fff;
+    position: fixed;
+    top: 50%;left: 50%;
+    margin-top: -19.5px;
+    z-index: 10000;
 }
