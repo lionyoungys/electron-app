@@ -155,6 +155,7 @@ class GoodsLayer extends React.Component {
         if (!this.props.show) return null;
         let data = this.props.data;
         return (
+            <div className='e-shade'>
             <div className='good-layer'>
                 <div>编辑商品</div>
                 <div className='good-row'><span>商品：</span>{data.item_name}</div>
@@ -235,6 +236,7 @@ class GoodsLayer extends React.Component {
                     &emsp;&emsp;&emsp;&emsp;
                     <button type='button' className='e-btn confirm' onClick={this.props.onConfirm}>确定</button>
                 </div>
+            </div>
             </div>
         );
     }

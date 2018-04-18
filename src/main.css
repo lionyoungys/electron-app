@@ -521,7 +521,7 @@ body{background:#3596e3;cursor:pointer;} */
 /* 容器样式 */
 .e-box{padding: 0 10px}
 /* 弹窗遮罩层 */
-.e-shade,.e-window-shade{
+.e-shade{
     background: rgba(153,153,153,.5);
     position: fixed;
     top: 0;left: 0;
@@ -529,7 +529,6 @@ body{background:#3596e3;cursor:pointer;} */
     width: 100%;
     height:100%;
 }
-.e-window-shade{top: 178px}
 
 /* 按钮样式 */
 .e-btn{
@@ -625,4 +624,21 @@ body{background:#3596e3;cursor:pointer;} */
     color: white;
     position: absolute;
     top: -6px;right: -6px;
+}
+/* 开关样式 */
+.e-open, .e-shut{
+    display: inline-block;
+    vertical-align: middle;
+    min-height: 15px;
+    padding-left: 30px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.e-open{
+    background: url(img/open.png) no-repeat left center;
+    color: red;
+}
+.e-shut{
+    background: url(img/shut.png) no-repeat left center;
+    color: #b2b2b2;
 }
