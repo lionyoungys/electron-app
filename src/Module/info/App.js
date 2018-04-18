@@ -14,26 +14,20 @@ export default class extends React.Component {
             allModule:[],
             merchant:{},
             module:[],
-            mcards:[{card_name:null,discount:null,price:null},{card_name:null,discount:null,price:null}],
             isEditor:false,
             infoUpdate:false,
-            cardUpdate:false,
             moduleUpdate:false
         };
         this.adapter = this.adapter.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.handleCardChange = this.handleCardChange.bind(this);
         this.handleModuleChange = this.handleModuleChange.bind(this);
     }
     componentDidMount() {
         api.post('info', {token:this.props.token}, (response, verify) => {
             if (verify) {
-                let mcards = response.data.result.mcards;
-                if (mcards.length < 2) mcards = this.state.mcards;
                 this.setState({
                     allModule:response.data.all_module,
-                    mcards:mcards,
                     merchant:response.data.result.merchant,
                     module:response.data.result.module
                 });
@@ -48,24 +42,17 @@ export default class extends React.Component {
         if (this.state.infoUpdate) {
             let info = this.state.merchant;
             info.token = this.props.token;
-            axios.post(api.U('info_update'), api.D(info))
-            .then(response => {
+            api.post('info_update', info, (response, verify) => {
                 this.setState({infoUpdate:false});
-            });
-        }
-        if (this.state.cardUpdate) {
-            axios.post(api.U('cards_update'), api.D({token:this.props.token,cards:JSON.stringify(this.state.mcards)}))
-            .then(response => {
-                this.setState({cardUpdate:false});
+                if (!verify) alert(response.data.msg);
             });
         }
         if (this.state.moduleUpdate) {
             let modules = [];
             this.state.module.map(obj => modules.push(obj.module));
-            console.log(modules);
-            axios.post(api.U('module_update'), api.D({token:this.props.token,modules:JSON.stringify(modules)}))
-            .then(response => {
+            api.post('module_update', {token:this.props.token,modules:JSON.stringify(modules)}, (response, verify) => {
                 this.setState({moduleUpdate:false});
+                if (!verify) alert(response.data.msg);
             });
         }
     }
@@ -77,10 +64,6 @@ export default class extends React.Component {
         }
     }
 
-    handleCardChange(e) {
-        this.state.mcards[e.target.dataset.index][e.target.dataset.key] = e.target.value;
-        this.setState({mcards:this.state.mcards,cardUpdate:true});
-    }
     handleModuleChange(value, checked) {
         let index = null;
         if (checked) {
@@ -100,19 +83,7 @@ export default class extends React.Component {
             desc:this.state.merchant.mdesc,
             freight:this.state.merchant.freight_price,
             freeNum:this.state.merchant.freight_free_num,
-            freeAmount:this.state.merchant.freight_free_amount,
-            cards:[
-                {
-                    card_name:this.state.mcards[0].card_name,
-                    discount:this.state.mcards[0].discount,
-                    price:this.state.mcards[0].price
-                },
-                {
-                    card_name:this.state.mcards[1].card_name,
-                    discount:this.state.mcards[1].discount,
-                    price:this.state.mcards[1].price
-                }
-            ]
+            freeAmount:this.state.merchant.freight_free_amount
         };
         let module = [];
         this.state.module.map(obj => module.push(obj.module_name));
@@ -129,11 +100,7 @@ export default class extends React.Component {
                     <i className='m-counter'>{this.state.merchant.mdesc.length}/120</i>
                 </div>
             );
-            data.cards[0].discount = (<input type='text' className='input' data-index='0' data-key='discount' value={this.state.mcards[0].discount} onChange={this.handleCardChange}/>);
-            data.cards[0].price = (<input type='text' className='input' data-index='0' data-key='price' value={this.state.mcards[0].price} onChange={this.handleCardChange}/>);;
-            data.cards[1].discount = (<input type='text' className='input' data-index='1' data-key='discount' value={this.state.mcards[1].discount} onChange={this.handleCardChange}/>);;
-            data.cards[1].price = (<input type='text' className='input' data-index='1' data-key='price' value={this.state.mcards[1].price} onChange={this.handleCardChange}/>);;
-            data.module = this.state.allModule.map(obj =>
+           data.module = this.state.allModule.map(obj =>
                 <Checkbox
                     key={obj.module}
                     checked={-1 !== obj.module.inObjectArray(this.state.module, 'module')}
@@ -151,6 +118,7 @@ export default class extends React.Component {
                 <div className='m-container'>
                     <table className='info'>
                         <tbody>
+                            <tr><td className='first'>营业状态</td><td className='last'><span className='e-open'>营业中</span></td></tr>
                             <tr><td className='first'>门店编号</td><td className='last'>{this.state.merchant.id}</td></tr>
                             <tr><td className='first'>门店名称</td><td className='last'>{this.state.merchant.mname}</td></tr>
                             <tr><td className='first'>门店地址</td><td className='last'>{this.state.merchant.maddress}</td></tr>
@@ -164,11 +132,6 @@ export default class extends React.Component {
                             </tr>
                             <tr><td className='last'>满减件数&emsp;：{data.freeNum} 件</td></tr>
                             <tr><td className='last'>满减金额&emsp;：{data.freeAmount} 元</td></tr>
-                            {/* <tr>
-                                <td className='first' rowSpan="2">专店会员卡</td>
-                                <td className='last'>{data.cards[0].card_name}：&nbsp;折扣：{data.cards[0].discount}折&emsp;充值：{data.cards[0].price}元</td>
-                            </tr>
-                            <tr><td className='last'>{data.cards[1].card_name}：&nbsp;折扣：{data.cards[1].discount}折&emsp;充值：{data.cards[1].price}元</td></tr> */}
                         </tbody>
                     </table>
                     {

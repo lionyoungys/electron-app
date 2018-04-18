@@ -77,7 +77,7 @@ export default class extends React.Component {
                 <div>
                     <textarea
                         placeholder={placeholder}
-                        value={this.state[valKey]}
+                        value={'' == this.state[valKey] ? this.props[this.props.type] : this.state[valKey]}
                         maxLength='20'
                         onChange={e => this.setState({[valKey]:e.target.value})}
                     ></textarea>

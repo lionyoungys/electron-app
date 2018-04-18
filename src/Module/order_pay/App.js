@@ -298,7 +298,7 @@ export default class extends Component {
                     this.props.special ? 'public/prints/invoice.html' : 'public/prints/index.html',
                     {token:this.props.token,oid:this.oid,url:api.U('order_print')}
                 );
-                this.props.changeView({view:'index'});
+                this.props.changeView({view:'done', param:{msg:'支付', index:'order_pay'}});
                 //支付成功
             } else {
                 if (3 == this.state.checked || 4 == this.state.checked) {
@@ -318,7 +318,7 @@ export default class extends Component {
                     <div className='order-pay-box'>
                         <div>
                             <div><span>应收：</span><span>&yen;&nbsp;{this.state.totalAmount}</span></div>
-                            <div><span>品项折扣：</span><span>&yen;&nbsp;{this.state.reduceRealPrice}</span></div>
+                            <div><span>会员折扣：</span><span>&yen;&nbsp;{this.state.reduceRealPrice}</span></div>
                             <div><span>代金券：</span><span>&yen;&nbsp;{this.state.coupon}</span></div>
                             <div><span>实收：</span><span className='m-red'>&yen;&nbsp;{this.state.payRealAmount}</span></div>
                         </div>

@@ -345,6 +345,9 @@ export default class extends React.Component {
                     onCloseRequest={() => this.setState({clothesShow:false})}
                 />
                 <Problem
+                    color={color}
+                    problem={problem}
+                    forecast={forecast}
                     type={this.state.type}
                     onCloseRequest={() => this.setState({type:null})}
                     onConfirmRequest={this.handleProblemSubmit}
