@@ -142,7 +142,7 @@
                             '<span></span><span></span></p>';
                     }
                     insert('items',content);
-                    ipcRenderer.send('print');
+                    ipcRenderer.send('print', localStorage.getItem('printer'));
                 }
             );
                 function insert(id, value) {

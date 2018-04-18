@@ -79,7 +79,6 @@
     window.onload = function() {
         const {ipcRenderer} = require('electron');
         const param = ipcRenderer.sendSync('get-param');
-        console.log(param);
         //const fd = new FormData();
         const date = new Date(),
               datetime = date.getFullYear()+'-'+(date.getMonth()*1+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
@@ -118,7 +117,7 @@
             }
             insert('items',content);
             document.getElementById('qrcode').onload = function() {
-                ipcRenderer.send('print');
+                ipcRenderer.send('print', localStorage.getItem('printer'));
             }
         });
         function insert(id, value) {

@@ -47,6 +47,7 @@ import MemberDetail from './Module/member_detail/App';
 import Done from './Module/done/App';
 import ChangeCard from './Module/change_card/App';
 import ChangeCardConfirm from './Module/change_card_confirm/App';
+import Printer from './Module/printer/App';
 
 
 import InfoEditor from './manage/info_editor';
@@ -111,7 +112,8 @@ export const router = {    //菜单路由选项
     help:[
         {value:'检查更新',key:'update'},
         {value:'意见反馈',key:'feedback'},
-        {value:'密码修改',key:'passwd'}
+        {value:'密码修改',key:'passwd'},
+        {value:'打印设置',key:'printer'}
     ]
 }
 
@@ -167,6 +169,7 @@ export const view = {
     done:Done,
     change_card:ChangeCard,    //换卡界面
     change_card_confirm:ChangeCardConfirm,    //换卡二次确认界面
+    printer:Printer,                          //打印机设置界面
     
 
     info_editor:InfoEditor,    //信息编辑
