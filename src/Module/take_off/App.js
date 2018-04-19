@@ -51,7 +51,7 @@ export default class extends Component{
         let id = e.target.dataset.id,
             payState = e.target.dataset.state;
         if (1 != payState) {
-            this.props.changeView({view:'order_pay',param:{oid:id,value:'取衣',view:'take_off'}});
+            this.props.changeView({view:'order_pay',param:{oid:id,view:'take_off',param:this.state.number}});
         } else {
             if (!confirm('您确定要取衣吗!')) return;
             axios.post(api.U('take_it_off'),api.D({token:this.props.token,orderid:id,moduleid:100,type:2}))

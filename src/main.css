@@ -223,15 +223,16 @@ table{border-collapse: collapse;}
 #tab>div:last-child{margin-right: 0}
 #tab>div>.tab-close{
     position: absolute;
-    right: 6px;top: 0;
-    height: 28px;width: 8px;
-    background: url(img/close8.png) no-repeat center;
+    right: 0;top: 0;
+    height: 100%;
+    width: 14px;
+    background: url(img/close8.png) no-repeat left center;
     cursor: default;
 }
 /* tab栏选中样式 */
 #tab>div.checked{background-color: #4aa2ea;color: #fff}
 /* tab栏关闭图标选中样式 */
-#tab>div.checked>.tab-close{background: url(img/close8-checked.png) no-repeat center}
+#tab>div.checked>.tab-close{background: url(img/close8-checked.png) no-repeat left center}
 /* 标签栏下部内容展示窗口样式 */
 .main-windows{
     height: 100%;
