@@ -108,7 +108,6 @@ export default class extends Component {
         obj.checked = tool.isSet(obj.checked) ? obj.checked : this.state.checked;
         if (null === obj.checked) {
             obj.payRealAmount = tool.safeDIC(this.state.payAmount, obj.coupon);
-            obj.reduceRealPrice = tool.safeDIC(this.state.totalAmount, obj.payRealAmount);
         } else {
             obj.cashReduce = 'undefined' !== typeof obj.cashReduce ? obj.cashReduce : this.state.cashReduce;
             obj.wechatReduce = 'undefined' !== typeof obj.wechatReduce ? obj.wechatReduce : this.state.wechatReduce;
