@@ -12,10 +12,9 @@ import './main.css';
 import './Elem/App.css';
 import './media.css';    //媒体查询相应式处理css
 import {menu, router, view} from './router';
-window.version = '2.0.8';
+window.version = '2.0.9';
 const branch = 'master',    //当前项目分支
       special = false;        //是否为正章打印机
-
 
 
 class Main extends Component {

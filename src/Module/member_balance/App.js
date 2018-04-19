@@ -65,10 +65,10 @@ export default class extends React.Component{
     }
 
     render () {
-        let html = this.state.data.map(obj =>
-                <tr key={obj.umobile} className='m-text-c'>
+        let html = this.state.data.map( (obj, index) =>
+                <tr key={obj.umobile + '_' + index} className='m-text-c'>
                     <td>{obj.umobile}</td>
-                    <td>{obj.uname}</td>
+                    <td>{obj.cmaster}</td>
                     <td>{obj.cname}</td>
                     <td>{obj.cbalance}</td>
                     <td>{obj.ctime}</td>
