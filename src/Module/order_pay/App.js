@@ -295,7 +295,11 @@ export default class extends Component {
                     this.props.special ? 'public/prints/invoice.html' : 'public/prints/index.html',
                     {token:this.props.token,oid:this.oid,url:api.U('order_print')}
                 );
-                this.props.changeView({view:'done', param:{msg:'支付', index:this.props.param.view, param:this.props.param.param}});
+                if ('take' == this.props.param.view) {
+                    this.props.changeView({view:'done', param:{msg:'收件', index:this.props.param.view, param:this.props.param.param}});
+                } else {
+                    this.props.changeView({view:this.props.param.view, param:this.props.param.param});
+                }
                 //支付成功
             } else {
                 if (3 == this.state.checked || 4 == this.state.checked) {
