@@ -17,7 +17,7 @@ export default class extends React.Component {
                 <div>
                     <button type='button' className='e-btn confirm' onClick={() => this.props.changeView({view:this.props.param.index, param:this.props.param.param})}>返回{this.props.param.msg}首页</button>
                     &emsp;&emsp;
-                    <button type='button' className='e-btn cancel' onClick={this.props.closeView} >关闭窗口</button>
+                    <button type='button' className='e-btn cancel' data-view={this.props.param.index} onClick={this.props.closeView} >关闭窗口</button>
                 </div>
             </div>
         );
