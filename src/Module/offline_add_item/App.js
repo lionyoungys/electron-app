@@ -226,7 +226,7 @@ export default class extends React.Component {
                     );
                     this.props.changeView({view:'done', param:{msg:'收件', index:'take'}});
                 } else {
-                    this.props.changeView({view:'order_pay',param:{oid:response.data.result,value:'添加项目',view:null}});
+                    this.props.changeView({view:'order_pay',param:{oid:response.data.result,view:'take'}});
                 }
             } else {
                 this.setState({loadingShow:false});

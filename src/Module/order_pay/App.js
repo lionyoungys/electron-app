@@ -46,8 +46,6 @@ export default class extends Component {
             specialAmount:0
         };
         this.oid = this.props.param.oid;
-        this.value = this.props.param.value;
-        this.view = this.props.param.view;
         this.gateway = ['PLATFORM','MERCHANT','CASH','WechatPay_Pos','Alipay_AopF2F'];
         this.useCoupon = this.useCoupon.bind(this);    //使用优惠券
         this.calculate = this.calculate.bind(this);    //计算价格方法
@@ -298,7 +296,7 @@ export default class extends Component {
                     this.props.special ? 'public/prints/invoice.html' : 'public/prints/index.html',
                     {token:this.props.token,oid:this.oid,url:api.U('order_print')}
                 );
-                this.props.changeView({view:'done', param:{msg:'支付', index:'order_pay'}});
+                this.props.changeView({view:'done', param:{msg:'支付', index:this.props.param.view, param:this.props.param.param}});
                 //支付成功
             } else {
                 if (3 == this.state.checked || 4 == this.state.checked) {
