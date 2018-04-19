@@ -401,7 +401,7 @@ class Gateway extends Component {
                 <div className='order-pay-row'>
                     <span onClick={() => this.props.onChecked(2)}>
                         <i className={'fa ' + (2 == this.props.checked ? 'fa-check-circle' : 'fa-check-circle-o')}></i>
-                        &nbsp;&nbsp;<span className='m-icon cash'>现&nbsp;金&nbsp;&nbsp;支&nbsp;付</span>
+                        &nbsp;&nbsp;<span className='m-icon cash'>现金&emsp;支付</span>
                         &emsp;
                         <Radio 
                             checked={'special' == this.props.cashReduce}
@@ -425,7 +425,7 @@ class Gateway extends Component {
                 <div className='order-pay-row'>
                     <span onClick={() => this.props.onChecked(3)}>
                         <i className={'fa ' + (3 == this.props.checked ? 'fa-check-circle' : 'fa-check-circle-o')}></i>
-                        &nbsp;&nbsp;<span className='m-icon wechat'>微&nbsp;信&nbsp;&nbsp;支&nbsp;付</span>
+                        &nbsp;&nbsp;<span className='m-icon wechat'>微信&emsp;支付</span>
                         &emsp;
                         <Radio
                             checked={'special' == this.props.wechatReduce}
