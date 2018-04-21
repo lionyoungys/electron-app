@@ -1,64 +1,67 @@
 .problem{
-    width: 560px;
-    height: 472px;
+    width: 524px;
+    height: 424px;
     background-color: #fff;
     position: fixed;
     top: 50%;left: 50%;
-    margin: -236px 0 0 -280px;
+    margin: -212px 0 0 -262px;
     border: 1px solid #82b6e3;
     border-radius: 5px;
 }
-.problem>div{-webkit-box-sizing: border-box;box-sizing: border-box;width: 100%}
+.problem>div{padding-left: 12px}
 .problem>div:first-child{
     background: #82b6e3;
     color: #fff;
     height: 30px;
     line-height: 30px;
     position: relative;
+}
+
+.problem>div:nth-child(2){
+    padding: 11px;
+    font-size: 14px;
+}
+.problem>div:nth-child(3){
+    margin-bottom: 17px;
+    position: relative;
+    width: 500px;
+}
+.problem>div:nth-child(3)>input{
+    height: 30px;
+    width: 500px;
+    border: 1px solid #82b6e3;
+    line-height: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    color: red;
     padding: 0 10px;
 }
-.problem>div:nth-child(2){
-    height: 290px;
-    padding: 7px;
-    overflow-y: auto;
+.problem>div:nth-child(3)>.e-counter{bottom: 8px}
+.problem>div:nth-child(4){
+    height: 272px;
+    overflow-x: auto;
+    display: -webkit-flex;
     display: flex;
-    display:-webkit-flex;
     flex-wrap: wrap;
     align-content: flex-start;
 }
-.problem>div:nth-child(2)>div{
-    width: 128px;
-    height: 52px;
-    line-height: 52px;
-    margin: 0 5px 5px 0;
-    background-color: #f1eeee;
+.problem>div:nth-child(4)>div{
+    width: 110px;
+    height: 20px;
+    line-height: 20px;
     text-align: center;
-    cursor: default;
+    border: 1px solid #b2b2b2;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 10px 10px 0;
+    cursor: pointer;
 }
-.problem>div:nth-child(2)>div.checked{background-color: #54acf2}
-.problem>div:nth-child(2)>div:hover{background-color: #c4e3fc}
-.problem>div:nth-child(2)>div:nth-child(4n+0){margin-right: 0}
-
-.problem>div:nth-child(3){
-    margin: 9px 0;
-    height: 23px;
-    line-height: 23px;
-    display: -webkit-flex;
-    display: flex;
+.problem>div:nth-child(4)>div.checked{background-color: #d8ecfc}
+.problem>div:nth-child(4)>div:nth-child(4n+0){margin-right: 10px}
+.problem>div:nth-child(4)>div:hover{
+    background-color: #f5f5f5;
 }
-.problem>div:nth-child(3)>div{height: 100%;line-height: 23px}
-.problem>div:nth-child(3)>:first-child{width: 60px;text-align: center}
-.problem .e-tag{margin-right: 14px}
-.problem .e-tag:last-child{margin-right: 0}
-.problem>div:nth-child(4){
-    height: 60px;
-    width: 532px;
-    margin: 0 auto 12px;
-    position: relative;
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-}
-.problem>div:nth-child(4)>textarea{width: 100%;height: 100%;resize: none;outline: none}
+.problem>div:nth-child(4)>div.checked:hover{background-color: #d8ecfc}
 .problem>div:last-child{
     height: 39px;
     line-height: 39px;
