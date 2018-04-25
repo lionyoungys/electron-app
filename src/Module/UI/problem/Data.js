@@ -764,10 +764,6 @@ export const problem = [
     value: "刮丝"
   },
   {
-    key: 38,
-    value: "衬衣"
-  },
-  {
     key: 39,
     value: "有缺损"
   },
