@@ -21,14 +21,20 @@
 }
 
 .take-off-order{
-    padding-left: 12px;
+    padding: 0 12px;
+    height: 54px;
     text-align: left;
     background-color: #f5f5f5;
 }
+.take-off-order>div{
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-between;
+}
+.take-off-order>div>:first-child{line-height: 20px;padding-top: 6px}
+.take-off-order>div>:last-child{line-height: 54px}
 .e-table>tbody>tr.take-off-margin{
     height: 10px;
 }
 .e-table>tbody>tr.take-off-margin>td{border: none}
 .e-table>tbody:first-of-type>tr.take-off-margin{display: none}
-.take-off-order>:first-child{margin-right: 52px}
-.take-off-order>:nth-child(2){margin-right: 40px}
