@@ -28,7 +28,6 @@ export default class extends Component{
     }
 
     onSearchRequest(value, selected) {
-        console.log(selected);
         this.query(value);
     }
     query(value) {
@@ -90,7 +89,7 @@ export default class extends Component{
 
     render() {
         let html = this.state.data.map(obj => 
-            <Order key={obj.id} data={obj} onTakePayRequest={this.onTakePayRequest} takeOne={this.takeOne}/>
+            <Order key={obj.id} data={obj} user={this.state.user} onTakePayRequest={this.onTakePayRequest} takeOne={this.takeOne}/>
         )
         return (
             <div className='take-off'>
@@ -101,12 +100,12 @@ export default class extends Component{
                         <span>卡号：{this.state.user.card_number}</span>
                     </div>
                     <div className='right'>
-                        <SelectSearch value={this.state.number} option={['手机号','订单号','会员卡号']} callback={this.onSearchRequest}/>
+                        <SelectSearch value={this.state.number} option={['订单号','手机号','卡号','流水号']} callback={this.onSearchRequest}/>
                     </div>
                 </div>
                 <div className='e-box' style={this.state.show ?{display:'none'} : null}>
                     <table className='e-table border'>
-                        <thead><tr><th>衣物编码</th><th>衣物名称</th><th>颜色</th><th>状态</th><th>衣挂号</th><th>取衣时间</th><th>操作</th></tr></thead>
+                        <thead><tr><th>衣物编码</th><th>衣物名称</th><th>颜色</th><th>衣挂号</th><th>状态</th>{/*<th>取衣时间</th>*/}<th>操作</th></tr></thead>
                         {html}
                     </table>
                 </div>
@@ -121,35 +120,65 @@ class Order extends Component{
 
     render() {
         let data = this.props.data;
-        let html = data.items.map(obj => 
-            <tr key={obj.id}>
-                <td>{obj.clean_sn}</td>
-                <td>{obj.item_name}</td>
-                <td>{obj.color}</td>
-                <td>{tool.itemStatus(obj.status)}</td>
-                <td>{obj.put_sn}</td>
-                <td>{obj.take_time}</td>
-                <td
-                    data-oid={data.id}
-                    data-id={obj.id}
-                    className={100 == obj.status ? 'e-grey' : 'e-blue e-pointer'}
-                    onClick={100 == obj.status ? null : this.props.takeOne}
-                >单件取衣</td>
-            </tr>
-        );
+        let isExport = tool.isSet(data.serialsn);
+        let html = data.items.map(obj => {
+            if (isExport) {
+                return (
+                    <tr key={obj.id}>
+                        <td colSpan='4'>{obj.remark}</td>
+                        <td>{tool.itemStatus(obj.status)}</td>
+                        {/* <td>{obj.take_time}</td> */}
+                        <td
+                            data-oid={data.id}
+                            data-id={obj.id}
+                            className={100 == obj.status ? 'e-grey' : 'e-blue e-pointer'}
+                            onClick={100 == obj.status ? null : this.props.takeOne}
+                        >单件取衣</td>
+                    </tr>
+                )
+            } else {
+                return (
+                    <tr key={obj.id}>
+                        <td>{obj.clean_sn}</td>
+                        <td>{obj.item_name}</td>
+                        <td>{obj.color}</td>
+                        <td>{obj.put_sn}</td>
+                        <td>{tool.itemStatus(obj.status)}</td>
+                        {/* <td>{obj.take_time}</td> */}
+                        <td
+                            data-oid={data.id}
+                            data-id={obj.id}
+                            className={100 == obj.status ? 'e-grey' : 'e-blue e-pointer'}
+                            onClick={100 == obj.status ? null : this.props.takeOne}
+                        >单件取衣</td>
+                    </tr>
+                )
+            }
+        });
         return (
-            <tbody title={data.remark}>
+            <tbody>
                 <tr className='take-off-margin'><td colSpan='7'></td></tr>
                 <tr><td colSpan='7' className='take-off-order'>
-                    <span>订单号：{data.ordersn}</span>
-                    <span>订单状态：{1 == data.pay_state ? '已支付' : '未支付'}</span>
-                    <button
-                        type='button'
-                        className={`e-btn small ${1 == data.pay_state ? 'confirm' : 'editor'}`}
-                        data-id={data.id}
-                        data-state={data.pay_state}
-                        onClick={this.props.onTakePayRequest}
-                    >{1 == data.pay_state ? '取衣结单' : '立即支付'}</button>
+                    <div>
+                        <div>
+                            订单号：{data.ordersn}&emsp;&emsp;
+                            流水号：{data.serialsn}<br/>
+                            姓名：{this.props.user.uname}&emsp;&emsp;
+                            手机号：{this.props.user.umobile}&emsp;&emsp;
+                            会员卡号：{this.props.user.card_number}
+                        </div>
+                        <div>
+                            订单状态：{1 == data.pay_state ? '已支付' : '未支付'}
+                            &emsp;&emsp;
+                            <button
+                                type='button'
+                                className={`e-btn small ${1 == data.pay_state ? 'confirm' : 'editor'}`}
+                                data-id={data.id}
+                                data-state={data.pay_state}
+                                onClick={this.props.onTakePayRequest}
+                            >{1 == data.pay_state ? '取衣结单' : '立即支付'}</button>
+                        </div>
+                    </div>
                 </td></tr>
                 {html}
             </tbody>

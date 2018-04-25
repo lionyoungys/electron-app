@@ -191,10 +191,10 @@ function windowModel(name) {
                     autoHideMenuBar:true
                 },
                 //'public/prints/index.html'
+                'public/prints/index1.html'
                 //'public/prints/recharge.html'
                 //'public/prints/invoice.html'
-                'public/main.html'
-                //'public/demo.html'
+                //'public/main.html'
             );
             break;
         case 'login':
