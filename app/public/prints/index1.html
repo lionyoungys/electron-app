@@ -30,13 +30,13 @@
         }
         #img{margin: .11in 0;text-align: center}
         #img>img{width: 1.78in;height: .32in}
-        #pay_amount{margin: .17in 0 .15in;font-size: 15pt;}
+        #pay_amount, #will_pay{margin: .17in 0 .15in;font-size: 15pt;}
     </style>
 </head>
 <body>
     <div id='merchant' onclick="javascript:print();">诗奈尔洗衣会所</div>
     <div id='title'>洗衣凭据</div>
-    <div id='img'></div>
+    <div id='img'><img id="barcode"></div>
     <div class="row">订&nbsp;&nbsp;单&nbsp;号：<span id='ordersn'>341234434355323433</span></div>
     <div class="row">顾客电话：<span id='user_phone'>18745729547</span></div>
     <div class="row">取衣时间：<span id='take_time'>2018-01-15 18:00:00</span></div>
@@ -45,12 +45,17 @@
     <div style="text-align: center;margin: .09in 0">收衣明细</div>
     <table>
         <tbody><tr><td>衣物编码</td><td>名称</td><td>原价</td><td>折扣价</td></tr></tbody>
-        <tbody><tr><td>dfdfdfdf</td><td>coat</td><td>100</td><td>50</td></tr></tbody>
+        <tbody id="items"><tr><td>dfdfdfdf</td><td>coat</td><td>100</td><td>50</td></tr></tbody>
     </table>
-    <div id="pay_amount">实收：123.00</div>
-    <div class="row2">会员支付：&yen;<span id="user_pay">123.00</span></div>
-    <div class="row2">代金券支付：&yen;<span id="coupon">123.00</span></div>
-    <div class="row2">合计优惠：&yen;<span id="reduce">123.00</span></div>
+    <div id="pay">
+        <div id="pay_amount">实收：123.00</div>
+        <div class="row2">会员支付：&yen;<span id="user_pay">123.00</span></div>
+        <div class="row2">代金券支付：&yen;<span id="coupon">123.00</span></div>
+        <div class="row2">合计优惠：&yen;<span id="reduce">123.00</span></div>
+    </div>
+    <div id="no_pay">
+        <div id="will_pay">未付款</div>
+    </div>
     <div style="margin: .08in 0 .12in;border-bottom: 1px dashed black"></div>
     <div class="row2">本店地址：<span id="addr">北京市朝阳区万达广场三号楼1902</span></div>
     <div class="row2">服务热线：<span id='merchant_phone'>010-58207998</span></div>
@@ -63,5 +68,82 @@
         <div>客户联，沿此线撕开</div>
         <div style="width: .49in;border-bottom: 1px dashed black"></div>
     </div>
+
+    <!-- js -->
+<script src="request.js"></script>
+<script src="JsBarcode.min.js"></script>
+<script>
+    window.onload = function() {
+        const {ipcRenderer} = require('electron');
+        const param = ipcRenderer.sendSync('get-param');
+        const date = new Date(),datetime = date.getFullYear()+'-'+(date.getMonth()*1+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
+        R.post(
+            'http://xiyi.wzj.dev.shuxier.com/mapi/print/order', 
+            {token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJtaWQiOiIxIiwiaXNSb290IjoiMSIsImF1dGgiOiIiLCJ0aW1lIjoxNTI0MTMyMjYwfQ.Ed-oUNt9Ithil40n_ObLKLpo0BsaHc4Wg4gu6zubkfw',oid:80341}, 
+            function (response) {
+            let result = response.result;
+            console.log(result);
+            JsBarcode("#barcode", result.ordersn, {displayValue: false});
+            insert('merchant', result.mname);
+            insert('ordersn', result.ordersn);
+            insert('user_phone', result.umobile.replace(result.umobile.substring(3, 7), '****'));
+            insert('take_time', result.take_time);
+            insert('count', result.count);
+            insert('pay_amount', '实收：' + result.pay_amount);
+            insert('user_pay', result.pay_amount);
+            insert('coupon', result.coupons);
+            insert('reduce', result.reduce_price);
+            insert('addr', result.maddress);
+            insert('merchant_phone', result.phone_number);
+            insert('employee', result.employee);
+            insert('id',result.mid);
+            insert('time',datetime);
+            if (1 == result.pay_state) {
+                document.getElementById('no_pay').style.display = 'none';
+            } else {
+                document.getElementById('pay').style.display = 'none';
+            }
+            let len = result.items.length,
+                content = '';
+            for (let i = 0;i < len;++i) {
+                content += '<tr><td>'+result.items[i].clean_sn+'</td><td>'+result.items[i].item_name+'</td><td>'+result.items[i].item_price+'</td><td>'+result.items[i].item_real_price+'</td></tr>';
+            }
+            insert('items',content);
+            //ipcRenderer.send('print', localStorage.getItem('printer'));
+        });
+        function insert(id, value) {
+            if ('undefined' === typeof value || null == value) value = '';
+            document.getElementById(id).innerHTML = value;
+        }
+        function gateway(code) {
+            code = Number(code);
+            switch (code)
+            {
+                case 0:
+                    return '现金支付';
+                case 1:
+                    return '零钱支付';
+                case 2:
+                    return '免洗';
+                case 3:
+                    return '平台会员卡';
+                case 4:
+                    return '商家会员卡';
+                case 5:
+                    return '企业会员卡';
+                case 10:
+                    return '微信公众号';
+                case 11:
+                    return '微信app支付';
+                case 12:
+                    return '微信刷卡支付';
+                case 20:
+                    return '支付宝app支付';
+                case 21:
+                    return '支付宝面对面付';
+            }
+        }
+    }
+</script>
 </body>
 </html>
