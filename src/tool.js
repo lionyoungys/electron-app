@@ -274,7 +274,7 @@
             if (len < 1 && '' == object.content) return '';
             let retStr = '';
             for (let i = 0;i < len;++i) {
-                retStr += (object.options[i] + ';');
+                retStr += (object.options[i] + '；');
             }
             return (retStr + object.content);
         }

@@ -11,14 +11,15 @@ export default class extends React.Component {
     constructor(props) {
         super(props);
         this.state = {color:null, problem:null, forecast:null}
+        this.getVal = this.getVal.bind(this);
+        this.hasOption = this.hasOption.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleConfirm = this.handleConfirm.bind(this);
         this.handleClose = this.handleClose.bind(this);
     }
-
-    handleConfirm() {
-        let value = this.state[this.props.type],
-            options = [];
+    // 获取当前值
+    getVal() {
+        let value = this.state[this.props.type];
         if (null === value) {
             if ('string' === typeof this.props[this.props.type]) {
                 value = this.props[this.props.type];
@@ -26,6 +27,18 @@ export default class extends React.Component {
                 value = '';
             } 
         }
+        return value;
+    }
+    // 判断是否有该选项
+    hasOption(option) {
+        let value = this.getVal();
+        return -1 !== value.indexOf('；' + option + '；') || 0 === value.indexOf(option + '；');
+    }
+
+    handleConfirm() {
+        let value = this.getVal(),
+            options = [],
+            match, index, match2;
         (
             'color' === this.props.type
             ?
@@ -33,9 +46,16 @@ export default class extends React.Component {
             : 
             ('problem' === this.props.type ? problem : forecast)
         ).map(obj => {
-            if (-1 !== value.indexOf(obj.value)) {
+            match = '；' + obj.value + '；';
+            match2 = obj.value + '；';
+            index = value.indexOf(match);
+            
+            if (-1 !== index) {
                 options.push(obj.value);
-                value = value.replace(obj.value + '；', '').replace(obj.value, '');
+                value = value.replace(new RegExp(value.substr(index, match.length)), '；');
+            } else if (0 === value.indexOf(match2)) {
+                options.push(obj.value);
+                value = value.replace(new RegExp(value.substr(0, match2.length)), '');
             }
         });
         if ('' !== value || options.length > 0) {
@@ -51,41 +71,39 @@ export default class extends React.Component {
 
     handleClick(e) {
         let text = e.target.innerText,
-            value = this.state[this.props.type];
-        if (null === value) {
-            if ('string' === typeof this.props[this.props.type]) {
-                value = this.props[this.props.type];
-            } else {
-                value = '';
-            } 
-        }
-        if (-1 === value.indexOf(text)) {
-            let setVal = (value + text + '；');
-            setVal.length < 21 && this.setState({[this.props.type]:setVal});
+            value = this.getVal();
+
+        let match = '；' + text + '；',
+            index = value.indexOf(match);
+        if (-1 !== index) return this.setState({[this.props.type]:value.replace(new RegExp(value.substr(index, match.length)), '；')});
+
+        let match2 = text + '；';
+        if (0 === value.indexOf(match2)) return this.setState({[this.props.type]:value.replace(new RegExp(value.substr(0, match2.length)), '')});
+
+        // 若不符合前两个判断则为追加
+        let len = value.length,
+            setVal;
+        if (len > 0 && value.lastIndexOf('；') != (len - 1)) {
+            setVal = (value + '；' + text + '；');
         } else {
-            this.setState({[this.props.type]:value.replace(text + '；', '').replace(text, '')});
+            setVal = (value + text + '；');
         }
+        setVal.length < 21 && this.setState({[this.props.type]:setVal});
     }
 
     render() {
         let options = null,
             title = null,
-            value = this.state[this.props.type];
-        if (null === value) {
-            if ('string' === typeof this.props[this.props.type]) {
-                value = this.props[this.props.type];
-            } else {
-                value = '';
-            } 
-        }
+            value = this.getVal();
+
         if ('color' === this.props.type) {
-            options = color.map(obj => <div key={obj.key} className={-1 === value.indexOf(obj.value) ? null : 'checked'} onClick={this.handleClick}>{obj.value}</div>);
+            options = color.map(obj => <div key={obj.key} className={this.hasOption(obj.value) ? 'checked' : null} onClick={this.handleClick}>{obj.value}</div>);
             title = '颜色';
         } else if ('problem' === this.props.type) {
-            options = problem.map(obj => <div key={obj.key} className={-1 === value.indexOf(obj.value) ? null : 'checked'} onClick={this.handleClick}>{obj.value}</div>);
+            options = problem.map(obj => <div key={obj.key} className={this.hasOption(obj.value) ? 'checked' : null} onClick={this.handleClick}>{obj.value}</div>);
             title = '瑕疵';
         } else if ('forecast' === this.props.type) {
-            options = forecast.map(obj => <div key={obj.key} className={-1 === value.indexOf(obj.value) ? null : 'checked'} onClick={this.handleClick}>{obj.value}</div>);
+            options = forecast.map(obj => <div key={obj.key} className={this.hasOption(obj.value) ? 'checked' : null} onClick={this.handleClick}>{obj.value}</div>);
             title = '洗后预估';
         } else {
             return null;
