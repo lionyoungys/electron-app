@@ -43,7 +43,8 @@ export default class extends Component {
             specialVerifyShow:false,
             freeVerifyShow:false,
             smsCode:'',
-            specialAmount:0
+            specialAmount:0,
+            isExportOrder:0,
         };
         this.oid = this.props.param.oid;
         this.gateway = ['PLATFORM','MERCHANT','CASH','WechatPay_Pos','Alipay_AopF2F'];
@@ -63,26 +64,34 @@ export default class extends Component {
         axios.post(api.U('pay_order'),api.D({token:this.props.token,oid:this.oid}))
         .then(response => {
             if (api.V(response.data)) {
-                let result = response.data.result;
-                this.setState({
-                    payAmount:result.pay_amount,
-                    payRealAmount:result.pay_amount,
-                    keepPrice:result.keep_price,
-                    freightPrice:result.freight_price,
-                    craftPrice:result.craft_price,
-                    reducePrice:result.reduce_price,
-                    reduceRealPrice:result.reduce_price,
-                    amount:result.amount,
-                    uid:result.uid,
-                    totalAmount:result.total_amount,
-                    platform:result.platform,
-                    merchant:result.merchant,
-                    hasPlatform:result.has_platform,
-                    hasMerchant:result.has_merchant,
-                    umobile:result.umobile,
-                    phone:result.master_phone,
-                    items:result.items
-                });
+                let result = response.data.result,
+                    obj = {
+                        payAmount:result.pay_amount,
+                        payRealAmount:result.pay_amount,
+                        keepPrice:result.keep_price,
+                        freightPrice:result.freight_price,
+                        craftPrice:result.craft_price,
+                        reducePrice:result.reduce_price,
+                        reduceRealPrice:result.reduce_price,
+                        amount:result.amount,
+                        uid:result.uid,
+                        totalAmount:result.total_amount,
+                        platform:result.platform,
+                        merchant:result.merchant,
+                        hasPlatform:result.has_platform,
+                        hasMerchant:result.has_merchant,
+                        umobile:result.umobile,
+                        phone:result.master_phone,
+                        items:result.items,
+                        isExportOrder:result.lack_pay
+                    };
+                if (1 == obj.isExportOrder) {
+                    obj.payAmount = result.lack;
+                    obj.payRealAmount = result.lack;
+                    obj.amount = result.lack;
+                    obj.totalAmount = result.lack;
+                }
+                this.setState(obj);
             }
             console.log(response.data);
         });
@@ -179,6 +188,7 @@ export default class extends Component {
     }
 
     getPayRealAmount(discount) {
+        if (1 == this.state.isExportOrder) return this.state.payRealAmount;
         let items = this.state.items,
             len = items.length,
             temp = null,
