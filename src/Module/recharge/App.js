@@ -74,7 +74,7 @@ export default class extends React.Component{
                     'public/prints/recharge.html',
                     {token:this.props.token,record_id:response.data.result,url:api.U('recharge_print')}
                 );
-                this.props.changeView({view:'index'});
+                this.props.changeView({view:'done', param:{msg:'充值', index:'member'}});
             } else {
                 if (0 != this.state.checked) {
                     this.setState({status:'fail'});
