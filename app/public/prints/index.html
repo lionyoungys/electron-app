@@ -44,7 +44,7 @@
     <p style="margin-top: .02in;border-bottom: 1px dashed black"></p>
     <div style="text-align: center;margin: .09in 0">收衣明细</div>
     <table>
-        <tbody><tr><td>衣物编码</td><td>名称</td><td>原价</td><td>折扣价</td></tr></tbody>
+        <tbody><tr><td>衣物编码</td><td>名称</td><td>原价</td><td>会员价</td></tr></tbody>
         <tbody id="items"><tr><td>dfdfdfdf</td><td>coat</td><td>100</td><td>50</td></tr></tbody>
     </table>
     <div id="pay">
@@ -52,6 +52,9 @@
         <div class="row2">会员支付：&yen;<span id="user_pay">123.00</span></div>
         <div class="row2">代金券支付：&yen;<span id="coupon">123.00</span></div>
         <div class="row2">合计优惠：&yen;<span id="reduce">123.00</span></div>
+        <div class="row2">原价合计：&yen;<span id="total_amount">123.00</span></div>
+        <div class="row2">会员价合计：&yen;<span id="member_amount">123.00</span></div>
+        <div class="row2" id="balance" style="display: none">会员余额：&yen;<span id="balance2"></span></div>
     </div>
     <div id="no_pay">
         <div id="will_pay">未付款</div>
@@ -95,6 +98,12 @@
             insert('employee', result.employee);
             insert('id',result.mid);
             insert('time',datetime);
+            insert('total_amount', result.total_amount);
+            insert('member_amount', result.pay_amount);
+            if (3 == result.pay_gateway || 4 == result.pay_gateway || 5 == result.pay_gateway) {
+                document.getElementById('balance').style.display = 'block';
+                insert('balance2', result.cbalance);
+            }
             if (1 == result.pay_state) {
                 document.getElementById('no_pay').style.display = 'none';
             } else {
