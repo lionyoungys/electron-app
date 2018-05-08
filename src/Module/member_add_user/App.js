@@ -24,7 +24,8 @@ export default class extends React.Component{
             status:'pay',
             cards:[],
             amount:'',
-            discount:'',
+            give:'',
+            discount:10,
         };
         this.gateway = [
             'CASH',             //现金支付
@@ -78,6 +79,7 @@ export default class extends React.Component{
                 discount:discount,
                 amount:this.state.amount,
                 remark:this.state.remark,
+                give:tool.isSet(this.state.give) ? this.state.give : 0,
                 addr:this.state.addr,
                 gateway:this.gateway[this.state.checked]
             })
@@ -140,6 +142,10 @@ export default class extends React.Component{
                             <tr className='bd-lightgrey'>
                                 <td>充值金额</td>
                                 <td><input type='text' value={this.state.amount} onChange={e => this.setState({amount:e.target.value})}/>&nbsp;元</td>
+                            </tr>
+                            <tr className='bd-lightgrey'>
+                                <td>赠送金额</td>
+                                <td><input type='text' value={this.state.give} onChange={e => this.setState({give:e.target.value})}/>&nbsp;元</td>
                             </tr>
                             <tr className='bd-lightgrey'>
                                 <td>地址</td>

@@ -13,8 +13,9 @@ export default class extends React.Component{
         this.state = {
             uname:'',
             umobile:'',
-            cdiscount:'',
+            cdiscount:10,
             amount:'',
+            give:'',
             remark:'',
             addr:'',
             checked:0,
@@ -49,6 +50,7 @@ export default class extends React.Component{
                 reg_from:4,
                 auth_code:authCode,
                 cdiscount:discount,
+                give:tool.isSet(this.state.give) ? this.state.give : 0,
                 amount:this.state.amount,
                 remark:this.state.remark,
                 addr:this.state.addr,
@@ -129,6 +131,10 @@ export default class extends React.Component{
                             <tr className='bd-lightgrey'>
                                 <td>充值金额</td>
                                 <td><input type='text' value={this.state.amount} onChange={e => this.setState({amount:e.target.value})}/></td>
+                            </tr>
+                            <tr className='bd-lightgrey'>
+                                <td>赠送金额</td>
+                                <td><input type='text' value={this.state.give} onChange={e => this.setState({give:e.target.value})}/></td>
                             </tr>
                             <tr className='bd-lightgrey'>
                                 <td>地址</td>

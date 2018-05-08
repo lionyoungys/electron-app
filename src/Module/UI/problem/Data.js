@@ -560,6 +560,14 @@ export const color = [
 
 export const problem = [
   {
+    key: 'other_0',
+    value: "无瑕疵"
+  },
+  {
+    key: 'other_1',
+    value: "脏尽洗"
+  },
+  {
     key: 0,
     value: "磨损"
   },

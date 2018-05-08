@@ -9,7 +9,10 @@ import './App.css';
 export default class extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {value:tool.isSet(this.props.value) ? this.props.value : ''};
+        this.state = {
+            value:'string' === typeof this.props.value ? this.props.value : '',
+            type:'password'
+        };
         this.handleChange = this.handleChange.bind(this);
     }
 
@@ -18,7 +21,7 @@ export default class extends React.Component {
     }
     handleChange(e) {
         let value = e.target.value;
-        this.setState({value:value});
+        this.setState({value:value, type:'text'});
         'function' === typeof this.props.onChange && this.props.onChange(value);
     }
     
@@ -27,7 +30,7 @@ export default class extends React.Component {
         return (
             <div className='search'>
                 <input 
-                    type='text' 
+                    type={this.state.type} 
                     placeholder={this.props.placeholder} 
                     value={value}
                     ref={input => this.input = input}
