@@ -7,9 +7,9 @@
     <title>洗衣凭据</title>
     <style>
         *{margin: 0;padding: 0}
-        html, body{width: 5cm;word-break: break-all;color: black;font-family: 微软雅黑}
+        html, body{width: 4.6cm;word-break: break-all;color: black;font-family: 微软雅黑}
         body{box-sizing: border-box;-webkit-box-sizing: border-box;}
-        table{border-collapse: collapse;width: 100%;text-align: center;font-size: 10pt;}
+        table{border-collapse: collapse;width: 100%;text-align: center;font-size: 8pt;}
         table>tbody>tr{padding: .06in}
         table>tbody>tr>td{border: 1px solid black}
         table>tbody>tr>td:first-child{min-width: .55in;max-width: .55in}
@@ -21,28 +21,29 @@
             border: 1px dashed black;
             border-left: none;
             border-right: none;
+            font-size: 8pt;
         }
-        #items{font-size: 10pt;border-bottom: 1px dashed black}
-        .row{padding-bottom: .01in;font-size: 10pt}
-        .row2{padding-bottom: .01in;font-size: 10pt}
+        #items{font-size: 8pt;border-bottom: 1px dashed black}
+        .row{padding-bottom: .01in;font-size: 8pt}
+        .row2{padding-bottom: .01in;font-size: 8pt}
         #merchant{
             text-align: center;
             margin: .19in 0 .06in 0;
-            font-size: 10pt;
+            font-size: 8pt;
         }
         #title{
             text-align: center;
-            font-size: 10pt;
+            font-size: 8pt;
             padding-bottom: .09in;
             border-bottom: 1px dashed black;
         }
         #img{margin: .11in 0;text-align: center}
         #img>img{width: 1.78in;height: .32in}
-        #pay_amount, #will_pay{margin: .17in 0 .15in;font-size: 10pt;}
+        /* #pay_amount, #will_pay{margin: .17in 0 .15in;font-size: 8pt;} */
     </style>
 </head>
 <body>
-    <div id='merchant' onclick="javascript:print();">诗奈尔洗衣会所</div>
+    <div id='merchant' onclick="javascript:lodop_print();">诗奈尔洗衣会所</div>
     <div id='title'>洗衣凭据</div>
     <div id='img'><img id="barcode"></div>
     <div class="row">订&nbsp;&nbsp;单&nbsp;号：<span id='ordersn'>341234434355323433</span></div>
@@ -52,48 +53,54 @@
     <p style="margin-top: .02in;border-bottom: 1px dashed black"></p>
     <div style="text-align: center;margin: .09in 0">收衣明细</div>
     <div class="item-title">
-        <div>编号</div>
-        <div>名称</div>
-        <div>颜色</div>
-        <div>价格</div>
-    </div>
-    <div id="items">
-        <div>dfdffdfd&emsp;羊毛大衣&emsp;灰色&emsp;120元</div>
-        <div>备注：的放大放大 的大幅度放大</div>
-    </div>
+            <div>编号</div>
+            <div>名称</div>
+            <div>颜色</div>
+            <div>价格</div>
+        </div>
+        <div id="items">
+            <div>dfdffdfd&emsp;羊毛大衣&emsp;灰色&emsp;120元</div>
+            <div>备注：的放大放大 的大幅度放大</div>
+        </div>
     <!-- <table>
         <tbody><tr><td>衣物编码</td><td>名称</td><td>原价</td><td>会员价</td></tr></tbody>
         <tbody id="items"><tr><td>dfdfdfdf</td><td>coat</td><td>100</td><td>50</td></tr></tbody>
     </table> -->
     <div id="pay">
-        <div id="pay_amount">实收：123.00</div>
+        <div id="pay_amount" class="row2">实收：123.00</div>
         <div class="row2">会员支付：&yen;<span id="user_pay">123.00</span></div>
         <div class="row2">代金券支付：&yen;<span id="coupon">123.00</span></div>
         <div class="row2">合计优惠：&yen;<span id="reduce">123.00</span></div>
         <div class="row2" id="balance" style="display: none">会员余额：&yen;<span id="balance2"></span></div>
     </div>
     <div id="no_pay">
-        <div id="will_pay">未付款</div>
+        <div id="will_pay" class="row2">未付款</div>
         <div class="row2">原价合计：&yen;<span id="total_amount">123.00</span></div>
         <div class="row2">会员价合计：&yen;<span id="member_amount">123.00</span></div>
     </div>
     <div style="margin: .08in 0 .12in;border-bottom: 1px dashed black"></div>
     <div class="row2">本店地址：<span id="addr">北京市朝阳区万达广场三号楼1902</span></div>
     <div class="row2">服务热线：<span id='merchant_phone'>010-58207998</span></div>
-    <!-- <div class="row2">操&nbsp;作&nbsp;&nbsp;员：<span id="employee">王治家</span></div>
-    <div class="row2">店&nbsp;铺&nbsp;&nbsp;号：<span id="id">12547</span></div> -->
     <div class="row2">打印时间：<span id="time">2018-09-08</span></div>
     <div style="margin: .17in 0 .09in;text-align: center;font-size: 9pt;text-align: center">请务必妥善保管好该凭据</div>
     <div style="display: -webkit-flex;display: flex;align-items: center;justify-content: space-between;font-size: 7pt">
-        <div style="width: .49in;border-bottom: 1px dashed black"></div>
+        <div style="width: .42in;border-bottom: 1px dashed black"></div>
         <div>客户联，沿此线撕开</div>
-        <div style="width: .49in;border-bottom: 1px dashed black"></div>
+        <div style="width: .42in;border-bottom: 1px dashed black"></div>
     </div>
 
     <!-- js -->
+<script src="http://127.0.0.1:8000/CLodopfuncs.js"></script>
 <script src="request.js"></script>
 <script src="JsBarcode.min.js"></script>
 <script>
+    // JsBarcode("#barcode", '21264544441121141', {displayValue: false});
+    // function lodop_print() {
+    //         var LODOP = getCLodop();  
+    //         LODOP.SET_PRINT_PAGESIZE(3,580,'100%');
+    //         LODOP.ADD_PRINT_HTM(0,0,"100%","100%",document.documentElement.innerHTML);
+    //         LODOP.PRINT();
+    //     }
     window.onload = function() {
         const {ipcRenderer} = require('electron');
         const param = ipcRenderer.sendSync('get-param');
@@ -113,8 +120,6 @@
             insert('reduce', result.reduce_price);
             insert('addr', result.maddress);
             insert('merchant_phone', result.phone_number);
-            // insert('employee', result.employee);
-            // insert('id',result.mid);
             insert('time',datetime);
             insert('total_amount', result.total_amount);
             insert('member_amount', result.pay_amount);
@@ -133,7 +138,8 @@
                 content += '<div>'+result.items[i].clean_sn+'   '+result.items[i].item_name+'   '+result.items[i].color+'    '+result.items[i].item_price+'元</div><div>备注：'+result.items[i].problem+'</div>';
             }
             insert('items',content);
-            ipcRenderer.send('print', localStorage.getItem('printer'));
+            lodop_print();
+            //ipcRenderer.send('print', localStorage.getItem('printer'));
         });
         function insert(id, value) {
             if ('undefined' === typeof value || null == value) value = '';
@@ -166,6 +172,12 @@
                 case 21:
                     return '支付宝面对面付';
             }
+        }
+        function lodop_print() {
+            var LODOP = getCLodop();  
+            LODOP.SET_PRINT_PAGESIZE(3,580,'100%');
+            LODOP.ADD_PRINT_HTM(0,0,"100%","100%",document.documentElement.innerHTML);
+            LODOP.PRINT();
         }
     }
 </script>

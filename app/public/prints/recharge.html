@@ -24,16 +24,16 @@
     </style>
 </head>
 <body>
-<p class="center" onclick="window.print();">(全国连锁)</p>
+<!-- <p class="center">(全国连锁)</p>
 <p class="center f24">速洗达洗衣</p>
-<p class="border"></p>
-<p class="center" style="padding-bottom:5pt;" id="mname">美国GEP干洗</p>
+<p class="border"></p> -->
+<p class="center" style="padding-bottom:5pt;" id="mname" onclick="window.print();">美国GEP干洗</p>
 <p class="center">会&nbsp;员&nbsp;充&nbsp;值&nbsp;凭&nbsp;据</p>
 <p class="line">交易单号：<span id='trade_sn'>2323323222232</span></p>
 <p class="line">顾客电话：<span id='mobile'>1883434232</span></p>
 <p class="line">顾客签字：</p>
-<p class="empty"></p>
 <p class="line">充值：<span id='amount'>154</span>元(赠送<span id='give'>0.00</span>元)</p>
+<p class="line">折扣：<span id='discount'>6</span>折</p>
 <p class="border"></p>
 <p class="f24">实收：<span id="pay_amount">218.00</span>元</p>
 <p class="empty"></p>
@@ -46,14 +46,14 @@
 <p class="line">店&nbsp;&nbsp;员：<span id="employee">哈哈哈</span></p>
 <p class="line">店&nbsp;&nbsp;号：<span id="id">dfdfd</span></p>
 <p class="line">打印日期：<span id="date">2017-11-07 18:24</span></p>
-<p class="img-box"><img id="qrcode"/></p>
+<!-- <p class="img-box"><img id="qrcode"/></p>
 <p class="line center">（速洗达洗衣洗护）</p>
 <p class="line center">（扫描关注公众号）</p>
 <p class="border"></p>
 <p class="line center">欢迎下次再来</p>
 <p class="line center">请仔细阅读本单</p>
 <p class="border"></p>
-<p class="line center">客户联</p>
+<p class="line center">客户联</p> -->
 <script src="request.js"></script>
 <script>
     window.onload = function() {
@@ -68,7 +68,8 @@
         R.post(param.url, {token:param.token, record_id:param.record_id}, function(response) {
             console.log(response);
             let result = response.result;
-            document.getElementById('qrcode').src = result.qrcode;
+            //document.getElementById('qrcode').src = result.qrcode;
+            insert('discount', result.cdiscount);
             insert('mname', result.mname);
             insert('trade_sn', result.trade_sn);
             insert('mobile', result.umobile.replace(result.umobile.substring(3, 7), '****'));
@@ -83,9 +84,10 @@
             insert('employee', result.employee);
             insert('id',result.mid);
             insert('date',datetime);
-            document.getElementById('qrcode').onload = function() {
-                ipcRenderer.send('print', localStorage.getItem('printer'));
-            }
+            ipcRenderer.send('print', localStorage.getItem('printer'));
+            // document.getElementById('qrcode').onload = function() {
+            //     ipcRenderer.send('print', localStorage.getItem('printer'));
+            // }
         });
         function insert(id, value) {
             if ('undefined' === typeof value || null == value) value = '';

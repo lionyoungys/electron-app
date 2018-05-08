@@ -219,11 +219,20 @@ export default class extends React.Component {
         .then(response => {
             if (api.V(response.data)) {
                 if ('take_pay' == type) {
-                    ipcRenderer.send(
-                        'print-silent',
-                        this.props.special ? 'public/prints/invoice.html' : 'public/prints/index.html',
-                        {token:this.props.token,oid:response.data.result,url:api.U('order_print')}
-                    );
+                    let hasInstall = ipcRenderer.sendSync('has-install-CLodop');
+                    if (1 == hasInstall) {
+                        ipcRenderer.send(
+                            'print-silent',
+                            'public/prints/index_CLodop.html',
+                            {token:this.props.token,oid:response.data.result,url:api.U('order_print')}
+                        );
+                    } else {
+                        ipcRenderer.send(
+                            'print-silent',
+                            this.props.special ? 'public/prints/invoice.html' : 'public/prints/index.html',
+                            {token:this.props.token,oid:response.data.result,url:api.U('order_print')}
+                        );
+                    }
                     this.props.changeView({view:'done', param:{msg:'收件', index:'take'}});
                 } else {
                     this.props.changeView({view:'order_pay',param:{oid:response.data.result,view:'take'}});
