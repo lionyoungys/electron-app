@@ -300,11 +300,20 @@ export default class extends Component {
         )
         .then(response => {
             if (api.V(response.data)) {
-                ipcRenderer.send(
-                    'print-silent',
-                    this.props.special ? 'public/prints/invoice.html' : 'public/prints/index.html',
-                    {token:this.props.token,oid:this.oid,url:api.U('order_print')}
-                );
+                let hasInstall = ipcRenderer.sendSync('has-install-CLodop');
+                if (1 == hasInstall) {
+                    ipcRenderer.send(
+                        'print-silent',
+                        'public/prints/index_CLodop.html',
+                        {token:this.props.token,oid:this.oid,url:api.U('order_print')}
+                    );
+                } else {
+                    ipcRenderer.send(
+                        'print-silent',
+                        this.props.special ? 'public/prints/invoice.html' : 'public/prints/index.html',
+                        {token:this.props.token,oid:this.oid,url:api.U('order_print')}
+                    );
+                }
                 if ('take' == this.props.param.view) {
                     this.props.changeView({view:'done', param:{msg:'收件', index:this.props.param.view, param:this.props.param.param}});
                 } else {

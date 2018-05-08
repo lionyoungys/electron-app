@@ -10,6 +10,17 @@
     <div id="root"></div>
     <script src="vendor/laydate/laydate.js"></script>
     <script src="vendor/clipboard.min.js"></script>
+    <script src="http://127.0.0.1:8000/CLodopfuncs.js"></script>
     <script src="main.js"></script>
+    <script>
+        window.onload = function () {
+            const {ipcRenderer} = require('electron');
+            try {
+                var LODOP = getCLodop();
+                ipcRenderer.send('install-CLodop');
+            } catch (e) {
+            }
+        }
+    </script>
 </body>
 </html>

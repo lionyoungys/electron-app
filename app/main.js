@@ -11,6 +11,7 @@ let win = {},    //声明窗口对象
     param = {},
     timeID = null,
     floder = '',
+    hasInstallCLodop = 0,
     download = {total:0,received:0,state:null};
 
 
@@ -31,7 +32,7 @@ if (shouldQuit) {app.quit()}
 app.on('ready', () => {
     //windowModel('login');
     //开发测试优先创建main窗口
-    windowModel('main');
+    windowModel('main'); 
 });
 
 app.on('window-all-closed', () => { app.quit() }); //当全部窗口关闭时退出。
@@ -126,6 +127,8 @@ ipcMain.on('notice', (e, url, params) => {
         }
     );
 });
+ipcMain.on('install-CLodop',e => {hasInstallCLodop = 1});
+ipcMain.on('has-install-CLodop', e => {e.returnValue = hasInstallCLodop});
 //窗口创建函数
 function createWindow(name, windowStyle, uri) {
     //创建浏览器窗口。
@@ -146,7 +149,6 @@ function createWindow(name, windowStyle, uri) {
         win[name] = null;
         if (null !== winprints) {winprints.close();}
     });
-
     if ('main' == name) {
         win.main.webContents.session.on('will-download', (event, item, webContents) => {
             item.setSavePath(`${floder}\\${item.getFilename()}`);
@@ -190,6 +192,7 @@ function windowModel(name) {
                     frame: false,
                     autoHideMenuBar:true
                 },
+                //'public/prints/index_CLodop.html'
                 //'public/prints/index.html'
                 //'public/prints/index1.html'
                 //'public/prints/recharge.html'
