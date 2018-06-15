@@ -83,7 +83,7 @@ ipcMain.on('print-silent', (e, arg, arg2) => {
     if (null === winprints) {
         winprints = new BrowserWindow({show: false});
         //winprints = new BrowserWindow({width:840,height:556,frame:false,resizable:false});
-        //winprints.webContents.openDevTools();
+        winprints.webContents.openDevTools();
         winprints.on('closed', () => { winprints = null; });
     }
     winprints.loadURL(url.format({
@@ -97,6 +97,11 @@ ipcMain.on('print', (e, deviceName) => {
     let print = {silent: true, printBackground: true};
     if ('string' === typeof deviceName && deviceName.length > 0) print.deviceName = deviceName;
     winprints.webContents.print(print);
+});
+ipcMain.on('print-test', (e, deviceName) => {
+    let print = {silent: true, printBackground: true};
+    if ('string' === typeof deviceName && deviceName.length > 0) print.deviceName = deviceName;
+    win.main.webContents.print(print);
 });
 ipcMain.on('get-param',(e, args) => {
     e.returnValue = param;
@@ -197,6 +202,7 @@ function windowModel(name) {
                 //'public/prints/index1.html'
                 //'public/prints/recharge.html'
                 //'public/prints/invoice.html'
+                //'public/prints/printer3.html'
                 'public/main.html'
             );
             break;

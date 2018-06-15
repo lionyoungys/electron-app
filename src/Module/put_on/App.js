@@ -3,6 +3,7 @@
  * @author yangyunlong
  */
 
+const {ipcRenderer} = window.require('electron');
 import React from 'react';
 import Search from '../UI/search/App';
 import OptionBox from '../../Elem/OptionBox';        //新增
@@ -85,7 +86,8 @@ export default class extends React.Component {
         }
     }
     handleCleaned() {
-        if (this.state.checked.length < 1) return;
+        let len = this.state.checked.length;
+        if (len < 1) return;
         if ('' == this.state.start) return alert('请输入衣挂号');
         api.post(
             'put_it_on', 
@@ -98,6 +100,14 @@ export default class extends React.Component {
             },
             (response, verify) => {
                 if (verify) {
+                    let p3Checked = localStorage.getItem('p3Checked');
+                    if (null !== p3Checked && '' !== p3Checked && '无' != localStorage.getItem('printer3')) {
+                        ipcRenderer.send(
+                            'print-silent',
+                            'public/prints/printer3.html',
+                            {token:this.props.token,url:api.U('item_print'), ids:this.state.checked}
+                        );
+                    }
                     this.setState({checked:[],all:false});
                     this.query();
                 } else {

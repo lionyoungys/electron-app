@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        *{margin: 0;padding: 0}
+        #box{
+            width: 10cm;
+            height: 4cm;
+            font-size: 14px;
+            font-family: 微软雅黑;
+            color: #000;
+            text-align: center;
+        }
+        #barcode{width: 7.2cm;height: 1.6cm}
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div style="font-weight: bold"><span id='name' onclick="javascript:printer();">衣物名称</span>&emsp;<span id="color">衣物颜色</span></div>
+        <div>门店名称：<span id="mname">dfdfdfddf</span></div>
+        <div>衣物编码：<span id='sn'>22222323232323232323</span></div>
+        <div><img id="barcode"/></div>
+    </div>
+
+    <script src="request.js"></script>
+    <script src="JsBarcode.min.js"></script>
+    <script>
+        window.onload = function() {
+            const {ipcRenderer} = window.require('electron');
+            const param = ipcRenderer.sendSync('get-param');
+            var len = (param.ids.length - 1);
+            post();     
+            function insert(id, value) {
+                if ('undefined' === typeof value || null == value) value = '';
+                document.getElementById(id).innerHTML = value;
+            }
+            function post() {
+                R.post(param.url, {token:param.token,id:param.ids[len]},function (res) {
+                    insert('name', res.result.item_name);
+                    insert('color', res.result.color);
+                    insert('mname', res.result.mname);
+                    insert('sn', res.result.clean_sn);
+                    JsBarcode("#barcode", res.result.clean_sn, {displayValue:false,width:2, height:30});
+                    ipcRenderer.send('print', localStorage.getItem('printer3'));
+                    if (len > 0) {
+                        --len;
+                        setTimeout(function() {post()}, 1500);
+                    }
+                });
+            }
+        }
+        function printer() {
+            const {ipcRenderer} = window.require('electron');
+            const param = ipcRenderer.sendSync('get-param');
+            ipcRenderer.send('print', localStorage.getItem('printer3'));
+        }
+    </script>
+</body>
+</html>
