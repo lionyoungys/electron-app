@@ -3,16 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <style>
+        @page:first{margin: 0;padding: 0}
+        @page:left{margin: 0;padding: 0}
+        @page:right{margin: 0;padding: 0}
         *{margin: 0;padding: 0}
+        /* html, body{background: #ccc;} */
         #box{
-            width: 10cm;
-            height: 3.1cm;
-            font-size: 14px;
+            width: 5cm;
+            height: 4cm;
+            font-size: 12px;
             font-family: 微软雅黑;
             color: #000;
             text-align: center;
+            /* border: 1px solid #000; */
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            margin-left: .25cm;
         }
-        #barcode{width: 7.2cm;height: 1.6cm}
+        #box>div{overflow: hidden}
+        #barcode{width: 4cm;height: 1.5cm}
     </style>
 </head>
 <body>
@@ -21,6 +30,7 @@
         <div>门店名称：<span id="mname">dfdfdfddf</span></div>
         <div>衣物编码：<span id='sn'>22222323232323232323</span></div>
         <div><img id="barcode"/></div>
+        <div>用户名：<span id="uname"></span></div>
     </div>
 
     <script src="request.js"></script>
@@ -37,10 +47,12 @@
             }
             function post() {
                 R.post(param.url, {token:param.token,id:param.ids[len]},function (res) {
+                    console.log(res);
                     insert('name', res.result.item_name);
                     insert('color', res.result.color);
                     insert('mname', res.result.mname);
                     insert('sn', res.result.clean_sn);
+                    insert('uname', res.result.uname);
                     JsBarcode("#barcode", res.result.clean_sn, {displayValue:false,width:2, height:30});
                     ipcRenderer.send('print', localStorage.getItem('printer3'));
                     if (len > 0) {
