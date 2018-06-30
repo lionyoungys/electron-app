@@ -232,3 +232,28 @@
     text-align: center;
     color: white;
 }
+.ui-math{
+    display: inline-block;
+    height: 20px;
+    padding: 0 22px;
+    position: relative;
+}
+.ui-math-sub, .ui-math-add{
+    position: absolute;
+    top: 0;
+    height: 20px;
+    width: 16px;
+    cursor: default;
+}
+.ui-math-sub{background: url(img/ui-math-sub.png) no-repeat left center;left: 0;}
+.ui-math-add{background: url(img/ui-math-add.png) no-repeat left center;right: 0}
+.ui-math>input{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    width: 32px;
+    height: 20px;
+    border: 1px solid #ccc;
+    background: #fff;
+    text-align: center;
+    font-size: 14px;
+}

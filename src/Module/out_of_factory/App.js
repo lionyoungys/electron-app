@@ -98,7 +98,7 @@ export default class extends React.Component {
             <div className='m-box' key={obj.date}>
                 <div className='in-factory-date'>{obj.date}</div>
                     <table className='m-table m-text-c tr-b'>
-                        <thead><tr className='m-bg-white'><th>衣物编码</th><th>名称</th></tr></thead>
+                        <thead><tr className='m-bg-white'><th>衣物编码</th><th>名称</th><th>衣挂号</th></tr></thead>
                         <Tbody data={obj.list} onChecked={this.onChecked} checked={this.state.checked}/>
                     </table>
             </div>
@@ -146,6 +146,7 @@ class Tbody extends React.Component {
                     }
                 </td>
                 <td>{obj.item_name}</td>
+                <td>{obj.put_sn}</td>
             </tr>
         );
         return (<tbody>{html}</tbody>);
