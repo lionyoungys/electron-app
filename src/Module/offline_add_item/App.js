@@ -1,5 +1,5 @@
 /**
- * 线上订单添加项目组件
+ * 线下订单添加项目组件
  * @author yangyunlong
  */
 const {ipcRenderer} = window.require('electron');
@@ -12,7 +12,6 @@ import ItemCost from '../UI/item_cost/App';
 import UploadToast from '../UI/upload-toast/App';
 import Loading from '../UI/loading/App';
 import TakeTime from '../UI/take-time/App';
-import MathUI from '../../Elem/MathUI';
 import './App.css';
 
 export default class extends React.Component {
@@ -48,8 +47,7 @@ export default class extends React.Component {
         this.handleImageChoose = this.handleImageChoose.bind(this);
         this.handleTakeTime = this.handleTakeTime.bind(this);
         this.reloadAmount = this.reloadAmount.bind(this);
-        this.onAdd = this.onAdd.bind(this);
-        this.onSub = this.onSub.bind(this);
+        this.copy = this.copy.bind(this);
         console.log(this.props.param);
     }
     componentDidMount() {
@@ -80,6 +78,12 @@ export default class extends React.Component {
             }
         });
     }
+    copy(e) {
+        let item = tool.getObjectByValue(this.state.data[e.target.dataset.index]);
+        item.clean_sn = '';
+        this.state.data.push(item);
+        this.setState({data:this.state.data});
+    }
     handleDeleteClick(dom, index) {
         if (tool.isSet(dom)) {
             dom.onclick = (e => {
@@ -93,7 +97,6 @@ export default class extends React.Component {
     handleTabClick(e) {this.setState({index:e.target.dataset.key,clothesShow:true})}
     handleClothesClick(index) {
         let item = tool.getObjectByValue(this.state.item[this.state.index][index]);
-        item.number = 1;    //设置数量
         item.problem = {options:[],content:item.item_flaw};
         item.forecast = {options:[],content:item.item_forecast};
         let takeTime = tool.date('Y年m月d日', Math.floor( ( (new Date()).valueOf() + (item.item_cycle * 1000 * 60 * 60 * 24) ) / 1000))
@@ -107,16 +110,6 @@ export default class extends React.Component {
             handleIndex:(this.state.data.length - 1)
         });
         this.reloadAmount();
-    }
-    onAdd(param) {
-        ++this.state.data[param].number;
-        this.setState({data:this.state.data});
-    }
-    onSub(param) {
-        if (this.state.data[param].number > 1) {
-            --this.state.data[param].number;
-            this.setState({data:this.state.data});
-        }
     }
     handleSnChange(e) {
         if (null !== this.state.handleIndex) {
@@ -221,10 +214,6 @@ export default class extends React.Component {
                 craft_price:( tool.isSet(data[i].craft_price) ? data[i].craft_price : 0 ),
                 craft_des:( tool.isSet(data[i].craft_des) ? data[i].craft_des : '' )
             };
-            if (data[i].number > 1) {
-                temp.craft_price = ( (Math.floor(data[i].item_real_price * 100 * (data[i].number - 1) ) + Math.floor(data[i].keep_price * 100) + Math.floor(data[i].craft_price * 100)) / 100 );
-                temp.craft_des += ('&数量：' + data[i].number + '件');
-            }
             tempLen = tempImage.length;
             for (let j = 0;j < tempLen;++j) {
                 requestData[i + '_' + j] = tempImage[j].filePathToBlob();
@@ -282,8 +271,6 @@ export default class extends React.Component {
                     <td>{obj.item_real_price}</td>
                     <td>{obj.keep_price}</td>
                     <td>{obj.craft_price}</td>
-                    <td><MathUI onSub={this.onSub} onAdd={this.onAdd} param={index}>{obj.number}</MathUI></td>
-                    <td>{(Math.floor(obj.item_real_price * 100 * obj.number) + Math.floor((obj.keep_price || 0) * 100) + Math.floor((obj.craft_price || 0) * 100)) / 100}</td>
                     <td>
                         <button
                             type='button'
@@ -291,7 +278,14 @@ export default class extends React.Component {
                             onClick={() => this.setState({handleIndex:index,uploadShow:true})}
                             data-index={index} 
                         >上传照片</button>
-                        &nbsp;&nbsp;
+                        &nbsp;
+                        <button
+                            type='button'
+                            className='m-btn confirm'
+                            data-index={index}
+                            onClick={this.copy}
+                        >复制</button>
+                        &nbsp;
                         <button
                             type='button'
                             className='m-btn editor'
@@ -348,7 +342,7 @@ export default class extends React.Component {
                     <div className='m-box'>
                         <table className='m-table tr-b'>
                             <thead><tr className='m-text-c m-bg-white'>
-                                <th>名称</th><th>衣物编码</th><th>单价</th><th>保值清洗费</th><th>工艺加价</th><th>数量</th><th>价格</th><th>操作</th>
+                                <th>名称</th><th>衣物编码</th><th>价格</th><th>保值清洗费</th><th>工艺加价</th><th>操作</th>
                             </tr></thead>
                             <tbody>{html}</tbody>
                         </table>
