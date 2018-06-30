@@ -83,6 +83,7 @@ export default class extends React.Component {
         item.clean_sn = '';
         this.state.data.push(item);
         this.setState({data:this.state.data});
+        this.reloadAmount();
     }
     handleDeleteClick(dom, index) {
         if (tool.isSet(dom)) {
