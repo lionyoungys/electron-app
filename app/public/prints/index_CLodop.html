@@ -67,16 +67,14 @@
         <tbody id="items"><tr><td>dfdfdfdf</td><td>coat</td><td>100</td><td>50</td></tr></tbody>
     </table> -->
     <div id="pay">
-        <div id="pay_amount" class="row2">实收：123.00</div>
-        <div class="row2">会员支付：&yen;<span id="user_pay">123.00</span></div>
-        <div class="row2">代金券支付：&yen;<span id="coupon">123.00</span></div>
-        <div class="row2">合计优惠：&yen;<span id="reduce">123.00</span></div>
+        <div class="row2">应收：&yen;<span id="total_amount">123</span>&emsp;实收：&yen;<span id="pay_amount">123.00</span></div>
+        <div class="row2"><span id="pay_gateway">会员支付：</span>&yen;<span id="user_pay">123.00</span></div>
+        <div class="row2" id="coupon_p">代金券支付：&yen;<span id="coupon">123.00</span></div>
+        <div class="row2" id="reduce_p">合计优惠：&yen;<span id="reduce">123.00</span></div>
         <div class="row2" id="balance" style="display: none">会员余额：&yen;<span id="balance2"></span></div>
     </div>
     <div id="no_pay">
-        <div id="will_pay" class="row2">未付款</div>
-        <div class="row2">原价合计：&yen;<span id="total_amount">123.00</span></div>
-        <div class="row2">会员价合计：&yen;<span id="member_amount">123.00</span></div>
+            <div id="will_pay">未付款&emsp;&yen;<span id="total_amount2">123.00</span></div>
     </div>
     <div style="margin: .08in 0 .12in;border-bottom: 1px dashed black"></div>
     <div class="row2">本店地址：<span id="addr">北京市朝阳区万达广场三号楼1902</span></div>
@@ -111,18 +109,22 @@
             JsBarcode("#barcode", result.ordersn, {displayValue: false});
             insert('merchant', result.mname);
             insert('ordersn', result.ordersn);
+            if (0 == result.coupons) document.getElementById('coupon_p').style.display = 'none';
+            if (0 == result.reduce_price) document.getElementById('reduce_p').style.display = 'none';
             insert('user_phone', result.umobile.replace(result.umobile.substring(3, 7), '****'));
             insert('take_time', result.take_time);
             insert('count', result.count);
-            insert('pay_amount', '实收：' + result.pay_amount);
+            insert('pay_amount', result.pay_amount);
+            insert('total_amount', result.total_amount);
             insert('user_pay', result.pay_amount);
+            insert('pay_gateway', gateway(result.pay_gateway))
             insert('coupon', result.coupons);
             insert('reduce', result.reduce_price);
             insert('addr', result.maddress);
             insert('merchant_phone', result.phone_number);
             insert('time',datetime);
-            insert('total_amount', result.total_amount);
-            insert('member_amount', result.pay_amount);
+            insert('total_amount2', result.total_amount);
+            // insert('member_amount', result.pay_amount);
             if (3 == result.pay_gateway || 4 == result.pay_gateway || 5 == result.pay_gateway) {
                 document.getElementById('balance').style.display = 'block';
                 insert('balance2', result.cbalance);
@@ -156,21 +158,21 @@
                 case 2:
                     return '免洗';
                 case 3:
-                    return '平台会员卡';
+                    return '会员卡支付';
                 case 4:
-                    return '商家会员卡';
+                    return '会员卡支付';
                 case 5:
-                    return '企业会员卡';
+                    return '会员卡支付';
                 case 10:
-                    return '微信公众号';
+                    return '微信支付';
                 case 11:
-                    return '微信app支付';
+                    return '微信支付';
                 case 12:
-                    return '微信刷卡支付';
+                    return '微信支付';
                 case 20:
-                    return '支付宝app支付';
+                    return '支付宝支付';
                 case 21:
-                    return '支付宝面对面付';
+                    return '支付宝支付';
             }
         }
         function lodop_print() {
