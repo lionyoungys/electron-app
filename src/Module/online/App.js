@@ -306,7 +306,11 @@ export default class extends React.Component {
                     this.setState({data:this.state.data});
                 }
             } else {
-                alert(response.data.msg);
+                if ('FAIL' === response.data.msg) {
+                    alert('未支付订单，不允许送件');
+                } else {
+                    alert(response.data.msg);
+                }
             }
             console.log(response.data);
         });
