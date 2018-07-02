@@ -2,7 +2,6 @@
  * 入厂界面组件
  * @author yangyunlong
  */
-const {ipcRenderer} = window.require('electron');
 import React from 'react';
 import OptionBox from '../../Elem/OptionBox';
 import Empty from '../../Elem/Empty';
@@ -65,11 +64,6 @@ export default class extends React.Component {
         )
         .then(response => {
             if (api.V(response.data)) {
-                ipcRenderer.send(
-                    'print-silent',
-                    'public/prints/into_factory.html',
-                    {factory:res.targetName,merchant:res.fromName,employee:res.operatorName,count:res.count}
-                );
                 this.setState({checked:[],all:false});
                 this.query();
             } else {

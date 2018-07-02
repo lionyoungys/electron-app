@@ -77,7 +77,7 @@ export default class extends React.Component {
     handleClick() {    //出厂
         if (this.state.checked.length < 1 || '' === this.state.teamId) return;
         axios.post(
-            api.U('into_factory'),
+            api.U('new_into_factory'),
             api.D({token:this.props.token,itemids:this.state.checked.toString(),moduleid:21,targetmid:this.state.teamId})
         )
         .then(response => {
