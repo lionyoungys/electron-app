@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>入厂打印</title>
+    <link rel="stylesheet" href="base.css">
+    <style>body{width: 5.8cm}</style>
+</head>
+<body>
+    <div class="t-c">入厂单</div>
+    <i class="dashed"></i>
+    工厂名称：<span id="factory">dfdfd</span><br/>
+    总件数：<span id="count">6</span>件
+    <i class="dashed"></i>
+    门店名称：<span id="merchant">dddddd</span><br/>
+    打印时间：<span id="now"></span><br/>
+    操作员：<span id="employee">dfddf</span>
+    <script src="common.js"></script>
+    <script>
+        _.init(function() {
+            _.now();
+            _.inner('#factory', _.GET.factory);
+            _.inner('#count', _.GET.count);
+            _.inner('#merchant', _.GET.merchant);
+            _.inner('#employee', _.GET.employee);
+            _.print();
+        });
+    </script>
+</body>
+</html>

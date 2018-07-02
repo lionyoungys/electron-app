@@ -2,7 +2,7 @@
  * 送洗界面组件
  * @author yangyunlong
  */
-
+const {ipcRenderer} = window.require('electron');
 import React from 'react';
 import Search from '../UI/search/App';
 import OptionBox from '../../Elem/OptionBox';        //新增
@@ -122,11 +122,17 @@ export default class extends React.Component {
     onConfirm() {
         if (null === this.state.teamId || this.state.checked.length < 1) return;
         axios.post(
-            api.U('into_factory'),
+            api.U('new_into_factory'),
             api.D({token:this.props.token,itemids:this.state.checked.toString(),moduleid:20,targetmid:this.state.teamId})
         )
         .then(response => {
             if (api.V(response.data)) {
+                let res = response.data.result;
+                ipcRenderer.send(
+                    'print-silent',
+                    'public/prints/into_factory.html',
+                    {factory:res.targetName,merchant:res.fromName,employee:res.operatorName,count:res.count}
+                );
                 this.setState({checked:[],all:false});
                 this.query();
             } else {
