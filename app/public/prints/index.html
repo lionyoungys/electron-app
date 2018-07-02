@@ -136,6 +136,7 @@
             }
             insert('items',content);
             ipcRenderer.send('print', localStorage.getItem('printer'));
+            setTimeout(function() {ipcRenderer.send('print', localStorage.getItem('printer'));}, 1000);
         });
         function insert(id, value) {
             if ('undefined' === typeof value || null == value) value = '';

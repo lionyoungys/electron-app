@@ -141,6 +141,7 @@
             }
             insert('items',content);
             lodop_print();
+            setTimeout(function() {lodop_print();}, 1000);
             //ipcRenderer.send('print', localStorage.getItem('printer'));
         });
         function insert(id, value) {
