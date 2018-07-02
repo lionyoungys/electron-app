@@ -6,14 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>出厂打印</title>
     <link rel="stylesheet" href="base.css">
-    <style>
-        body{width: 5.8cm}
-    </style>
+    <style>body{width: 5.8cm}</style>
 </head>
 <body>
     <div class="t-c" onclick="window.print()">出厂单</div>
     <i class="dashed"></i>
-    门店名称：<span id="merchant">非国家的法律的肌肤的楼房的肌肤带来负担等级分类的肌肤的浪费大家大家反垄断法九点零分酒店房间里的房价等级分类的肌肤了</span><br/>
+    门店名称：<span id="merchant">oooo</span><br/>
     总件数：<span id="count">6</span>件
     <i class="dashed"></i>
     工厂名称：<span id="factory">dfdfd</span><br/>
@@ -23,6 +21,11 @@
     <script>
         _.init(function() {
             _.now();
+            _.inner('#factory', _.GET.factory);
+            _.inner('#count', _.GET.count);
+            _.inner('#merchant', _.GET.merchant);
+            _.inner('#employee', _.GET.employee);
+            _.print();
         });
     </script>
 </body>

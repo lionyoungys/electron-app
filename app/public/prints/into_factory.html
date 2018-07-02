@@ -6,9 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>入厂打印</title>
     <link rel="stylesheet" href="base.css">
-    <style>
-        body{width: 5.8cm}
-    </style>
+    <style>body{width: 5.8cm}</style>
 </head>
 <body>
     <div class="t-c">入厂单</div>
@@ -23,6 +21,11 @@
     <script>
         _.init(function() {
             _.now();
+            _.inner('#factory', _.GET.factory);
+            _.inner('#count', _.GET.count);
+            _.inner('#merchant', _.GET.merchant);
+            _.inner('#employee', _.GET.employee);
+            _.print();
         });
     </script>
 </body>

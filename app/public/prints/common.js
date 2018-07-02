@@ -20,18 +20,19 @@
     var c = {
         GET:{},
         init:function(func) {    //初始化函数
-            var str = window.location.search.substring(1);    //获取url的get参数
-            if ('' != str) {
-                var arr = str.split('&')
-                ,   len = arr.length;
-                if (len > 0) {
-                    var temp;
-                    for (var i = 0;i < len;++i) {
-                        temp = arr[i].split('=');
-                        if ('' != temp[0]) c.GET[temp[0]] = decodeURIComponent(temp[1]);
-                    }
-                }
-            }
+            // var str = window.location.search.substring(1);    //获取url的get参数
+            // if ('' != str) {
+            //     var arr = str.split('&')
+            //     ,   len = arr.length;
+            //     if (len > 0) {
+            //         var temp;
+            //         for (var i = 0;i < len;++i) {
+            //             temp = arr[i].split('=');
+            //             if ('' != temp[0]) c.GET[temp[0]] = decodeURIComponent(temp[1]);
+            //         }
+            //     }
+            // }
+            this.GET = ipcRenderer.sendSync('get-param');
             if ('function' === typeof func) window.onload = func;
         },
         barcode:function(elem, code) {JsBarcode(elem, code, {displayValue:false, width:2, height:30})},    //依赖JsBarcode
