@@ -40,10 +40,12 @@
         #img{margin: .11in 0;text-align: center}
         #img>img{width: 1.78in;height: .32in}
         /* #pay_amount, #will_pay{margin: .17in 0 .15in;font-size: 8pt;} */
+        #container{margin-bottom: 30px}
     </style>
 </head>
 <body>
-    <div id='merchant' onclick="javascript:lodop_print();">诗奈尔洗衣会所</div>
+    <div id="container">
+        <div id='merchant' onclick="javascript:lodop_print();">诗奈尔洗衣会所</div>
     <div id='title'>洗衣凭据</div>
     <div id='img'><img id="barcode"></div>
     <div class="row">订&nbsp;&nbsp;单&nbsp;号：<span id='ordersn'>341234434355323433</span></div>
@@ -86,6 +88,8 @@
         <div>客户联，沿此线撕开</div>
         <div style="width: .42in;border-bottom: 1px dashed black"></div>
     </div>
+    </div>
+    <div id="container2"></div>
 
     <!-- js -->
 <script src="http://127.0.0.1:8000/CLodopfuncs.js"></script>
@@ -140,8 +144,9 @@
                 content += '<div>'+result.items[i].clean_sn+'   '+result.items[i].item_name+'   '+result.items[i].color+'    '+result.items[i].item_price+'元</div><div>备注：'+result.items[i].problem+'</div>';
             }
             insert('items',content);
+            insert('container2', document.getElementById('container').innerHTML);
             lodop_print();
-            setTimeout(function() {lodop_print();}, 1000);
+            //setTimeout(function() {lodop_print();}, 1000);
             //ipcRenderer.send('print', localStorage.getItem('printer'));
         });
         function insert(id, value) {
