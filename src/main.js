@@ -7,6 +7,7 @@ const {ipcRenderer} = window.require('electron');
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import './tool';
+import './KeyCode';
 import './api';    //注册全局api对象
 import './main.css';
 import './Elem/App.css';

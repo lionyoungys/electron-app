@@ -8,7 +8,12 @@ import './App.css';
 //name:衣物名称    sn:衣物编码    onChange:当用户改变衣物编码输入框回调函数
 export default class extends React.Component {
     constructor(props) {super(props);}
-
+    componentDidMount() {
+        var keycode = new tool.KeyCode();
+        keycode.listen(this.input, value => {
+            'function' === typeof this.props.onChange && this.props.onChange({target:{value:value}});
+        });
+    }
     render() {
         return (
             <div className='item'>
@@ -24,8 +29,9 @@ export default class extends React.Component {
                         type='text'
                         id='item_sn'
                         autoFocus
+                        ref={input => this.input = input}
                         value={this.props.sn}
-                        onChange={this.props.onChange}
+                        // onChange={this.props.onChange}
                     />
                 </div>
                 <div style={{display:('undefined' === typeof this.props.take_time ? 'none' : 'block')}}>

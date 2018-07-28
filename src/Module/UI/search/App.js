@@ -17,12 +17,28 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
-        this.input.onkeydown = ( e => {'Enter' === e.code && this.props.callback(this.state.value)} );
+        if (this.props.scanner) {
+            var keycode = new tool.KeyCode();
+            keycode.listen(
+                this.input, 
+                value => {
+                    this.setState({value:value, type:'text'});
+                    'function' === typeof this.props.onChange && this.props.onChange(value);
+                },
+                () => {
+                    'function' === typeof this.props.callback && this.props.callback(this.state.value);
+                }
+            );
+        } else {
+            this.input.onkeydown = ( e => {'Enter' === e.code && 'function' === typeof this.props.callback && this.props.callback(this.state.value)} );
+        }
     }
     handleChange(e) {
-        let value = e.target.value;
-        this.setState({value:value, type:'text'});
-        'function' === typeof this.props.onChange && this.props.onChange(value);
+        if (!this.props.scanner) {
+            let value = e.target.value;
+            this.setState({value:value, type:'text'});
+            'function' === typeof this.props.onChange && this.props.onChange(value);
+        }
     }
     
     render() {

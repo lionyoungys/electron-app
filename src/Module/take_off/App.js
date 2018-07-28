@@ -100,7 +100,7 @@ export default class extends Component{
                         <span>卡号：{this.state.user.card_number}</span>
                     </div>
                     <div className='right'>
-                        <SelectSearch value={this.state.number} option={['订单号','手机号','卡号','流水号']} callback={this.onSearchRequest}/>
+                        <SelectSearch scanner={true} value={this.state.number} option={['订单号','手机号','卡号','流水号']} callback={this.onSearchRequest}/>
                     </div>
                 </div>
                 <div className='e-box' style={this.state.show ?{display:'none'} : null}>

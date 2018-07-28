@@ -15,14 +15,28 @@ export default class extends React.Component {
             minWidth:null
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleChangeText = this.handleChangeText.bind(this);
         this.toggleShow = this.toggleShow.bind(this);
     }
 
     componentDidMount() {
-        this.input.onkeydown = ( e => {'Enter' === e.code && this.props.callback(this.state.value, this.state.selected)} );
+        if (this.props.scanner) {
+            var keycode = new tool.KeyCode();
+            keycode.listen(
+                this.input, 
+                value => this.setState({value:value}),
+                () => {
+                    'function' === typeof this.props.callback && this.props.callback(this.state.value, this.state.selected);
+                }
+            );
+        } else {
+            this.input.onkeydown = ( e => {'Enter' === e.code && this.props.callback(this.state.value, this.state.selected)} );
+        }
+        
         this.setState({minWidth:this.div.offsetWidth});
     }
     handleChange(e) {this.setState({selected:e.target.innerText, show:false})}
+    handleChangeText(e) {!this.props.scanner && this.setState({value:e.target.value})}
     toggleShow() {this.setState({show:!this.state.show})}
     
     render() {
@@ -55,7 +69,7 @@ export default class extends React.Component {
                     placeholder={this.props.placeholder} 
                     value={this.state.value}
                     ref={input => this.input = input}
-                    onChange={e => this.setState({value:e.target.value})}
+                    onChange={this.handleChangeText}
                 />
                 <button type='button' onClick={() => this.props.callback(this.state.value, this.state.selected)}>
                     <i className="fa fa-search"></i>
