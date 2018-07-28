@@ -182,6 +182,7 @@ export default class extends React.Component {
                     </div>
                     <div className='right'>
                         <Search 
+                            scanner={true}
                             placeholder='请输入或扫描衣物编码'
                             value={this.state.value}
                             onChange={value => this.setState({value:value})}

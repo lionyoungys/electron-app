@@ -9,3 +9,5 @@ nuget.*
 Package.*
 Squirrel.*
 .svn
+app/public/main.js
+app/public/login.js
