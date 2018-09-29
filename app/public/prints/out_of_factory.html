@@ -12,7 +12,9 @@
     <div class="t-c" onclick="window.print()">出厂单</div>
     <i class="dashed"></i>
     门店名称：<span id="merchant">oooo</span><br/>
-    总件数：<span id="count">6</span>件
+    总件数：<span id="count">6</span>件<br/>
+    衣物编码:
+    <div id="sn"></div>
     <i class="dashed"></i>
     工厂名称：<span id="factory">dfdfd</span><br/>
     打印时间：<span id="now"></span><br/>
@@ -20,11 +22,18 @@
     <script src="common.js"></script>
     <script>
         _.init(function() {
+            console.log(_.GET);
             _.now();
             _.inner('#factory', _.GET.factory);
             _.inner('#count', _.GET.count);
             _.inner('#merchant', _.GET.merchant);
             _.inner('#employee', _.GET.employee);
+            var len = _.GET.sn.length
+            ,   content = '';
+            for (var i = 0;i < len;++i) {
+                content += _.GET.sn[i] + '<br/>';
+            }
+            _.inner('#sn', content);
             _.print();
         });
     </script>

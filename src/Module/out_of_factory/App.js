@@ -83,10 +83,20 @@ export default class extends React.Component {
         .then(response => {
             if (api.V(response.data)) {
                 let res = response.data.result;
+                let data = this.state.data, len = data.length;
+                let tempLen = null
+                ,   arr = [];
+                for (let i = 0;i < len;++i) {
+                    tempLen = data[i].list.length;
+                    if (tempLen < 1) continue;
+                    for (let j = 0;j < tempLen;++j) {
+                        if (data[i].list[j].assist == 0 && -1 !== data[i].list[j].id.inArray(this.state.checked)) arr.push(data[i].list[j].clean_sn);
+                    }
+                }
                 ipcRenderer.send(
                     'print-silent',
                     'public/prints/out_of_factory.html',
-                    {factory:res.fromName,merchant:res.targetName,employee:res.operatorName,count:res.count}
+                    {factory:res.fromName,merchant:res.targetName,employee:res.operatorName,count:res.count, sn:arr}
                 );
                 this.setState({checked:[],all:false});
                 this.query();
